@@ -19,6 +19,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -144,10 +145,47 @@ public class SpaceAgeCore {
 	}
 
 	private void craftingRecipes() {
+		
+		ItemStack titaniumIngot = new ItemStack(this.meta,1,0);
+		ItemStack aluminiumIngot = new ItemStack(this.meta,1,1);
+		ItemStack vanadiumIngot = new ItemStack(this.meta,1,2);
+		ItemStack heavyIngot = new ItemStack(this.meta,1,3);
+		ItemStack arcReactor = new ItemStack(this.meta,1,4);
+		ItemStack heavyPlate = new ItemStack(this.meta,1,5);
+		ItemStack basicCircuits = new ItemStack(this.meta,1,6);
+		ItemStack advancedCircuits = new ItemStack(this.meta,1,7);
+		ItemStack wire = new ItemStack(this.meta,1,8);
+		ItemStack oxygenApparatus = new ItemStack(this.meta,1,9);
+		ItemStack thrusterPack = new ItemStack(this.meta,1,10);
+		
 		//GameRegistry.addShapedRecipe(output, params)
 		//GameRegistry.addShapelessRecipe(output, params)
 		//GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(output), params))
 		//GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(output), params))
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advancedSpacesuitHelmet), new Object[] {
+			"HHH",
+			"HGH",
+			"CWC", Character.valueOf('H'), heavyPlate, Character.valueOf('C'), advancedCircuits, Character.valueOf('G'), Block.glass, Character.valueOf('W'), wire
+		}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advancedSpacesuitChestplate), new Object[] {
+			"HTH",
+			"HAH",
+			"HOH", Character.valueOf('H'), heavyPlate, Character.valueOf('T'), thrusterPack, Character.valueOf('A'), arcReactor, Character.valueOf('O'), oxygenApparatus
+		}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advancedSpacesuitLeggings), new Object[] {
+			"HWH",
+			"H H",
+			"H H", Character.valueOf('H'), heavyPlate, Character.valueOf('W'), wire
+		}));
+		
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advancedSpacesuitBoots), new Object[] {
+			" W ",
+			"H H",
+			"HTH", Character.valueOf('H'), heavyPlate, Character.valueOf('T'), thrusterPack, Character.valueOf('W'), wire
+		}));
 		
 	}
 
@@ -182,6 +220,11 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(new ItemStack(meta, 1, 3), "Heavy Duty Ingot");
 		LanguageRegistry.addName(new ItemStack(meta, 1, 4), "Arc Reactor");
 		LanguageRegistry.addName(new ItemStack(meta, 1, 5), "Heavy Duty Plate");
+		LanguageRegistry.addName(new ItemStack(meta, 1, 6), "Basic Circuit");
+		LanguageRegistry.addName(new ItemStack(meta, 1, 7), "Advanced Circuit");
+		LanguageRegistry.addName(new ItemStack(meta, 1, 8), "Aluminium Wire");
+		LanguageRegistry.addName(new ItemStack(meta, 1, 9), "Oxygen Apparatus");
+		LanguageRegistry.addName(new ItemStack(meta, 1, 10), "Thruster Pack");
 		
 	}
 
