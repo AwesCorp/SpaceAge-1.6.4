@@ -8,7 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
 
 @UniversalClass
-public class TileArcReactor extends TileEntity implements IEnergyInterface, IVoltageOutput {
+public class TileGeneratorBase extends TileEntity implements IEnergyInterface, IVoltageOutput {
 	
 	/*@Override
 	public MachineRegistry getMachine() {
