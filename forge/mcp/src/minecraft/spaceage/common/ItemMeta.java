@@ -26,7 +26,7 @@ public class ItemMeta extends Item {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1) {
 		//this.blockIcon = par1.registerIcon(MoreFood.modid + ":" + (this.getUnlocalizedName().substring(5)));
-		icons = new Icon[6];
+		icons = new Icon[11];
 		
 		for(int i = 0; i < icons.length; i++) {
 			icons[i] = par1.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + i);
@@ -39,7 +39,7 @@ public class ItemMeta extends Item {
 		dataList.add("Precious Gemstone");
 	}*/
 	
-	public static final String[] names = new String[] {"Titanium Ingot", "Aluminium Ingot", "Vanadium Ingot", "Heavy Duty Ingot", "Arc Reactor", "Heavy Duty Plate"};
+	public static final String[] names = new String[] {"Titanium Ingot", "Aluminium Ingot", "Vanadium Ingot", "Heavy Duty Ingot", "Arc Reactor", "Heavy Duty Plate", "Basic Circuit", "Advanced Circuit", "Aluminium Wire", "Oxygen Apparatus", "Thruster Pack"};
 	
 	public String getUnlocalizedName(ItemStack par1) {
 		int i = MathHelper.clamp_int(par1.getItemDamage(), 0, 15);
@@ -52,7 +52,7 @@ public class ItemMeta extends Item {
 	
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(int par1, CreativeTabs par2, List par3) {
-		for(int i = 0; i < 6; i++) {
+		for(int i = 0; i < 11; i++) {
 			par3.add(new ItemStack(par1, 1, i));
 		}
 	}

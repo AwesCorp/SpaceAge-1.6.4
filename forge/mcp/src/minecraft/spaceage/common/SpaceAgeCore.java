@@ -170,9 +170,9 @@ public class SpaceAgeCore {
 		}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advancedSpacesuitChestplate), new Object[] {
-			"HTH",
+			"HOH",
 			"HAH",
-			"HOH", Character.valueOf('H'), heavyPlate, Character.valueOf('T'), thrusterPack, Character.valueOf('A'), arcReactor, Character.valueOf('O'), oxygenApparatus
+			"HTH", Character.valueOf('H'), heavyPlate, Character.valueOf('T'), thrusterPack, Character.valueOf('A'), arcReactor, Character.valueOf('O'), oxygenApparatus
 		}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advancedSpacesuitLeggings), new Object[] {
