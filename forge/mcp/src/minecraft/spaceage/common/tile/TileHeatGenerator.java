@@ -5,13 +5,17 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.util.Icon;
 import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTankInfo;
+import net.minecraftforge.fluids.IFluidHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import resonant.lib.prefab.vector.Cuboid;
 import spaceage.common.SpaceAgeCore;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileHeatGenerator extends TileEnergyDistribution {
+public class TileHeatGenerator extends TileEnergyDistribution implements IFluidHandler {
 	
 	@SideOnly(Side.CLIENT)
 	public static Icon solarPanel_side, solarPanel_bottom;
@@ -66,5 +70,42 @@ public class TileHeatGenerator extends TileEnergyDistribution {
 				}
 		
 		super.updateEntity();		
+	}
+
+	@Override
+	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, FluidStack resource,
+			boolean doDrain) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
