@@ -19,9 +19,10 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
 import spaceage.common.SpaceAgeCore;
+import spaceage.common.stuff.Resources;
 
 public class SpaceAgeHUDHandler implements ITickHandler {
-  public void tickStart(EnumSet<TickType> type, Object[] tickData) {
+  public void tickStart(EnumSet<TickType> type, Object... tickData) {
   }
 
   public void tickEnd(EnumSet<TickType> type, Object[] tickData) {

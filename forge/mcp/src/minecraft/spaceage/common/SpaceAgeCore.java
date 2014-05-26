@@ -9,6 +9,9 @@ import java.util.logging.Level;
 
 import org.lwjgl.input.Keyboard;
 
+import spaceage.common.item.ItemMeta;
+import spaceage.common.item.ItemStarboost;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -68,6 +71,8 @@ public class SpaceAgeCore {
 	public static int advancedSpacesuitChestplateID;
 	public static int advancedSpacesuitLeggingsID;
 	public static int advancedSpacesuitBootsID;
+	public static int SOLAR_ENERGY;
+	public static int HEAT_ENERGY;
 
 	//public static int glidingKey;
 	
@@ -81,6 +86,8 @@ public class SpaceAgeCore {
 		advancedSpacesuitChestplateID = config.get("Items", "Value of the advanced spacesuit chestplate - do not edit this to play on the server", 5002).getInt();
 		advancedSpacesuitLeggingsID = config.get("Items", "Value of the advanced spacesuit legs - do not edit this to play on the server", 5003).getInt();
 		advancedSpacesuitBootsID = config.get("Items", "Value of the advanced spacesuit boots - do not edit this to play on the server", 5004).getInt();
+		SOLAR_ENERGY = config.get("Energy", "How much energy the solar panel generates - do not edit this to play on the server", 50).getInt();
+		HEAT_ENERGY = config.get("Energy", "How much energy the geothermal turbine generates - do not edit this to play on the server", 50).getInt();
 		
 		//glidingKey = config.get("Keybinds", "Gliding Key", 42).getInt();
 		
