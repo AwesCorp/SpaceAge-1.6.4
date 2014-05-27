@@ -61,10 +61,14 @@ public class TileHeatGenerator extends TileEnergyDistribution {
 
 		return solarPanel_side;*/
 	}
+	
+	/*public boolean waterInTank() {
+		return(getTankAmount() > 0);
+	}*/
 
 	@Override
 	public void updateEntity() {
-		boolean powered = worldObj.getBlockId(xCoord, yCoord - 1, zCoord) == Block.lavaStill.blockID;
+		boolean powered = (worldObj.getBlockId(xCoord, yCoord - 1, zCoord) == Block.lavaStill.blockID)/* && (getTankAmount)*/;
 		
 		if(powered == true) {
 			this.energy.receiveEnergy(SpaceAgeCore.HEAT_ENERGY, true);

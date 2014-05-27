@@ -22,6 +22,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
@@ -73,6 +75,9 @@ public class SpaceAgeCore {
 	public static int advancedSpacesuitBootsID;
 	public static int SOLAR_ENERGY;
 	public static int HEAT_ENERGY;
+	
+	//Fluid stuff
+	public static FluidStack FLUIDSTACK_WATER;
 
 	//public static int glidingKey;
 	
@@ -94,8 +99,18 @@ public class SpaceAgeCore {
 		config.save();
 	}	
 	
+	public static int getFluidAmount(FluidStack fluid) {
+		if(fluid != null) {
+			return fluid.amount;
+		}
+		return 0;
+	}
+	
+	public static final PacketTile PACKET_TILE = new PacketTile("spaceage");
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		FLUIDSTACK_WATER = new FluidStack(FluidRegistry.WATER, 0);
 		LogHelper.log(Level.INFO, "Preinitialised successfully"); //about the preinitialiSed, I'm australian
 	}
 	
