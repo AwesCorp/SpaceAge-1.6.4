@@ -1,5 +1,7 @@
 package spaceage.common.tile;
 
+import java.util.ArrayList;
+
 import com.google.common.io.ByteArrayDataInput;
 
 import net.minecraft.block.Block;
@@ -7,9 +9,10 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.packet.Packet;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Icon;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.Fluid;
@@ -19,23 +22,15 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import resonant.lib.network.IPacketReceiver;
-import resonant.lib.network.Synced;
 import resonant.lib.prefab.vector.Cuboid;
 import spaceage.common.SpaceAgeCore;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileHeatGeneratorTest extends TileEnergyDistribution implements IFluidHandler, ISidedInventory, IPacketReceiver {
+public class TileHeatGeneratorTest extends TileMekanismMethod {
 	
-	@Synced
-	public final static FluidTank waterTank = new FluidTank(SpaceAgeCore.FLUIDSTACK_WATER.copy(), FluidContainerRegistry.BUCKET_VOLUME * 5);
-	
-	@Synced
-	public int timer = 0;
+	public FluidTank waterTank = new FluidTank(24000);
 	
 	@SideOnly(Side.CLIENT)
 	public static Icon sside, bottom;
@@ -43,12 +38,10 @@ public class TileHeatGeneratorTest extends TileEnergyDistribution implements IFl
 	public TileHeatGeneratorTest()
 	{
 		super(Material.iron);
+		inventory = new ItemStack[1];
 		energy = new EnergyStorageHandler(SpaceAgeCore.HEAT_ENERGY * 20);
 		ioMap = 728;
 		textureName = "heat_top";
-		bounds = new Cuboid(0, 0, 0, 1, 0.3f, 1);
-		isOpaqueCube = false;
-		normalRender = false;
 	}
 
 	@SideOnly(Side.CLIENT)
@@ -79,10 +72,14 @@ public class TileHeatGeneratorTest extends TileEnergyDistribution implements IFl
 
 		return solarPanel_side;*/
 	}
+	
+	/*public boolean waterInTank() {
+		return(getTankAmount() > 0);
+	}*/
 
 	@Override
 	public void updateEntity() {
-		boolean powered = worldObj.getBlockId(xCoord, yCoord - 1, zCoord) == Block.lavaStill.blockID;
+		boolean powered = (worldObj.getBlockId(xCoord, yCoord - 1, zCoord) == Block.lavaStill.blockID)/* && (getTankAmount)*/;
 		
 		if(powered == true) {
 			this.energy.receiveEnergy(SpaceAgeCore.HEAT_ENERGY, true);
@@ -91,269 +88,148 @@ public class TileHeatGeneratorTest extends TileEnergyDistribution implements IFl
 		
 		super.updateEntity();	
 		
-		if (getStackInSlot(1) != null)
+		if(!worldObj.isRemote) {
+			if(inventory[0] != null) {
+				FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(inventory[0]);
+				
+				if(fluid != null && fluid.fluidID == FluidRegistry.WATER.getID()) {
+					if(waterTank.getFluid() == null || waterTank.getFluid().amount+fluid.amount <= waterTank.getCapacity()) {
+						waterTank.fill(fluid, true);
+						
+						if(inventory[0].getItem().getContainerItemStack(inventory[0]) != null) {
+							inventory[0] = inventory[0].getItem().getContainerItemStack(inventory[0]);
+						}else {
+							inventory[0].stackSize--;
+						}
+						
+						if(inventory[0].stackSize == 0) {
+							inventory[0] = null;
+						}
+					}
+				}else {
+					int fuel = getFuel(inventory[0]);
+					
+					if(fuel > 0) {
+						int fuelNeeded = waterTank.getCapacity() - (waterTank.getFluid() != null ? waterTank.getFluid().amount : 0);
+						
+						if(fuel <= fuelNeeded) {
+							waterTank.fill(new FluidStack(FluidRegistry.WATER, fuel), true);
+							
+							if(inventory[0].getItem().getContainerItemStack(inventory[0]) != null) {
+								inventory[0] = inventory[0].getItem().getContainerItemStack(inventory[0]);
+							}else {
+								inventory[0].stackSize--;
+							}
+							
+							if(inventory[0].stackSize == 0) {
+				inventory[0] = null;
+			}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbtTags) {
+		super.readFromNBT(nbtTags);
+		
+		if(nbtTags.hasKey("waterTank")) {
+			waterTank.readFromNBT(nbtTags.getCompoundTag("waterTank"));
+		}
+	}
 
-        {
-            if (FluidContainerRegistry.isFilledContainer(getStackInSlot(1)))
-
-            {
-                FluidStack liquid = FluidContainerRegistry.getFluidForFilledItem(getStackInSlot(1));
-
-
-                if (liquid.isFluidEqual(SpaceAgeCore.FLUIDSTACK_WATER))
-
-                {
-                    if (this.fill(ForgeDirection.UNKNOWN, liquid, false) > 0)
-
-                    {
-                        ItemStack resultingContainer = getStackInSlot(1).getItem().getContainerItemStack(getStackInSlot(1));
-
-
-                        if (resultingContainer == null && getStackInSlot(1).stackSize > 1)
-
-                        {
-                            getStackInSlot(1).stackSize--;
-
-                        }
-                        else
-
-                        {
-                            setInventorySlotContents(1, resultingContainer);
-
-                        }
-
-
-                        this.waterTank.fill(liquid, true);
-
-                    }
-                }
-
-            }
-        }
+	@Override
+	public void writeToNBT(NBTTagCompound nbtTags) {
+		super.writeToNBT(nbtTags);
+		
+		if(waterTank.getFluid() != null) {
+			nbtTags.setTag("waterTank", waterTank.writeToNBT(new NBTTagCompound()));
+		}
+	}
+	
+	//@Override
+	public int getFuel(ItemStack itemstack) {
+		if(itemstack.itemID == Item.bucketWater.itemID) {
+			return 1000;
+		}
+		
+		return TileEntityFurnace.getItemBurnTime(itemstack);
+		
+	}
+	
+	//@Override
+	public int getScaledFuelLevel(int i) {
+		return (waterTank.getFluid() != null ? waterTank.getFluid().amount : 0)*i / waterTank.getCapacity();
+	}
+	
+	@Override
+	public void handlePacketData(ByteArrayDataInput dataStream) {
+		super.handlePacketData(dataStream);
+		
+		int amount = dataStream.readInt();
+		
+		if(amount != 0) {
+			waterTank.setFluid(new FluidStack(FluidRegistry.WATER, amount));
+		}else {
+			waterTank.setFluid(null);
+		}
+	}
+	
+	@Override
+	public ArrayList getNetworkedData(ArrayList data) {
+		super.getNetworkedData(data);
+		
+		if(waterTank.getFluid() != null) {
+			data.add(waterTank.getFluid().amount);
+		}else {
+			data.add(0);
+		}
+		
+		return data;
 		
 	}
 	
 	@Override
-	public void onReceivePacket(ByteArrayDataInput data, EntityPlayer player, Object... extra) {
-		try {
-			this.waterTank.setFluid(new FluidStack(SpaceAgeCore.FLUIDSTACK_WATER.fluidID, data.readInt()));
+	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
+		if(resource.fluidID == FluidRegistry.WATER.getID()) {
+			return waterTank.fill(resource, doFill);
 		}
 		
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		
+		return 0;
 	}
 
 	@Override
-    public Packet getDescriptionPacket()
-
-    {
-        return SpaceAgeCore.PACKET_TILE.getPacket(this, this.timer, SpaceAgeCore.getFluidAmount(this.waterTank.getFluid()));
-
-    }
-
-
-    public void sendDescPack()
-
-    {
-        if (!this.worldObj.isRemote)
-
-        {
-            for (EntityPlayer player : this.getPlayersUsing())
-
-            {
-                PacketDispatcher.sendPacketToPlayer(getDescriptionPacket(), (Player) player);
-
-            }
-        }
-
-    }
-
-
-    // Check all conditions and see if we can start smelting
-    public boolean waterInTank()
-
-    {
-        if (this.waterTank.getFluid() != null)
-
-        {
-            if (this.waterTank.getFluid().amount >= FluidContainerRegistry.BUCKET_VOLUME)
-
-            {
-                if (getStackInSlot(1) != null)
-
-                {       
-                            return true;
-
-                }
-            }
-
-        }
-
-
-        return false;
-
-    }
-
-    /** Turn one item from the furnace source stack into the appropriate smelted item in the furnace result stack. */
-
-
-    /** Reads a tile entity from NBT. */
-
-    @Override
-    public void readFromNBT(NBTTagCompound nbt)
-
-    {
-        super.readFromNBT(nbt);
-
-        //this.timer = nbt.getInteger("shiJian");
-
-
-        NBTTagCompound waterCompound = nbt.getCompoundTag("water");
-
-        this.waterTank.setFluid(FluidStack.loadFluidStackFromNBT(waterCompound));
-
-    }
-
-
-    /** Writes a tile entity to NBT. */
-    @Override
-
-    public void writeToNBT(NBTTagCompound nbt)
-
-    {
-        super.writeToNBT(nbt);
-
-        //nbt.setInteger("shiJian", this.timer);
-
-
-        if (this.waterTank.getFluid() != null)
-
-        {
-            NBTTagCompound compound = new NBTTagCompound();
-
-            this.waterTank.getFluid().writeToNBT(compound);
-
-            nbt.setTag("water", compound);
-
-        }
-
-    }
-
-
-    /** Tank Methods */
-
-    @Override
-    public int fill(ForgeDirection from, FluidStack resource, boolean doFill)
-
-    {
-        if (SpaceAgeCore.FLUIDSTACK_WATER.isFluidEqual(resource))
-
-        {
-            return this.waterTank.fill(resource, doFill);
-
-        }
-
-
-        return 0;
-
-    }
-
-    @Override
-
-    public FluidStack drain(ForgeDirection from, FluidStack resource, boolean doDrain) {
-        return null;
-    }
-
-    @Override
-
-    public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain)
-
-    {
-        return null;
-
-    }
-
-
-    @Override
-    public boolean canFill(ForgeDirection from, Fluid fluid)
-
-    {
-        return SpaceAgeCore.FLUIDSTACK_WATER.fluidID == fluid.getID();
-
-    }
-
-
-    @Override
-    public boolean canDrain(ForgeDirection from, Fluid fluid)
-
-    {
-        return false;
-
-    }
-
-
-    @Override
-    public FluidTankInfo[] getTankInfo(ForgeDirection from)
-
-    {
-        return new FluidTankInfo[]
-
-        { this.waterTank.getInfo()};
-
-    }
-
-
-    /** Inventory */
-    @Override
-
-    public boolean isItemValidForSlot(int slotID, ItemStack itemStack) {
-        
-    	return false;
-
-    }
-
-    @Override
-
-    public int[] getAccessibleSlotsFromSide(int side)
-
-    {
-        return null;
-
-    }
-
-
-    @Override
-    public boolean canInsertItem(int slotID, ItemStack itemStack, int side)
-
-    {
-        return this.isItemValidForSlot(slotID, itemStack);
-
-    }
-
-
-    @Override
-    public boolean canExtractItem(int slotID, ItemStack itemstack, int j)
-
-    {
-        return slotID == 2;
-
-    }
-
-
-    @Override
-    public long onExtractEnergy(ForgeDirection from, long extract, boolean doExtract)
-
-    {
-        return 0;
-
-    }
+	public FluidStack drain(ForgeDirection from, FluidStack resource,
+			boolean doDrain) {
+		return null;
+	}
+
+	@Override
+	public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
+		return null;
+	}
+
+	@Override
+	public boolean canFill(ForgeDirection from, Fluid fluid) {
+		return fluid == FluidRegistry.WATER;
+	}
+
+	@Override
+	public boolean canDrain(ForgeDirection from, Fluid fluid) {
+		return false;
+	}
+
+	@Override
+	public FluidTankInfo[] getTankInfo(ForgeDirection from) {
+		return new FluidTankInfo[] {waterTank.getInfo()};
+	}
 
 	@Override
 	public int getSizeInventory() {
 		// TODO Auto-generated method stub
-		return 2;
+		return 0;
 	}
 
 	@Override
@@ -414,5 +290,36 @@ public class TileHeatGeneratorTest extends TileEnergyDistribution implements IFl
 	public void closeChest() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		switch(i) {
+			case 0: return getFuel(itemstack) > 0 || (FluidContainerRegistry.getFluidForFilledItem(itemstack) != null && FluidContainerRegistry.getFluidForFilledItem(itemstack).fluidID == FluidRegistry.WATER.getID());
+		}
+		return true;
+	}
+	
+	public boolean canOperate() {
+		return waterTank.getFluid() != null && waterTank.getFluid().amount >= 10;
+	}
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int var1) {
+		return null; //TODO, will do eventually. Need help on this...
+	}
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+		switch(i) {
+			case 0: return FluidContainerRegistry.isEmptyContainer(itemstack);
+		}
+		return false;
 	}
 }
