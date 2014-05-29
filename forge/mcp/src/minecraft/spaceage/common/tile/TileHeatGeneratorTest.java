@@ -228,67 +228,94 @@ public class TileHeatGeneratorTest extends TileMekanismMethod {
 
 	@Override
 	public int getSizeInventory() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		return inventory[i];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		// TODO Auto-generated method stub
-		return null;
+		if(getStackInSlot(i) != null)
+		{
+			ItemStack tempStack;
+
+			if(getStackInSlot(i).stackSize <= j)
+			{
+				tempStack = getStackInSlot(i);
+				setInventorySlotContents(i, null);
+				return tempStack;
+			}
+			else {
+				tempStack = getStackInSlot(i).splitStack(j);
+
+				if(getStackInSlot(i).stackSize == 0)
+				{
+					setInventorySlotContents(i, null);
+				}
+
+				return tempStack;
+			}
+		}
+		else {
+			return null;
+		}
+		//return null;
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		// TODO Auto-generated method stub
-		return null;
+		if(getStackInSlot(i) != null)
+		{
+			ItemStack tempStack = getStackInSlot(i);
+			setInventorySlotContents(i, null);
+			return tempStack;
+		}
+		else {
+			return null;
+		}
+		//return null;
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		// TODO Auto-generated method stub
-		
+		inventory[i] = itemstack;
+
+		if(itemstack != null && itemstack.stackSize > getInventoryStackLimit())
+		{
+			itemstack.stackSize = getInventoryStackLimit();
+		}
 	}
 
 	@Override
 	public String getInvName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "SAGeothermalTurbine.name";
 	}
 
 	@Override
 	public boolean isInvNameLocalized() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public int getInventoryStackLimit() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 64;
 	}
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public void openChest() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void closeChest() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -311,8 +338,7 @@ public class TileHeatGeneratorTest extends TileMekanismMethod {
 
 	@Override
 	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-		// TODO Auto-generated method stub
-		return false;
+		return isItemValidForSlot(i, itemstack);
 	}
 
 	@Override
@@ -322,4 +348,9 @@ public class TileHeatGeneratorTest extends TileMekanismMethod {
 		}
 		return false;
 	}
+
+	/*public void open(EntityPlayer player) {
+		// TODO Auto-generated method stub
+		
+	}*/
 }

@@ -21,7 +21,6 @@ public abstract class TileMekanismMethod extends TileEnergyDistribution implemen
 	}
 
 	public void handlePacketData(ByteArrayDataInput dataStream) {
-		super.handlePacketData(dataStream);
 	}
 
 	public ArrayList getNetworkedData(ArrayList data) {
