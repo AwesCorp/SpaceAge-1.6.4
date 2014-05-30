@@ -26,7 +26,7 @@ public class ContainerHeatGenerator extends Container {
 			addSlotToContainer(new Slot(inventory, slotX, 8 + slotX * 18, 142));
 		}
 
-		//tileEntity.openChest();
+		tileEntity.openChest();
 		//tileEntity.open(inventory.player);
 		
 	}
@@ -46,7 +46,7 @@ public class ContainerHeatGenerator extends Container {
 		return tileEntity.isUseableByPlayer(entityplayer);
 	}
 
-	/*@Override
+	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int slotID)
 	{
 		ItemStack stack = null;
@@ -112,6 +112,6 @@ public class ContainerHeatGenerator extends Container {
 		}
 
 		return stack;
-	}*/
+	}
 
 }

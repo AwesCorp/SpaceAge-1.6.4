@@ -9,8 +9,8 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
+import spaceage.client.model.ModelStarboost;
 import spaceage.common.CommonProxy;
-import spaceage.common.ModelStarboost;
 import spaceage.common.PlayerTickHandler;
 
 public class ClientProxy extends CommonProxy {
