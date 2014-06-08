@@ -435,5 +435,7 @@ public class SpaceAgeCore {
 	    return true;
 	    
 	  }
-	
+	  
+	  private void setDead() {
+	  }
 }

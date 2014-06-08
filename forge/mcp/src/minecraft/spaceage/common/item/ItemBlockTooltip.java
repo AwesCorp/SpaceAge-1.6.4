@@ -21,7 +21,7 @@ public class ItemBlockTooltip extends ItemBlock {
     {
         // Only displays tooltip information when SHIFT key is pressed.
         String tooltip = StatCollector.translateToLocal(getUnlocalizedName() + ".tooltip");
-        String defaultTooltip = StatCollector.translateToLocal("noshift.tooltip");
+        String defaultTooltip = StatCollector.translateToLocal("Press shift for more information");
         boolean isShiftPressed = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 
         // Use LWJGL to detect what key is being pressed.

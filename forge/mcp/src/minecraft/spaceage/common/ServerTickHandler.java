@@ -81,8 +81,7 @@ public class ServerTickHandler implements ITickHandler {
 	        player.fallDistance = 0.0F;
 	      }
 	    }
-	    else if (!player.capabilities.isCreativeMode)
-	    {
+	    else if (!player.capabilities.isCreativeMode) {
 	      player.capabilities.allowFlying = false;
 	    }
 	    
