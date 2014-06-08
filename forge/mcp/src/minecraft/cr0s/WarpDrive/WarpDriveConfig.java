@@ -8,12 +8,13 @@ import java.util.Set;
 import java.util.Random;
 import java.lang.reflect.*;
 
+import spaceage.common.SpaceAgeCore;
+
 import cpw.mods.fml.common.Loader;
 import net.minecraftforge.common.Configuration;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import ic2.api.item.Items;
 
 public class WarpDriveConfig
 {
@@ -21,7 +22,7 @@ public class WarpDriveConfig
 	private Configuration config;
 	public int coreID, controllerID, radarID, isolationID, airID, airgenID, gasID, laserID, miningLaserID, particleBoosterID, liftID, laserCamID, camID, monitorID, iridiumID, shipScannerID, cloakCoreID, cloakCoilID;
 //
-	public boolean isGregLoaded = false, isAELoaded = false, isAdvSolPanelLoaded = false, isASLoaded = false, isAEExtraLoaded = false, isICBMLoaded = false, isMFFSLoaded = false, isGraviSuiteLoaded = false;
+	public boolean isAELoaded = false, isASLoaded = false, isAEExtraLoaded = false, isICBMLoaded = false, isMFFSLoaded = false;
 //
 	public int[] IC2_Air;
 	public int CC_Computer = 0, CC_peripheral = 0, CCT_Turtle = 0, CCT_Upgraded = 0, CCT_Advanced = 0, GT_Ores = 0, GT_Granite = 0, GT_Machine = 0, ASP = 0, AS_Turbine = 0, ICBM_Machine = 0, ICBM_Missile = 0, MFFS_Field = 0;
@@ -84,10 +85,10 @@ public class WarpDriveConfig
 		
 	private WarpDriveConfig() {}
 
-	public ItemStack getIC2Item(String id)
+	/*public ItemStack getIC2Item(String id)
 	{
 		return Items.getItem(id);
-	}
+	}*/
 
 	public ItemStack getAEBlock(String id)
 	{
@@ -233,10 +234,6 @@ public class WarpDriveConfig
 		LoadIC2();
 		LoadCC();
 		
-		isGregLoaded = Loader.isModLoaded("gregtech_addon");
-		if (isGregLoaded)
-			LoadGT();
-		
 		isAELoaded = Loader.isModLoaded("AppliedEnergistics");
 		if (isAELoaded)
 			LoadAE();
@@ -244,10 +241,6 @@ public class WarpDriveConfig
 		isAEExtraLoaded = Loader.isModLoaded("extracells");
 		if (isAEExtraLoaded)
 			LoadAEExtra();	
-		
-		isAdvSolPanelLoaded = Loader.isModLoaded("AdvancedSolarPanel");
-		if (isAdvSolPanelLoaded)
-			LoadASP();
 		
 		isASLoaded = Loader.isModLoaded("AtomicScience");
 		if (isASLoaded)
@@ -260,10 +253,6 @@ public class WarpDriveConfig
 		isMFFSLoaded = Loader.isModLoaded("MFFS");
 		if (isMFFSLoaded)
 			LoadMFFS();
-		
-		isGraviSuiteLoaded = Loader.isModLoaded("GraviSuite");
-		if (isGraviSuiteLoaded)
-			LoadGS();
 //
 		MinerOres.add(Block.oreNetherQuartz.blockID);
 		for (int[] t : CommonWorldGenOres)
@@ -282,10 +271,10 @@ public class WarpDriveConfig
 		scannerIgnoreBlocks.add(controllerID);
 		scannerIgnoreBlocks.add(iridiumID);
 		
-		scannerIgnoreBlocks.add(Items.getItem("mfsUnit").itemID);
+		/*scannerIgnoreBlocks.add(Items.getItem("mfsUnit").itemID);
 		scannerIgnoreBlocks.add(Items.getItem("mfeUnit").itemID);
 		scannerIgnoreBlocks.add(Items.getItem("cesuUnit").itemID);
-		scannerIgnoreBlocks.add(Items.getItem("batBox").itemID);
+		scannerIgnoreBlocks.add(Items.getItem("batBox").itemID);*/
 
 		// Do not scan ores and valuables
 		for (int[] t : CommonWorldGenOres) // each element of this set is pair [id, meta]
@@ -297,14 +286,17 @@ public class WarpDriveConfig
 
 	private void LoadIC2()
 	{
-		ASP = Items.getItem("solarPanel").itemID;
-		SpaceHelmets.add(Items.getItem("hazmatHelmet").itemID);
-		SpaceHelmets.add(Items.getItem("quantumHelmet").itemID);
-		Jetpacks.add(Items.getItem("jetpack").itemID);
-		Jetpacks.add(Items.getItem("electricJetpack").itemID);
-		IC2_Air = new int[] {Items.getItem("airCell").itemID, Items.getItem("airCell").getItemDamage()};
+		//ASP = Items.getItem("solarPanel").itemID;
+		ASP = SpaceAgeCore.solarPanel.blockID;
+		//SpaceHelmets.add(Items.getItem("hazmatHelmet").itemID);
+		//SpaceHelmets.add(Items.getItem("quantumHelmet").itemID);
+		SpaceHelmets.add(SpaceAgeCore.advancedSpacesuitHelmetID); //TODO Normal spacesuit helmet below
+		//Jetpacks.add(Items.getItem("jetpack").itemID);
+		//Jetpacks.add(Items.getItem("electricJetpack").itemID);
+		Jetpacks.add(SpaceAgeCore.advancedSpacesuitChestplateID);
+		//IC2_Air = new int[] {Items.getItem("airCell").itemID, Items.getItem("airCell").getItemDamage()}; //TODO Check if this does anything
 		
-		if (Items.getItem("uraniumOre") != null) { 
+		/*if (Items.getItem("uraniumOre") != null) { 
 			CommonWorldGenOres.add(new int[] {Items.getItem("uraniumOre").itemID, Items.getItem("uraniumOre").getItemDamage()});
 		}
 		
@@ -314,10 +306,12 @@ public class WarpDriveConfig
 		
 		if (Items.getItem("tinOre") != null) {
 			CommonWorldGenOres.add(new int[] {Items.getItem("tinOre").itemID, Items.getItem("tinOre").getItemDamage()});
-		}
+		}*/
 		
-		MinerOres.add(Items.getItem("rubberWood").itemID);
-		AEExtraFDI = Items.getItem("FluidCell").getItem();
+		//CommonWorldGenOres.add(new int[] {SpaceAgeCore.}) //TODO Ores
+		
+		//MinerOres.add(Items.getItem("rubberWood").itemID);
+		//AEExtraFDI = Items.getItem("FluidCell").getItem();
 	}
 
 	private void LoadCC()
@@ -334,28 +328,8 @@ public class WarpDriveConfig
 		}
 		catch (Exception e)
 		{
-			System.out.println("WarpDriveConfig Error loading CC classes AWWW SHEEEEET NIGGA");
+			System.out.println("WarpDriveConfig: Error loading CC classes - Try downgrading to version 1.58 and deleting your config file");
 			e.printStackTrace();
-		}
-	}
-
-	private void LoadGT()
-	{
-		try
-		{
-			Class<?> z = Class.forName("gregtechmod.GT_Mod");
-			int[] t = (int[])z.getField("sBlockIDs").get(null);
-			GT_Machine = t[1];
-			GT_Ores = t[2]; // meta 1-15 = ores
-			GT_Granite = t[5]; // 0 - black, 1 - black cobble, 8 - red, 9 - red cobble
-			MinerOres.add(GT_Ores);
-			MinerOres.add(GT_Granite);
-		}
-		catch (Exception e)
-		{
-			System.out.println("WarpDriveConfig Error loading GT classes");
-			e.printStackTrace();
-			isGregLoaded = false;
 		}
 	}
 
@@ -370,7 +344,7 @@ public class WarpDriveConfig
 		}
 		catch (Exception e)
 		{
-			System.out.println("WarpDriveConfig Error loading AE classes");
+			System.out.println("WarpDriveConfig: Error loading AE classes");
 			e.printStackTrace();
 			isAELoaded = false;
 		}
@@ -386,29 +360,11 @@ public class WarpDriveConfig
 		}
 		catch (Exception e)
 		{
-			System.out.println("WarpDriveConfig Error loading AEExtra classes");
+			System.out.println("WarpDriveConfig: Error loading AEExtra classes");
 			e.printStackTrace();
 			isAEExtraLoaded = false;
 		}
 	}	
-	
-	private void LoadASP()
-	{
-		try
-		{
-			Class<?> z = Class.forName("advsolar.common.AdvancedSolarPanel");
-			ASP = z.getField("idAdv").getInt(null);
-			SpaceHelmets.add(((Item)z.getField("advancedSolarHelmet").get(null)).itemID);
-			SpaceHelmets.add(((Item)z.getField("hybridSolarHelmet").get(null)).itemID);
-			SpaceHelmets.add(((Item)z.getField("ultimateSolarHelmet").get(null)).itemID);
-		}
-		catch (Exception e)
-		{
-			System.out.println("WarpDriveConfig Error loading ASP classes");
-			e.printStackTrace();
-			isAdvSolPanelLoaded = false;
-		}
-	}
 
 	private void LoadAS()
 	{
@@ -455,24 +411,6 @@ public class WarpDriveConfig
 			System.out.println("WarpDriveConfig Error loading MFFS classes");
 			e.printStackTrace();
 			isICBMLoaded = false;
-		}
-	}
-
-	private void LoadGS()
-	{
-		try
-		{
-			Class<?> z = Class.forName("gravisuite.GraviSuite");
-			if (z.getField("ultimateSolarHelmet").get(null) != null)
-				SpaceHelmets.add(((Item)z.getField("ultimateSolarHelmet").get(null)).itemID);
-			Jetpacks.add(z.getField("advJetpackID").getInt(null) + 256);
-			Jetpacks.add(z.getField("graviChestPlateID").getInt(null) + 256);
-		}
-		catch (Exception e)
-		{
-			System.out.println("WarpDriveConfig Error loading GS classes");
-			e.printStackTrace();
-			isGraviSuiteLoaded = false;
 		}
 	}
 
@@ -547,29 +485,7 @@ public class WarpDriveConfig
 			return new int[] {getAEBlock("blkQuartzOre").itemID, getAEBlock("blkQuartzOre").getItemDamage()};
 		else if (random.nextInt(250) == 1)
 			return new int[] {Block.oreDiamond.blockID, 0};
-		else if (random.nextInt(10000) == 42)
-			return new int[] {iridiumID, 0};
-		if (isGregLoaded)
-		{
-			if (random.nextInt(50) == 1)
-				return new int[] {GT_Ores, 5}; //Bauxite S /* Stone/Iron/Diamod pick | +S = Silktouch recommended */
-			else if (random.nextInt(50) == 1)
-				return new int[] {GT_Ores, 1}; //Galena S
-			else if (random.nextInt(100) == 1)
-				return new int[] {GT_Ores, 8}; //Sphalerite S+S
-			else if (random.nextInt(250) == 1)
-				return new int[] {GT_Ores, 13}; //Tetrahedrite I
-			else if (random.nextInt(250) == 1)
-				return new int[] {GT_Ores, 14}; //Cassiterite I
-			else if (random.nextInt(250) == 1)
-				return new int[] {GT_Ores, 15}; //Nickel I
-			else if (random.nextInt(500) == 1)
-				return new int[] {GT_Ores, 3}; //Ruby I+S
-			else if (random.nextInt(500) == 1)
-				return new int[] {GT_Ores, 4}; //Sapphire I+S
-			else if (random.nextInt(2000) == 1)
-				return new int[] {GT_Ores, 2}; //Iridium D+S
-		}
+		
 		return new int[] {blockID, blockMeta};
 	}
 
@@ -579,15 +495,6 @@ public class WarpDriveConfig
 			return new int[] {iridiumID, 0};
 		else if (random.nextInt(25) == 1)
 			return new int[] {Block.oreNetherQuartz.blockID, 0};
-		else if (isGregLoaded)
-		{
-			if (random.nextInt(100) == 1)
-				return new int[] {GT_Ores, 6}; //Pyrite S+S
-			else if (random.nextInt(100) == 1)
-				return new int[] {GT_Ores, 8}; //Sphalerite S+S
-			else if (random.nextInt(500) == 1)
-				return new int[] {GT_Ores, 7}; //Cinnabar I+S
-		}
 		else if (random.nextInt(100) == 13)
 			return CommonWorldGenOres.get(random.nextInt(CommonWorldGenOres.size()));
 		return new int[] {blockID, blockMeta};
@@ -597,17 +504,6 @@ public class WarpDriveConfig
 	{
 		if (random.nextInt(10000) == 42)
 			return new int[] {iridiumID, 0};
-		else if (isGregLoaded)
-		{
-			if (random.nextInt(250) == 1)
-				return new int[] {GT_Ores, 9}; //Tungstate I
-			else if (random.nextInt(500) == 1)
-				return new int[] {GT_Ores, 12}; //Sodalite I+S
-			else if (random.nextInt(500) == 1)
-				return new int[] {GT_Ores, 10}; //Cooperite=Sheldonite D
-			else if (random.nextInt(1000) == 1)
-				return new int[] {GT_Ores, 11}; //Olivine D+S
-		}
 		else if (random.nextInt(200) == 13)
 			return CommonWorldGenOres.get(random.nextInt(CommonWorldGenOres.size()));
 		return new int[] {blockID, blockMeta};

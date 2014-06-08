@@ -88,6 +88,7 @@ public class SpaceAgeCore {
 	public static Item advancedSpacesuitLeggings;
 	public static Item advancedSpacesuitBoots;
 	public static BlockContainer heatGenerator;
+	public static Block solarPanel;
 	
 	//Custom ItemStacks (for crafting ease etc.)
 	

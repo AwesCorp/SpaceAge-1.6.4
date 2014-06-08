@@ -11,8 +11,6 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import ic2.api.item.Items;
-
 import java.util.Collections;
 import java.util.logging.Logger;
 
@@ -35,6 +33,7 @@ import shipmod.command.CommandReloadMetaRotations;
 import shipmod.command.CommandShipInfo;
 import shipmod.command.CommandTpShip;
 import shipmod.entity.EntityShip;
+import spaceage.common.SpaceAgeCore;
 
 @Mod(
     modid = "ShipMod",
@@ -77,12 +76,12 @@ public class ShipMod
     @EventHandler
     public void initMod(FMLInitializationEvent event)
     {
-        blockMarkShip = (BlockMarkShip)(new BlockMarkShip(this.modConfig.blockMarkShipID)).setUnlocalizedName("markShip").func_111022_d("markShip").setCreativeTab(CreativeTabs.tabTransport);
+        blockMarkShip = (BlockMarkShip)(new BlockMarkShip(this.modConfig.blockMarkShipID)).setUnlocalizedName("markShip")/*.func_111022_d("markShip")*/.setCreativeTab(SpaceAgeCore.tabSA);
         blockMarkShip.setStepSound(Block.soundMetalFootstep).setHardness(2.0F).setResistance(15.0F);
         GameRegistry.registerBlock(blockMarkShip, "markShip");
         
-        GameRegistry.addRecipe(new ItemStack(blockMarkShip), "ici", "cec", "ici",
-        'i', Items.getItem("iridiumPlate"), 'e', Item.enderPearl, 'c', Items.getItem("advancedCircuit"));
+        //GameRegistry.addRecipe(new ItemStack(blockMarkShip), "ici", "cec", "ici",
+        //'i', Items.getItem("iridiumPlate"), 'e', Item.enderPearl, 'c', Items.getItem("advancedCircuit"));
         
         EntityRegistry.registerModEntity(EntityShip.class, "shipmod", 1, this, 64, this.modConfig.shipEntitySyncRate, true);
         

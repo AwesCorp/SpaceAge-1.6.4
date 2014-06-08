@@ -17,7 +17,7 @@ public class CommandReloadMetaRotations extends CommandBase
         if (this.canCommandSenderUseCommand(icommandsender))
         {
             ShipMod.instance.metaRotations.readMetaRotationFiles();
-            icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Reloading MetaRotations"));
+            icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("Reloading MetaRotations"));
         }
     }
 

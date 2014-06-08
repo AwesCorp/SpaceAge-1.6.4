@@ -4,8 +4,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import dan200.computer.api.IPeripheral;
 import dan200.turtle.api.ITurtleAccess;
 import dan200.turtle.api.TurtleSide;
-import ic2.api.network.NetworkHelper;
-
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,9 +1,5 @@
 package cr0s.WarpDrive;
 
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.tile.IEnergySink;
-
 import java.util.List;
 
 import net.minecraft.block.Block;

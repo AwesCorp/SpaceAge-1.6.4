@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import cr0s.WarpDrive.WarpDrive;
+import cr0s.WarpDrive.WarpDriveConfig;
 import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -132,7 +133,7 @@ public class ChunkBuilder
                     }
                     else
                     {
-                    	if (id == WarpDrive.WARP_CORE_BLOCKID) {
+                    	if (id == /*WarpDrive.WARP_CORE_BLOCKID*/WarpDriveConfig.i.coreID) {
                     		isActiveCoreOnBoard = worldObj.getBlockMetadata(x, y, z) != 0;
                     	}
                         this.filledBlocks.put(pos, new LocatedBlock(id, this.worldObj.getBlockMetadata(x, y, z), pos));

@@ -19,15 +19,15 @@ public class CommandShipInfo extends CommandBase
         if (icommandsender instanceof Entity && ((Entity)icommandsender).ridingEntity instanceof EntityShip)
         {
             EntityShip ship = (EntityShip)((Entity)icommandsender).ridingEntity;
-            icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Ship information"));
-            icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d(String.format(Locale.ENGLISH, "Position: %.2f, %.2f, %.2f", new Object[] {Double.valueOf(ship.posX), Double.valueOf(ship.posY), Double.valueOf(ship.posZ)})));
-            icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d(String.format(Locale.ENGLISH, "Speed: %.2f km/h", new Object[] {Float.valueOf(ship.getHorizontalVelocity() * 20.0F * 3.6F)})));
-            icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d(String.format(Locale.ENGLISH, "Ship health: %i / %i", new Object[] { Integer.valueOf(ship.health), Integer.valueOf(ship.getShipChunk().getBlockCount())})));
+            icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("Ship information"));
+            icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText(String.format(Locale.ENGLISH, "Position: %.2f, %.2f, %.2f", new Object[] {Double.valueOf(ship.posX), Double.valueOf(ship.posY), Double.valueOf(ship.posZ)})));
+            icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText(String.format(Locale.ENGLISH, "Speed: %.2f km/h", new Object[] {Float.valueOf(ship.getHorizontalVelocity() * 20.0F * 3.6F)})));
+            icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText(String.format(Locale.ENGLISH, "Ship health: %i / %i", new Object[] { Integer.valueOf(ship.health), Integer.valueOf(ship.getShipChunk().getBlockCount())})));
             
         }
         else
         {
-            icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Not steering a ship"));
+            icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("Not steering a ship"));
         }
     }
 

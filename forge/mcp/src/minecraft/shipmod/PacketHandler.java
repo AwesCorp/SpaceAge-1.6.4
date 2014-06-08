@@ -47,7 +47,7 @@ public class PacketHandler implements IPacketHandler
 
             if (entity instanceof EntityShip)
             {
-                entity.func_130002_c(entityplayer);
+                entity./*func_130002_c*/interactFirst(entityplayer);
             }
         }
         else if (packet.channel.equals("reqShipSigns"))

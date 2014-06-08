@@ -1,9 +1,9 @@
 package cr0s.WarpDrive;
 
-import ic2.api.item.Items;
-
 import java.util.HashMap;
 import java.util.List;
+
+import spaceage.common.SpaceAgeCore;
 
 import cr0s.WarpDrive.CloakManager.CloakedArea;
 import net.minecraft.entity.Entity;
@@ -18,10 +18,6 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
-/**
- * Обработчик событий в мире Space
- * @author Cr0s
- */
 public class SpaceEventHandler
 {
 	private HashMap<String, Integer> vacuumPlayers;
@@ -168,11 +164,6 @@ public class SpaceEventHandler
 		vacuumPlayers.put(((EntityPlayerMP)entity).username, air);
 	}
 
-	/**
-	 * Проверка, находится ли Entity в открытом космосе
-	 * @param e
-	 * @return
-	 */
 	private boolean isEntityInVacuum(Entity e)
 	{
 		int x = MathHelper.floor_double(e.posX);
@@ -211,8 +202,8 @@ public class SpaceEventHandler
 
             if (check > 0)
             {
-                if ((player.getCurrentArmor(0) != null && player.getCurrentArmor(0).itemID == Items.getItem("quantumBoots").itemID) ||
-                        (player.getCurrentArmor(2) != null && WarpDriveConfig.i.Jetpacks.contains(player.getCurrentArmor(2).itemID)))
+                if ((player.getCurrentArmor(0) != null && player.getCurrentArmor(0).itemID == SpaceAgeCore.advancedSpacesuitBootsID) || //TODO Item for quantum, adv spacesuit
+                        (player.getCurrentArmor(2) != null && player.getCurrentArmor(2).itemID == SpaceAgeCore.advancedSpacesuitChestplateID))
                 {
                     event.setCanceled(true); // Don't damage player
                 }

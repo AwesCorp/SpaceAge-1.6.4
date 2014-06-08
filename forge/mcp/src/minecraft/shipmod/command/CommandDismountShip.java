@@ -33,12 +33,12 @@ public class CommandDismountShip extends CommandBase
 
                 if (astring != null && astring.length > 0 && (astring[0].equals("overwrite") || astring[0].equals("override")))
                 {
-                    icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Overwriting existing blocks with ship blocks"));
+                    icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("Overwriting existing blocks with ship blocks"));
                     flag = true;
                 }
                 else
                 {
-                    icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Trying to add ship blocks to world"));
+                    icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("Trying to add ship blocks to world"));
                 }
 
                 ((EntityShip)player.ridingEntity).decompileToBlocks(flag);
@@ -47,7 +47,7 @@ public class CommandDismountShip extends CommandBase
             }
         }
 
-        icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Not steering a ship"));
+        icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("Not steering a ship"));
     }
 
     /**

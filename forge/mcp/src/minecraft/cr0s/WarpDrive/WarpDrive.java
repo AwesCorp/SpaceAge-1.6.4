@@ -106,7 +106,7 @@ public class WarpDrive implements LoadingCallback {
 		}
 	}
 
-	@Init
+	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		WarpDriveConfig.i.Init2();
 
@@ -298,12 +298,12 @@ public class WarpDrive implements LoadingCallback {
 		}
 	}
 
-	@PostInit
+	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
 		space = DimensionManager.getWorld(spaceDimID);
 		hyperSpace = DimensionManager.getWorld(hyperSpaceDimID);
 		
-		GameRegistry.addRecipe(new ItemStack(warpCore), "ici", "cmc", "ici",
+		/*GameRegistry.addRecipe(new ItemStack(warpCore), "ici", "cmc", "ici", 		//TODO Recipes 
 				'i', WarpDriveConfig.i.getIC2Item("iridiumPlate"), 'm',
 				WarpDriveConfig.i.getIC2Item("advancedMachine"), 'c',
 				WarpDriveConfig.i.getIC2Item("advancedCircuit"));
@@ -387,7 +387,7 @@ public class WarpDrive implements LoadingCallback {
 				"iai",
 				"aca",
 				"iai", 
-			'i', WarpDriveConfig.i.getIC2Item("iridiumPlate"), 'c', WarpDriveConfig.i.getIC2Item("advancedCircuit"), 'a', WarpDriveConfig.i.getIC2Item("advancedAlloy"));		
+			'i', WarpDriveConfig.i.getIC2Item("iridiumPlate"), 'c', WarpDriveConfig.i.getIC2Item("advancedCircuit"), 'a', WarpDriveConfig.i.getIC2Item("advancedAlloy"));		*/
 		
 		registry = new WarpCoresRegistry();
 

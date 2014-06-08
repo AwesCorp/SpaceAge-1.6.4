@@ -26,7 +26,7 @@ public class RenderShip extends Render
         float fz = entity.getShipChunk().getCenterZ();
         GL11.glTranslatef(-fx, (float)(-entity.getShipChunk().minY()), -fz);
         float f4 = 0.75F;
-        this.func_110777_b(entity);
+        this./*func_110777_b*/bindEntityTexture(entity);
         entity.getShipChunk().renderer.render(0.0F);
         GL11.glPopMatrix();
         GL11.glPopAttrib();
@@ -43,8 +43,8 @@ public class RenderShip extends Render
         this.renderVehicle((EntityShip)entity, x, y, z, yaw, pitch);
     }
 
-    protected ResourceLocation func_110775_a(Entity entity)
+    protected ResourceLocation /*func_110775_a*/getEntityTexture(Entity entity)
     {
-        return TextureMap.field_110575_b;
+        return TextureMap./*field_110575_b*/locationBlocksTexture;
     }
 }

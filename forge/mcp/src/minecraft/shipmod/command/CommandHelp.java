@@ -41,13 +41,13 @@ public class CommandHelp extends CommandBase
 
     public void processCommand(ICommandSender icommandsender, String[] astring)
     {
-        icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("ShipMod commands:"));
+        icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("ShipMod commands:"));
         Iterator i$ = asCommands.iterator();
 
         while (i$.hasNext())
         {
             CommandBase cb = (CommandBase)i$.next();
-            icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d(cb.getCommandUsage(icommandsender)));
+            icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText(cb.getCommandUsage(icommandsender)));
         }
     }
 

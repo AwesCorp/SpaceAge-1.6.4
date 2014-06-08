@@ -19,11 +19,11 @@ public class CommandAlignShip extends CommandBase
         {
             EntityShip ship = (EntityShip)((Entity)icommandsender).ridingEntity;
             ship.alignToGrid();
-            icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Ship aligned to world grid"));
+            icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("Ship aligned to world grid"));
         }
         else
         {
-            icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Not steering a ship"));
+            icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("Not steering a ship"));
         }
     }
 

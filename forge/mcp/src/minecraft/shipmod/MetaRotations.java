@@ -20,7 +20,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import shipmod.MetaRotations$1;
 import shipmod.BlockID;
-import ic2.api.network.NetworkHelper;
 
 public class MetaRotations
 {

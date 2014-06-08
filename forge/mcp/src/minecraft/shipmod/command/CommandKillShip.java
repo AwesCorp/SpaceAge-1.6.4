@@ -65,13 +65,13 @@ public class CommandKillShip extends CommandBase
 
             if (ne == null)
             {
-                icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("No ship in a " + (int)range + " blocks\' range"));
+                icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("No ship in a " + (int)range + " blocks\' range"));
                 return;
             }
 
             if (!ne.decompileToBlocks(false))
             {
-                icommandsender.sendChatToPlayer(ChatMessageComponent.func_111066_d("Failed to decompile ship; dropping to items"));
+                icommandsender.sendChatToPlayer(ChatMessageComponent./*func_111066_d*/createFromText("Failed to decompile ship; dropping to items"));
                 ne.dropAsItems();
             }
 

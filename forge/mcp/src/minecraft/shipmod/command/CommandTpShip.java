@@ -46,7 +46,7 @@ public class CommandTpShip extends CommandBase
             }
             else
             {
-                entityplayermp = func_82359_c(par1ICommandSender, par2ArrayOfStr[0]);
+                entityplayermp = /*func_82359_c*/getPlayer(par1ICommandSender, par2ArrayOfStr[0]);
 
                 if (entityplayermp == null)
                 {
@@ -58,7 +58,7 @@ public class CommandTpShip extends CommandBase
             {
                 if (par2ArrayOfStr.length == 1 || par2ArrayOfStr.length == 2)
                 {
-                    EntityPlayerMP entityplayermp1 = func_82359_c(par1ICommandSender, par2ArrayOfStr[par2ArrayOfStr.length - 1]);
+                    EntityPlayerMP entityplayermp1 = /*func_82359_c*/getPlayer(par1ICommandSender, par2ArrayOfStr[par2ArrayOfStr.length - 1]);
 
                     if (entityplayermp1 == null)
                     {

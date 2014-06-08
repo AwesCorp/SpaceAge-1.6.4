@@ -1,15 +1,14 @@
 package cr0s.WarpDrive;
 
+import spaceage.common.tile.TileMachine;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.ForgeDirection;
-import ic2.api.energy.event.EnergyTileLoadEvent;
-import ic2.api.energy.event.EnergyTileUnloadEvent;
-import ic2.api.energy.tile.IEnergySink;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityAirGenerator extends TileEntity implements IEnergySink
+public class TileEntityAirGenerator extends TileMachine
 {
     public boolean addedToEnergyNet = false;
 
@@ -115,7 +114,7 @@ public class TileEntityAirGenerator extends TileEntity implements IEnergySink
     }
 
     // IEnergySink methods implementation
-    @Override
+/*    @Override
     public double demandedEnergyUnits()
     {
         return (MAX_ENERGY_VALUE - currentEnergyValue);
@@ -146,7 +145,7 @@ public class TileEntityAirGenerator extends TileEntity implements IEnergySink
     public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction)
     {
         return true;
-    }
+    }*/
 
     /**
      * @return the currentEnergyValue
@@ -177,4 +176,76 @@ public class TileEntityAirGenerator extends TileEntity implements IEnergySink
 
         super.invalidate();
     }
+
+	@Override
+	public int[] getAccessibleSlotsFromSide(int var1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public int getSizeInventory() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ItemStack getStackInSlot(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ItemStack decrStackSize(int i, int j) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ItemStack getStackInSlotOnClosing(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setInventorySlotContents(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getInvName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void openChest() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void closeChest() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

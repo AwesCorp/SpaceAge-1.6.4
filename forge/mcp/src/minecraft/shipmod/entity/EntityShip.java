@@ -8,8 +8,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.IEntityAdditionalSpawnData;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import ic2.api.network.NetworkHelper;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -624,14 +622,14 @@ public class EntityShip extends EntityBoat implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public boolean func_96092_aw()
+    public boolean /*func_96092_aw*/isRiding() //TODO Find out if this is correct
     {
         return this.ticksExisted > 60;
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void func_70270_d(boolean flag)
+    public void func_70270_d(boolean flag) //TODO
     {
         this.riddenByOtherPlayer = flag;
     }
@@ -786,7 +784,7 @@ public class EntityShip extends EntityBoat implements IEntityAdditionalSpawnData
     }
 
     @Override
-    public boolean func_130002_c(EntityPlayer entityplayer)
+    public boolean /*func_130002_c*/interactFirst(EntityPlayer entityplayer)
     {
         if (this.riddenByEntity != null && this.riddenByEntity != entityplayer)
         {
@@ -1022,7 +1020,7 @@ public class EntityShip extends EntityBoat implements IEntityAdditionalSpawnData
                             	
                             	// Updating via network
                             	try {
-                            		NetworkHelper.updateTileEntityField(tileentity, "facing");
+                            		NetworkHelper.updateTileEntityField(tileentity, "facing"); //TODO IC2 code
                             	} catch (Exception e) {
                             		e.printStackTrace();
                             	}
@@ -1121,7 +1119,7 @@ public class EntityShip extends EntityBoat implements IEntityAdditionalSpawnData
                 
                 for (TileEntity machine : IC2MachinesToUpdateFacing) {
                 	try {
-                		NetworkHelper.updateTileEntityField(machine, "facing");
+                		NetworkHelper.updateTileEntityField(machine, "facing"); //TODO IC2 stuff
                 	} catch (Exception e) {
                 		e.printStackTrace();
                 	}
