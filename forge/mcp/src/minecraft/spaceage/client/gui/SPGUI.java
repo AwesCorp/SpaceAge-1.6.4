@@ -1,0 +1,35 @@
+package spaceage.client.gui;
+
+import spaceage.common.SpaceAgeCore;
+import spaceage.common.container.ContainerHeatGenerator;
+import spaceage.common.tile.TileHeatGenerator;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+import cpw.mods.fml.common.network.IGuiHandler;
+
+public class SPGUI implements IGuiHandler {
+
+	@Override
+	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
+			int x, int y, int z) {
+		TileEntity tile_entity = world.getBlockTileEntity(x, y, z);
+		
+		switch(ID) {
+			case 0: return new ContainerHeatGenerator(player.inventory, (TileHeatGenerator) tile_entity);
+			}
+		return null;
+		}
+
+	@Override
+	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
+			int x, int y, int z) {
+		TileEntity tile_entity = world.getBlockTileEntity(x, y, z);
+		
+		switch(ID) {
+			case 0: return new GUIHeatGenerator(player.inventory, (TileHeatGenerator) tile_entity);
+			}
+		return null;
+		}
+
+}

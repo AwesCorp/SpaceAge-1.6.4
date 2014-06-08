@@ -1,117 +1,92 @@
 package spaceage.common.container;
 
-import spaceage.common.tile.TileHeatGeneratorTest;
+import spaceage.common.tile.TileHeatGenerator;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class ContainerHeatGenerator extends Container {
 	
-	private TileHeatGeneratorTest tileEntity;
+	private TileHeatGenerator tileEntity;
 	
-	public ContainerHeatGenerator(InventoryPlayer inventory, TileHeatGeneratorTest tentity) {
-		tileEntity = tentity;
-		addSlotToContainer(new Slot(tentity, 0, 56, 17));
-		int slotX;
+	public ContainerHeatGenerator(InventoryPlayer player, TileHeatGenerator tileEntity) {
+		this.tileEntity = tileEntity;
 		
-		for(slotX = 0; slotX < 3; ++slotX) {
-			for(int slotY = 0; slotY < 9; ++slotY) {
-				addSlotToContainer(new Slot(inventory, slotY + slotX * 9 + 9, 8 + slotY * 18, 84 + slotX * 18));
-			}
-		}
+		//Bucket slot
+		this.addSlotToContainer(new Slot(tileEntity, 0, 33, 34));
+		int var3;
 		
-		for(slotX = 0; slotX < 9; ++slotX) {
-			addSlotToContainer(new Slot(inventory, slotX, 8 + slotX * 18, 142));
-		}
+		//Main inventory area
+		for (var3 = 0; var3 < 3; ++var3) {
+            for (int var4 = 0; var4 < 9; ++var4) {
+                this.addSlotToContainer(new Slot(player, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
+            }
+        }
+		
+		//Hotbar area
+        for (var3 = 0; var3 < 9; ++var3) {
+            this.addSlotToContainer(new Slot(player, var3, 8 + var3 * 18, 142));
+        }
 
-		tileEntity.openChest();
-		//tileEntity.open(inventory.player);
-		
+    }
+	
+	@Override
+	public boolean canInteractWith(EntityPlayer entityplayer) {
+		return this.tileEntity.isUseableByPlayer(entityplayer);
 	}
 	
-	/*@Override
-	public void onContainerClosed(EntityPlayer entityplayer)
-	{
-		super.onContainerClosed(entityplayer);*/
-
-		//tileEntity.closeChest();
-		//tileEntity.close(entityplayer);
-	//}
-
+	//If not overriden, crash
 	@Override
-	public boolean canInteractWith(EntityPlayer entityplayer)
-	{
-		return tileEntity.isUseableByPlayer(entityplayer);
-	}
+    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
+    {
+        ItemStack var2 = null;
+        Slot var3 = (Slot) this.inventorySlots.get(par1);
 
-	@Override
-	public ItemStack transferStackInSlot(EntityPlayer player, int slotID)
-	{
-		ItemStack stack = null;
-		Slot currentSlot = (Slot) inventorySlots.get(slotID);
+        if (var3 != null && var3.getHasStack())
+        {
+            ItemStack var4 = var3.getStack();
+            var2 = var4.copy();
 
-		if(currentSlot != null && currentSlot.getHasStack()) {
-			ItemStack slotStack = currentSlot.getStack();
-			stack = slotStack.copy();
+            if (par1 != 0)
+            {
+                if (var4.itemID == Item.bucketWater.itemID)
+                {
+                    if (!this.mergeItemStack(var4, 0, 1, false))
+                    {
+                        return null;
+                    }
+                }
+                else if (par1 >= 30 && par1 < 37 && !this.mergeItemStack(var4, 3, 30, false))
+                {
+                    return null;
+                }
+            }
+            else if (!this.mergeItemStack(var4, 3, 37, false))
+            {
+                return null;
+            }
 
-			if(tileEntity.getFuel(slotStack) > 0)
-			{
-				if(slotID != 0 && slotID != 1)
-				{
-					if(!mergeItemStack(slotStack, 0, 1, false))
-					{
-						return null;
-					}
-				}
-				else {
-					if(!mergeItemStack(slotStack, 2, inventorySlots.size(), true))
-					{
-						return null;
-					}
-				}
-			}
-			else {
-				if(slotID >= 2 && slotID <= 28)
-				{
-					if(!mergeItemStack(slotStack, 29, inventorySlots.size(), false))
-					{
-						return null;
-					}
-				}
-				else if(slotID > 28)
-				{
-					if(!mergeItemStack(slotStack, 2, 28, false))
-					{
-						return null;
-					}
-				}
-				else {
-					if(!mergeItemStack(slotStack, 2, inventorySlots.size(), true))
-					{
-						return null;
-					}
-				}
-			}
+            if (var4.stackSize == 0)
+            {
+                var3.putStack((ItemStack) null);
+            }
+            else
+            {
+                var3.onSlotChanged();
+            }
 
-			if(slotStack.stackSize == 0)
-			{
-				currentSlot.putStack((ItemStack)null);
-			}
-			else {
-				currentSlot.onSlotChanged();
-			}
+            if (var4.stackSize == var2.stackSize)
+            {
+                return null;
+            }
 
-			if(slotStack.stackSize == stack.stackSize)
-			{
-				return null;
-			}
+            var3.onPickupFromSlot(par1EntityPlayer, var4);
+        }
 
-			currentSlot.onPickupFromSlot(player, slotStack);
-		}
-
-		return stack;
-	}
-
+        return var2;
+    }
+	
 }
