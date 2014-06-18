@@ -1,6 +1,6 @@
 package cr0s.WarpDrive;
 
-import spaceage.common.tile.TileMachine;
+import uedevkit.tile.TileElectricBase;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraft.item.ItemStack;
@@ -8,7 +8,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityAirGenerator extends TileMachine
+public class TileEntityAirGenerator extends TileElectricBase
 {
     public boolean addedToEnergyNet = false;
 
@@ -24,7 +24,7 @@ public class TileEntityAirGenerator extends TileMachine
     @Override
     public void updateEntity()
     {
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
+        /*if (FMLCommonHandler.instance().getEffectiveSide().isClient())
         {
             return;
         }
@@ -33,7 +33,7 @@ public class TileEntityAirGenerator extends TileMachine
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
             addedToEnergyNet = true;
-        }
+        }*/ //IC2 Stuff
 
         // Air generator works only in spaces
         if (worldObj.provider.dimensionId != WarpDrive.instance.spaceDimID && worldObj.provider.dimensionId != WarpDrive.instance.hyperSpaceDimID)
@@ -103,14 +103,14 @@ public class TileEntityAirGenerator extends TileMachine
     public void readFromNBT(NBTTagCompound tag)
     {
         super.readFromNBT(tag);
-        this.currentEnergyValue = tag.getInteger("energy");
+        //this.currentEnergyValue = tag.getInteger("energy");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tag)
     {
         super.writeToNBT(tag);
-        tag.setInteger("energy", this.getCurrentEnergyValue());
+        //tag.setInteger("energy", this.getCurrentEnergyValue());
     }
 
     // IEnergySink methods implementation
@@ -155,7 +155,7 @@ public class TileEntityAirGenerator extends TileMachine
         return currentEnergyValue;
     }
 
-    @Override
+    /*@Override
     public void onChunkUnload()
     {
         if (addedToEnergyNet)
@@ -163,9 +163,9 @@ public class TileEntityAirGenerator extends TileMachine
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
             addedToEnergyNet = false;
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void invalidate()
     {
         if (addedToEnergyNet)
@@ -175,77 +175,7 @@ public class TileEntityAirGenerator extends TileMachine
         }
 
         super.invalidate();
-    }
+    }*/
 
-	@Override
-	public int[] getAccessibleSlotsFromSide(int var1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public int getSizeInventory() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ItemStack decrStackSize(int i, int j) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ItemStack getStackInSlotOnClosing(int i) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public String getInvName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void openChest() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void closeChest() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }
