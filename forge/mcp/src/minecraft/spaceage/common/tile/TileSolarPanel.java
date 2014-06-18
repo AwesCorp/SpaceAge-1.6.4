@@ -8,9 +8,10 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import spaceage.common.SpaceAgeCore;
+import uedevkit.tile.TileElectricBase;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileSolarPanel extends TileGenerator {
+public class TileSolarPanel extends TileElectricBase {
 	
 	public TileSolarPanel() {
 	}

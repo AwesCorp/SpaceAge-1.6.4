@@ -5,6 +5,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Icon;
 import net.minecraftforge.common.ForgeDirection;
@@ -18,14 +19,12 @@ import net.minecraftforge.fluids.IFluidHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import spaceage.common.SpaceAgeCore;
+import uedevkit.tile.TileElectricInventoryBase;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileHeatGenerator extends TileGeneratorInventory implements IFluidHandler {
+public class TileHeatGenerator extends TileElectricInventoryBase implements IFluidHandler {
 	
 	protected FluidTank waterTank = new FluidTank(2 * FluidContainerRegistry.BUCKET_VOLUME); 
-	//public FluidTank waterTank2 = new FluidTank(24000);
-	
-	//private static final int[] inventory = new int[]{ 0 };
 	
 	int inventorySize = 1;
 	
@@ -35,10 +34,8 @@ public class TileHeatGenerator extends TileGeneratorInventory implements IFluidH
 	public static Icon sside, bottom, top;
 	
 	public TileHeatGenerator() {
-		inventoryT = new ItemStack[1];
+		inventory = new ItemStack[1];
 	}
-		//super(Material.iron);
-		//energy = new EnergyStorageHandler(SpaceAgeCore.HEAT_ENERGY * 20);
 
 	@Override
 	public void updateEntity() {
@@ -56,7 +53,7 @@ public class TileHeatGenerator extends TileGeneratorInventory implements IFluidH
                 this.waterTank.drain(1, true);
                 this.creatingSteam = true;
             }else {
-				FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(inventoryT[0]);
+				FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(inventory[0]);
 
 				if(fluid != null && fluid.fluidID == FluidRegistry.WATER.getID()) {
 					if(waterTank.getFluid() == null || waterTank.getFluid().amount+fluid.amount <= waterTank.getCapacity()) {
@@ -75,12 +72,14 @@ public class TileHeatGenerator extends TileGeneratorInventory implements IFluidH
 		}
 	}
 	
-    @Override
-    public boolean canFunction()
+    public boolean isFunctioning() {
+		return (!this.energy.isFull());
+	}
+
+	public boolean canFunction()
     {
-        //TileEntity ent = this.worldObj.getBlockTileEntity(xCoord, yCoord + 1, zCoord);
     	boolean powered = (worldObj.getBlockId(xCoord, yCoord - 1, zCoord) == Block.lavaStill.blockID) && (creatingSteam == true);
-        return super.canFunction() && powered == true;
+        return powered == true;
     }
 
 	@Override
@@ -144,19 +143,19 @@ public class TileHeatGenerator extends TileGeneratorInventory implements IFluidH
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		// TODO Auto-generated method stub
+		// TODO 
 		return null;
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		// TODO Auto-generated method stub
+		// TODO 
 		return null;
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		// TODO Auto-generated method stub
+		// TODO 
 		return null;
 	}
 
@@ -183,5 +182,20 @@ public class TileHeatGenerator extends TileGeneratorInventory implements IFluidH
 	@Override
 	public void closeChest() {
 		
+	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+	
+	@Override
+	public void readFromNBT(NBTTagCompound nbt) {
+		super.readFromNBT(nbt); //TODO
+	}
+	
+	@Override
+	public void writeToNBT(NBTTagCompound nbt) {
+		super.writeToNBT(nbt); //TODO
 	}
 }

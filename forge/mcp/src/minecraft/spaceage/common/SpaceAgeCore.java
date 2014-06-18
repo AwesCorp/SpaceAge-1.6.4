@@ -104,18 +104,8 @@ public class SpaceAgeCore {
 	public static int HEAT_ENERGY;
 	public static int heatGeneratorID;
 	
-	//Test UE registry
-	//public static Block blockSolarPanel;
-	//public static final ContentRegistry contentRegistry = new ContentRegistry(/*Settings.CONFIGURATION*/SpaceAgeCore.config, /*Settings.idManager, ID*/SpaceAgeCore.idManager, modid).setPrefix(SpaceAgeCore.REFERENCE).setTab(SpaceAgeCore.tabSA);
-	
 	public static final Configuration config = new Configuration(new File("config/AwesCorp/SpaceAgeCore.cfg"));
 	
-	//public static IDManager idManager;
-	
-	//Fluid stuff
-	//public static FluidStack FLUIDSTACK_WATER;
-
-	//public static int glidingKey;
 	
 	public void initConfiguration(FMLInitializationEvent event) {
 		//Configuration config = new Configuration(new File("config/AwesCorp/SpaceAgeCore.cfg"));
@@ -132,26 +122,12 @@ public class SpaceAgeCore {
 		HEAT_ENERGY = config.get("Energy", "How much energy the geothermal turbine generates - do not edit this to play on the server", 50).getInt();
 		heatGeneratorID = config.get("Blocks", "Value of the geothermal turbine - do not edit this to play on the server", 502).getInt();
 		
-		//UE crap
-		//idManager = new IDManager(config.get(Configuration.CATEGORY_BLOCK, "UE crap", 1200).getInt(), config.get(Configuration.CATEGORY_ITEM, "More UE crap", 20150).getInt());
-		
-		//glidingKey = config.get("Keybinds", "Gliding Key", 42).getInt();
-		
 		config.save();
 	}	
 	
-	/*public static int getFluidAmount(FluidStack fluid) {
-		if(fluid != null) {
-			return fluid.amount;
-		}
-		return 0;
-	}*/
-	
-	//public static final PacketTile PACKET_TILE = new PacketTile("spaceage");
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		//FLUIDSTACK_WATER = new FluidStack(FluidRegistry.WATER, 0);
 	       metadata.modId = this.modid;
 	       metadata.name = "SpaceAge";
 	       metadata.description = "SpaceAge: Bringing Minecraft to the Space Age";
@@ -185,9 +161,7 @@ public class SpaceAgeCore {
 		
 		//Machines
 		heatGenerator = (BlockContainer) new BlockHeatGenerator(heatGeneratorID).setUnlocalizedName("heatGenerator");
-		
-		//UE Test stuff
-		//blockSolarPanel = contentRegistry.newBlock(TileSolarPanel.class);
+		// TODO solarPanel = (BlockContainer) new BlockSolarPanel(solarPanelID).s
 		
 		gameRegisters();
 		languageRegisters();

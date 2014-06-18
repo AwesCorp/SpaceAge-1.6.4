@@ -10,7 +10,6 @@ import org.lwjgl.opengl.GL11;
 
 import spaceage.common.SpaceAgeCore;
 import spaceage.common.container.ContainerHeatGenerator;
-import spaceage.common.tile.TileGenerator;
 import spaceage.common.tile.TileHeatGenerator;
 
 import cpw.mods.fml.relauncher.Side;
