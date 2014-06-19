@@ -14,6 +14,7 @@ import universalelectricity.api.energy.EnergyStorageHandler;
 public class TileSolarPanel extends TileElectricBase {
 	
 	public TileSolarPanel() {
+		super(SpaceAgeCore.SOLAR_CAPACITY, 0, SpaceAgeCore.SOLAR_ENERGY);
 	}
 	
 	@Override

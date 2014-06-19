@@ -101,7 +101,9 @@ public class SpaceAgeCore {
 	public static int advancedSpacesuitLeggingsID;
 	public static int advancedSpacesuitBootsID;
 	public static int SOLAR_ENERGY;
+	public static int SOLAR_CAPACITY;
 	public static int HEAT_ENERGY;
+	public static int HEAT_CAPACITY;
 	public static int heatGeneratorID;
 	
 	public static final Configuration config = new Configuration(new File("config/AwesCorp/SpaceAgeCore.cfg"));
@@ -120,6 +122,8 @@ public class SpaceAgeCore {
 		advancedSpacesuitBootsID = config.get("Items", "Value of the advanced spacesuit boots - do not edit this to play on the server", 5004).getInt();
 		SOLAR_ENERGY = config.get("Energy", "How much energy the solar panel generates - do not edit this to play on the server", 50).getInt();
 		HEAT_ENERGY = config.get("Energy", "How much energy the geothermal turbine generates - do not edit this to play on the server", 50).getInt();
+		SOLAR_CAPACITY = config.get("Energy", "How much energy the solar panel can store - do not edit this to play on the server", 250).getInt();
+		HEAT_CAPACITY = config.get("Energy", "How much energy the geothermal turbime can store - do not edit this to play on the server", 250).getInt();
 		heatGeneratorID = config.get("Blocks", "Value of the geothermal turbine - do not edit this to play on the server", 502).getInt();
 		
 		config.save();
@@ -161,7 +165,7 @@ public class SpaceAgeCore {
 		
 		//Machines
 		heatGenerator = (BlockContainer) new BlockHeatGenerator(heatGeneratorID).setUnlocalizedName("heatGenerator");
-		// TODO solarPanel = (BlockContainer) new BlockSolarPanel(solarPanelID).s
+		// TODO solarPanel = new BlockSolarPanel(solarPanelID).s
 		
 		gameRegisters();
 		languageRegisters();

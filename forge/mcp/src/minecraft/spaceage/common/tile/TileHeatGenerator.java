@@ -34,6 +34,7 @@ public class TileHeatGenerator extends TileElectricInventoryBase implements IFlu
 	public static Icon sside, bottom, top;
 	
 	public TileHeatGenerator() {
+		super(SpaceAgeCore.HEAT_CAPACITY, 0, SpaceAgeCore.HEAT_ENERGY);
 		inventory = new ItemStack[1];
 	}
 

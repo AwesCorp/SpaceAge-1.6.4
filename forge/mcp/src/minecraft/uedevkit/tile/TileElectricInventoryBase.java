@@ -19,6 +19,26 @@ public abstract class TileElectricInventoryBase extends TileElectricBase impleme
 	
 	public ItemStack[] inventory;
 	
+    public TileElectricInventoryBase()
+    {
+        this(0);
+    }
+
+    public TileElectricInventoryBase(long capacity)
+    {
+        this(capacity, capacity, capacity);
+    }
+
+    public TileElectricInventoryBase(long energyCapacity, long transferRate)
+    {
+        energy = new EnergyStorageHandler(energyCapacity, transferRate);
+    }
+
+    public TileElectricInventoryBase(long capacity, long maxReceive, long maxExtract)
+    {
+        energy = new EnergyStorageHandler(capacity, maxReceive, maxExtract);
+    }
+
 	@Override
 	public int getInventoryStackLimit() {
 		return 64;
