@@ -34,14 +34,14 @@ import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "WarpDrive", name = "WarpDrive", version = "1.2.0", dependencies = "required-after:IC2; required-after:ComputerCraft; after:CCTurtle; after:gregtech_addon; after:AppliedEnergistics; after:AdvancedSolarPanel; after:AtomicScience; after:ICBM|Explosion; after:MFFS; after:GraviSuite")
+@Mod(modid = "WarpDrive", name = "WarpDrive - Universal Electricity", version = "1.2.0", dependencies = "required-after:UniversalElectricity; required-after:ComputerCraft@[1.58]; required-after:SpaceAge; after:CCTurtle; after:AtomicScience; after:ICBM|Explosion; after:MFFS")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"WarpDriveBeam", 
 		"WarpDriveFreq", 
 		"WarpDriveLaserT",
 		"WarpDriveCloaks" }, packetHandler = PacketHandler.class)
 /**
- * @author Cr0s
+ * @author Cr0s, SkylordJoel
  */
 public class WarpDrive implements LoadingCallback {
 	// World limits

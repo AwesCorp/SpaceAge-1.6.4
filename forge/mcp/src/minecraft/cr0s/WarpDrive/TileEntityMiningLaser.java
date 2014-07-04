@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import uedevkit.tile.TileElectricBase;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
@@ -31,7 +33,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
-import appeng.api.WorldCoord;
+/*import appeng.api.WorldCoord;
 import appeng.api.IAEItemStack;
 import appeng.api.Util;
 import appeng.api.events.GridTileLoadEvent;
@@ -39,13 +41,13 @@ import appeng.api.events.GridTileUnloadEvent;
 import appeng.api.me.tiles.IGridMachine;
 import appeng.api.me.tiles.ITileCable;
 import appeng.api.me.util.IGridInterface;
-import appeng.api.me.util.IMEInventoryHandler;
+import appeng.api.me.util.IMEInventoryHandler;*/
 
 
-public class TileEntityMiningLaser extends TileEntity implements IPeripheral, IGridMachine, ITileCable
+public class TileEntityMiningLaser extends TileElectricBase implements IPeripheral/*, IGridMachine, ITileCable*/
 {
-	Boolean powerStatus = false;
-	private IGridInterface grid;
+	boolean powerStatus = false;
+	//private IGridInterface grid;
 
 	private final int MAX_BOOSTERS_NUMBER = 1;
 
@@ -177,11 +179,10 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral, IG
 		{
 			List<ItemStack> stacks = getItemStackFromBlock(valuable.intX(), valuable.intY(), valuable.intZ(), blockID, blockMeta);
 			if (stacks != null)
-				for (ItemStack stack : stacks)
-				{
-					if (grid != null && AENetworkReady)
+				for (ItemStack stack : stacks) {
+					/*if (grid != null && AENetworkReady)
 						putInGrid(stack);
-					else
+					else*/
 						putInChest(findChest(), stack);
 				}
 			worldObj.playAuxSFXAtEntity(null, 2001, valuable.intX(), valuable.intY(), valuable.intZ(), blockID + (blockMeta << 12));
@@ -238,7 +239,7 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral, IG
 		Block block = Block.blocksList[blockID];
 		if (block == null)
 			return null;
-		if (useDeiterium && grid != null && AENetworkReady)
+		/*if (useDeiterium && grid != null && AENetworkReady)
 		{
 			IMEInventoryHandler cellArray = grid.getCellArray();
 			if (cellArray != null)
@@ -246,19 +247,18 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral, IG
 				int consume = isQuarry?15:1000;
 				IAEItemStack entryToAEIS = Util.createItemStack(new ItemStack(WarpDriveConfig.i.AEExtraFDI, consume, FluidRegistry.getFluidID("deuterium")));
 				long contained = cellArray.countOfItemType(entryToAEIS);
-				if (block.canSilkHarvest(worldObj, null, i, j, k, blockMeta) && contained >= consume)
-				{
+				if (block.canSilkHarvest(worldObj, null, i, j, k, blockMeta) && contained >= consume) {
 					cellArray.extractItems(entryToAEIS);
 					ArrayList<ItemStack> t = new ArrayList<ItemStack>();
 					t.add(new ItemStack(blockID, 1, blockMeta));
 					return t;
 				}
 			}
-		}
+		}*/
 		return block.getBlockDropped(worldObj, i, j, k, blockMeta, 0);
 	}
 
-	public int putInGrid(ItemStack itemStackSource)
+	/*public int putInGrid(ItemStack itemStackSource)
 	{
 		int transferred = itemStackSource.stackSize;
 		IMEInventoryHandler cellArray = grid.getCellArray();
@@ -269,7 +269,7 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral, IG
 				transferred -= ret.getStackSize();
 		}
 		return transferred;
-	}
+	}*/
 
 	public int putInChest(IInventory inventory, ItemStack itemStackSource)
 	{
@@ -519,7 +519,7 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral, IG
 		isMining = tag.getBoolean("isMining");
 		isQuarry = tag.getBoolean("isQuarry");
 		currentLayer = tag.getInteger("currentLayer");
-		useDeiterium = tag.getBoolean("useDeiterium");
+		//useDeiterium = tag.getBoolean("useDeiterium");
 		minerVector = new Vector3(xCoord, yCoord - 1, zCoord).add(0.5);
 	}
 
@@ -530,7 +530,7 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral, IG
 		tag.setBoolean("isMining", isMining);
 		tag.setBoolean("isQuarry", isQuarry);
 		tag.setInteger("currentLayer", currentLayer);
-		tag.setBoolean("useDeiterium", useDeiterium);
+		//tag.setBoolean("useDeiterium", useDeiterium);
 	}
 //CC
 	// IPeripheral methods implementation
@@ -628,80 +628,79 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral, IG
 	{
 	}
 //AE
-	@Override
+	/*@Override
 	public float getPowerDrainPerTick()
 	{
 		return 1;
-	}
+	}*/
 
 	@Override
 	public void validate()
 	{
 		super.validate();
-		MinecraftForge.EVENT_BUS.post(new GridTileLoadEvent(this, worldObj, getLocation()));
+		//MinecraftForge.EVENT_BUS.post(new GridTileLoadEvent(this, worldObj, getLocation()));
 	}
 
 	@Override
 	public void invalidate()
 	{
 		super.invalidate();
-		MinecraftForge.EVENT_BUS.post(new GridTileUnloadEvent(this, worldObj, getLocation()));
+		//MinecraftForge.EVENT_BUS.post(new GridTileUnloadEvent(this, worldObj, getLocation()));
 	}
 
-	@Override
+/*	@Override //TODO is this needed?
 	public WorldCoord getLocation()
 	{
 		return new WorldCoord(xCoord, yCoord, zCoord);
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public boolean isValid()
 	{
 		return true;
-	}
+	}*/
 
-	@Override
+	/*@Override //TODO is this needed?
 	public void setPowerStatus(boolean hasPower)
 	{
 		powerStatus = hasPower;
-	}
+	}*/
 
-	@Override
+	/*@Override //TODO is this needed?
 	public boolean isPowered()
 	{
 		return powerStatus;
-	}
+	}*/
 
-	@Override
+	/*@Override 
 	public IGridInterface getGrid()
 	{
 		return grid;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public void setGrid(IGridInterface gi)
 	{
 		grid = gi;
-	}
+	}*/
 
-	@Override
 	public World getWorld()
 	{
 		return worldObj;
 	}
 
-	@Override
+	/*@Override //TODO is this needed?
 	public boolean coveredConnections()
 	{
 		return true;
-	}
+	}*/
 
-	public void setNetworkReady( boolean isReady )
+	/*public void setNetworkReady( boolean isReady )
 	{
 		AENetworkReady = isReady;
-	}
+	}*/
 
-	public boolean isMachineActive()
+	public boolean isMachineActive() //TODO
 	{
 		return true;
 	}
