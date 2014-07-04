@@ -8,7 +8,10 @@ import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 import net.minecraftforge.common.ForgeDirection;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+
+import uedevkit.tile.TileElectricBase;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,7 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityRadar extends TileEntity implements IPeripheral, IEnergySink
+public class TileEntityRadar extends TileElectricBase implements IPeripheral
 {
 	public boolean addedToEnergyNet = false;
 
@@ -48,11 +51,11 @@ public class TileEntityRadar extends TileEntity implements IPeripheral, IEnergyS
 	@Override
 	public void updateEntity()
 	{
-		if (!addedToEnergyNet && !this.tileEntityInvalid)
+		/*if (!addedToEnergyNet && !this.tileEntityInvalid)
 		{
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			addedToEnergyNet = true;
-		}
+		}*/
 
 		if (FMLCommonHandler.instance().getEffectiveSide().isClient())
 		{
@@ -188,14 +191,14 @@ public class TileEntityRadar extends TileEntity implements IPeripheral, IEnergyS
 		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 1 + 2);
 	}
 
-	// IEnergySink methods implementation
-	@Override
+	// IEnergySink methods implementation TODO
+	/*@Override
 	public double demandedEnergyUnits()
 	{
 		return (WarpDriveConfig.i.WR_MAX_ENERGY_VALUE - currentEnergyValue);
-	}
+	}*/
 
-	@Override
+	/*@Override TODO
 	public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
 	{
 		double leftover = 0;
@@ -208,19 +211,24 @@ public class TileEntityRadar extends TileEntity implements IPeripheral, IEnergyS
 		}
 
 		return leftover;
-	}
+	}*/
 
-	@Override
+	/*@Override TODO
 	public int getMaxSafeInput()
 	{
 		return Integer.MAX_VALUE;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction)
 	{
 		return true;
-	}
+	}*/
+	
+    public EnumSet<ForgeDirection> getInputDirections()
+    {
+        return EnumSet.allOf(ForgeDirection.class);
+    }
 
 	/**
 	 * @return the currentEnergyValue
@@ -233,22 +241,11 @@ public class TileEntityRadar extends TileEntity implements IPeripheral, IEnergyS
 	@Override
 	public void onChunkUnload()
 	{
-		if (addedToEnergyNet)
-		{
-			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-			addedToEnergyNet = false;
-		}
 	}
 
 	@Override
 	public void invalidate()
 	{
-		if (addedToEnergyNet)
-		{
-			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
-			addedToEnergyNet = false;
-		}
-
 		super.invalidate();
 	}
 }

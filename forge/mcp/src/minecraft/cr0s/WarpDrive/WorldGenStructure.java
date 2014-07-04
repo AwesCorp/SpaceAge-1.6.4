@@ -17,6 +17,6 @@ public class WorldGenStructure
 	{
 		if (corrupted && (rand.nextInt(30) == 1))
 			return 0;
-		return WarpDriveConfig.i.getIC2Item("reinforcedGlass").itemID;
+		return SpaceAgeCore.tintedGlass.blockID;
 	}
 }

@@ -14,7 +14,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+
+import uedevkit.tile.TileElectricBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -37,7 +40,7 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.entity.player.EntityPlayerMP;
 
-public class TileEntityCloakingDeviceCore extends TileEntity implements IEnergySink,
+public class TileEntityCloakingDeviceCore extends TileElectricBase implements
 		IPeripheral {
 	public boolean addedToEnergyNet = false;
 
@@ -72,10 +75,10 @@ public class TileEntityCloakingDeviceCore extends TileEntity implements IEnergyS
 			return;
 		}
 
-		if (!addedToEnergyNet && !this.tileEntityInvalid) {
+		/*if (!addedToEnergyNet && !this.tileEntityInvalid) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			addedToEnergyNet = true;
-		}
+		}*/
 
 		// Reset sound timer
 		if (soundTicks++ >= 40) {
@@ -437,12 +440,12 @@ public class TileEntityCloakingDeviceCore extends TileEntity implements IEnergyS
 	}
 
 	// IEnergySink methods implementation
-	@Override
+	/*@Override TODO
 	public double demandedEnergyUnits() {
 		return (MAX_ENERGY_VALUE - currentEnergyValue);
-	}
+	}*/
 
-	@Override
+	/*@Override TODO
 	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
 		double leftover = 0;
 		currentEnergyValue += Math.round(amount);
@@ -453,18 +456,23 @@ public class TileEntityCloakingDeviceCore extends TileEntity implements IEnergyS
 		}
 
 		return leftover;
-	}
+	}*/
 
-	@Override
+	/*@Override TODO
 	public int getMaxSafeInput() {
 		return Integer.MAX_VALUE;
-	}
+	}*/
 
-	@Override
+	/*@Override
 	public boolean acceptsEnergyFrom(TileEntity emitter,
 			ForgeDirection direction) {
 		return true;
-	}
+	}*/
+	
+    public EnumSet<ForgeDirection> getInputDirections()
+    {
+        return EnumSet.allOf(ForgeDirection.class);
+    }
 
 	/**
 	 * @return the currentEnergyValue
@@ -481,18 +489,18 @@ public class TileEntityCloakingDeviceCore extends TileEntity implements IEnergyS
 
 	@Override
 	public void onChunkUnload() {
-		if (addedToEnergyNet) {
+		/*if (addedToEnergyNet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			addedToEnergyNet = false;
-		}
+		}*/
 	}
 
 	@Override
 	public void invalidate() {
-		if (addedToEnergyNet) {
+		/*if (addedToEnergyNet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			addedToEnergyNet = false;
-		}
+		}*/
 
 		super.invalidate();
 	}

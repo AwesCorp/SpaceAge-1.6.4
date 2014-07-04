@@ -12,6 +12,7 @@ import org.lwjgl.input.Keyboard;
 
 import spaceage.client.gui.SPGUI;
 import spaceage.common.block.BlockHeatGenerator;
+import spaceage.common.block.BlockConnectedGlasses;
 //import resonant.lib.content.ContentRegistry;
 //import resonant.lib.content.IDManager;
 import spaceage.common.block.BlockOres1;
@@ -61,7 +62,7 @@ public class SpaceAgeCore {
 
 	public static CreativeTabs tabSA = new CreativeTabs("tabSA") {
 		public ItemStack getIconItemstack() {
-			return new ItemStack(spaceshipAlloyMeta);
+			return new ItemStack(spaceshipAlloyMeta,1,15);
 		}
 	};
 	
@@ -89,6 +90,7 @@ public class SpaceAgeCore {
 	public static Item advancedSpacesuitBoots;
 	public static BlockContainer heatGenerator;
 	public static Block solarPanel;
+	public static Block tintedGlass;
 	
 	//Custom ItemStacks (for crafting ease etc.)
 	
@@ -105,6 +107,7 @@ public class SpaceAgeCore {
 	public static int HEAT_ENERGY;
 	public static int HEAT_CAPACITY;
 	public static int heatGeneratorID;
+	public static int tintedGlassID;
 	
 	public static final Configuration config = new Configuration(new File("config/AwesCorp/SpaceAgeCore.cfg"));
 	
@@ -125,6 +128,7 @@ public class SpaceAgeCore {
 		SOLAR_CAPACITY = config.get("Energy", "How much energy the solar panel can store - do not edit this to play on the server", 250).getInt();
 		HEAT_CAPACITY = config.get("Energy", "How much energy the geothermal turbime can store - do not edit this to play on the server", 250).getInt();
 		heatGeneratorID = config.get("Blocks", "Value of the geothermal turbine - do not edit this to play on the server", 502).getInt();
+		tintedGlassID = config.get("Blocks", "Value of the reinforced glass - do not edit to play on the server", 503).getInt();
 		
 		config.save();
 	}	
@@ -162,6 +166,8 @@ public class SpaceAgeCore {
 		advancedSpacesuitChestplate = new ItemStarboost(this.advancedSpacesuitChestplateID, armourADVANCEDSPACESUIT, 0, 1).setUnlocalizedName("advChestplate");
 		advancedSpacesuitLeggings = new ItemStarboost(this.advancedSpacesuitLeggingsID, armourADVANCEDSPACESUIT, 0, 2).setUnlocalizedName("advLeggings");
 		advancedSpacesuitBoots = new ItemStarboost(this.advancedSpacesuitBootsID, armourADVANCEDSPACESUIT, 0, 3).setUnlocalizedName("advBoots");
+		
+		tintedGlass = new BlockConnectedGlasses(this.tintedGlassID, Material.glass).setUnlocalizedName("reinforcedGlass");
 		
 		//Machines
 		heatGenerator = (BlockContainer) new BlockHeatGenerator(heatGeneratorID).setUnlocalizedName("heatGenerator");
@@ -340,6 +346,8 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(new ItemStack(meta, 1, 9), "Oxygen Apparatus");
 		LanguageRegistry.addName(new ItemStack(meta, 1, 10), "Thruster Pack");
 		
+		LanguageRegistry.addName(tintedGlass, "Reinforced Glass");
+		
 	}
 
 	private void gameRegisters() {
@@ -352,6 +360,8 @@ public class SpaceAgeCore {
 		
 		GameRegistry.registerBlock(heatGenerator, ItemBlockTooltip.class, "heatGenerator");
 		GameRegistry.registerTileEntity(TileHeatGenerator.class, "heatGenerator");
+		
+		GameRegistry.registerBlock(tintedGlass, "Reinforced Glass");
 		
 		GameRegistry.registerBlock(spaceshipAlloyMeta, ItemBlockSpaceshipAlloy.class, modid + (spaceshipAlloyMeta.getUnlocalizedName().substring(5)));
 		

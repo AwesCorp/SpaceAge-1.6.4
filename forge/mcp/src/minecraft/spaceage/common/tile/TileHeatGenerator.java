@@ -1,5 +1,7 @@
 package spaceage.common.tile;
 
+import java.util.EnumSet;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -199,4 +201,20 @@ public class TileHeatGenerator extends TileElectricInventoryBase implements IFlu
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt); //TODO
 	}
+	
+    /** The electrical input direction.
+     * 
+     * @return The direction that electricity is entered into the tile. Return null for no input. By default you can accept power from all sides. */
+    public EnumSet<ForgeDirection> getInputDirections()
+    {
+        return EnumSet.noneOf(ForgeDirection.class);
+    }
+
+    /** The electrical output direction.
+     * 
+     * @return The direction that electricity is output from the tile. Return null for no output. By default it will return an empty EnumSet. */
+    public EnumSet<ForgeDirection> getOutputDirections()
+    {
+        return EnumSet.allOf(ForgeDirection.class);
+    }
 }

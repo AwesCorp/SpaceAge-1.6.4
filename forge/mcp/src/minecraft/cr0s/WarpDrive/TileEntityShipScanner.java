@@ -13,7 +13,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+
+import uedevkit.tile.TileElectricBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
@@ -34,12 +37,12 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityShipScanner extends TileEntity implements IEnergySink,
+public class TileEntityShipScanner extends TileElectricBase implements 
 		IPeripheral {
-	public boolean addedToEnergyNet = false;
+	//public boolean addedToEnergyNet = false;
 
-	private final int MAX_ENERGY_VALUE = 500000000; // 500kk eU
-	private int currentEnergyValue = 0;
+	private final int MAX_ENERGY_VALUE = 500000000; // 500kk eU TODO
+	private int currentEnergyValue = 0; //TODO
 
 	private int state = 0; // 0 - inactive, 1 - active
 	private int firstUncoveredY;
@@ -82,10 +85,10 @@ public class TileEntityShipScanner extends TileEntity implements IEnergySink,
 			return;
 		}
 
-		if (!addedToEnergyNet && !this.tileEntityInvalid) {
+		/*if (!addedToEnergyNet && !this.tileEntityInvalid) { //TODO
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			addedToEnergyNet = true;
-		}
+		}*/
 
 		if (++warpCoreSearchTicks > 20) {
 			core = searchWarpCore();
@@ -371,11 +374,11 @@ public class TileEntityShipScanner extends TileEntity implements IEnergySink,
 								NBTTagCompound tileTag = new NBTTagCompound();
 								te.writeToNBT(tileTag);
 								
-								// Remove energy from energy storages
-								if (te instanceof IEnergyTile) {
+								// Remove energy from energy storages TODO
+								/*if (te instanceof IEnergyTile) {
 									if (tileTag.hasKey("energy"))
 										tileTag.setInteger("energy", 0);
-								}
+								}*/
 								
 								// Transform TE's coordinates from local axis to .schematic offset-axis
 								tileTag.setInteger("x", te.xCoord - core.minX);
@@ -701,13 +704,13 @@ public class TileEntityShipScanner extends TileEntity implements IEnergySink,
 	public void detach(IComputerAccess computer) {
 	}
 
-	// IEnergySink methods implementation
-	@Override
+	// IEnergySink methods implementation TODO
+	/*@Override
 	public double demandedEnergyUnits() {
 		return (MAX_ENERGY_VALUE - currentEnergyValue);
-	}
+	}*/
 
-	@Override
+	/*@Override //TODO
 	public double injectEnergyUnits(ForgeDirection directionFrom, double amount) {
 		double leftover = 0;
 		currentEnergyValue += Math.round(amount);
@@ -718,18 +721,17 @@ public class TileEntityShipScanner extends TileEntity implements IEnergySink,
 		}
 
 		return leftover;
-	}
+	}*/
 
-	@Override
+	/*@Override //TODO
 	public int getMaxSafeInput() {
 		return Integer.MAX_VALUE;
-	}
-
-	@Override
-	public boolean acceptsEnergyFrom(TileEntity emitter,
-			ForgeDirection direction) {
-		return true;
-	}
+	}*/
+	
+    public EnumSet<ForgeDirection> getInputDirections()
+    {
+        return EnumSet.allOf(ForgeDirection.class);
+    }
 
 	/**
 	 * @return the currentEnergyValue
@@ -744,23 +746,23 @@ public class TileEntityShipScanner extends TileEntity implements IEnergySink,
 		return energy;
 	}
 
-	@Override
-	public void onChunkUnload() {
+	/*@Override
+	public void onChunkUnload() { //TODO
 		if (addedToEnergyNet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			addedToEnergyNet = false;
 		}
-	}
+	}*/
 
-	@Override
-	public void invalidate() {
+	/*@Override
+	public void invalidate() { //TODO
 		if (addedToEnergyNet) {
 			MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
 			addedToEnergyNet = false;
 		}
 
 		super.invalidate();
-	}
+	}*/
 	
 	public boolean moveBlockSimple(JumpBlock shipBlock)
 	{

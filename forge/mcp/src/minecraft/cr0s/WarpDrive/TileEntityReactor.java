@@ -1,6 +1,9 @@
 package cr0s.WarpDrive;
 
+import java.util.EnumSet;
 import java.util.List;
+
+import uedevkit.tile.TileElectricBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -21,9 +24,9 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 /**
- * @author Cr0s
+ * @author Cr0s, SkylordJoel
  */
-public class TileEntityReactor extends TileEntity implements IEnergySink
+public class TileEntityReactor extends TileElectricBase
 {
     public boolean addedToEnergyNet = false;
 
@@ -78,11 +81,11 @@ public class TileEntityReactor extends TileEntity implements IEnergySink
     @Override
     public void updateEntity()
     {
-        if (!FMLCommonHandler.instance().getEffectiveSide().isClient() && !addedToEnergyNet)
+        /*if (!FMLCommonHandler.instance().getEffectiveSide().isClient() && !addedToEnergyNet)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
             addedToEnergyNet = true;
-        }
+        }*/
 
         // Update warp core in cores registry
         if (++registryUpdateTicks > WarpDriveConfig.i.WC_CORES_REGISTRY_UPDATE_INTERVAL_SECONDS * 20)
@@ -1101,7 +1104,7 @@ public class TileEntityReactor extends TileEntity implements IEnergySink
         return null;
     }
 
-    @Override
+/*    @Override //TODO
     public double demandedEnergyUnits()
     {
         if (this.controller != null && controller.getMode() == 0)
@@ -1110,9 +1113,9 @@ public class TileEntityReactor extends TileEntity implements IEnergySink
         }
 
         return (WarpDriveConfig.i.WC_MAX_ENERGY_VALUE - currentEnergyValue);
-    }
+    }*/
 
-    @Override
+    /*@Override //TODO
     public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
     {
         double leftover = 0;
@@ -1125,18 +1128,23 @@ public class TileEntityReactor extends TileEntity implements IEnergySink
         }
 
         return leftover;
-    }
+    }*/
 
-    @Override
+    /*@Override //TODO 
     public int getMaxSafeInput()
     {
         return Integer.MAX_VALUE;
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction)
     {
         return true;
+    }*/
+    
+    public EnumSet<ForgeDirection> getInputDirections()
+    {
+        return EnumSet.allOf(ForgeDirection.class);
     }
 
     @Override
@@ -1161,11 +1169,11 @@ public class TileEntityReactor extends TileEntity implements IEnergySink
     @Override
     public void onChunkUnload()
     {
-        if (addedToEnergyNet)
+        /*if (addedToEnergyNet)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
             addedToEnergyNet = false;
-        }
+        }*/
 
         WarpDrive.instance.registry.removeFromRegistry(this);
     }
@@ -1175,21 +1183,21 @@ public class TileEntityReactor extends TileEntity implements IEnergySink
     {
         super.validate();
         WarpDrive.instance.registry.updateInRegistry(this);
-        if (!addedToEnergyNet)
+        /*if (!addedToEnergyNet)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
             addedToEnergyNet = true;
-        }
+        }*/
     }
 
     @Override
     public void invalidate()
     {
-        if (addedToEnergyNet)
+        /*if (addedToEnergyNet)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
             addedToEnergyNet = false;
-        }
+        }*/
 
         super.invalidate();
     }

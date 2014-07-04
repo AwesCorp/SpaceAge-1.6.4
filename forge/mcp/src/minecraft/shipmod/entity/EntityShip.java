@@ -1019,12 +1019,12 @@ public class EntityShip extends EntityBoat implements IEntityAdditionalSpawnData
                             	tileentity.readFromNBT(NBT);
                             	
                             	// Updating via network
-                            	try {
+                            	/*try {
                             		NetworkHelper.updateTileEntityField(tileentity, "facing"); //TODO IC2 code
                             	} catch (Exception e) {
                             		e.printStackTrace();
                             	}
-                            		IC2MachinesToUpdateFacing.add(tileentity);
+                            		IC2MachinesToUpdateFacing.add(tileentity);*/
                             } else
                             if (ShipMod.instance.metaRotations.examForAEMachine(tileentity)) {
                             	int newFacing, oldFacing;
@@ -1117,13 +1117,13 @@ public class EntityShip extends EntityBoat implements IEntityAdditionalSpawnData
                 worldObj.isRemote = false;
                 this.setDead();
                 
-                for (TileEntity machine : IC2MachinesToUpdateFacing) {
+                /*for (TileEntity machine : IC2MachinesToUpdateFacing) {
                 	try {
                 		NetworkHelper.updateTileEntityField(machine, "facing"); //TODO IC2 stuff
                 	} catch (Exception e) {
                 		e.printStackTrace();
                 	}
-                }
+                }*/
                 
                 for (ChunkCoordinates e : explosions) {
                 	worldObj.newExplosion(null, e.posX, e.posY, e.posZ, 4F, true, true);

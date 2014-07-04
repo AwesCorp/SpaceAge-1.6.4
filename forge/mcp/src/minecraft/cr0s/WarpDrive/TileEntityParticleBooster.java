@@ -8,7 +8,10 @@ import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 import net.minecraftforge.common.ForgeDirection;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+
+import uedevkit.tile.TileElectricBase;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,7 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityParticleBooster extends TileEntity implements IEnergySink
+public class TileEntityParticleBooster extends TileElectricBase
 {
     public boolean addedToEnergyNet = false;
 
@@ -34,11 +37,11 @@ public class TileEntityParticleBooster extends TileEntity implements IEnergySink
             return;
         }
 
-        if (!addedToEnergyNet && !this.tileEntityInvalid)
+        /*if (!addedToEnergyNet && !this.tileEntityInvalid)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
             addedToEnergyNet = true;
-        }
+        }*/
 
         if (++ticks > 40)
         {
@@ -63,13 +66,13 @@ public class TileEntityParticleBooster extends TileEntity implements IEnergySink
     }
 
     // IEnergySink methods implementation
-    @Override
+    /*@Override TODO
     public double demandedEnergyUnits()
     {
         return (WarpDriveConfig.i.PB_MAX_ENERGY_VALUE - currentEnergyValue);
-    }
+    }*/
 
-    @Override
+    /*@Override TODO
     public double injectEnergyUnits(ForgeDirection directionFrom, double amount)
     {
         double leftover = 0;
@@ -82,18 +85,23 @@ public class TileEntityParticleBooster extends TileEntity implements IEnergySink
         }
 
         return leftover;
-    }
+    }*/
 
-    @Override
+    /*@Override TODO
     public int getMaxSafeInput()
     {
         return Integer.MAX_VALUE;
-    }
+    }*/
 
-    @Override
+    /*@Override
     public boolean acceptsEnergyFrom(TileEntity emitter, ForgeDirection direction)
     {
         return true;
+    }*/
+    
+    public EnumSet<ForgeDirection> getInputDirections()
+    {
+        return EnumSet.allOf(ForgeDirection.class);
     }
 
     /**
@@ -125,21 +133,21 @@ public class TileEntityParticleBooster extends TileEntity implements IEnergySink
     @Override
     public void onChunkUnload()
     {
-        if (addedToEnergyNet)
+        /*if (addedToEnergyNet)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
             addedToEnergyNet = false;
-        }
+        }*/
     }
 
     @Override
     public void invalidate()
     {
-        if (addedToEnergyNet)
+        /*if (addedToEnergyNet)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
             addedToEnergyNet = false;
-        }
+        }*/
 
         super.invalidate();
     }

@@ -88,6 +88,7 @@ public class EntityJump extends Entity
 	AxisAlignedBB axisalignedbb;
 
 	private boolean fromSpace, toSpace, betweenWorlds;
+	private boolean fromOverworld, toOverworld;
 	public boolean toHyperSpace, fromHyperSpace;
 	private boolean isInHyperSpace;
 
@@ -306,6 +307,7 @@ public class EntityJump extends Entity
 	{
 		LocalProfiler.start("EntityJump.prepareToJump");
 		isInHyperSpace = (worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID);
+		toOverworld = (dir == (-2/*DOWN*/) && (minY - distance < 0) && /*(X IN SPACE) && (Z IN SPACE) && */worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
 		toSpace   = (dir == -1 && (maxY + distance > 255) && worldObj.provider.dimensionId == 0);
 		fromSpace = (dir == -2 && (minY - distance < 0) && worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
 		betweenWorlds = fromSpace || toSpace || toHyperSpace || fromHyperSpace;
@@ -408,28 +410,28 @@ public class EntityJump extends Entity
 		{
 			if (dir != -2 && dir != -1)
 			{
-				messageToAllPlayersOnShip("Jumping in direction " + dir + " degrees to distance " + distance + " blocks ");
+				messageToAllPlayersOnShip("Warp Drive Engaged: Jumping in direction " + dir + " degrees to distance " + distance + " blocks ");
 			}
 			else if (dir == -1)
 			{
-				messageToAllPlayersOnShip("Jumping UP to distance " + distance + " blocks ");
+				messageToAllPlayersOnShip("Warp Drive Engaged: Jumping up to distance " + distance + " blocks ");
 			}
 			else if (dir == -2)
 			{
-				messageToAllPlayersOnShip("Jumping DOWN to distance " + distance + " blocks ");
+				messageToAllPlayersOnShip("Warp Drive Engaged: Jumping down to distance " + distance + " blocks ");
 			}
 		}
 		else if (toHyperSpace)
 		{
-			messageToAllPlayersOnShip("Entering HYPERSPACE...");
+			messageToAllPlayersOnShip("Hyperspace Drive Engaged: Entering Hyperspace...");
 		}
 		else if (fromHyperSpace)
 		{
-			messageToAllPlayersOnShip("Leaving HYPERSPACE");
+			messageToAllPlayersOnShip("Hyperspace Drive Disengageed: Leaving Hyperspace...");
 		}
 		else if (isCoordJump)
 		{
-			messageToAllPlayersOnShip("Jumping by coordinates to (" + destX + "; " + yCoord + "; " + destZ + ")!");
+			messageToAllPlayersOnShip("Warp Drive Engaged: Jumping to (" + destX + "; " + yCoord + "; " + destZ + ")...");
 		}
 
 		bedrockOnShip = false;
@@ -506,7 +508,7 @@ public class EntityJump extends Entity
 					{
 						e.printStackTrace();
 					}
-				c = c.getSuperclass();
+				/*c = c.getSuperclass();
 				if (c.getName().equals("ic2.core.block.wiring.TileEntityElectricBlock") || c.getName().equals("ic2.core.block.TileEntityBlock") || c.getName().contains("ic2.core.block.generator"))
 				{
 					try
@@ -519,12 +521,12 @@ public class EntityJump extends Entity
 					}
 					catch (Exception e) {}
 					te.updateContainingBlockInfo();
-					try
+					/*try
 					{
 						NetworkHelper.updateTileEntityField(te, "facing");
 					}
 					catch (Exception e) {}
-				}
+				}*/
 			}
 			worldObj.setBlockToAir(jb.x, jb.y, jb.z);
 			currentIndexInShip++;
