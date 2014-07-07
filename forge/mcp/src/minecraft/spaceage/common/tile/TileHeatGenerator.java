@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Icon;
 import net.minecraftforge.common.ForgeDirection;
@@ -21,19 +22,15 @@ import net.minecraftforge.fluids.IFluidHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import spaceage.common.SpaceAgeCore;
+import spaceage.common.prefab.tile.TileGeneratorBase;
 import uedevkit.tile.TileElectricInventoryBase;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileHeatGenerator extends TileElectricInventoryBase implements IFluidHandler {
+public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandler {
 	
 	protected FluidTank waterTank = new FluidTank(2 * FluidContainerRegistry.BUCKET_VOLUME); 
 	
-	int inventorySize = 1;
-	
 	protected boolean creatingSteam = false; 
-	
-	@SideOnly(Side.CLIENT)
-	public static Icon sside, bottom, top;
 	
 	public TileHeatGenerator() {
 		super(SpaceAgeCore.HEAT_CAPACITY, 0, SpaceAgeCore.HEAT_ENERGY);
@@ -141,30 +138,46 @@ public class TileHeatGenerator extends TileElectricInventoryBase implements IFlu
 
 	@Override
 	public int getSizeInventory() {
-		return this.inventorySize;
+		return inventory.length;
 	}
 
 	@Override
 	public ItemStack getStackInSlot(int i) {
-		// TODO 
-		return null;
+		return inventory[i];
 	}
 
 	@Override
 	public ItemStack decrStackSize(int i, int j) {
-		// TODO 
-		return null;
+		ItemStack itemstack = getStackInSlot(i);
+		
+		if(itemstack != null) {
+			if(itemstack.stackSize <= j) {
+				setInventorySlotContents(i, null);
+			}else {
+				itemstack = itemstack.splitStack(j);
+				onInventoryChanged();
+			}
+		}
+		
+		return itemstack;
 	}
 
 	@Override
 	public ItemStack getStackInSlotOnClosing(int i) {
-		// TODO 
-		return null;
+		ItemStack item = getStackInSlot(i);
+		setInventorySlotContents(i, null);
+		return item;
 	}
 
 	@Override
 	public void setInventorySlotContents(int i, ItemStack itemstack) {
-		//TODO
+		inventory[i] = itemstack;
+		
+		if(itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
+			itemstack.stackSize = getInventoryStackLimit();
+		}
+		
+		onInventoryChanged();
 	}
 
 	@Override
@@ -195,26 +208,38 @@ public class TileHeatGenerator extends TileElectricInventoryBase implements IFlu
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt); //TODO
+		
+		NBTTagList items = nbt.getTagList("Items");
+		
+		for(int i = 0; i < items.tagCount(); i++) {
+			NBTTagCompound item = (NBTTagCompound)items.tagAt(i);
+			int slot = item.getByte("Slot");
+			
+			if(slot >= 0 && slot < getSizeInventory()) {
+				setInventorySlotContents(slot, ItemStack.loadItemStackFromNBT(item));
+			}
+		}
 	}
 	
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt); //TODO
+		
+		NBTTagList items = new NBTTagList();
+		
+		for(int i = 0; i < getSizeInventory(); i++) {
+			ItemStack stack = getStackInSlot(i);
+			
+			if(stack != null) {
+				NBTTagCompound item = new NBTTagCompound();
+				item.setByte("Slot", (byte)i);
+				stack.writeToNBT(nbt);
+				items.appendTag(item);
+			}
+		}
+		
+		nbt.setTag("Items", items);
+		
 	}
-	
-    /** The electrical input direction.
-     * 
-     * @return The direction that electricity is entered into the tile. Return null for no input. By default you can accept power from all sides. */
-    public EnumSet<ForgeDirection> getInputDirections()
-    {
-        return EnumSet.noneOf(ForgeDirection.class);
-    }
 
-    /** The electrical output direction.
-     * 
-     * @return The direction that electricity is output from the tile. Return null for no output. By default it will return an empty EnumSet. */
-    public EnumSet<ForgeDirection> getOutputDirections()
-    {
-        return EnumSet.allOf(ForgeDirection.class);
-    }
 }

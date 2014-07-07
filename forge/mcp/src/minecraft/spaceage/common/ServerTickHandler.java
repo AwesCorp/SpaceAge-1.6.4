@@ -19,6 +19,8 @@ public class ServerTickHandler implements ITickHandler {
 	  {
 	    this.ticksToGet = ticksToGet;
 	  }
+	  
+	  public static int timer = 2000;
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
@@ -42,27 +44,41 @@ public class ServerTickHandler implements ITickHandler {
 	}
 	
 	private void onPlayerTick(EntityPlayer player, World world) {
-	    if ((player.getCurrentItemOrArmor(4) != null) && (player.getCurrentItemOrArmor(3) != null) && (player.getCurrentItemOrArmor(2) != null) && (player.getCurrentItemOrArmor(1) != null))
+		if ((player.getCurrentItemOrArmor(4) != null)) {
+			ItemStack helmet = player.getCurrentItemOrArmor(4);
+			
+			if(((helmet.getItem() == SpaceAgeCore.advancedSpacesuitHelmet ? 1 : 0) != 0) && (player.isAirBorne)) {
+				timer--;
+			}
+		}
+		
+		if ((player.getCurrentItemOrArmor(4) != null) && (player.getCurrentArmor(3) != null)) {
+			ItemStack helmet = player.getCurrentItemOrArmor(4);
+			ItemStack chestplate = player.getCurrentItemOrArmor(3);
+			
+			if(((helmet.getItem() == SpaceAgeCore.advancedSpacesuitHelmet ? 1 : 0) | (chestplate.getItem() == SpaceAgeCore.advancedSpacesuitChestplate ? 1 : 0)) != 0) {
+				if(!player.isAirBorne) {
+					timer++;
+				}
+			}
+		}
+		
+	    if (player.getCurrentItemOrArmor(3) != null)
 	    {
-	      ItemStack helmet = player.getCurrentItemOrArmor(4);
 	      ItemStack plate = player.getCurrentItemOrArmor(3);
-	      ItemStack legs = player.getCurrentItemOrArmor(2);
-	      ItemStack boots = player.getCurrentItemOrArmor(1);
 
-	      if (((boots.getItem() == SpaceAgeCore.advancedSpacesuitBoots ? 1 : 0) | (legs.getItem() == SpaceAgeCore.advancedSpacesuitLeggings ? 1 : 0) | (plate.getItem() == SpaceAgeCore.advancedSpacesuitChestplate ? 1 : 0) | (helmet.getItem() == SpaceAgeCore.advancedSpacesuitHelmet ? 1 : 0)) != 0) {
+	      if ((plate.getItem() == SpaceAgeCore.advancedSpacesuitChestplate ? 1 : 0) != 0) {
 	        player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 2, 2));
 	        player.fallDistance = 0.0F;
 	      }
 	    }
 
-	    if ((player.getCurrentItemOrArmor(4) != null) && (player.getCurrentItemOrArmor(3) != null) && (player.getCurrentItemOrArmor(2) != null) && (player.getCurrentItemOrArmor(1) != null))
+	    if ((player.getCurrentItemOrArmor(4) != null) && (player.getCurrentItemOrArmor(3) != null))
 	    {
 	      ItemStack helmet = player.getCurrentItemOrArmor(4);
 	      ItemStack plate = player.getCurrentItemOrArmor(3);
-	      ItemStack legs = player.getCurrentItemOrArmor(2);
-	      ItemStack boots = player.getCurrentItemOrArmor(1);
 
-	      if (((boots.getItem() == SpaceAgeCore.advancedSpacesuitBoots ? 1 : 0) | (legs.getItem() == SpaceAgeCore.advancedSpacesuitLeggings ? 1 : 0) | (plate.getItem() == SpaceAgeCore.advancedSpacesuitChestplate ? 1 : 0) | (helmet.getItem() == SpaceAgeCore.advancedSpacesuitHelmet ? 1 : 0)) != 0) {
+	      if (((plate.getItem() == SpaceAgeCore.advancedSpacesuitChestplate ? 1 : 0) | (helmet.getItem() == SpaceAgeCore.advancedSpacesuitHelmet ? 1 : 0)) != 0) {
 	        player.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 2, 5));
 	        player.fallDistance = 0.0F;
 	      }

@@ -11,21 +11,23 @@ import org.lwjgl.opengl.GL11;
 
 import spaceage.common.SpaceAgeCore;
 import spaceage.common.container.ContainerHeatGenerator;
+import spaceage.common.container.ContainerSolarPanel;
 import spaceage.common.tile.TileHeatGenerator;
+import spaceage.common.tile.TileSolarPanel;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 	@SideOnly(Side.CLIENT)
-	public class GUIHeatGenerator extends GuiContainer {
+	public class GUISolarPanel extends GuiContainer {
 	   
-		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(SpaceAgeCore.modid + ":" + "textures/gui/guiGeothermalTurbine.png"/*"textures/gui/container/furnace.png"*/);
-	    private TileHeatGenerator furnaceInventory;
+		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(SpaceAgeCore.modid + ":" + "textures/gui/guiPhotovoltaicPanel.png"/*"textures/gui/container/furnace.png"*/);
+	    private TileSolarPanel furnaceInventory;
 
-	    public GUIHeatGenerator(InventoryPlayer par1InventoryPlayer, TileHeatGenerator par2TileHeatGenerator)
+	    public GUISolarPanel(InventoryPlayer par1InventoryPlayer, TileSolarPanel tile_entity)
 	    {
-	        super(new ContainerHeatGenerator(par1InventoryPlayer, par2TileHeatGenerator));
-	        this.furnaceInventory = par2TileHeatGenerator;
+	        super(new ContainerSolarPanel(par1InventoryPlayer, tile_entity));
+	        this.furnaceInventory = tile_entity;
 	    }
 
 	    /**
@@ -61,6 +63,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 	        /*i1 = this.furnaceInventory.getCookProgressScaled(24);
 	        this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);*/
 	    }
-	  
+	    
 	}
 

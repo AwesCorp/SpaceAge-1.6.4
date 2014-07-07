@@ -11,8 +11,8 @@ import java.util.logging.Level;
 import org.lwjgl.input.Keyboard;
 
 import spaceage.client.gui.SPGUI;
-import spaceage.common.block.BlockHeatGenerator;
 import spaceage.common.block.BlockConnectedGlasses;
+import spaceage.common.block.BlockGenerator;
 //import resonant.lib.content.ContentRegistry;
 //import resonant.lib.content.IDManager;
 import spaceage.common.block.BlockOres1;
@@ -23,6 +23,7 @@ import spaceage.common.item.ItemMeta;
 import spaceage.common.item.ItemStarboost;
 import spaceage.common.tile.TileHeatGenerator;
 import spaceage.common.tile.TileSolarPanel;
+import universalelectricity.api.UniversalElectricity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -88,11 +89,11 @@ public class SpaceAgeCore {
 	public static Item advancedSpacesuitChestplate;
 	public static Item advancedSpacesuitLeggings;
 	public static Item advancedSpacesuitBoots;
-	public static BlockContainer heatGenerator;
-	public static Block solarPanel;
+	public static Block metaGenerator;
 	public static Block tintedGlass;
 	
 	//Custom ItemStacks (for crafting ease etc.)
+	//public static ItemStack enrichedSilicon = new ItemStack(meta,1,12);
 	
 	//ID Registry
 	public static int metaID;
@@ -106,7 +107,7 @@ public class SpaceAgeCore {
 	public static int SOLAR_CAPACITY;
 	public static int HEAT_ENERGY;
 	public static int HEAT_CAPACITY;
-	public static int heatGeneratorID;
+	public static int metaGeneratorID;
 	public static int tintedGlassID;
 	
 	public static final Configuration config = new Configuration(new File("config/AwesCorp/SpaceAgeCore.cfg"));
@@ -127,7 +128,7 @@ public class SpaceAgeCore {
 		HEAT_ENERGY = config.get("Energy", "How much energy the geothermal turbine generates - do not edit this to play on the server", 50).getInt();
 		SOLAR_CAPACITY = config.get("Energy", "How much energy the solar panel can store - do not edit this to play on the server", 250).getInt();
 		HEAT_CAPACITY = config.get("Energy", "How much energy the geothermal turbime can store - do not edit this to play on the server", 250).getInt();
-		heatGeneratorID = config.get("Blocks", "Value of the geothermal turbine - do not edit this to play on the server", 502).getInt();
+		metaGeneratorID = config.get("Blocks", "Value of the generator - do not edit this to play on the server", 502).getInt();
 		tintedGlassID = config.get("Blocks", "Value of the reinforced glass - do not edit to play on the server", 503).getInt();
 		
 		config.save();
@@ -170,8 +171,7 @@ public class SpaceAgeCore {
 		tintedGlass = new BlockConnectedGlasses(this.tintedGlassID, Material.glass).setUnlocalizedName("reinforcedGlass");
 		
 		//Machines
-		heatGenerator = (BlockContainer) new BlockHeatGenerator(heatGeneratorID).setUnlocalizedName("heatGenerator");
-		// TODO solarPanel = new BlockSolarPanel(solarPanelID).s
+		metaGenerator = new BlockGenerator(metaGeneratorID, UniversalElectricity.machine).setUnlocalizedName("metaGenerator").setCreativeTab(tabSA);
 		
 		gameRegisters();
 		languageRegisters();
@@ -211,6 +211,8 @@ public class SpaceAgeCore {
 		ItemStack wire = new ItemStack(this.meta,1,8);
 		ItemStack oxygenApparatus = new ItemStack(this.meta,1,9);
 		ItemStack thrusterPack = new ItemStack(this.meta,1,10);
+		ItemStack silicon = new ItemStack(this.meta,1,11);
+		ItemStack enrichedSilicon = new ItemStack(this.meta,1,12);
 		
 		//OreDictionary.registerOre(id, ore)
 		OreDictionary.registerOre("titaniumIngot", titaniumIngot);
@@ -244,8 +246,39 @@ public class SpaceAgeCore {
 		OreDictionary.registerOre("titaniumAluminiumVanadiumPlate", heavyPlate);
 		OreDictionary.registerOre("titaniumAluminumVanadiumPlate", heavyPlate);
 		OreDictionary.registerOre("titaniumAluminiumVanadiumAlloyPlate", heavyPlate);
-		OreDictionary.registerOre("titaniumAluminumVanadiumAlloyPlate", heavyPlate);
-		
+		OreDictionary.registerOre("titaniumAluminumVanadiumAlloyPlate", heavyPlate); //
+		OreDictionary.registerOre("ingotTitanium", titaniumIngot);
+		OreDictionary.registerOre("ingotAluminium", aluminiumIngot);
+		OreDictionary.registerOre("ingotAluminum", aluminiumIngot);
+		OreDictionary.registerOre("ingotVanadium", vanadiumIngot);
+		OreDictionary.registerOre("IngottavAlloy", heavyIngot);
+		OreDictionary.registerOre("ingotHeavyAlloy", heavyIngot);
+		OreDictionary.registerOre("ingotHeavy", heavyIngot);
+		OreDictionary.registerOre("ingottitaniumaluminiumvanadium", heavyIngot);
+		OreDictionary.registerOre("ingottitaniumaluminumvanadium", heavyIngot);
+		OreDictionary.registerOre("ingottitaniumaluminiumvanadiumAlloy", heavyIngot);
+		OreDictionary.registerOre("ingottitaniumaluminumvanadiumAlloy", heavyIngot);
+		OreDictionary.registerOre("ingotTitaniumAluminiumVanadium", heavyIngot);
+		OreDictionary.registerOre("ingotTitaniumAluminumVanadium", heavyIngot);
+		OreDictionary.registerOre("ingotTitaniumAluminiumVanadiumAlloy", heavyIngot);
+		OreDictionary.registerOre("ingotTitaniumAluminumVanadiumAlloy", heavyIngot);
+		OreDictionary.registerOre("wire", wire);
+		OreDictionary.registerOre("wireAluminium", wire);
+		OreDictionary.registerOre("circuitAdvanced", advancedCircuits);
+		OreDictionary.registerOre("circuitsAdvanced", advancedCircuits);
+		OreDictionary.registerOre("circuitBasic", basicCircuits);
+		OreDictionary.registerOre("circuitsBasic", basicCircuits);
+		OreDictionary.registerOre("platetavAlloy", heavyPlate);
+		OreDictionary.registerOre("plateHeavyAlloy", heavyPlate);
+		OreDictionary.registerOre("plateHeavy", heavyPlate);
+		OreDictionary.registerOre("platetitaniumaluminiumvanadium", heavyPlate);
+		OreDictionary.registerOre("platetitaniumaluminumvanadium", heavyPlate);
+		OreDictionary.registerOre("platetitaniumaluminiumvanadiumAlloy", heavyPlate);
+		OreDictionary.registerOre("platetitaniumaluminumvanadiumAlloy", heavyPlate);
+		OreDictionary.registerOre("plateTitaniumAluminiumVanadium", heavyPlate);
+		OreDictionary.registerOre("plateTitaniumAluminumVanadium", heavyPlate);
+		OreDictionary.registerOre("plateTitaniumAluminiumVanadiumAlloy", heavyPlate);
+		OreDictionary.registerOre("plateTitaniumAluminumVanadiumAlloy", heavyPlate);
 		
 	}
 
@@ -253,8 +286,8 @@ public class SpaceAgeCore {
 		//MinecraftForge.setBlockHarvestLevel(block, toolClass, harvestLevel)
 		MinecraftForge.setBlockHarvestLevel(spaceshipAlloyMeta, "pickaxe", 2);
 		MinecraftForge.setBlockHarvestLevel(spaceshipAlloyMeta, "pickaxe", 3);
-		MinecraftForge.setBlockHarvestLevel(heatGenerator, "pickaxe", 2);
-		MinecraftForge.setBlockHarvestLevel(heatGenerator, "pickaxe", 3);
+		MinecraftForge.setBlockHarvestLevel(metaGenerator, "pickaxe", 2);
+		MinecraftForge.setBlockHarvestLevel(metaGenerator, "pickaxe", 3);
 	}
 
 	private void smeltingRecipes() {
@@ -275,6 +308,8 @@ public class SpaceAgeCore {
 		ItemStack wire = new ItemStack(this.meta,1,8);
 		ItemStack oxygenApparatus = new ItemStack(this.meta,1,9);
 		ItemStack thrusterPack = new ItemStack(this.meta,1,10);
+		ItemStack silicon = new ItemStack(this.meta,1,11);
+		ItemStack enrichedSilicon = new ItemStack(this.meta,1,12);
 		
 		//GameRegistry.addShapedRecipe(output, params)
 		//GameRegistry.addShapelessRecipe(output, params)
@@ -332,7 +367,8 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(new ItemStack(spaceshipAlloyMeta, 1, 14), "Orange Alloy");
 		LanguageRegistry.addName(new ItemStack(spaceshipAlloyMeta, 1, 15), "White Alloy");
 		
-		LanguageRegistry.addName(heatGenerator, "Geothermal Turbine");
+		LanguageRegistry.addName(new ItemStack(metaGenerator, 1, 0), "Geothermal Turbine");
+		LanguageRegistry.addName(new ItemStack(metaGenerator, 1, 1), "Photovoltaic Panel");
 		
 		LanguageRegistry.addName(new ItemStack(meta, 1, 0), "Titanium Ingot");
 		LanguageRegistry.addName(new ItemStack(meta, 1, 1), "Aluminium Ingot");
@@ -358,8 +394,9 @@ public class SpaceAgeCore {
 		GameRegistry.registerItem(advancedSpacesuitLeggings, "Advanced Leggings");
 		GameRegistry.registerItem(advancedSpacesuitBoots, "Advanced Boots");
 		
-		GameRegistry.registerBlock(heatGenerator, ItemBlockTooltip.class, "heatGenerator");
+		GameRegistry.registerBlock(metaGenerator, ItemBlockTooltip.class, "metaGenerator");
 		GameRegistry.registerTileEntity(TileHeatGenerator.class, "heatGenerator");
+		GameRegistry.registerTileEntity(TileSolarPanel.class, "solarPanel");
 		
 		GameRegistry.registerBlock(tintedGlass, "Reinforced Glass");
 		

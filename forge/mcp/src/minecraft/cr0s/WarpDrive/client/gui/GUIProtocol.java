@@ -1,4 +1,4 @@
-package spaceage.client.gui;
+package cr0s.WarpDrive.client.gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -9,23 +9,22 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
 
-import spaceage.common.SpaceAgeCore;
-import spaceage.common.container.ContainerHeatGenerator;
-import spaceage.common.tile.TileHeatGenerator;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import cr0s.WarpDrive.TileEntityProtocol;
+import cr0s.WarpDrive.WarpDrive;
+import cr0s.WarpDrive.common.container.ContainerProtocol;
 
 	@SideOnly(Side.CLIENT)
-	public class GUIHeatGenerator extends GuiContainer {
+	public class GUIProtocol extends GuiContainer {
 	   
-		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(SpaceAgeCore.modid + ":" + "textures/gui/guiGeothermalTurbine.png"/*"textures/gui/container/furnace.png"*/);
-	    private TileHeatGenerator furnaceInventory;
+		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":" + "textures/gui/guiWarpInterface.png"/*"textures/gui/container/furnace.png"*/);
+	    private TileEntityProtocol furnaceInventory;
 
-	    public GUIHeatGenerator(InventoryPlayer par1InventoryPlayer, TileHeatGenerator par2TileHeatGenerator)
+	    public GUIProtocol(InventoryPlayer par1InventoryPlayer, TileEntityProtocol tile_entity)
 	    {
-	        super(new ContainerHeatGenerator(par1InventoryPlayer, par2TileHeatGenerator));
-	        this.furnaceInventory = par2TileHeatGenerator;
+	        super(new ContainerProtocol(par1InventoryPlayer, tile_entity));
+	        this.furnaceInventory = tile_entity;
 	    }
 
 	    /**
@@ -61,6 +60,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 	        /*i1 = this.furnaceInventory.getCookProgressScaled(24);
 	        this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);*/
 	    }
-	  
+	    
 	}
 

@@ -2,7 +2,9 @@ package spaceage.client.gui;
 
 import spaceage.common.SpaceAgeCore;
 import spaceage.common.container.ContainerHeatGenerator;
+import spaceage.common.container.ContainerSolarPanel;
 import spaceage.common.tile.TileHeatGenerator;
+import spaceage.common.tile.TileSolarPanel;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -17,6 +19,7 @@ public class SPGUI implements IGuiHandler {
 		
 		switch(ID) {
 			case 0: return new ContainerHeatGenerator(player.inventory, (TileHeatGenerator) tile_entity);
+			case 1: return new ContainerSolarPanel(player.inventory, (TileSolarPanel) tile_entity);
 			}
 		return null;
 		}
@@ -28,6 +31,7 @@ public class SPGUI implements IGuiHandler {
 		
 		switch(ID) {
 			case 0: return new GUIHeatGenerator(player.inventory, (TileHeatGenerator) tile_entity);
+			case 1: return new GUISolarPanel(player.inventory, (TileSolarPanel) tile_entity);
 			}
 		return null;
 		}

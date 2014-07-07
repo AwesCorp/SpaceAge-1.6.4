@@ -22,16 +22,12 @@ public class WarpDriveConfig
 	private Configuration config;
 	public int coreID, controllerID, radarID, isolationID, airID, airgenID, gasID, laserID, miningLaserID, particleBoosterID, liftID, laserCamID, camID, monitorID, iridiumID, shipScannerID, cloakCoreID, cloakCoilID;
 //
-	public boolean isAELoaded = false, isASLoaded = false, isAEExtraLoaded = false, isICBMLoaded = false, isMFFSLoaded = false;
+	public boolean isASLoaded = false, isICBMLoaded = false, isMFFSLoaded = false;
 //
 	public int[] IC2_Air;
 	public int CC_Computer = 0, CC_peripheral = 0, CCT_Turtle = 0, CCT_Upgraded = 0, CCT_Advanced = 0, GT_Ores = 0, GT_Granite = 0, GT_Machine = 0, ASP = 0, AS_Turbine = 0, ICBM_Machine = 0, ICBM_Missile = 0, MFFS_Field = 0;
 	public Set<Integer> SpaceHelmets, Jetpacks, MinerOres, scannerIgnoreBlocks;
-	private Class<?> AEBlocks;
-	private Class<?> AEMaterials;
-	private Class<?> AEItems;
 	public ArrayList<int[]> CommonWorldGenOres;
-	public Item AEExtraFDI;
 
 	// Mod config
 		// Warp Core
@@ -90,7 +86,7 @@ public class WarpDriveConfig
 		return Items.getItem(id);
 	}*/
 
-	public ItemStack getAEBlock(String id)
+	/*public ItemStack getAEBlock(String id)
 	{
 		try
 		{
@@ -103,9 +99,9 @@ public class WarpDriveConfig
 			System.out.println("WarpDriveConfig Call getAEBlock failed for " + id);
 		}
 		return null;
-	}
+	}*/
 
-	public ItemStack getAEMaterial(String id)
+	/*public ItemStack getAEMaterial(String id)
 	{
 		try
 		{
@@ -118,9 +114,9 @@ public class WarpDriveConfig
 			System.out.println("WarpDriveConfig Call getAEMaterial failed for " + id);
 		}
 		return null;
-	}
+	}*/
 
-	public ItemStack getAEItem(String id)
+	/*public ItemStack getAEItem(String id)
 	{
 		try
 		{
@@ -133,7 +129,7 @@ public class WarpDriveConfig
 			System.out.println("WarpDriveConfig Call getAEItem failed for " + id);
 		}
 		return null;
-	}
+	}*/
 
 	public static void Init(Configuration config)
 	{
@@ -231,16 +227,16 @@ public class WarpDriveConfig
 		cloakCoreID = config.getBlock("cloakcore", 517).getInt();
 		cloakCoilID = config.getBlock("cloakcoil", 518).getInt();
 		
-		LoadIC2();
+		LoadSpaceAgeIntegration();
 		LoadCC();
 		
-		isAELoaded = Loader.isModLoaded("AppliedEnergistics");
+		/*isAELoaded = Loader.isModLoaded("AppliedEnergistics");
 		if (isAELoaded)
-			LoadAE();
+			LoadAE();*/
 		
-		isAEExtraLoaded = Loader.isModLoaded("extracells");
+		/*isAEExtraLoaded = Loader.isModLoaded("extracells");
 		if (isAEExtraLoaded)
-			LoadAEExtra();	
+			LoadAEExtra();*/	
 		
 		isASLoaded = Loader.isModLoaded("AtomicScience");
 		if (isASLoaded)
@@ -284,10 +280,10 @@ public class WarpDriveConfig
 		config.save();
 	}
 
-	private void LoadIC2()
+	private void LoadSpaceAgeIntegration()
 	{
 		//ASP = Items.getItem("solarPanel").itemID;
-		ASP = SpaceAgeCore.solarPanel.blockID;
+		ASP = new ItemStack(SpaceAgeCore.metaGenerator,1,1).itemID;
 		//SpaceHelmets.add(Items.getItem("hazmatHelmet").itemID);
 		//SpaceHelmets.add(Items.getItem("quantumHelmet").itemID);
 		SpaceHelmets.add(SpaceAgeCore.advancedSpacesuitHelmetID); //TODO Normal spacesuit helmet below
@@ -328,12 +324,12 @@ public class WarpDriveConfig
 		}
 		catch (Exception e)
 		{
-			System.out.println("WarpDriveConfig: Error loading CC classes - Try downgrading to version 1.58 and deleting your config file");
+			System.out.println("WarpDrive: Error loading CC classes - Try downgrading to version 1.58 and deleting your config file");
 			e.printStackTrace();
 		}
 	}
 
-	private void LoadAE()
+	/*private void LoadAE()
 	{
 		try
 		{
@@ -348,9 +344,9 @@ public class WarpDriveConfig
 			e.printStackTrace();
 			isAELoaded = false;
 		}
-	}
+	}*/
 
-	private void LoadAEExtra()
+	/*private void LoadAEExtra()
 	{
 		try
 		{
@@ -364,7 +360,7 @@ public class WarpDriveConfig
 			e.printStackTrace();
 			isAEExtraLoaded = false;
 		}
-	}	
+	}*/	
 
 	private void LoadAS()
 	{
@@ -481,8 +477,6 @@ public class WarpDriveConfig
 	{
 		if (random.nextInt(25) == 5)
 			return CommonWorldGenOres.get(random.nextInt(CommonWorldGenOres.size()));
-		else if (isAELoaded && random.nextInt(750) == 1)
-			return new int[] {getAEBlock("blkQuartzOre").itemID, getAEBlock("blkQuartzOre").getItemDamage()};
 		else if (random.nextInt(250) == 1)
 			return new int[] {Block.oreDiamond.blockID, 0};
 		

@@ -14,10 +14,15 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cr0s.WarpDrive.client.gui.WDGUI;
 
 import java.util.List;
+
+import spaceage.client.gui.SPGUI;
+import spaceage.common.SpaceAgeCore;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -34,7 +39,7 @@ import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
 
-@Mod(modid = "WarpDrive", name = "WarpDrive - Universal Electricity", version = "1.2.0", dependencies = "required-after:UniversalElectricity; required-after:ComputerCraft@[1.58]; required-after:SpaceAge; after:CCTurtle; after:AtomicScience; after:ICBM|Explosion; after:MFFS")
+@Mod(modid = WarpDrive.modid, name = "WarpDrive - Universal Electricity", version = "1.2.0", dependencies = "required-after:UniversalElectricity; required-after:ComputerCraft@[1.58]; required-after:SpaceAge; after:CCTurtle; after:AtomicScience; after:ICBM|Explosion; after:MFFS")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"WarpDriveBeam", 
 		"WarpDriveFreq", 
@@ -46,6 +51,8 @@ import net.minecraftforge.common.MinecraftForge;
 public class WarpDrive implements LoadingCallback {
 	// World limits
 	public final static int WORLD_LIMIT_BLOCKS = 100000;
+	
+	public static final String modid = "WarpDrive";
 
 	public static Block warpCore;
 	public static Block protocolBlock;
@@ -78,6 +85,8 @@ public class WarpDrive implements LoadingCallback {
 	public World hyperSpace;
 	private int hyperSpaceProviderID;
 	public int hyperSpaceDimID;
+	
+    public static WDGUI guiHandler = new WDGUI();
 
 	@Instance("WarpDrive")
 	public static WarpDrive instance;
@@ -280,7 +289,9 @@ public class WarpDrive implements LoadingCallback {
 		.setUnlocalizedName("Cloaking Device Coil");
 		
 		LanguageRegistry.addName(cloakCoilBlock, "Cloaking Device Coil");
-		GameRegistry.registerBlock(cloakCoilBlock, "cloakCoilBlock");        
+		GameRegistry.registerBlock(cloakCoilBlock, "cloakCoilBlock");       
+		
+	    NetworkRegistry.instance().registerGuiHandler(WarpDrive.instance, WarpDrive.guiHandler);
         
 		proxy.registerEntities();
 		ForgeChunkManager.setForcedChunkLoadingCallback(instance, instance);

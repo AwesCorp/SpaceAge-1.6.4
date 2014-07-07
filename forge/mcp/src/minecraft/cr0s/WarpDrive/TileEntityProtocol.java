@@ -675,4 +675,17 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral
     {
         this.targetJumpgateName = targetJumpgateName;
     }
+
+	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
+		return true;
+	}
+	
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+	
+	public String getInvName() {
+		return "warpInterface.name";
+	}
+    
 }

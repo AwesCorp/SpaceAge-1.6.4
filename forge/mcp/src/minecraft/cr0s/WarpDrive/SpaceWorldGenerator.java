@@ -76,12 +76,12 @@ public class SpaceWorldGenerator implements IWorldGenerator
 				generateGasCloudOfColor(world, x, y, z, 6, 11, random.nextInt(12));
 		}
 		// Quartz asteroid
-		else if (WarpDriveConfig.i.isAELoaded && random.nextInt(20000) == 1)
+		/*else if (WarpDriveConfig.i.isAELoaded && random.nextInt(20000) == 1)
 		{
 			generateAsteroidOfBlock(world, x, y, z, 4, 6, WarpDriveConfig.i.getAEBlock("blkQuartzOre").itemID, WarpDriveConfig.i.getAEBlock("blkQuartzOre").getItemDamage());
 			if (random.nextBoolean())
 				generateGasCloudOfColor(world, x, y, z, 6, 11, random.nextInt(12));
-		}
+		}*/
 	}
 
 	public void generateMoon(World world, int x, int y, int z)
@@ -218,10 +218,10 @@ public class SpaceWorldGenerator implements IWorldGenerator
 
 	/**
 	 * Asteroid field generator
-	 * @param world мир
-	 * @param x координата центра поля
-	 * @param y координата центра поля
-	 * @param z координата центра поля
+	 * @param world 
+	 * @param x
+	 * @param y
+	 * @param z 
 	 */
 	public void generateAsteroidField(World world, int x, int y, int z)
 	{

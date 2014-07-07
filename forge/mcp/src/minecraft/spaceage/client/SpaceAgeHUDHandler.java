@@ -18,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 
+import spaceage.common.ServerTickHandler;
 import spaceage.common.SpaceAgeCore;
 import spaceage.common.stuff.Resources;
 
@@ -66,7 +67,7 @@ public class SpaceAgeHUDHandler implements ITickHandler {
 
       GL11.glEnable(3553);
 
-      String fuel = "Energy Levels: High"/*+ SpaceAgeTickHandler.fuelTick*/;
+      String fuel = "Energy Levels: " + ServerTickHandler.timer;
       int fuelX = 25;
       int fuelY = 80;
       int fuelColor = 16777215;

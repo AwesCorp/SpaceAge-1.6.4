@@ -1,7 +1,8 @@
 package spaceage.common.container;
 
-import spaceage.common.container.slot.SlotWater;
-import spaceage.common.tile.TileHeatGenerator;
+import spaceage.common.SpaceAgeCore;
+import spaceage.common.container.slot.SlotEnrichedSilicon;
+import spaceage.common.tile.TileSolarPanel;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -9,15 +10,15 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class ContainerHeatGenerator extends Container {
+public class ContainerSolarPanel extends Container {
 	
-	private TileHeatGenerator tileEntity;
+	private TileSolarPanel tileEntity;
 	
-	public ContainerHeatGenerator(InventoryPlayer player, TileHeatGenerator tileEntity) {
+	public ContainerSolarPanel(InventoryPlayer player, TileSolarPanel tileEntity) {
 		this.tileEntity = tileEntity;
 		
-		//Bucket slot
-		this.addSlotToContainer(new SlotWater(tileEntity, 0, 56, 17));
+		//Boost slot
+		this.addSlotToContainer(new SlotEnrichedSilicon(tileEntity, 0, 56, 17));
 		int var3;
 		
 		//Main inventory area
@@ -43,6 +44,8 @@ public class ContainerHeatGenerator extends Container {
 	@Override
     public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par1)
     {
+		ItemStack enrichedSilicon = new ItemStack(SpaceAgeCore.meta,1,12);
+		
         ItemStack var2 = null;
         Slot var3 = (Slot) this.inventorySlots.get(par1);
 
@@ -53,7 +56,7 @@ public class ContainerHeatGenerator extends Container {
 
             if (par1 != 0)
             {
-                if (var4.itemID == Item.bucketWater.itemID)
+                if (var4.itemID == enrichedSilicon.itemID)
                 {
                     if (!this.mergeItemStack(var4, 0, 1, false))
                     {
