@@ -10,6 +10,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
+/**
+ * The GUI handler of SpaceAge. 
+ * @author SkylordJoel
+ */
+
 public class SPGUI implements IGuiHandler {
 
 	@Override
@@ -35,5 +40,4 @@ public class SPGUI implements IGuiHandler {
 			}
 		return null;
 		}
-
 }

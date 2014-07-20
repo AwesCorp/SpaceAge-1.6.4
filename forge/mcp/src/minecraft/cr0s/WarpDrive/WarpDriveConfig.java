@@ -25,7 +25,7 @@ public class WarpDriveConfig
 	public boolean isASLoaded = false, isICBMLoaded = false, isMFFSLoaded = false;
 //
 	public int[] IC2_Air;
-	public int CC_Computer = 0, CC_peripheral = 0, CCT_Turtle = 0, CCT_Upgraded = 0, CCT_Advanced = 0, GT_Ores = 0, GT_Granite = 0, GT_Machine = 0, ASP = 0, AS_Turbine = 0, ICBM_Machine = 0, ICBM_Missile = 0, MFFS_Field = 0;
+	public int CC_Computer = 0, CC_peripheral = 0, CCT_Turtle = 0, CCT_Upgraded = 0, CCT_Advanced = 0, ASP = 0, AS_Turbine = 0, ICBM_Machine = 0, ICBM_Missile = 0, MFFS_Field = 0;
 	public Set<Integer> SpaceHelmets, Jetpacks, MinerOres, scannerIgnoreBlocks;
 	public ArrayList<int[]> CommonWorldGenOres;
 
@@ -39,7 +39,7 @@ public class WarpDriveConfig
 	    public int WC_ENERGY_PER_ENTITY_TO_SPACE = 1000000; // eU
 	    public int WC_MAX_JUMP_DISTANCE = 128;   // Maximum jump length value
 	    public int WC_MAX_SHIP_VOLUME_ON_SURFACE = 15000;   // Maximum ship mass to jump on earth (15k blocks)
-	    public int WC_MIN_SHIP_VOLUME_FOR_HYPERSPACE = 500; // Minimum ship volume value for
+	    public int WC_MIN_SHIP_VOLUME_FOR_HYPERSPACE = 10; // Minimum ship volume value for
 	    public int WC_MAX_SHIP_SIDE = 100;
 	    public int WC_COOLDOWN_INTERVAL_SECONDS = 4;
 	    public int WC_CORES_REGISTRY_UPDATE_INTERVAL_SECONDS = 10;
@@ -78,6 +78,9 @@ public class WarpDriveConfig
 		public int CD_ENERGY_PER_BLOCK_TIER2 = 5000; 
 		public int CD_FIELD_REFRESH_INTERVAL_SECONDS = 10;
 		public int CD_COIL_CAPTURE_BLOCKS = 5;
+		
+		//GUI style
+		public boolean GUI_NORMAL_STYLE;
 		
 	private WarpDriveConfig() {}
 
@@ -165,6 +168,8 @@ public class WarpDriveConfig
 		ML_MAX_BOOSTERS_NUMBER = config.get("MiningLaser", "max_boosters_number", 1).getInt();
 		ML_SCAN_DELAY = 20 * config.get("MiningLaser", "scan_delay_seconds", 5).getInt();
 		ML_MINE_DELAY = config.get("MiningLaser", "mine_delay_ticks", 10).getInt();
+		//ML_JOULES_PER_LAYER_SPACE = config.get("MiningLaser", "joules_per_layer_space", 125000).getInt();
+		//ML_JOULES_PER_LAYER_EARTH = config.get("MiningLaser", "joules_per_layer_earth", 1250000).getInt();	
 		ML_EU_PER_LAYER_SPACE = config.get("MiningLaser", "eu_per_layer_space", 500).getInt();
 		ML_EU_PER_LAYER_EARTH = config.get("MiningLaser", "eu_per_layer_earth", 5000).getInt();	  
 		
@@ -190,6 +195,9 @@ public class WarpDriveConfig
 		CD_ENERGY_PER_BLOCK_TIER2 = config.get("CloakingDevice", "energy_per_block_tier2", 500).getInt();	
 		CD_FIELD_REFRESH_INTERVAL_SECONDS = config.get("CloakingDevice", "field_refresh_interval_seconds", 3).getInt();	
 		CD_COIL_CAPTURE_BLOCKS = config.get("CloakingDevice", "coil_capture_blocks", 5).getInt();
+		
+		// Gui options (computer style or normal)
+		GUI_NORMAL_STYLE = config.get("Graphics", "Gui style - computer style or normal", false).getBoolean(false);
 	}
 	
 	public void Init2()
@@ -290,6 +298,7 @@ public class WarpDriveConfig
 		//Jetpacks.add(Items.getItem("jetpack").itemID);
 		//Jetpacks.add(Items.getItem("electricJetpack").itemID);
 		Jetpacks.add(SpaceAgeCore.advancedSpacesuitChestplateID);
+		Jetpacks.add(SpaceAgeCore.advancedSpacesuitBootsID);
 		//IC2_Air = new int[] {Items.getItem("airCell").itemID, Items.getItem("airCell").getItemDamage()}; //TODO Check if this does anything
 		
 		/*if (Items.getItem("uraniumOre") != null) { 
@@ -410,15 +419,13 @@ public class WarpDriveConfig
 		}
 	}
 
-	public int[] getDefaultSurfaceBlock(Random random, boolean corrupted, boolean isMoon)
-	{
-		if (isMoon)
-		{
+	public int[] getDefaultSurfaceBlock(Random random, boolean corrupted, boolean isMoon) {
+		if (isMoon) {
 			if (random.nextInt(100) == 1)
 				if (random.nextBoolean())
-					return new int[] {GT_Granite, (corrupted && random.nextBoolean())?1:0};
+					return new int[] {Block.whiteStone.blockID, (corrupted && random.nextBoolean())?1:0};
 				else
-					return new int[] {GT_Granite, (corrupted && random.nextBoolean())?9:8};
+					return new int[] {Block.whiteStone.blockID, (corrupted && random.nextBoolean())?9:8};
 			else if (random.nextInt(666) == 1)
 				return new int[] {Block.netherrack.blockID, 0};
 			else if (random.nextInt(1000) == 1)
@@ -428,9 +435,9 @@ public class WarpDriveConfig
 		{
 			if (random.nextInt(25) == 1)
 				if (random.nextBoolean())
-					return new int[] {GT_Granite, (corrupted && random.nextBoolean())?1:0};
+					return new int[] {Block.whiteStone.blockID, (corrupted && random.nextBoolean())?1:0};
 				else
-					return new int[] {GT_Granite, (corrupted && random.nextBoolean())?9:8};
+					return new int[] {Block.whiteStone.blockID, (corrupted && random.nextBoolean())?9:8};
 			else if (random.nextInt(50) == 1)
 				return new int[] {Block.netherrack.blockID, 0};
 			else if (random.nextInt(150) == 1)
@@ -445,7 +452,7 @@ public class WarpDriveConfig
 	{
 		if (bedrock && random.nextInt(1000) == 1)
 			return new int[] {Block.bedrock.blockID, 0};
-		if (blockID == GT_Granite)
+		if (blockID == Block.whiteStone.blockID)
 			if (blockMeta == 0 || blockMeta == 1)
 			{
 				int[] t;

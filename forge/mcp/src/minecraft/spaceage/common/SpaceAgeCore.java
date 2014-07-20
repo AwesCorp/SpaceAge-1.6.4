@@ -1,6 +1,3 @@
-/*Main file of SpaceAge. 
- * -SkylordJoel*/
-//Many thanks to Reika, Tihyo and Colossali for example references for certain code I couldn't work out
 package spaceage.common;
 
 import java.io.File;
@@ -11,15 +8,18 @@ import java.util.logging.Level;
 import org.lwjgl.input.Keyboard;
 
 import spaceage.client.gui.SPGUI;
+import spaceage.common.achievements.SpaceAgeAchievements;
 import spaceage.common.block.BlockConnectedGlasses;
 import spaceage.common.block.BlockGenerator;
-//import resonant.lib.content.ContentRegistry;
-//import resonant.lib.content.IDManager;
+import spaceage.common.block.BlockHades;
 import spaceage.common.block.BlockOres1;
 import spaceage.common.block.BlockSpaceshipAlloy;
+import spaceage.common.block.BlockVulcan;
+import spaceage.common.item.ItemBlockGeneratorTooltip;
 import spaceage.common.item.ItemBlockSpaceshipAlloy;
-import spaceage.common.item.ItemBlockTooltip;
+import spaceage.common.item.ItemBlockVulcan;
 import spaceage.common.item.ItemMeta;
+import spaceage.common.item.ItemRepulsor;
 import spaceage.common.item.ItemStarboost;
 import spaceage.common.tile.TileHeatGenerator;
 import spaceage.common.tile.TileSolarPanel;
@@ -44,6 +44,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.TickType;
@@ -56,14 +57,19 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid=SpaceAgeCore.modid, name="SpaceAge - bringing Minecraft to the Space Age", version="Beta 0.1", dependencies="required-after:UniversalElectricity")
+/**
+ * Main file of SpaceAge. Includes all important main code for SpaceAge and it's child mods. 
+ * @author SkylordJoel, Reika (hooking into UniversalElectricity examples), Tihyo (armour flight), Colossali (armour HUD)
+ */
+
+@Mod(modid=SpaceAgeCore.modid, name="SpaceAge/Project Cosmos: - bringing Minecraft to the Space Age", version="Alpha", dependencies="required-after:UniversalElectricity")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false/*, serverPacketHandlerSpec=@NetworkMod.SidedPacketHandler(channels={"SpaceAge_C"}, packetHandler=ServerPacketHandler.class)*/)
 
 public class SpaceAgeCore {
 
 	public static CreativeTabs tabSA = new CreativeTabs("tabSA") {
 		public ItemStack getIconItemstack() {
-			return new ItemStack(spaceshipAlloyMeta,1,15);
+			return new ItemStack(spaceshipAlloyMeta,1,0);
 		}
 	};
 	
@@ -89,11 +95,15 @@ public class SpaceAgeCore {
 	public static Item advancedSpacesuitChestplate;
 	public static Item advancedSpacesuitLeggings;
 	public static Item advancedSpacesuitBoots;
+	public static Item repulsor;
 	public static Block metaGenerator;
 	public static Block tintedGlass;
+	public static Block vulcanSurface;
+	public static Block hadesSurface;
 	
 	//Custom ItemStacks (for crafting ease etc.)
-	//public static ItemStack enrichedSilicon = new ItemStack(meta,1,12);
+	//GameRegistry.registerCustomItemStack("ash", new ItemStack(vulcanSurface, 1, 2));
+	//In other places, forge crashes if they're here
 	
 	//ID Registry
 	public static int metaID;
@@ -103,12 +113,28 @@ public class SpaceAgeCore {
 	public static int advancedSpacesuitChestplateID;
 	public static int advancedSpacesuitLeggingsID;
 	public static int advancedSpacesuitBootsID;
-	public static int SOLAR_ENERGY;
-	public static int SOLAR_CAPACITY;
-	public static int HEAT_ENERGY;
-	public static int HEAT_CAPACITY;
+	public static int repulsorID;
 	public static int metaGeneratorID;
 	public static int tintedGlassID;
+	public static int vulcanSurfaceID;
+	public static int hadesSurfaceID;
+	
+	//ENERGY VALUES
+	//GENERATORS
+	public static int SOLAR_ENERGY = 400; //TODO Temp values - 8 REDSTONE FLUX
+	public static int SOLAR_CAPACITY = 2000000; //TODO - 40 000 REDSTONE FLUX (DYNAMO IS 40 000 FLUX - FURNACE HOLDS 24 000)
+	public static int HEAT_ENERGY = 400; //TODO - 8 REDSTONE FLUX
+	public static int HEAT_CAPACITY = 2000000; //TODO - 40 000 REDSTONE FLUX (DYNAMO IS 40 000 FLUX - FURNACE HOLDS 24 000)
+	
+	//MACHINES
+	public static int ELECTROLYSER_ENERGY_USE = 200; //TODO Temp values - 4 REDSTONE FLUX
+	public static int ELECTROLYSER_CAPACITY = 1000000; //TODO 20 000 REDSTONE FLUX - HALF OF DYNAMO, SIMILAR TO FURNACE
+	
+	//BATTERIES
+	//public static int   = ; //TODO
+	
+	//CELLS
+	public static int CELL_CAPACITY = 1000000; //TODO Temp values - 20 000 REDSTONE FLUX
 	
 	public static final Configuration config = new Configuration(new File("config/AwesCorp/SpaceAgeCore.cfg"));
 	
@@ -124,12 +150,15 @@ public class SpaceAgeCore {
 		advancedSpacesuitChestplateID = config.get("Items", "Value of the advanced spacesuit chestplate - do not edit this to play on the server", 5002).getInt();
 		advancedSpacesuitLeggingsID = config.get("Items", "Value of the advanced spacesuit legs - do not edit this to play on the server", 5003).getInt();
 		advancedSpacesuitBootsID = config.get("Items", "Value of the advanced spacesuit boots - do not edit this to play on the server", 5004).getInt();
-		SOLAR_ENERGY = config.get("Energy", "How much energy the solar panel generates - do not edit this to play on the server", 50).getInt();
-		HEAT_ENERGY = config.get("Energy", "How much energy the geothermal turbine generates - do not edit this to play on the server", 50).getInt();
-		SOLAR_CAPACITY = config.get("Energy", "How much energy the solar panel can store - do not edit this to play on the server", 250).getInt();
-		HEAT_CAPACITY = config.get("Energy", "How much energy the geothermal turbime can store - do not edit this to play on the server", 250).getInt();
+		repulsorID = config.get("Items", "Value of the integrated laser cannon - do not edit this to play on the server", 5005).getInt();
+		//SOLAR_ENERGY = config.get("Energy", "How much energy the solar panel generates - do not edit this to play on the server", 50).getInt();
+		//HEAT_ENERGY = config.get("Energy", "How much energy the geothermal turbine generates - do not edit this to play on the server", 50).getInt();
+		//SOLAR_CAPACITY = config.get("Energy", "How much energy the solar panel can store - do not edit this to play on the server", 250).getInt();
+		//HEAT_CAPACITY = config.get("Energy", "How much energy the geothermal turbime can store - do not edit this to play on the server", 250).getInt();
 		metaGeneratorID = config.get("Blocks", "Value of the generator - do not edit this to play on the server", 502).getInt();
 		tintedGlassID = config.get("Blocks", "Value of the reinforced glass - do not edit to play on the server", 503).getInt();
+		vulcanSurfaceID = config.get("Blocks", "Value of the majority of vulcan related blocks - do not edit this to play on the server", 504).getInt();
+		hadesSurfaceID = config.get("Blocks", "Value of the majority of Hades related blocks - do not edit to play on the server", 505).getInt();
 		
 		config.save();
 	}	
@@ -137,23 +166,26 @@ public class SpaceAgeCore {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+	    SpaceAgeAchievements.init();
+		
 	       metadata.modId = this.modid;
-	       metadata.name = "SpaceAge";
-	       metadata.description = "SpaceAge: Bringing Minecraft to the Space Age";
+	       metadata.name = "SpaceAge/Project Cosmos";
+	       metadata.description = "SpaceAge/Project Cosmos: Bringing Minecraft to the Space Age";
 	       metadata.url = "Not released yet";
 	       metadata.logoFile = "assets/spaceage/logo.png";
-	       metadata.version = "Beta 0.1";
+	       metadata.version = "Alpha";
 	       metadata.authorList = Arrays.asList(new String[] { 
-	    		   "SkylordJoel", "big_fat_bunny", "Super_Jen_Bot" 
+	    		   "SkylordJoel", "big_fat_bunny"/*, "Super_Jen_Bot"*/ 
 	    		   });
-	       metadata.credits = "Thanks to many for ideas!";
+	       metadata.credits = "Many, notable include Calclavia, cr0s, Reika";
 	       metadata.autogenerated = false;
-		LogHelper.log(Level.INFO, "Preinitialised successfully"); //about the preinitialiSed, I'm australian
+		LogHelper.log(Level.FINEST, "Preinitialised successfully"); //about the preinitialiSed, I'm australian
 	}
 	
 	@EventHandler
 	public void Init(FMLInitializationEvent event) {
 		this.initConfiguration(event);
+		LogHelper.log(Level.FINEST, "Loaded configuration successfully");
 		
 		EnumArmorMaterial armourADVANCEDSPACESUIT = EnumHelper.addArmorMaterial("ADVANCEDSPACESUIT", 50, new int[]{8, 20, 10, 6}, 30);
 		
@@ -161,12 +193,18 @@ public class SpaceAgeCore {
 		
 		spaceshipAlloyMeta = new BlockSpaceshipAlloy(this.spaceshipAlloyMetaID, Material.rock).setUnlocalizedName("spaceshipAlloy");
 		
+		vulcanSurface = new BlockVulcan(this.vulcanSurfaceID, Material.rock).setUnlocalizedName("vulcanBlock");
+		
+		hadesSurface = new BlockHades(this.hadesSurfaceID, Material.rock).setUnlocalizedName("hadesBlock");
+		
 		ores1 = new BlockOres1(this.ores1ID, Material.rock).setUnlocalizedName("spaceAgeOres1");
 		
 		advancedSpacesuitHelmet = new ItemStarboost(this.advancedSpacesuitHelmetID, armourADVANCEDSPACESUIT, 0, 0).setUnlocalizedName("advHelmet");
 		advancedSpacesuitChestplate = new ItemStarboost(this.advancedSpacesuitChestplateID, armourADVANCEDSPACESUIT, 0, 1).setUnlocalizedName("advChestplate");
 		advancedSpacesuitLeggings = new ItemStarboost(this.advancedSpacesuitLeggingsID, armourADVANCEDSPACESUIT, 0, 2).setUnlocalizedName("advLeggings");
 		advancedSpacesuitBoots = new ItemStarboost(this.advancedSpacesuitBootsID, armourADVANCEDSPACESUIT, 0, 3).setUnlocalizedName("advBoots");
+		
+		repulsor = new ItemRepulsor(this.repulsorID).setUnlocalizedName("laserCannon").setCreativeTab(tabSA);
 		
 		tintedGlass = new BlockConnectedGlasses(this.tintedGlassID, Material.glass).setUnlocalizedName("reinforcedGlass");
 		
@@ -186,18 +224,27 @@ public class SpaceAgeCore {
 	    MinecraftForge.EVENT_BUS.register(new PlayerTickHandler());
 	    TickRegistry.registerTickHandler(new PlayerTickHandler(), Side.CLIENT);
 		//FMLCommonHandler.instance().bus().register(new YourFMLEventHandler());
+	    MinecraftForge.EVENT_BUS.register(new SpaceAgeAchievements());
 	    
 	    NetworkRegistry.instance().registerGuiHandler(SpaceAgeCore.instance, SpaceAgeCore.guiHandler);
 		
+	    LogHelper.log(Level.FINEST, "Registered all handlers");
+	    
 		proxy.registerRenderers();
 		proxy.load();
 	    proxy.registerServerTickHandler();
 	    proxy.registerHandlers();
+	    
+
 	    //proxy.getArmorModel();
 		//TickRegistry.registerTickHandler(new SpaceAgeServerTickHandler(EnumSet.of(TickType.SERVER)), Side.SERVER);
 		
-		LogHelper.log(Level.INFO, "Initialised successfully");
-}
+		LogHelper.log(Level.FINEST, "Initialised successfully");
+	}
+	
+	/*public boolean isMFFSLoaded() {
+		return Loader.isModLoaded("MFFS");
+	}*/
 
 	public void registerOre() {
 		ItemStack titaniumIngot = new ItemStack(this.meta,1,0);
@@ -213,6 +260,8 @@ public class SpaceAgeCore {
 		ItemStack thrusterPack = new ItemStack(this.meta,1,10);
 		ItemStack silicon = new ItemStack(this.meta,1,11);
 		ItemStack enrichedSilicon = new ItemStack(this.meta,1,12);
+		ItemStack lithiumDust = new ItemStack(this.meta,1,13);
+		ItemStack fireessence = new ItemStack(this.meta,1,14);
 		
 		//OreDictionary.registerOre(id, ore)
 		OreDictionary.registerOre("titaniumIngot", titaniumIngot);
@@ -279,6 +328,8 @@ public class SpaceAgeCore {
 		OreDictionary.registerOre("plateTitaniumAluminumVanadium", heavyPlate);
 		OreDictionary.registerOre("plateTitaniumAluminiumVanadiumAlloy", heavyPlate);
 		OreDictionary.registerOre("plateTitaniumAluminumVanadiumAlloy", heavyPlate);
+		OreDictionary.registerOre("dustLithium", lithiumDust);
+		OreDictionary.registerOre("lithiumDust", lithiumDust);
 		
 	}
 
@@ -297,19 +348,21 @@ public class SpaceAgeCore {
 
 	private void craftingRecipes() {
 		
-		ItemStack titaniumIngot = new ItemStack(this.meta,1,0);
-		ItemStack aluminiumIngot = new ItemStack(this.meta,1,1);
-		ItemStack vanadiumIngot = new ItemStack(this.meta,1,2);
-		ItemStack heavyIngot = new ItemStack(this.meta,1,3);
-		ItemStack arcReactor = new ItemStack(this.meta,1,4);
-		ItemStack heavyPlate = new ItemStack(this.meta,1,5);
-		ItemStack basicCircuits = new ItemStack(this.meta,1,6);
-		ItemStack advancedCircuits = new ItemStack(this.meta,1,7);
-		ItemStack wire = new ItemStack(this.meta,1,8);
-		ItemStack oxygenApparatus = new ItemStack(this.meta,1,9);
-		ItemStack thrusterPack = new ItemStack(this.meta,1,10);
-		ItemStack silicon = new ItemStack(this.meta,1,11);
-		ItemStack enrichedSilicon = new ItemStack(this.meta,1,12);
+		ItemStack titaniumIngot = new ItemStack(this.meta,1,0); //FROM TITANIUM ORE TODO
+		ItemStack aluminiumIngot = new ItemStack(this.meta,1,1); //FROM BAUXITE - COMPLEX PROPER REFINING METHOD
+		ItemStack vanadiumIngot = new ItemStack(this.meta,1,2); //FROM VANADIUM ORE
+		ItemStack heavyIngot = new ItemStack(this.meta,1,3); //FROM TITANIUM, ALUMINIUM AND VANADIUM, ALLOYER MACHINE?
+		ItemStack arcReactor = new ItemStack(this.meta,1,4); //?
+		ItemStack heavyPlate = new ItemStack(this.meta,1,5); //FROM HEAVY INGOT
+		ItemStack basicCircuits = new ItemStack(this.meta,1,6); //?
+		ItemStack advancedCircuits = new ItemStack(this.meta,1,7); //?
+		ItemStack wire = new ItemStack(this.meta,1,8); //?
+		ItemStack oxygenApparatus = new ItemStack(this.meta,1,9); //?
+		ItemStack thrusterPack = new ItemStack(this.meta,1,10); //?
+		ItemStack silicon = new ItemStack(this.meta,1,11); //CREATED FROM SAND
+		ItemStack enrichedSilicon = new ItemStack(this.meta,1,12); //CREATED FROM HYDROGEN
+		ItemStack lithiumDust = new ItemStack(this.meta,1,13); //DO SEPARATION FROM CLAY IN A MACHINE
+		ItemStack fireessence = new ItemStack(this.meta,1,14); //DROPS DIRECTLY FROM BLOCK
 		
 		//GameRegistry.addShapedRecipe(output, params)
 		//GameRegistry.addShapelessRecipe(output, params)
@@ -319,25 +372,25 @@ public class SpaceAgeCore {
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advancedSpacesuitHelmet), new Object[] {
 			"HHH",
 			"HGH",
-			"CWC", Character.valueOf('H'), heavyPlate, Character.valueOf('C'), advancedCircuits, Character.valueOf('G'), Block.glass, Character.valueOf('W'), wire
+			"CWC", Character.valueOf('H'), "heavyPlate", Character.valueOf('C'), "advancedCircuits", Character.valueOf('G'), this.tintedGlass, Character.valueOf('W'), "wire"
 		}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advancedSpacesuitChestplate), new Object[] {
 			"HOH",
 			"HAH",
-			"HTH", Character.valueOf('H'), heavyPlate, Character.valueOf('T'), thrusterPack, Character.valueOf('A'), arcReactor, Character.valueOf('O'), oxygenApparatus
+			"HTH", Character.valueOf('H'), "heavyPlate", Character.valueOf('T'), thrusterPack, Character.valueOf('A'), arcReactor, Character.valueOf('O'), oxygenApparatus
 		}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advancedSpacesuitLeggings), new Object[] {
 			"HWH",
 			"H H",
-			"H H", Character.valueOf('H'), heavyPlate, Character.valueOf('W'), wire
+			"H H", Character.valueOf('H'), "heavyPlate", Character.valueOf('W'), "wire"
 		}));
 		
 		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(advancedSpacesuitBoots), new Object[] {
 			" W ",
 			"H H",
-			"HTH", Character.valueOf('H'), heavyPlate, Character.valueOf('T'), thrusterPack, Character.valueOf('W'), wire
+			"HTH", Character.valueOf('H'), "heavyPlate", Character.valueOf('T'), thrusterPack, Character.valueOf('W'), "wire"
 		}));
 		
 	}
@@ -345,10 +398,16 @@ public class SpaceAgeCore {
 	private void languageRegisters() {
 		//LanguageRegistry.addName(objectToName, name)
 		LanguageRegistry.instance().addStringLocalization("itemGroup.tabSA", "en_US", "SpaceAge");
+		
+		LanguageRegistry.instance().addStringLocalization("spaceage.achSpace", "en_US", "The Final Frontier");
+		LanguageRegistry.instance().addStringLocalization("spaceage.achSpaceDeath", "en_US", "In Space, no-one can hear you scream.");
+		
 		LanguageRegistry.addName(advancedSpacesuitHelmet, "Advanced Helmet");
 		LanguageRegistry.addName(advancedSpacesuitChestplate, "Advanced Chestplate");
 		LanguageRegistry.addName(advancedSpacesuitLeggings, "Advanced Leggings");
 		LanguageRegistry.addName(advancedSpacesuitBoots, "Advanced Boots");
+		
+		LanguageRegistry.addName(repulsor, "Laser Cannon");
 		
 		LanguageRegistry.addName(new ItemStack(spaceshipAlloyMeta, 1, 0), "Black Alloy");
 		LanguageRegistry.addName(new ItemStack(spaceshipAlloyMeta, 1, 1), "Red Alloy");
@@ -367,6 +426,13 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(new ItemStack(spaceshipAlloyMeta, 1, 14), "Orange Alloy");
 		LanguageRegistry.addName(new ItemStack(spaceshipAlloyMeta, 1, 15), "White Alloy");
 		
+		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 0), "Glowdust Leaves");
+		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 1), "Quartz Encrusted Log");
+		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 2), "Volcanic Ash");
+		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 3), "Fire Essence");
+		
+		LanguageRegistry.addName(new ItemStack(hadesSurface, 1, 0), "Dirt");
+		
 		LanguageRegistry.addName(new ItemStack(metaGenerator, 1, 0), "Geothermal Turbine");
 		LanguageRegistry.addName(new ItemStack(metaGenerator, 1, 1), "Photovoltaic Panel");
 		
@@ -381,6 +447,10 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(new ItemStack(meta, 1, 8), "Aluminium Wire");
 		LanguageRegistry.addName(new ItemStack(meta, 1, 9), "Oxygen Apparatus");
 		LanguageRegistry.addName(new ItemStack(meta, 1, 10), "Thruster Pack");
+		LanguageRegistry.addName(new ItemStack(meta, 1, 11), "Raw Silicon");
+		LanguageRegistry.addName(new ItemStack(meta, 1, 12), "Enriched Silicon");
+		LanguageRegistry.addName(new ItemStack(meta, 1, 13), "Lithium Dust");
+		LanguageRegistry.addName(new ItemStack(meta, 1, 14), "Fire-Infused Essence");
 		
 		LanguageRegistry.addName(tintedGlass, "Reinforced Glass");
 		
@@ -394,7 +464,9 @@ public class SpaceAgeCore {
 		GameRegistry.registerItem(advancedSpacesuitLeggings, "Advanced Leggings");
 		GameRegistry.registerItem(advancedSpacesuitBoots, "Advanced Boots");
 		
-		GameRegistry.registerBlock(metaGenerator, ItemBlockTooltip.class, "metaGenerator");
+		GameRegistry.registerItem(repulsor, "Laser Cannon");
+		
+		GameRegistry.registerBlock(metaGenerator, ItemBlockGeneratorTooltip.class, "metaGenerator");
 		GameRegistry.registerTileEntity(TileHeatGenerator.class, "heatGenerator");
 		GameRegistry.registerTileEntity(TileSolarPanel.class, "solarPanel");
 		
@@ -402,6 +474,7 @@ public class SpaceAgeCore {
 		
 		GameRegistry.registerBlock(spaceshipAlloyMeta, ItemBlockSpaceshipAlloy.class, modid + (spaceshipAlloyMeta.getUnlocalizedName().substring(5)));
 		
+		GameRegistry.registerBlock(vulcanSurface, ItemBlockVulcan.class, modid + (vulcanSurface.getUnlocalizedName().substring(5)));
 	}
 	
 	  public boolean onTickInGame(float f, Minecraft minecraft) {

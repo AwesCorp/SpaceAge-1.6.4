@@ -1,9 +1,15 @@
 package spaceage.common;
 
+import spaceage.common.tile.TileSolarPanel;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.world.World;
+
+/**
+ * The CommonProxy of SpaceAge. 
+ * @author SkylordJoel
+ */
 
 public class CommonProxy {
 	
@@ -27,5 +33,4 @@ public class CommonProxy {
 	public ModelBiped getArmorModel(int id) {
 		  return null;
 	  }
-
 }

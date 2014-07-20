@@ -52,7 +52,7 @@ public class ServerTickHandler implements ITickHandler {
 			}
 		}
 		
-		if ((player.getCurrentItemOrArmor(4) != null) && (player.getCurrentArmor(3) != null)) {
+		if ((player.getCurrentItemOrArmor(4) != null) && (player.getCurrentItemOrArmor(3) != null)) {
 			ItemStack helmet = player.getCurrentItemOrArmor(4);
 			ItemStack chestplate = player.getCurrentItemOrArmor(3);
 			

@@ -13,8 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.IBlockAccess;
 
-public class BlockConnectedGlasses extends BlockGlass
-{
+public class BlockConnectedGlasses extends BlockGlass {
 public static Icon[] textures = new Icon[47];
 public static int[] textureRefByID = { 0, 0, 6, 6, 0, 0, 6, 6, 3, 3, 19, 15, 3, 3, 19, 15, 1, 1, 18, 18, 1, 1,
 										 13, 13, 2, 2, 23, 31, 2, 2, 27, 14, 0, 0, 6, 6, 0, 0, 6, 6, 3, 3, 19,
@@ -30,24 +29,22 @@ public static int[] textureRefByID = { 0, 0, 6, 6, 0, 0, 6, 6, 3, 3, 19, 15, 3, 
 										 33, 4, 4, 5, 5, 4, 4, 5, 5, 9, 9, 30, 12, 9, 9, 30, 12, 7, 7, 24, 24,
 										 7, 7, 10, 10, 8, 8, 36, 35, 8, 8, 34, 11 };
 
-public BlockConnectedGlasses(int id, Material material)
-{
+public BlockConnectedGlasses(int id, Material material) {
 	 super(id, Material.glass, false);
-	 setHardness(100F);
+	 this.setHardness(100F);
+	 this.setLightValue(0.5F);
 }
 
-
-public void registerIcons(IconRegister iconRegistry)
-{
+@Override
+public void registerIcons(IconRegister iconRegistry){
 	 for (int i = 0; i < 47; i++) textures[i] = iconRegistry.registerIcon(SpaceAgeCore.modid + ":" + "reinforcedGlass_" + (i+1));
 }
 
-public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
-{
+@Override
+public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
 	 boolean[] bitMatrix = new boolean[8];
 	
-	 if (side == 0 || side == 1)
-	 {
+	 if (side == 0 || side == 1) {
 		 bitMatrix[0] = world.getBlockId(x-1, y, z-1) == this.blockID;
 		 bitMatrix[1] = world.getBlockId(x, y, z-1) == this.blockID;
 		 bitMatrix[2] = world.getBlockId(x+1, y, z-1) == this.blockID;
@@ -57,8 +54,7 @@ public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
 		 bitMatrix[6] = world.getBlockId(x, y, z+1) == this.blockID;
 		 bitMatrix[7] = world.getBlockId(x+1, y, z+1) == this.blockID;
 	 }
-	 if (side == 2 || side == 3)
-	 {
+	 if (side == 2 || side == 3) {
 		 bitMatrix[0] = world.getBlockId(x+(side==2?1:-1), y+1, z) == this.blockID;
 		 bitMatrix[1] = world.getBlockId(x, y+1, z)			 == this.blockID;
 		 bitMatrix[2] = world.getBlockId(x+(side==3?1:-1), y+1, z) == this.blockID;
@@ -68,8 +64,7 @@ public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
 		 bitMatrix[6] = world.getBlockId(x, y-1, z)			 == this.blockID;
 		 bitMatrix[7] = world.getBlockId(x+(side==3?1:-1), y-1, z) == this.blockID;
 	 }
-	 if (side == 4 || side == 5)
-	 {
+	 if (side == 4 || side == 5) {
 		 bitMatrix[0] = world.getBlockId(x, y+1, z+(side==5?1:-1)) == this.blockID;
 		 bitMatrix[1] = world.getBlockId(x, y+1, z)			 == this.blockID;
 		 bitMatrix[2] = world.getBlockId(x, y+1, z+(side==4?1:-1)) == this.blockID;
@@ -87,8 +82,8 @@ public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side)
 	 return idBuilder>255||idBuilder<0?textures[0]:textures[textureRefByID[idBuilder]];
 }
 
-public Icon getIcon(int side, int meta)
-{
+@Override
+public Icon getIcon(int side, int meta) {
 	 return textures[0];
-}
+	}
 }

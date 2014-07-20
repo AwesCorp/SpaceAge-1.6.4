@@ -1,5 +1,6 @@
 package spaceage.common.block;
 
+import java.util.List;
 import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
@@ -11,6 +12,7 @@ import spaceage.common.tile.TileSolarPanel;
 import universalelectricity.api.UniversalElectricity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -19,23 +21,32 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
+/**
+ * The metadata implementation of a block housing a electrical generation tile entity.
+ * @author SkylordJoel
+ */
+
 public class BlockGenerator extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	public static Icon heat_front, heat_bottom, heat_top, heat_side_idle, heat_side_active;
+	
+	@SideOnly(Side.CLIENT)
+	public static Icon solar_bottom_side, solar_top;	
 
 	public BlockGenerator(int id, Material material) {
 		super(id, UniversalElectricity.machine);
+		//this.setLightValue();
 	}
 	
 	@Override
 	public boolean hasTileEntity(int meta) {
-		return true/*???TODO*/;
+		return true;
 	}
 	
 	@Override
 	public TileEntity createTileEntity(World world, int metadata) {
-		switch(metadata) {
+		switch(Types.values()[metadata].ordinal()) {
 			case 0:
 				return new TileHeatGenerator();
 			case 1:
@@ -52,7 +63,12 @@ public class BlockGenerator extends Block {
 	@Override
 	public int damageDropped(int par1) {
 		return par1;
-		
+	}
+	
+	@Override
+	public void getSubBlocks(int itemId, CreativeTabs tab, List list) {
+	    for (int i = 0; i < Types.values().length; i++)
+	        list.add(new ItemStack(itemId, 1, i));
 	}
 	
     @Override
@@ -63,7 +79,7 @@ public class BlockGenerator extends Block {
     		return true;
     	}else if(!player.isSneaking()) {
         	int GUIMetadata = tileEntity.getBlockMetadata();
-    			player.openGui(SpaceAgeCore.instance, GUIMetadata, world, x, y, z);
+    			player.openGui(SpaceAgeCore.instance, GUIMetadata/**/, world, x, y, z);
     		}
     	return false;
     }
@@ -96,6 +112,10 @@ public class BlockGenerator extends Block {
     	}
     	
     	super.breakBlock(world, x, y, z, id, meta);
+    }
+    
+    public static enum Types {
+    	HEAT, SOLAR;
     }
     
     /*public int openedGUI(int metadata) {

@@ -19,23 +19,35 @@ public abstract class TileElectricInventoryBase extends TileElectricBase impleme
 	
 	public ItemStack[] inventory;
 	
-    public TileElectricInventoryBase()
-    {
+	 /**
+     * Used for temporary constructors. Not recommended to be used. 
+     * @author SkylordJoel
+     */
+    public TileElectricInventoryBase() {
         this(0);
     }
 
-    public TileElectricInventoryBase(long capacity)
-    {
+    /**
+     * Used for blocks that can only hold energy, and possibly output to an item. Not recommended. 
+     * @author SkylordJoel
+     */
+    public TileElectricInventoryBase(long capacity) {
         this(capacity, capacity, capacity);
     }
 
-    public TileElectricInventoryBase(long energyCapacity, long transferRate)
-    {
+    /**
+     * Used for blocks that can only hold energy, and possibly output to an item, but can adjust their transfer rate. Recommended. 
+     * @author SkylordJoel
+     */
+    public TileElectricInventoryBase(long energyCapacity, long transferRate) {
         energy = new EnergyStorageHandler(energyCapacity, transferRate);
     }
 
-    public TileElectricInventoryBase(long capacity, long maxReceive, long maxExtract)
-    {
+    /**
+     * Used for blocks that can do anything - use energy, store energy, generate energy, everything. For having the block produce energy only or vice versa, put a 0 in place of the unwanted variable. Highly recommended. 
+     * @author SkylordJoel
+     */
+    public TileElectricInventoryBase(long capacity, long maxReceive, long maxExtract) {
         energy = new EnergyStorageHandler(capacity, maxReceive, maxExtract);
     }
 
@@ -53,14 +65,12 @@ public abstract class TileElectricInventoryBase extends TileElectricBase impleme
     public void readFromNBT(NBTTagCompound nbt)
     {
         super.readFromNBT(nbt);
-        this.energy.readFromNBT(nbt);
     }
     
     @Override
     public void writeToNBT(NBTTagCompound nbt)
     {
         super.writeToNBT(nbt);
-        this.energy.writeToNBT(nbt);
     }
 	
 }

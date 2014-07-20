@@ -22,6 +22,11 @@ import spaceage.common.ServerTickHandler;
 import spaceage.common.SpaceAgeCore;
 import spaceage.common.stuff.Resources;
 
+/**
+ * The HUD handler for SpaceAgeCore.  
+ * @author SkylordJoel, Colossali (for original HUD base in SHIM)
+ */
+
 public class SpaceAgeHUDHandler implements ITickHandler {
   public void tickStart(EnumSet<TickType> type, Object... tickData) {
   }
@@ -86,8 +91,7 @@ public class SpaceAgeHUDHandler implements ITickHandler {
     }
   }
 
-  public int getItemCount(EntityPlayer player, Item item)
-  {
+  public int getItemCount(EntityPlayer player, Item item) {
     int count = 0;
 
     for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
@@ -100,13 +104,11 @@ public class SpaceAgeHUDHandler implements ITickHandler {
     return count;
   }
 
-  public EnumSet<TickType> ticks()
-  {
+  public EnumSet<TickType> ticks() {
     return EnumSet.of(TickType.RENDER);
   }
 
-  public String getLabel()
-  {
+  public String getLabel() {
     return "Space_Age_HUD_Handler";
   }
 }

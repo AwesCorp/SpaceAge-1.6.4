@@ -22,13 +22,21 @@ import net.minecraftforge.fluids.IFluidHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import spaceage.common.SpaceAgeCore;
-import spaceage.common.prefab.tile.TileGeneratorBase;
+import spaceage.common.block.BlockGenerator;
+import spaceage.common.prefab.tile.FluidGuiHelper;
 import uedevkit.tile.TileElectricInventoryBase;
+import uedevkit.tile.TileGeneratorBase;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandler {
+/**
+ * The Geothermal Turbine tile entity. Implemented in metadata block form in {@link BlockGenerator}.
+ * @author SkylordJoel
+ */
+
+public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandler, FluidGuiHelper {
 	
-	protected FluidTank waterTank = new FluidTank(2 * FluidContainerRegistry.BUCKET_VOLUME); 
+	public int waterTankSize = 2000;
+	public FluidTank waterTank = new FluidTank(waterTankSize); 
 	
 	protected boolean creatingSteam = false; 
 	
@@ -36,7 +44,7 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
 		super(SpaceAgeCore.HEAT_CAPACITY, 0, SpaceAgeCore.HEAT_ENERGY);
 		inventory = new ItemStack[1];
 	}
-
+    
 	@Override
 	public void updateEntity() {
 		super.updateEntity();
@@ -62,6 +70,7 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
             }
         }
     }
+            this.updateTexture();
 }
 		
 		if(powered == true/* && creatingSteam == true*/) {
@@ -72,7 +81,12 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
 		}
 	}
 	
-    public boolean isFunctioning() {
+    private void updateTexture() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean isFunctioning() {
 		return (!this.energy.isFull());
 	}
 
@@ -208,6 +222,7 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
 	@Override
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt); //TODO
+		waterTank.readFromNBT(nbt);
 		
 		NBTTagList items = nbt.getTagList("Items");
 		
@@ -224,6 +239,7 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
 	@Override
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt); //TODO
+		waterTank.writeToNBT(nbt);
 		
 		NBTTagList items = new NBTTagList();
 		
@@ -241,5 +257,19 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
 		nbt.setTag("Items", items);
 		
 	}
-
+	
+	@Override
+    public int getFluidRemainingScaled(int prgPixels) {
+        Double result = Long.valueOf(this.waterTank.getFluidAmount()).doubleValue() * Long.valueOf(prgPixels).doubleValue() / Long.valueOf(waterTankSize).doubleValue();
+        return result.intValue();
+    }
+	
+	@Override
+	public int getLightValue() {
+		return this.isFunctioning() ? 14 : 0;
+	}
+	
+	public int getType() {
+	    return BlockGenerator.Types.HEAT.ordinal();
+	  }
 }

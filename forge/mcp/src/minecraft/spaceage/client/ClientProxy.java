@@ -12,6 +12,12 @@ import cpw.mods.fml.relauncher.Side;
 import spaceage.client.model.ModelStarboost;
 import spaceage.common.CommonProxy;
 import spaceage.common.PlayerTickHandler;
+import spaceage.common.tile.TileSolarPanel;
+
+/**
+ * The client proxy, implementing rendering, of SpaceAgeCore. 
+ * @author SkylordJoel
+ */
 
 public class ClientProxy extends CommonProxy {
 	

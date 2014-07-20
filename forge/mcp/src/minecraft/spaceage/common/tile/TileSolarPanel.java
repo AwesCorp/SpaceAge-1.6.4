@@ -12,8 +12,9 @@ import net.minecraftforge.common.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import spaceage.common.SpaceAgeCore;
-import spaceage.common.prefab.tile.TileGeneratorBase;
+import spaceage.common.block.BlockGenerator;
 import uedevkit.tile.TileElectricBase;
+import uedevkit.tile.TileGeneratorBase;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
 public class TileSolarPanel extends TileGeneratorBase {
@@ -165,4 +166,7 @@ public class TileSolarPanel extends TileGeneratorBase {
 		return itemstack.itemID == enrichedSilicon.itemID;
 	}
     
+	public int getType() {
+	    return BlockGenerator.Types.SOLAR.ordinal();
+	  }
 }
