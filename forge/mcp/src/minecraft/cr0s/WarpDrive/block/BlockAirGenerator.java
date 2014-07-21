@@ -38,9 +38,21 @@ public class BlockAirGenerator extends Block
     }
 
     @Override
-    public Icon getIcon(int side, int metadata)
-    {
-        if (side == 0)
+    public Icon getIcon(int side, int metadata) {
+    	switch(side) {
+    		case 0:
+    			return iconBuffer[ICON_BOTTOM];
+    		default:
+    			switch(metadata) {
+    				case 0:
+    					return iconBuffer[ICON_INACTIVE_SIDE];
+    				default:
+    					return iconBuffer[ICON_SIDE_ACTIVATED];
+    			}
+    	}
+    	
+    	
+        /*if (side == 0)
         {
             return iconBuffer[ICON_BOTTOM];
         }
@@ -65,7 +77,7 @@ public class BlockAirGenerator extends Block
             return iconBuffer[ICON_SIDE_ACTIVATED];
         }
 
-        return null;
+        return null;*/
     }
 
     @Override

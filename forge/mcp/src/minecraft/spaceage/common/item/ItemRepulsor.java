@@ -2,13 +2,18 @@ package spaceage.common.item;
 
 import java.util.List;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import spaceage.common.SpaceAgeCore;
 
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class ItemRepulsor extends Item {
@@ -16,6 +21,9 @@ public class ItemRepulsor extends Item {
 	public ItemRepulsor(int id) {
 		super(id);
 	}
+	
+	@SideOnly(Side.CLIENT)
+	private Icon[] icons;
 
 	@Override
     public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer player) {
@@ -49,4 +57,10 @@ public class ItemRepulsor extends Item {
 		par3List.add("An energy weapon for use with the advanced spacesuit. Requires the chestplate for energy and the helmet for control.");
 	}
 	
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister register) {
+		icons = new Icon[1];
+		
+		icons[0] = register.registerIcon("spaceage:laserGun");
+	}
 }

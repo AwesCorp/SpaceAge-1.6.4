@@ -34,8 +34,7 @@ public class BlockCloakingCoil extends Block
     }
 
     @Override
-    public Icon getIcon(int side, int metadata)
-    {
+    public Icon getIcon(int side, int metadata) {
         return iconBuffer[metadata];
     }
 

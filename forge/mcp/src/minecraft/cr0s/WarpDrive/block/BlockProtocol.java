@@ -60,6 +60,36 @@ public class BlockProtocol extends Block
     			return iconBuffer[ICON_BOTTOM];
     		case 1:
     			return iconBuffer[ICON_TOP];
+    		case 2:
+    			switch(metadata) {
+    				case 0:
+    					return iconBuffer[ICON_INACTIVE_SIDE];
+					default:
+						return iconBuffer[ICON_SIDE_ACTIVATED + metadata - 1];
+    			}
+    		case 3:
+    			switch(metadata) {
+    				case 0:
+    					return iconBuffer[ICON_INACTIVE_SIDE];
+					default:
+						return iconBuffer[ICON_SIDE_ACTIVATED + metadata - 1];
+    			}
+    		case 4:
+    			switch(metadata) {
+    				case 0:
+    					return iconBuffer[ICON_INACTIVE_SIDE];
+					default:
+						return iconBuffer[ICON_SIDE_ACTIVATED + metadata - 1];
+    			}
+    		case 5:
+    			switch(metadata) {
+    				case 0:
+    					return iconBuffer[ICON_INACTIVE_SIDE];
+					default:
+						return iconBuffer[ICON_SIDE_ACTIVATED + metadata - 1];
+    			}
+			default:
+				return iconBuffer[ICON_INACTIVE_SIDE];
     	}
     	
         /*if (side == 0)
@@ -70,17 +100,6 @@ public class BlockProtocol extends Block
         {
             return iconBuffer[ICON_TOP];
         }*/
-
-        if (metadata == 0) // Inactive state
-        {
-            return iconBuffer[ICON_INACTIVE_SIDE];
-        }
-        else if (metadata > 0)    // Activated, in metadata stored mode number
-        {
-            return iconBuffer[ICON_SIDE_ACTIVATED + metadata - 1];
-        }
-
-        return null;
     }
 
     @Override

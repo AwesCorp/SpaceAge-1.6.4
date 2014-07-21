@@ -37,8 +37,7 @@ public class BlockLaser extends Block
     }
 
     @Override
-    public Icon getIcon(int side, int metadata)
-    {
+    public Icon getIcon(int side, int metadata) {
         return iconBuffer[ICON_SIDE];
     }
 

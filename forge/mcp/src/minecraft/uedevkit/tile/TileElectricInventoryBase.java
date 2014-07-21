@@ -18,6 +18,7 @@ import universalelectricity.api.vector.Vector3;
 public abstract class TileElectricInventoryBase extends TileElectricBase implements ISidedInventory {
 	
 	public ItemStack[] inventory;
+	public String invName = "";
 	
 	 /**
      * Used for temporary constructors. Not recommended to be used. 

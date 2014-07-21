@@ -40,6 +40,7 @@ import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -392,6 +393,10 @@ public class SpaceAgeCore {
 			"H H",
 			"HTH", Character.valueOf('H'), "heavyPlate", Character.valueOf('T'), thrusterPack, Character.valueOf('W'), "wire"
 		}));
+		
+		/*GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(Item.blazeRod), new Object[] {
+			Block.netherrack, Block.netherrack, Block.netherrack, Item.blazePowder
+		}));*/
 		
 	}
 

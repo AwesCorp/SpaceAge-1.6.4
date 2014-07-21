@@ -2,6 +2,7 @@ package uedevkit.tile;
 
 import java.util.EnumSet;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.ForgeDirection;
@@ -241,4 +242,19 @@ public abstract class TileElectricBase extends TileEntity implements IEnergyInte
         super.writeToNBT(nbt);
         this.energy.writeToNBT(nbt);
     }
+    
+	public void blockDismantled() {
+		blockBroken();
+	}
+	
+	public boolean onWrench(EntityPlayer player, int hitSide) {
+		return false;
+	}
+	
+	public boolean canPlayerDismantle(EntityPlayer player) {
+		return true;
+	}
+	
+	public void blockBroken() {
+	}
 }

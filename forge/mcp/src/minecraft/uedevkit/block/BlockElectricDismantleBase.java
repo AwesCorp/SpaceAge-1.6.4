@@ -7,7 +7,9 @@ import uedevkit.block.util.IDismantleable;
 import uedevkit.block.util.IReconfigurableFacing;
 import uedevkit.helper.RandomHelpers;
 import uedevkit.item.util.IWrench;
+import uedevkit.item.util.ItemHelper;
 import uedevkit.tile.TileElectricBase;
+import uedevkit.tile.TileElectricInventoryBase;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -19,7 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
-import net.minecraft.util.MathHelper;
+import uedevkit.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
@@ -57,6 +59,7 @@ public abstract class BlockElectricDismantleBase extends Block
 			((IWrench)equipped).wrenchUsed(player, x, y, z);
 			return true;
 		}
+		return false;
 	}
 
 	 public static boolean isHoldingUsableWrench(EntityPlayer player, int x, int y, int z) {
@@ -105,32 +108,45 @@ public abstract class BlockElectricDismantleBase extends Block
 
 		TileEntity tile = world.getBlockTileEntity(x, y, z);
 
-		if (tile instanceof IReconfigurableFacing) {
-			IReconfigurableFacing reconfig = (IReconfigurableFacing) tile;
-			int quadrant = MathHelper.floor(living.rotationYaw * 4.0F / 360.0F + 0.5D) & 3;
+		   if ((tile instanceof IReconfigurableFacing)) {
+			      IReconfigurableFacing reconfig = (IReconfigurableFacing)tile;
+			      int quadrant = MathHelper.floor(living.rotationYaw * 4.0F / 360.0F + 0.5D) & 0x3;
 
-			switch (quadrant) {
-			case 0:
-				reconfig.setFacing(2);
-				return;
-			case 1:
-				reconfig.setFacing(5);
-				return;
-			case 2:
-				reconfig.setFacing(3);
-				return;
-			case 3:
-				reconfig.setFacing(4);
-				return;
-			case 4:
-				reconfig.setFacing(1);
-				return;
-			case 5:
-				reconfig.setFacing(0);
-				return;
-			}
+			      if (reconfig.allowYAxisFacing()) {
+			        quadrant = living.rotationPitch < -60.0F ? 5 : living.rotationPitch > 60.0F ? 4 : quadrant;
+			      }
+			      switch (quadrant) {
+			      case 0:
+			        reconfig.setFacing(2);
+			        return;
+			      case 1:
+			        reconfig.setFacing(5);
+			        return;
+			      case 2:
+			        reconfig.setFacing(3);
+			        return;
+			      case 3:
+			        reconfig.setFacing(4);
+			        return;
+			      case 4:
+			        reconfig.setFacing(1);
+			        return;
+			      case 5:
+			        reconfig.setFacing(0);
+			        return;
+			      }
 		}
 	}
+	
+	  public NBTTagCompound getItemStackTag(World world, int x, int y, int z)
+	  {
+	    TileEntity tile = world.getBlockTileEntity(x, y, z);
+
+	    if (((tile instanceof TileElectricInventoryBase)) && (!((TileElectricInventoryBase)tile).invName.isEmpty())) {
+	      return ItemHelper.setItemStackTagName(null, ((TileElectricInventoryBase)tile).invName);
+	    }
+	    return null;
+	  }
 	
 	@Override
 	public boolean rotateBlock(World world, int x, int y, int z, ForgeDirection axis) {
@@ -141,9 +157,8 @@ public abstract class BlockElectricDismantleBase extends Block
 	}
 	
 	@Override
-	public ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops) {
-
-		return dismantleBlock(player, getItemStackTag(world, x, y, z), world, x, y, z, returnDrops, false);
+	public ItemStack dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnBlock) {
+	    return dismantleBlock(player, getItemStackTag(world, x, y, z), world, x, y, z, returnBlock, false);
 	}
 
 	@Override

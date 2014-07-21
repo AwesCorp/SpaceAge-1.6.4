@@ -36,8 +36,7 @@ public class BlockCloakingDeviceCore extends Block
     }
 
     @Override
-    public Icon getIcon(int side, int metadata)
-    {
+    public Icon getIcon(int side, int metadata) {
     	return iconBuffer[metadata];
     }
 

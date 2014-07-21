@@ -36,18 +36,15 @@ public class BlockShipScanner extends Block
     }
 
     @Override
-    public Icon getIcon(int side, int metadata)
-    {
-        if (side == 1) // UP
-        {
-            return iconBuffer[0];
-        }
-        else if (side == 0) // DOWN
-        {
-            return iconBuffer[2];
-        }
-
-        return iconBuffer[1];
+    public Icon getIcon(int side, int metadata) {
+    	switch(side) {
+    		case 0:
+    			return iconBuffer[2];
+    		case 1:
+    			return iconBuffer[0];
+			default:
+				return iconBuffer[1];
+    	}
     }
 
     @Override

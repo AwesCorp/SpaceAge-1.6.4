@@ -27,8 +27,7 @@ public class BlockParticleBooster extends Block
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
-    {
+    public void registerIcons(IconRegister par1IconRegister) {
         iconBuffer = new Icon[12];
         iconBuffer[0] = par1IconRegister.registerIcon("warpdrive:particleBoosterSide0");
         iconBuffer[1] = par1IconRegister.registerIcon("warpdrive:particleBoosterSide1");
@@ -45,19 +44,19 @@ public class BlockParticleBooster extends Block
     }
 
     @Override
-    public Icon getIcon(int side, int metadata)
-    {
-        if (side == 0 || side == 1)
-        {
-            return iconBuffer[11];
-        }
-
-        if (metadata > 10)
-        {
+    public Icon getIcon(int side, int metadata) {
+        if (metadata > 10) {
             metadata = 10;
         }
-
-        return iconBuffer[metadata];
+    	
+    	switch(side) {
+    		case 0: 
+    			return iconBuffer[11];
+    		case 1:
+    			return iconBuffer[11];
+    		default:
+    			return iconBuffer[metadata];
+    	}
     }
 
     @Override

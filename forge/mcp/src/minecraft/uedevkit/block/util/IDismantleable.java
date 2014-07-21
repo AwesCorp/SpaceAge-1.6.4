@@ -1,27 +1,17 @@
 package uedevkit.block.util;
 
-import java.util.ArrayList;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
- * Implemented on Blocks which have some method of being instantly dismantled.
  * 
  * @author King Lemming
- * 
+ *
  */
-public interface IDismantleable {
 
-	/**
-	 * Dismantles the block. If returnDrops is true, the drop(s) should be placed into the player's inventory.
-	 */
-	ArrayList<ItemStack> dismantleBlock(EntityPlayer player, World world, int x, int y, int z, boolean returnDrops);
+public abstract interface IDismantleable {
+  public abstract ItemStack dismantleBlock(EntityPlayer paramEntityPlayer, World paramWorld, int paramInt1, int paramInt2, int paramInt3, boolean paramBoolean);
 
-	/**
-	 * Return true if the block can be dismantled. The criteria for this is entirely up to the block.
-	 */
-	boolean canDismantle(EntityPlayer player, World world, int x, int y, int z);
-
+  public abstract boolean canDismantle(EntityPlayer paramEntityPlayer, World paramWorld, int paramInt1, int paramInt2, int paramInt3);
 }

@@ -46,8 +46,10 @@ public class BlockMiningLaser extends Block
     			return iconBuffer[0];
     		case 1:
     			return iconBuffer[0];
+			default:
+				return iconBuffer[metadata + 1];
     	}
-        return iconBuffer[metadata + 1];
+        //return iconBuffer[metadata + 1];
     }
 
     @Override

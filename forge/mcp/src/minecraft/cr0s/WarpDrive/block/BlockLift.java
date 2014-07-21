@@ -39,9 +39,21 @@ public class BlockLift extends Block
     }
 
     @Override
-    public Icon getIcon(int side, int metadata)
-    {
-        if (side == 1)
+    public Icon getIcon(int side, int metadata) {
+    	switch(side) {
+    		case 0:
+    			switch(metadata) {
+    				case 0:
+    					return iconBuffer[3];
+					default:
+						return iconBuffer[6 - metadata];
+    			}
+    		case 1:
+    			return iconBuffer[3 + metadata];
+			default:
+				return iconBuffer[metadata];
+    	}
+        /*if (side == 1)
         {
             return iconBuffer[3 + metadata];
         }
@@ -57,7 +69,7 @@ public class BlockLift extends Block
             }
         }
 
-        return iconBuffer[metadata];
+        return iconBuffer[metadata];*/
     }
 
     @Override

@@ -26,25 +26,54 @@ import net.minecraft.util.Icon;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
-public class BlockMonitor extends Block
-{
+public class BlockMonitor extends Block {
     private Icon frontIcon;
     private Icon blockIcon;
 
-    public BlockMonitor(int id)
-    {
+    public BlockMonitor(int id) {
         super(id, Material.iron);
     }
 
     @SideOnly(Side.CLIENT)
-
     /**
      * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
      */
-    public Icon getIcon(int side, int meta)
-    {
+    public Icon getIcon(int side, int meta) {
         meta &= 3;
-        return side == 2 ? (meta == 0 ? this.frontIcon : this.blockIcon) : (side == 3 ? (meta == 2 ? this.frontIcon : this.blockIcon) : (side == 4 ? (meta == 3 ? this.frontIcon : this.blockIcon) : (side == 5 ? (meta == 1 ? this.frontIcon : this.blockIcon) : this.blockIcon)));
+        switch(side) {
+        	case 2:
+        		switch(meta) {
+        			case 0:
+        				return frontIcon;
+    				default:
+    					return blockIcon;
+        		}
+        	case 3:
+        		switch(meta) {
+    				case 2:
+    					return frontIcon;
+    				default:
+    					return blockIcon;
+    		}
+        	case 4:
+        		switch(meta) {
+    				case 3:
+    					return frontIcon;
+    				default:
+    					return blockIcon;
+        		}
+        	case 5:
+        		switch(meta) {
+        			case 1:
+        				return frontIcon;
+    				default:
+    					return blockIcon;
+        		}
+    		default: 
+    			return blockIcon;
+        }
+        
+        //return side == 2 ? (meta == 0 ? this.frontIcon : this.blockIcon) : (side == 3 ? (meta == 2 ? this.frontIcon : this.blockIcon) : (side == 4 ? (meta == 3 ? this.frontIcon : this.blockIcon) : (side == 5 ? (meta == 1 ? this.frontIcon : this.blockIcon) : this.blockIcon)));
     }
 
     /**
