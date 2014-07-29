@@ -15,15 +15,23 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 
-public class BlockHades extends Block {
+public class Block0011 extends Block {
 
-	public BlockHades(int id, Material material) {
+	public Block0011(int id, Material material) {
 		super(id, material);
 		this.setCreativeTab(SpaceAgeCore.tabSA);
 		
+		
+		
 		switch(type.ordinal()) {
 			case 0:
-				setHardness(1.0F).setStepSound(Block.soundGravelFootstep);
+				setHardness(1.0F).setStepSound(Block.soundMetalFootstep);
+			case 1:
+				setHardness(1.0F).setStepSound(Block.soundMetalFootstep);
+			case 2:
+				setHardness(1.0F).setStepSound(Block.soundMetalFootstep);
+			case 3:
+				setHardness(100.0F).setStepSound(Block.soundGrassFootstep);
 		}
 	}
 	
@@ -34,7 +42,7 @@ public class BlockHades extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
-		icons = new Icon[1];
+		icons = new Icon[5];
 		
 		for(int i = 0; i < icons.length; i++) {
 			icons[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + i);
@@ -47,6 +55,20 @@ public class BlockHades extends Block {
 		switch(metadata) {
 			case 0:
 				return icons[0];
+			case 1:
+				return icons[1];
+			case 2:
+				switch(side) {
+					case 0: 
+						return icons[2];
+					case 1:
+						return icons[2];
+					default: 
+						return icons[3];
+			}
+			case 3:
+				return icons[4];
+				
 			default:
 				return icons[0];
 		}
@@ -54,7 +76,7 @@ public class BlockHades extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for(int i = 0; i < 1; i++) {
+		for(int i = 0; i < 3; i++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}
@@ -82,7 +104,7 @@ public class BlockHades extends Block {
 	}
 
 	public static enum Type {
-		FAKE_DIRT;
+		TECH_DIRT, SOLAR_LEAVES, HEAVY_ALLOY_WOOD, ORGANIC_BUILDING_BLOCK;
 	}
 	
 }

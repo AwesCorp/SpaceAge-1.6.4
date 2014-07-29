@@ -9,6 +9,7 @@ import org.lwjgl.input.Keyboard;
 
 import spaceage.client.gui.SPGUI;
 import spaceage.common.achievements.SpaceAgeAchievements;
+import spaceage.common.block.Block0011;
 import spaceage.common.block.BlockConnectedGlasses;
 import spaceage.common.block.BlockGenerator;
 import spaceage.common.block.BlockHades;
@@ -101,6 +102,7 @@ public class SpaceAgeCore {
 	public static Block tintedGlass;
 	public static Block vulcanSurface;
 	public static Block hadesSurface;
+	public static Block T0011Surface;
 	
 	//Custom ItemStacks (for crafting ease etc.)
 	//GameRegistry.registerCustomItemStack("ash", new ItemStack(vulcanSurface, 1, 2));
@@ -119,6 +121,7 @@ public class SpaceAgeCore {
 	public static int tintedGlassID;
 	public static int vulcanSurfaceID;
 	public static int hadesSurfaceID;
+	public static int T0011SurfaceID;
 	
 	//ENERGY VALUES
 	//GENERATORS
@@ -158,8 +161,9 @@ public class SpaceAgeCore {
 		//HEAT_CAPACITY = config.get("Energy", "How much energy the geothermal turbime can store - do not edit this to play on the server", 250).getInt();
 		metaGeneratorID = config.get("Blocks", "Value of the generator - do not edit this to play on the server", 502).getInt();
 		tintedGlassID = config.get("Blocks", "Value of the reinforced glass - do not edit to play on the server", 503).getInt();
-		vulcanSurfaceID = config.get("Blocks", "Value of the majority of vulcan related blocks - do not edit this to play on the server", 504).getInt();
+		vulcanSurfaceID = config.get("Blocks", "Value of the majority of Vulcan related blocks - do not edit this to play on the server", 504).getInt();
 		hadesSurfaceID = config.get("Blocks", "Value of the majority of Hades related blocks - do not edit to play on the server", 505).getInt();
+		T0011SurfaceID = config.get("Blocks", "Value of the majority of 0011 related blocks - do not edit to play on the server", 506).getInt();
 		
 		config.save();
 	}	
@@ -172,7 +176,7 @@ public class SpaceAgeCore {
 	       metadata.modId = this.modid;
 	       metadata.name = "SpaceAge/Project Cosmos";
 	       metadata.description = "SpaceAge/Project Cosmos: Bringing Minecraft to the Space Age";
-	       metadata.url = "Not released yet";
+	       metadata.url = "https://sites.google.com/site/spaceageminecraft/";
 	       metadata.logoFile = "assets/spaceage/logo.png";
 	       metadata.version = "Alpha";
 	       metadata.authorList = Arrays.asList(new String[] { 
@@ -197,6 +201,8 @@ public class SpaceAgeCore {
 		vulcanSurface = new BlockVulcan(this.vulcanSurfaceID, Material.rock).setUnlocalizedName("vulcanBlock");
 		
 		hadesSurface = new BlockHades(this.hadesSurfaceID, Material.rock).setUnlocalizedName("hadesBlock");
+		
+		T0011Surface = new Block0011(this.T0011SurfaceID, Material.rock).setUnlocalizedName("0011Block");
 		
 		ores1 = new BlockOres1(this.ores1ID, Material.rock).setUnlocalizedName("spaceAgeOres1");
 		
@@ -437,6 +443,11 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 3), "Fire Essence");
 		
 		LanguageRegistry.addName(new ItemStack(hadesSurface, 1, 0), "Dirt");
+		
+		LanguageRegistry.addName(new ItemStack(T0011Surface, 1, 0), "Cyberdirt");
+		LanguageRegistry.addName(new ItemStack(T0011Surface, 1, 1), "Photovoltaic Leaves");
+		LanguageRegistry.addName(new ItemStack(T0011Surface, 1, 2), "Heavy Alloy Encrusted Log");
+		LanguageRegistry.addName(new ItemStack(T0011Surface, 1, 3), "Chlorophyll");
 		
 		LanguageRegistry.addName(new ItemStack(metaGenerator, 1, 0), "Geothermal Turbine");
 		LanguageRegistry.addName(new ItemStack(metaGenerator, 1, 1), "Photovoltaic Panel");

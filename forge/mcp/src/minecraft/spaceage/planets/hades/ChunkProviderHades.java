@@ -1,4 +1,4 @@
-package spaceage.planets.vulcan;
+package spaceage.planets.hades;
 
 import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.CAVE;
 import static net.minecraftforge.event.terraingen.InitMapGenEvent.EventType.MINESHAFT;
@@ -14,6 +14,7 @@ import static net.minecraftforge.event.terraingen.PopulateChunkEvent.Populate.Ev
 import java.util.List;
 import java.util.Random;
 
+import spaceage.common.SpaceAgeCore;
 import spaceage.planets.general.BiomeList;
 
 import net.minecraft.block.Block;
@@ -43,7 +44,7 @@ import net.minecraftforge.event.terraingen.ChunkProviderEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
-public class ChunkProviderVulcan implements IChunkProvider {
+public class ChunkProviderHades implements IChunkProvider {
 	/** RNG. */
 	private Random rand;
 
@@ -114,7 +115,7 @@ public class ChunkProviderVulcan implements IChunkProvider {
 		ravineGenerator = TerrainGen.getModdedMapGen(ravineGenerator, RAVINE);
 	}
 
-	public ChunkProviderVulcan(World world, long seed, boolean mapFeaturesEnabled) {
+	public ChunkProviderHades(World world, long seed, boolean mapFeaturesEnabled) {
 		this.worldObj = world;
 		this.mapFeaturesEnabled = mapFeaturesEnabled;
 		this.rand = new Random(seed);
@@ -181,9 +182,9 @@ public class ChunkProviderVulcan implements IChunkProvider {
 
 							for (int k2 = 0; k2 < 4; ++k2) {
 								if ((d16 += d15) > 0.0D) {
-									par3ArrayOfByte[j2 += short1] = (byte) Block.netherrack.blockID;//Block.stone.blockID;
+									par3ArrayOfByte[j2 += short1] = (byte) SpaceAgeCore.hadesSurfaceID;//Block.stone.blockID;
 								} else if (k1 * 8 + l1 < b2) {
-									par3ArrayOfByte[j2 += short1] = (byte) Block.lavaStill.blockID;
+									par3ArrayOfByte[j2 += short1] = (byte) Block.ice.blockID;
 								} else {
 									par3ArrayOfByte[j2 += short1] = 0;
 								}
@@ -235,11 +236,11 @@ public class ChunkProviderVulcan implements IChunkProvider {
 
 						if (b3 == 0) {
 							j1 = -1;
-						} else if (b3 == Block.netherrack.blockID) {
+						} else if (b3 == SpaceAgeCore.hadesSurfaceID) {
 							if (j1 == -1) {
 								if (i1 <= 0) {
 									b1 = 0;
-									b2 = (byte) Block.netherrack.blockID;//was dirt
+									b2 = (byte) SpaceAgeCore.hadesSurfaceID;//was dirt
 								} else if (k1 >= b0 - 4 && k1 <= b0 + 1) {
 									b1 = biomegenbase.topBlock;
 									b2 = biomegenbase.fillerBlock;
@@ -247,9 +248,9 @@ public class ChunkProviderVulcan implements IChunkProvider {
 
 								if (k1 < b0 && b1 == 0) {
 									if (f < 0.15F) {
-										b1 = (byte) Block.lavaStill.blockID;
+										b1 = (byte) Block.ice.blockID;
 									} else {
-										b1 = (byte) Block.lavaStill.blockID;
+										b1 = (byte) Block.ice.blockID;
 									}
 								}
 
@@ -264,9 +265,9 @@ public class ChunkProviderVulcan implements IChunkProvider {
 								--j1;
 								par3ArrayOfByte[l1] = b2;
 
-								if (j1 == 0 && b2 == Block.netherrack.blockID) {
+								if (j1 == 0 && b2 == SpaceAgeCore.hadesSurfaceID) {
 									j1 = this.rand.nextInt(4);
-									b2 = (byte) Block.netherrack.blockID;
+									b2 = (byte) SpaceAgeCore.hadesSurfaceID;
 								}
 							}
 						}
@@ -501,9 +502,9 @@ public class ChunkProviderVulcan implements IChunkProvider {
                 int j2 = k + rand.nextInt(16) + 8;
                 int l3 = rand.nextInt(120);
                 int j5 = l + rand.nextInt(16) + 8;
-                if ((worldObj.getBlockId(j2, l3, j5) == 0) && (worldObj.getBlockId(j2, l3 - 1, j5) == Block.netherrack.blockID))
+                if ((worldObj.getBlockId(j2, l3, j5) == 0) && (worldObj.getBlockId(j2, l3 - 1, j5) == SpaceAgeCore.hadesSurface.blockID) && (worldObj.getBlockMetadata(j2, l3 - 1, j5) == 0))
                 {
-                        new WorldGenGlowstoneTree(true).generate(worldObj, rand, j2, l3, j5);
+                        new WorldGenIceBlade(true).generate(worldObj, rand, j2, l3, j5);
                 }
         }
       

@@ -38,7 +38,7 @@ public class BiomeGenVulcanMain extends BiomeGenBase {
     this.customBiomeDecorator.treesPerChunk = -999;
     this.customBiomeDecorator.generateLakes = false;
     this.customBiomeDecorator.vulcanSoulSandGenPerChunk = 3;
-    this.customBiomeDecorator.glowstoneTreeGenPerChunk = 8;
+    //this.customBiomeDecorator.glowstoneTreeGenPerChunk = 8;
     this.customBiomeDecorator.fireEssencePerChunk = 1;
     this.customBiomeDecorator.lavaLakesPerChunk = 3;
     this.customBiomeDecorator.flowersPerChunk = -999;
@@ -70,7 +70,7 @@ public class BiomeGenVulcanMain extends BiomeGenBase {
   
   @Override
   public WorldGenerator getRandomWorldGenForTrees(Random par1Random) {
-    return new WorldGenGlowstoneTree();
+    return new WorldGenGlowstoneTree(false);
   }
   
   @SideOnly(Side.CLIENT)

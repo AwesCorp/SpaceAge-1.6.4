@@ -1,4 +1,4 @@
-package spaceage.planets.vulcan;
+package spaceage.planets.technoorganic;
 
 import spaceage.planets.SpaceAgePlanets;
 import net.minecraft.entity.Entity;
@@ -15,12 +15,12 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cr0s.WarpDrive.utils.CloudRenderBlank;
 
-public class WorldProviderVulcan extends WorldProvider
-{
-public void registerWorldChunkManager()
+public class WorldProvider0011 extends WorldProvider {
+
+	public void registerWorldChunkManager()
 {
 /** tells Minecraft to use our new WorldChunkManager **/
-this.worldChunkMgr = new WorldChunkMangerVulcan(worldObj.getSeed(), terrainType);
+this.worldChunkMgr = new WorldChunkManger0011(worldObj.getSeed(), terrainType);
 this.hasNoSky = false;
 }
 
@@ -28,26 +28,26 @@ this.hasNoSky = false;
 /** Dimension Name **/
 public String getDimensionName()
 {
-return "Vulcan";
+return "0011";
 }
 
 /** Get Provider for dimension **/
 public static WorldProvider getProviderForDimension(int id)
 {
-return DimensionManager.createProviderFor(SpaceAgePlanets.instance.vulcanID);
+return DimensionManager.createProviderFor(SpaceAgePlanets.instance.T0011ID);
 }
 
 /** Welcome message **/
 public String getWelcomeMessage()
 {
-return "<Nav Computer> Entering the atmosphere of Vulcan";
+return "<Nav Computer> Entering the atmosphere of 0011";
 }
 
 
 /** What chunk provider to use **/
 public IChunkProvider createChunkGenerator()
 {
-return new ChunkProviderVulcan(worldObj, worldObj.getSeed(), true);
+return new ChunkProvider0011(worldObj, worldObj.getSeed(), true);
 }
 
 	/** Can player re-spawn here **/
@@ -57,7 +57,7 @@ return new ChunkProviderVulcan(worldObj, worldObj.getSeed(), true);
 
 /** Determines the dimension the player will be respawned in **/
 	public int getRespawnDimension(EntityPlayerMP player) {
-		return SpaceAgePlanets.instance.vulcanID;
+		return SpaceAgePlanets.instance.T0011ID;
 	}
 
 	@Override

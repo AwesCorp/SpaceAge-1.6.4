@@ -233,4 +233,10 @@ public class SpaceProvider extends WorldProvider
     {
         return false;
     }
+    
+    /** Welcome message **/
+    public String getWelcomeMessage()
+    {
+    return "<Nav Computer> Entering space";
+    }
 }

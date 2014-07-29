@@ -42,13 +42,13 @@ public class BiomeDecoratorSA extends BiomeDecorator {
   
   //VULCAN
   public WorldGenerator vulcanSoulSandGen;
-  public WorldGenerator glowstoneTreeGen;
+  //public WorldGenerator glowstoneTreeGen;
   public WorldGenerator vulcanVolcanoGen;
   public WorldGenerator fireEssenceGen;
   
   //VULCAN
   public int vulcanSoulSandGenPerChunk;
-  public int glowstoneTreeGenPerChunk;
+  //public int glowstoneTreeGenPerChunk;
   public int vulcanVolcanoesPerChunk;
   public int lavaLakesPerChunk;
   public int fireEssencePerChunk;
@@ -72,13 +72,13 @@ public class BiomeDecoratorSA extends BiomeDecorator {
     
     //MISC
     this.vulcanSoulSandGen = new WorldGenSoulSand(Block.slowSand.blockID, 48, Block.netherrack.blockID);
-    this.glowstoneTreeGen = new WorldGenGlowstoneTree();
+    //this.glowstoneTreeGen = new WorldGenGlowstoneTree();
     this.vulcanVolcanoGen = new WorldGenVulcanVolcano();
     
     this.hadesIceGen = new WorldGenMetaOres(Block.ice.blockID, (hadesIcePerChunk * 48), 0, SpaceAgeCore.hadesSurface.blockID, 0);
     
     this.vulcanSoulSandGenPerChunk = 0;
-    this.glowstoneTreeGenPerChunk = 0;
+    //this.glowstoneTreeGenPerChunk = 0;
     this.vulcanVolcanoesPerChunk = 0;
     
     this.hadesIcePerChunk = 0;
@@ -343,12 +343,12 @@ public class BiomeDecoratorSA extends BiomeDecorator {
       this.vulcanSoulSandGen.generate(currentWorlds, this.random, var3, var4, var5);
     }
     
-    for (int var2 = 0; var2 < this.glowstoneTreeGenPerChunk; var2++) {
+    /*for (int var2 = 0; var2 < this.glowstoneTreeGenPerChunk; var2++) {
       int var3 = chunk_xs + this.random.nextInt(16) + 8;
       int var4 = this.random.nextInt(256);
       int var5 = chunk_zs + this.random.nextInt(16) + 8;
       this.glowstoneTreeGen.generate(currentWorlds, this.random, var3, var4, var5);
-    }
+    }*/
 
     /*for (int var2 = 0; var2 < this.waterLakesPerChunk; var2++)
     {

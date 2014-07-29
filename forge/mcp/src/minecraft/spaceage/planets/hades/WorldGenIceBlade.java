@@ -10,6 +10,10 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenIceBlade extends WorldGenerator {
 
+	public WorldGenIceBlade(boolean par1) {
+		super(par1);
+	}
+
 	@Override
 	  public boolean generate(World var1, Random var2, int var3, int var4, int var5) {
 	    while ((var1.isAirBlock(var3, var4, var5)) && (var4 > 2)) {

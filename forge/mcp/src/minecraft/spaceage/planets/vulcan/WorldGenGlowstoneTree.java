@@ -1,100 +1,148 @@
 package spaceage.planets.vulcan;
 
-import com.google.common.base.Optional;
 import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
+
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.common.ForgeDirection;
 
-public class WorldGenGlowstoneTree extends WorldGenerator {
-  public WorldGenGlowstoneTree() {
-    super();
-  }
+public class WorldGenGlowstoneTree extends WorldGenerator
+{
+	public WorldGenGlowstoneTree(boolean par1)
+	{
+		super();
+	}
 
-  public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
-    int var6 = par2Random.nextInt(3) + 5;
-    boolean flag = true;
+	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
+	{
+		int l = par2Random.nextInt(3) + 5;
+		boolean flag = true;
 
-    if ((par4 >= 1) && (par4 + var6 + 1 <= 256)) {
-      for (int var8 = par4; var8 <= par4 + 1 + var6; var8++) {
-        byte var9 = 1;
+		if (par4 >= 1 && par4 + l + 1 <= 256)
+		{
+			int i1;
+			int j1;
+			int k1;
+			int l1;
 
-        if (var8 == par4) {
-          var9 = 0;
-        }
+			for (i1 = par4; i1 <= par4 + 1 + l; ++i1)
+			{
+				byte b0 = 1;
 
-        if (var8 >= par4 + 1 + var6 - 2) {
-          var9 = 2;
-        }
+				if (i1 == par4)
+				{
+					b0 = 0;
+				}
 
-        for (int var10 = par3 - var9; (var10 <= par3 + var9) && (flag); var10++)
-        {
-          for (int var11 = par5 - var9; (var11 <= par5 + var9) && (flag); var11++)
-          {
-            if ((var8 >= 0) && (var8 < 256))
-            {
-              int var12 = par1World.getBlockId(var10, var8, var11);
+				if (i1 >= par4 + 1 + l - 2)
+				{
+					b0 = 2;
+				}
 
-              Block block = Block.blocksList[var12];
+				for (j1 = par3 - b0; j1 <= par3 + b0 && flag; ++j1)
+				{
+					for (k1 = par5 - b0; k1 <= par5 + b0 && flag; ++k1)
+					{
+						if (i1 >= 0 && i1 < 256)
+						{
+							l1 = par1World.getBlockId(j1, i1, k1);
 
-              if ((var12 != 0) && (block != null) && (!block.isLeaves(par1World, var10, var8, var11)))
-              {
-                flag = false;
-              }
-            }
-            else
-            {
-              flag = false;
-            }
-          }
-        }
-      }
+							Block block = Block.blocksList[l1];
+							
+					          int blockId = SpaceAgeCore.vulcanSurface.blockID;
+					          boolean properBlockId = (par1World.getBlockId(j1, i1, k1) == (blockId));
+					          
+					          int blockMeta = 0;
+					          boolean properBlockMeta = (par1World.getBlockMetadata(j1, i1, k1) == (blockMeta));
 
-      if (!flag) {
-        return false;
-      }
+							if (l1 != 0 && block != null && ((properBlockId == false/*block.isLeaves(par1World, par3, par4 + var16, par5)*/) && (properBlockMeta == false)))
+							//if (l1 != 0 && (block != null && !block.isLeaves(par1World, j1,  i1, k1)))
+							{
+								flag = false;
+							}
+						}
+						else
+						{
+							flag = false;
+						}
+					}
+				}
+			}
 
-      int var8 = par1World.getBlockId(par3, par4 - 1, par5);
+			if (!flag)
+			{
+				return false;
+			}
+			else
+			{
+				i1 = par1World.getBlockId(par3, par4 - 1, par5);
 
-      if (((var8 == Block.netherrack.blockID) || (var8 == Block.slowSand.blockID)) && (par4 < 256 - var6 - 1))
-      {
-        setBlock(par1World, par3, par4 - 1, par5, Block.netherrack.blockID);
+				boolean isValidSoil = (i1 == Block.netherrack.blockID);
 
-        for (int var16 = par4 - 3 + var6; var16 <= par4 + var6; var16++) {
-          int var10 = var16 - (par4 + var6);
-          int var11 = 1 - var10 / 2;
+				if (isValidSoil && par4 < 256 - l - 1)
+				{
+					//soil.onPlantGrow(par1World, par3, par4 - 1, par5, par3, par4, par5);
+					int i2;
 
-          for (int var12 = par3 - var11; var12 <= par3 + var11; var12++) {
-            int var13 = var12 - par3;
+					for (i2 = par4 - 3 + l; i2 <= par4 + l; ++i2)
+					{
+						j1 = i2 - (par4 + l);
+						k1 = 1 - j1 / 2;
 
-            for (int var14 = par5 - var11; var14 <= par5 + var11; var14++) {
-              int var15 = var14 - par5;
+						for (l1 = par3 - k1; l1 <= par3 + k1; ++l1)
+						{
+							int j2 = l1 - par3;
 
-              boolean lookup = Block.opaqueCubeLookup[par1World.getBlockId(var12, var16, var14)];
-              if (((Math.abs(var13) != var11) || (Math.abs(var15) != var11) || ((par2Random.nextInt(2) != 0) && (var10 != 0))) && (lookup == false)) {
-                  setBlockAndMetadata(par1World, var12, var16, var14, SpaceAgeCore.vulcanSurface.blockID, 0);
-                }
-              }
-            }
-          }
-        }
+							for (int k2 = par5 - k1; k2 <= par5 + k1; ++k2)
+							{
+								int l2 = k2 - par5;
 
-        for (int var16 = 0; var16 < var6; var16++)
-        {
-          int var10 = par1World.getBlockId(par3, par4 + var16, par5);
+								if (Math.abs(j2) != k1 || Math.abs(l2) != k1 || par2Random.nextInt(2) != 0 && j1 != 0)
+								{
+									int i3 = par1World.getBlockId(l1, i2, k2);
+									Block block = Block.blocksList[i3];
 
-          Block block = Block.blocksList[var10];
+									if (block == null || block.canBeReplacedByLeaves(par1World, l1, i2, k2))
+									{
+										this.setBlockAndMetadata(par1World, l1, i2, k2, SpaceAgeCore.vulcanSurface.blockID, 0);
+									}
+								}
+							}
+						}
+					}
 
-          if ((var10 == 0) || (block == null) || (block.isLeaves(par1World, par3, par4 + var16, par5)))
-          {
-            setBlockAndMetadata(par1World, par3, par4 + var16, par5, SpaceAgeCore.vulcanSurface.blockID, 1);
-          }
-        }
+					for (i2 = 0; i2 < l; ++i2)
+					{
+						j1 = par1World.getBlockId(par3, par4 + i2, par5);
 
-        return true;
-      }
-    return false;
-  }
+						Block block = Block.blocksList[j1];
+						
+				          int blockId = SpaceAgeCore.vulcanSurface.blockID;
+				          boolean properBlockId = (par1World.getBlockId(par3, par4 + i2, par5) == (blockId));
+				          
+				          int blockMeta = 0;
+				          boolean properBlockMeta = (par1World.getBlockMetadata(par3, par4 + i2, par5) == (blockMeta));
+
+						if (j1 == 0 || block == null || ((properBlockId == true/*block.isLeaves(par1World, par3, par4 + var16, par5)*/) && (properBlockMeta == true)))
+						{
+							this.setBlockAndMetadata(par1World, par3, par4 + i2, par5, SpaceAgeCore.vulcanSurface.blockID, 1);
+						}
+					}
+
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
 }

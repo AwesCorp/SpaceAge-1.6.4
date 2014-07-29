@@ -9,6 +9,7 @@ import spaceage.common.LogHelper;
 import spaceage.common.SpaceAgeCore;
 import spaceage.planets.hades.WorldProviderHades;
 import spaceage.planets.proxy.CommonProxy;
+import spaceage.planets.technoorganic.WorldProvider0011;
 import spaceage.planets.vulcan.WorldProviderVulcan;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
@@ -23,7 +24,7 @@ import cpw.mods.fml.common.network.NetworkMod;
  *
  */
 
-@Mod(modid=SpaceAgePlanets.modid, name="SpaceAge Planets/Project Cosmos", version="Alpha", dependencies="required-after:SpaceAge;required-after:WarpDrive")
+@Mod(modid=SpaceAgePlanets.modid, name="SpaceAge Planets/Project Cosmos", version="Alpha", dependencies="required-after:SpaceAge;required-after:WarpDrive;required-after:RotaryCraft")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false/*, serverPacketHandlerSpec=@NetworkMod.SidedPacketHandler(channels={"SpaceAge_C"}, packetHandler=ServerPacketHandler.class)*/)
 
 public class SpaceAgePlanets {
@@ -37,14 +38,18 @@ public class SpaceAgePlanets {
 	public static SpaceAgePlanets instance;
 	
 	//Dimension ID Registry
-	int vulcanID = DimensionManager.getNextFreeDimId();
-	int hadesID = DimensionManager.getNextFreeDimId();
+	public int vulcanID = DimensionManager.getNextFreeDimId();
+	public int hadesID = DimensionManager.getNextFreeDimId();
+	public int T0011ID = DimensionManager.getNextFreeDimId();
 	
 	//Biome ID Registry
 	public static int vulcanBiomeID = 255;
 	public static int vulcanVolcanoBiomeID = 256;
 	
 	public static int hadesBiomeID = 257;
+	
+	public static int T0011BiomeID = 258;
+	public static int T0011ClearBiomeID = 259;
 	
 	public static final Configuration config = new Configuration(new File("config/AwesCorp/SpaceAgePlanets.cfg"));
 	
@@ -66,6 +71,7 @@ public class SpaceAgePlanets {
 	
 		registerVulcan();
 		registerHades();
+		register0011();
 		
 		LogHelperPlanet.log(Level.FINEST, "Initialised successfully");
 	}
@@ -78,5 +84,10 @@ public class SpaceAgePlanets {
 	public void registerHades() {
 		DimensionManager.registerProviderType(this.hadesID, WorldProviderHades.class, true);
 		DimensionManager.registerDimension(hadesID, hadesID);
+	}
+	
+	public void register0011() {
+		DimensionManager.registerProviderType(this.T0011ID, WorldProvider0011.class, true);
+		DimensionManager.registerDimension(T0011ID, T0011ID);
 	}
 }

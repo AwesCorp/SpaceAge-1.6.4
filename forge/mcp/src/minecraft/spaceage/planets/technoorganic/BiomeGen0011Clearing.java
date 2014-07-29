@@ -1,4 +1,4 @@
-package spaceage.planets.hades;
+package spaceage.planets.technoorganic;
 
 import com.google.common.base.Optional;
 
@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
+import spaceage.integration.RotaryIntegration;
 import spaceage.planets.general.BiomeDecoratorSA;
 import spaceage.planets.general.WorldGenLavaSpring;
 import net.minecraft.block.Block;
@@ -26,17 +27,17 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-public class BiomeGenHadesMain extends BiomeGenBase {
-  private WorldGenerator frozenSpring;
+public class BiomeGen0011Clearing extends BiomeGenBase {
+  private WorldGenerator lubricantSpring;
   private BiomeDecoratorSA customBiomeDecorator;
 
-  public BiomeGenHadesMain(int par1) {
+  public BiomeGen0011Clearing(int par1) {
     super(par1);
     this.theBiomeDecorator = new BiomeDecoratorSA(this);
     this.customBiomeDecorator = ((BiomeDecoratorSA)this.theBiomeDecorator);
     
-    this.topBlock = ((byte)SpaceAgeCore.hadesSurface.blockID);
-    this.fillerBlock = ((byte)SpaceAgeCore.hadesSurface.blockID);
+    this.topBlock = ((byte)SpaceAgeCore.T0011Surface.blockID);
+    this.fillerBlock = ((byte)SpaceAgeCore.T0011Surface.blockID);
     
     this.customBiomeDecorator.hadesIcePerChunk = 1;
     this.customBiomeDecorator.treesPerChunk = -999;
@@ -61,15 +62,14 @@ public class BiomeGenHadesMain extends BiomeGenBase {
     this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 30, 4, 4)); //TODO check if works!!!
     this.spawnableMonsterList.add(new SpawnListEntry(EntityGhast.class, 30, 4, 4));
 
-    this.frozenSpring = new WorldGenLavaSpring(Block.ice.blockID, 16, SpaceAgeCore.hadesSurface.blockID);
+    this.lubricantSpring = new WorldGenLavaSpring(RotaryIntegration.lubricant.fluidID, 16, SpaceAgeCore.T0011Surface.blockID);
     
-    this.setTemperatureRainfall(0.0F, 0.5F);
-    this.setEnableSnow();
+    this.setTemperatureRainfall(0.7F, 0.0F);
   }
   
   @Override
   public WorldGenerator getRandomWorldGenForTrees(Random par1Random) {
-    return new WorldGenIceBlade(false);
+    return new WorldGen0011Tree(false);
   }
   
   @SideOnly(Side.CLIENT)
@@ -95,17 +95,17 @@ public class BiomeGenHadesMain extends BiomeGenBase {
       int var6 = par3 + par2Random.nextInt(16);
       int var7 = par2Random.nextInt(60);
       int var8 = par4 + par2Random.nextInt(16);
-      this.frozenSpring.generate(par1World, par2Random, var6, var7, var8);
+      this.lubricantSpring.generate(par1World, par2Random, var6, var7, var8);
     }
   }
   
   @Override
   public boolean getEnableSnow() {
-      return true;
+      return false;
   }
   
   @Override
   public boolean canSpawnLightningBolt() {
-      return true;
+      return false;
   }
 }
