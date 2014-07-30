@@ -161,9 +161,9 @@ public class SpaceAgeCore {
 		//HEAT_CAPACITY = config.get("Energy", "How much energy the geothermal turbime can store - do not edit this to play on the server", 250).getInt();
 		metaGeneratorID = config.get("Blocks", "Value of the generator - do not edit this to play on the server", 502).getInt();
 		tintedGlassID = config.get("Blocks", "Value of the reinforced glass - do not edit to play on the server", 503).getInt();
-		vulcanSurfaceID = config.get("Blocks", "Value of the majority of Vulcan related blocks - do not edit this to play on the server", 504).getInt();
-		hadesSurfaceID = config.get("Blocks", "Value of the majority of Hades related blocks - do not edit to play on the server", 505).getInt();
-		T0011SurfaceID = config.get("Blocks", "Value of the majority of 0011 related blocks - do not edit to play on the server", 506).getInt();
+		vulcanSurfaceID = config.get("Blocks", "Value of the majority of Vulcan related blocks - do not edit this to play on the server", 255).getInt();
+		hadesSurfaceID = config.get("Blocks", "Value of the majority of Hades related blocks - do not edit to play on the server", 254).getInt();
+		T0011SurfaceID = config.get("Blocks", "Value of the majority of 0011 related blocks - do not edit to play on the server", 253).getInt(); //TODO remember that worldgen blocks are below 256 and also change meta so surface is first
 		
 		config.save();
 	}	
