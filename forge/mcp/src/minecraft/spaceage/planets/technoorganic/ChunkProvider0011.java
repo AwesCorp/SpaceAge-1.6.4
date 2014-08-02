@@ -145,8 +145,8 @@ public class ChunkProvider0011 implements IChunkProvider {
 	 */
 	public void generateTerrain(int par1, int par2, byte[] par3ArrayOfByte) {
 		byte b0 = 4;
-		byte b1 = 16;
-		byte b2 = 63;
+		byte topBlock = 16;
+		byte fillerBlock = 63;
 		int k = b0 + 1;
 		byte b3 = 17;
 		int l = b0 + 1;
@@ -155,7 +155,7 @@ public class ChunkProvider0011 implements IChunkProvider {
 
 		for (int i1 = 0; i1 < b0; ++i1) {
 			for (int j1 = 0; j1 < b0; ++j1) {
-				for (int k1 = 0; k1 < b1; ++k1) {
+				for (int k1 = 0; k1 < topBlock; ++k1) {
 					double d0 = 0.125D;
 					double d1 = this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 0];
 					double d2 = this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 0];
@@ -184,7 +184,7 @@ public class ChunkProvider0011 implements IChunkProvider {
 							for (int k2 = 0; k2 < 4; ++k2) {
 								if ((d16 += d15) > 0.0D) {
 									par3ArrayOfByte[j2 += short1] = (byte) SpaceAgeCore.T0011Surface.blockID;//Block.stone.blockID;
-								} else if (k1 * 8 + l1 < b2) {
+								} else if (k1 * 8 + l1 < fillerBlock) {
 									par3ArrayOfByte[j2 += short1] = (byte) RotaryIntegration.lubricant.fluidID;
 								} else {
 									par3ArrayOfByte[j2 += short1] = 0;
@@ -224,8 +224,8 @@ public class ChunkProvider0011 implements IChunkProvider {
 				float f = biomegenbase.getFloatTemperature();
 				int i1 = (int) (this.stoneNoise[k + l * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
 				int j1 = -1;
-				byte b1 = biomegenbase.topBlock;
-				byte b2 = biomegenbase.fillerBlock;
+				byte topBlock = biomegenbase.topBlock;
+				byte fillerBlock = biomegenbase.fillerBlock;
 
 				for (int k1 = 127; k1 >= 0; --k1) {
 					int l1 = (l * 16 + k) * 128 + k1;
@@ -237,39 +237,30 @@ public class ChunkProvider0011 implements IChunkProvider {
 
 						if (b3 == 0) {
 							j1 = -1;
-						} else if (b3 == SpaceAgeCore.T0011Surface.blockID) {
+						} else if (b3 == Block.stone.blockID) { //stone
 							if (j1 == -1) {
 								if (i1 <= 0) {
-									b1 = 0;
-									b2 = (byte) SpaceAgeCore.T0011Surface.blockID;//was dirt
+									topBlock = 0;
+									fillerBlock = (byte) Block.stone.blockID; //was stone
 								} else if (k1 >= b0 - 4 && k1 <= b0 + 1) {
-									b1 = biomegenbase.topBlock;
-									b2 = biomegenbase.fillerBlock;
+									topBlock = biomegenbase.topBlock; //was grass
+									fillerBlock = biomegenbase.fillerBlock; //was dirt
 								}
 
-								if (k1 < b0 && b1 == 0) {
-									if (f < 0.15F) {
-										b1 = (byte) RotaryIntegration.lubricant.fluidID;
-									} else {
-										b1 = (byte) RotaryIntegration.lubricant.fluidID;
-									}
+								if (k1 < b0 && topBlock == 0) {
+										topBlock = (byte) RotaryIntegration.lubricant.fluidID;
 								}
 
 								j1 = i1;
 
 								if (k1 >= b0 - 1) {
-									par3ArrayOfByte[l1] = b1;
+									par3ArrayOfByte[l1] = topBlock;
 								} else {
-									par3ArrayOfByte[l1] = b2;
+									par3ArrayOfByte[l1] = fillerBlock;
 								}
 							} else if (j1 > 0) {
 								--j1;
-								par3ArrayOfByte[l1] = b2;
-
-								if (j1 == 0 && b2 == SpaceAgeCore.T0011Surface.blockID) {
-									j1 = this.rand.nextInt(4);
-									b2 = (byte) SpaceAgeCore.T0011Surface.blockID;
-								}
+								par3ArrayOfByte[l1] = fillerBlock;
 							}
 						}
 					}

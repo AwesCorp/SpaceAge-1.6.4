@@ -42,7 +42,7 @@ public class BlockVulcan extends Block {
 	public Icon getIcon(int side, int metadata) {
 		switch(metadata) {
 		case 0:
-			return icons[0];
+			return icons[3];
 		case 1:
 			switch(side) {
 				case 0: 
@@ -53,7 +53,7 @@ public class BlockVulcan extends Block {
 					return icons[2];
 			}
 		case 2: 
-			return icons[3];
+			return icons[0];
 		case 3:
 			return icons[4];
 		default: {
@@ -74,6 +74,8 @@ public class BlockVulcan extends Block {
 	
 	public int damageDropped(int meta) {
 		switch(type.ordinal()) {
+			case 2:
+				return 0;
 			case 3: 
 				return 14;
 			default:
@@ -83,7 +85,7 @@ public class BlockVulcan extends Block {
 	
 	public int idDropped(int par1, Random par2Random, int par3) {
 		switch(type.ordinal()) {
-			case 0: 
+			case 2: 
 				return Item.glowstone.itemID;
 			case 3:
 				return SpaceAgeCore.meta.itemID;
@@ -95,7 +97,7 @@ public class BlockVulcan extends Block {
 	@Override
 	public int quantityDropped(Random random) {
 		switch(type.ordinal()) {
-			case 0:
+			case 2:
 				return 2 + random.nextInt(3);
 			case 3:
 				return 2 + random.nextInt(3);
@@ -105,7 +107,7 @@ public class BlockVulcan extends Block {
 	}
 
 	public static enum Type {
-		GLOW_LEAVES, QUARTZ_WOOD, ASH, FIRE_ESSCENCE;
+		ASH, QUARTZ_WOOD, GLOW_LEAVES, FIRE_ESSCENCE;
 	}
 	
 }

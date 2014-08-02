@@ -11,6 +11,7 @@ import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
 import spaceage.planets.general.BiomeDecoratorSA;
+import spaceage.planets.general.BiomePlanetBase;
 import spaceage.planets.general.WorldGenLavaSpring;
 import net.minecraft.block.Block;
 import net.minecraft.entity.monster.EntityBlaze;
@@ -26,7 +27,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.SpawnListEntry;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-public class BiomeGenHadesMain extends BiomeGenBase {
+public class BiomeGenHadesMain extends BiomePlanetBase {
   private WorldGenerator frozenSpring;
   private BiomeDecoratorSA customBiomeDecorator;
 

@@ -437,9 +437,9 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(new ItemStack(spaceshipAlloyMeta, 1, 14), "Orange Alloy");
 		LanguageRegistry.addName(new ItemStack(spaceshipAlloyMeta, 1, 15), "White Alloy");
 		
-		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 0), "Glowdust Leaves");
+		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 0), "Volcanic Ash");
 		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 1), "Quartz Encrusted Log");
-		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 2), "Volcanic Ash");
+		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 2), "Glowdust Leaves");
 		LanguageRegistry.addName(new ItemStack(vulcanSurface, 1, 3), "Fire Essence");
 		
 		LanguageRegistry.addName(new ItemStack(hadesSurface, 1, 0), "Dirt");
@@ -493,7 +493,7 @@ public class SpaceAgeCore {
 		GameRegistry.registerBlock(vulcanSurface, ItemBlockVulcan.class, modid + (vulcanSurface.getUnlocalizedName().substring(5)));
 	}
 	
-	  public boolean onTickInGame(float f, Minecraft minecraft) {
+/*	  public boolean onTickInGame(float f, Minecraft minecraft) {
 	    ItemStack boots = minecraft.thePlayer.inventory.armorInventory[0];
 	    ItemStack legs = minecraft.thePlayer.inventory.armorInventory[1];
 	    ItemStack chest = minecraft.thePlayer.inventory.armorInventory[2];
@@ -549,8 +549,5 @@ public class SpaceAgeCore {
 	    
 	    return true;
 	    
-	  }
-	  
-	  private void setDead() {
-	  }
+	  }*/
 }

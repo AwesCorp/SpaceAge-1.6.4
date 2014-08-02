@@ -16,7 +16,6 @@ import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
 import spaceage.planets.general.BiomeList;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSand;
 import net.minecraft.entity.EnumCreatureType;
@@ -45,6 +44,8 @@ import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class ChunkProviderHades implements IChunkProvider {
+	
+	
 	/** RNG. */
 	private Random rand;
 
@@ -140,7 +141,7 @@ public class ChunkProviderHades implements IChunkProvider {
 
 	/**
 	 * Generates the shape of the terrain for the chunk though its all stone
-	 * though the lava is frozen if the temperature is low enough
+	 * though the water is frozen if the temperature is low enough
 	 */
 	public void generateTerrain(int par1, int par2, byte[] par3ArrayOfByte) {
 		byte b0 = 4;
@@ -182,7 +183,7 @@ public class ChunkProviderHades implements IChunkProvider {
 
 							for (int k2 = 0; k2 < 4; ++k2) {
 								if ((d16 += d15) > 0.0D) {
-									par3ArrayOfByte[j2 += short1] = (byte) SpaceAgeCore.hadesSurfaceID;//Block.stone.blockID;
+									par3ArrayOfByte[j2 += short1] = (byte) Block.stone.blockID;//Block.stone.blockID;
 								} else if (k1 * 8 + l1 < b2) {
 									par3ArrayOfByte[j2 += short1] = (byte) Block.ice.blockID;
 								} else {
@@ -210,6 +211,7 @@ public class ChunkProviderHades implements IChunkProvider {
 	public void replaceBlocksForBiome(int par1, int par2, byte[] par3ArrayOfByte, BiomeGenBase[] par4ArrayOfBiomeGenBase) {
 		ChunkProviderEvent.ReplaceBiomeBlocks event = new ChunkProviderEvent.ReplaceBiomeBlocks(this, par1, par2, par3ArrayOfByte, par4ArrayOfBiomeGenBase);
 		MinecraftForge.EVENT_BUS.post(event);
+		
 		if (event.getResult() == Result.DENY)
 			return;
 
@@ -236,22 +238,18 @@ public class ChunkProviderHades implements IChunkProvider {
 
 						if (b3 == 0) {
 							j1 = -1;
-						} else if (b3 == SpaceAgeCore.hadesSurfaceID) {
+						} else if (b3 == Block.stone.blockID) {
 							if (j1 == -1) {
 								if (i1 <= 0) {
 									b1 = 0;
-									b2 = (byte) SpaceAgeCore.hadesSurfaceID;//was dirt
+									b2 = (byte) Block.stone.blockID;//was dirt
 								} else if (k1 >= b0 - 4 && k1 <= b0 + 1) {
 									b1 = biomegenbase.topBlock;
 									b2 = biomegenbase.fillerBlock;
 								}
 
 								if (k1 < b0 && b1 == 0) {
-									if (f < 0.15F) {
 										b1 = (byte) Block.ice.blockID;
-									} else {
-										b1 = (byte) Block.ice.blockID;
-									}
 								}
 
 								j1 = i1;
@@ -265,10 +263,6 @@ public class ChunkProviderHades implements IChunkProvider {
 								--j1;
 								par3ArrayOfByte[l1] = b2;
 
-								if (j1 == 0 && b2 == SpaceAgeCore.hadesSurfaceID) {
-									j1 = this.rand.nextInt(4);
-									b2 = (byte) SpaceAgeCore.hadesSurfaceID;
-								}
 							}
 						}
 					}
@@ -291,14 +285,20 @@ public class ChunkProviderHades implements IChunkProvider {
 	 */
 	public Chunk provideChunk(int par1, int par2) {
 		this.rand.setSeed((long) par1 * 341873128712L + (long) par2 * 132897987541L);
-		byte[] abyte = new byte[32768];
+		//byte[] abyte = new byte[32768];
+		//byte[] abyteMeta = new byte[32768];
+		
+        byte[] abyte = new byte[32768];
+    	
 		this.generateTerrain(par1, par2, abyte);
 		this.biomesForGeneration = this.worldObj.getWorldChunkManager().loadBlockGeneratorData(this.biomesForGeneration, par1 * 16, par2 * 16, 16, 16);
 		this.replaceBlocksForBiome(par1, par2, abyte, this.biomesForGeneration);
 		this.caveGenerator.generate(this, this.worldObj, par1, par2, abyte);
 		this.ravineGenerator.generate(this, this.worldObj, par1, par2, abyte);
 
-		Chunk chunk = new Chunk(this.worldObj, abyte, par1, par2);
+        Chunk chunk = new Chunk(this.worldObj, abyte, par1, par2);
+
+		//Chunk chunk = new Chunk(this.worldObj, abyte, par1, par2);
 		byte[] abyte1 = chunk.getBiomeArray();
 
 		for (int k = 0; k < abyte1.length; ++k) {
@@ -316,6 +316,7 @@ public class ChunkProviderHades implements IChunkProvider {
 	private double[] initializeNoiseField(double[] par1ArrayOfDouble, int par2, int par3, int par4, int par5, int par6, int par7) {
 		ChunkProviderEvent.InitNoiseField event = new ChunkProviderEvent.InitNoiseField(this, par1ArrayOfDouble, par2, par3, par4, par5, par6, par7);
 		MinecraftForge.EVENT_BUS.post(event);
+		
 		if (event.getResult() == Result.DENY)
 			return event.noisefield;
 
@@ -472,7 +473,7 @@ public class ChunkProviderHades implements IChunkProvider {
 			k1 = k + this.rand.nextInt(16) + 8;
 			l1 = this.rand.nextInt(128);
 			i2 = l + this.rand.nextInt(16) + 8;
-			(new WorldGenLakes(Block.lavaStill.blockID)).generate(this.worldObj, this.rand, k1, l1, i2);
+			(new WorldGenLakes(Block.ice.blockID)).generate(this.worldObj, this.rand, k1, l1, i2);
 		}
 
 		if (TerrainGen.populate(par1IChunkProvider, worldObj, rand, par2, par3, flag, LAVA) && !flag && this.rand.nextInt(8) == 0) {
@@ -481,7 +482,7 @@ public class ChunkProviderHades implements IChunkProvider {
 			i2 = l + this.rand.nextInt(16) + 8;
 
 			if (l1 < 63 || this.rand.nextInt(10) == 0) {
-				(new WorldGenLakes(Block.lavaStill.blockID)).generate(this.worldObj, this.rand, k1, l1, i2);
+				(new WorldGenLakes(Block.ice.blockID)).generate(this.worldObj, this.rand, k1, l1, i2);
 			}
 		}
 

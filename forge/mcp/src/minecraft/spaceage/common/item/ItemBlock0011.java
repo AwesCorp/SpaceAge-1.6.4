@@ -25,6 +25,10 @@ public class ItemBlock0011 extends ItemBlock {
 				name = "heavy_alloy_wood";
 				break;
 			}
+			case 3: {
+				name = "organic_building_block";
+				break;
+			}
 			default: 
 				name = "broken";
 			}

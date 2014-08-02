@@ -246,11 +246,7 @@ public class ChunkProviderVulcan implements IChunkProvider {
 								}
 
 								if (k1 < b0 && b1 == 0) {
-									if (f < 0.15F) {
 										b1 = (byte) Block.lavaStill.blockID;
-									} else {
-										b1 = (byte) Block.lavaStill.blockID;
-									}
 								}
 
 								j1 = i1;
@@ -264,10 +260,6 @@ public class ChunkProviderVulcan implements IChunkProvider {
 								--j1;
 								par3ArrayOfByte[l1] = b2;
 
-								if (j1 == 0 && b2 == Block.netherrack.blockID) {
-									j1 = this.rand.nextInt(4);
-									b2 = (byte) Block.netherrack.blockID;
-								}
 							}
 						}
 					}

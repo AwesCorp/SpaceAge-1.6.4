@@ -14,7 +14,7 @@ public class ItemBlockVulcan extends ItemBlock {
 		String name = "";
 		switch(itemStack.getItemDamage()) {
 			case 0: {
-				name = "glowLeaves";
+				name = "ash";
 				break;
 			}
 			case 1: {
@@ -22,7 +22,7 @@ public class ItemBlockVulcan extends ItemBlock {
 				break;
 			}
 			case 2: {
-				name = "ash";
+				name = "glowLeaves";
 				break;
 			}
 			case 3: {

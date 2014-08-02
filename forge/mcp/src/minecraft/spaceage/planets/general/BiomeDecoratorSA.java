@@ -59,6 +59,12 @@ public class BiomeDecoratorSA extends BiomeDecorator {
   //HADES
   public int hadesIcePerChunk;
   
+  //0011
+  public WorldGenerator organicMatterGen;
+  
+  //0011
+  public int organicMatterPerChunk;
+  
   //VANILLA
   private int coalGenPerChunk;
   private int ironGenPerChunk;
@@ -101,9 +107,11 @@ public class BiomeDecoratorSA extends BiomeDecorator {
     this.lapisGenPerChunk = 0;
     
     //OWN ORES
-    this.fireEssenceGen = new WorldGenMetaOres(SpaceAgeCore.vulcanSurface.blockID, (fireEssencePerChunk * 8), 2, Block.netherrack.blockID, 0);
-    
+    this.fireEssenceGen = new WorldGenMetaOres(SpaceAgeCore.vulcanSurface.blockID, (fireEssencePerChunk * 8), 3, Block.netherrack.blockID, 0);
     this.fireEssencePerChunk = 0;
+    
+    this.organicMatterGen = new WorldGenMetaOres(SpaceAgeCore.T0011Surface.blockID, (fireEssencePerChunk * 8), 3, SpaceAgeCore.T0011Surface.blockID, 0);
+    
     /*this.field_76830_q = new WorldGenBOPFlowers(Block.plantYellow.blockID, 0);
     this.cobwebGen = new WorldGenCobwebs(Block.web.blockID, 0);
     this.dandelionGen = new WorldGenBOPFlowers(((Block)Blocks.flowers.get()).blockID, 15);

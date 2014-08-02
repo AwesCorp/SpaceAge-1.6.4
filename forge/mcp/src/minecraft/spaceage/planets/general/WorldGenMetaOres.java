@@ -15,7 +15,9 @@ public class WorldGenMetaOres extends WorldGenerator {
 	int blockToReplaceId;
 	int blockToReplaceMetadata;
 	
-	/**
+	/** Metadata Ore Generation
+	 * 
+	 * @author SkylordJoel
 	 * 
 	 * @param par1 - the block id of the ore
 	 * @param par2 - the number of blocks to generate
@@ -55,20 +57,15 @@ public class WorldGenMetaOres extends WorldGenerator {
             int i2 = MathHelper.floor_double(d7 + d11 / 2.0D);
             int j2 = MathHelper.floor_double(d8 + d10 / 2.0D);
 
-            for (int x = i1; x <= l1; ++x)
-            {
+            for (int x = i1; x <= l1; ++x) {
                 double d12 = ((double)x + 0.5D - d6) / (d10 / 2.0D);
 
-                if (d12 * d12 < 1.0D)
-                {
-                    for (int y = j1; y <= i2; ++y)
-                    {
+                if (d12 * d12 < 1.0D) {
+                    for (int y = j1; y <= i2; ++y) {
                         double d13 = ((double)y + 0.5D - d7) / (d11 / 2.0D);
 
-                        if (d12 * d12 + d13 * d13 < 1.0D)
-                        {
-                            for (int z = k1; z <= j2; ++z)
-                            {
+                        if (d12 * d12 + d13 * d13 < 1.0D) {
+                            for (int z = k1; z <= j2; ++z) {
                                 double d14 = ((double)z + 0.5D - d8) / (d10 / 2.0D);
                                 
                                 if(d12 * d12 + d13 * d13 + d14 * d14 < 1.0D && (par1World.getBlockId(x, y, z) == this.blockToReplaceId) && (par1World.getBlockMetadata(x, y, z) == this.blockToReplaceMetadata)) {
