@@ -196,7 +196,7 @@ public class WarpDrive implements LoadingCallback {
 		this.protocolBlock = new BlockProtocol(WarpDriveConfig.i.controllerID,
 				0, Material.rock).setHardness(0.5F)
 				.setStepSound(Block.soundMetalFootstep)
-				.setCreativeTab(CreativeTabs.tabRedstone)
+				.setCreativeTab(WarpDrive.tabWD)
 				.setUnlocalizedName("Warp Controller");
 		
 		LanguageRegistry.addName(protocolBlock, "Warp Controller");
@@ -205,7 +205,7 @@ public class WarpDrive implements LoadingCallback {
 				"protocolBlock");
 		
 		// WARP CORE
-		this.warpCore = new BlockReactor(WarpDriveConfig.i.coreID, 0, Material.rock).setHardness(0.5F).setStepSound(Block.soundMetalFootstep).setCreativeTab(CreativeTabs.tabRedstone).setUnlocalizedName("Warp Core");
+		this.warpCore = new BlockReactor(WarpDriveConfig.i.coreID, 0, Material.rock).setHardness(0.5F).setStepSound(Block.soundMetalFootstep).setCreativeTab(WarpDrive.tabWD).setUnlocalizedName("Warp Core");
 		
 		LanguageRegistry.addName(warpCore, "Warp Core");
 		GameRegistry.registerBlock(warpCore, "warpCore");
@@ -215,7 +215,7 @@ public class WarpDrive implements LoadingCallback {
 		this.radarBlock = new BlockRadar(WarpDriveConfig.i.radarID, 0,
 				Material.rock).setHardness(0.5F)
 				.setStepSound(Block.soundMetalFootstep)
-				.setCreativeTab(CreativeTabs.tabRedstone)
+				.setCreativeTab(WarpDrive.tabWD)
 				.setUnlocalizedName("W-Radar");
 		
 		LanguageRegistry.addName(radarBlock, "W-Radar");
@@ -226,7 +226,7 @@ public class WarpDrive implements LoadingCallback {
 		this.isolationBlock = new BlockWarpIsolation(
 				WarpDriveConfig.i.isolationID, 0, Material.rock)
 		.setHardness(0.5F).setStepSound(Block.soundMetalFootstep)
-		.setCreativeTab(CreativeTabs.tabRedstone)
+		.setCreativeTab(WarpDrive.tabWD)
 		.setUnlocalizedName("Warp-Field Isolation Block");
 		
 		LanguageRegistry.addName(isolationBlock, "Warp-Field Isolation Block");
@@ -236,7 +236,7 @@ public class WarpDrive implements LoadingCallback {
 		this.airgenBlock = new BlockAirGenerator(WarpDriveConfig.i.airgenID, 0,
 				Material.rock).setHardness(0.5F)
 				.setStepSound(Block.soundMetalFootstep)
-				.setCreativeTab(CreativeTabs.tabRedstone)
+				.setCreativeTab(WarpDrive.tabWD)
 				.setUnlocalizedName("Air Generator");
 		LanguageRegistry.addName(airgenBlock, "Air Generator");
 		GameRegistry.registerBlock(airgenBlock, "airgenBlock");
@@ -259,7 +259,7 @@ public class WarpDrive implements LoadingCallback {
 		this.laserBlock = new BlockLaser(WarpDriveConfig.i.laserID, 0,
 				Material.rock).setHardness(0.5F)
 				.setStepSound(Block.soundMetalFootstep)
-				.setCreativeTab(CreativeTabs.tabRedstone)
+				.setCreativeTab(WarpDrive.tabWD)
 				.setUnlocalizedName("Laser Emitter");
 		LanguageRegistry.addName(laserBlock, "Laser Emitter");
 		GameRegistry.registerBlock(laserBlock, "laserBlock");
@@ -269,7 +269,7 @@ public class WarpDrive implements LoadingCallback {
 		this.laserCamBlock = new BlockLaserCam(WarpDriveConfig.i.laserCamID, 0,
 				Material.rock).setHardness(0.5F)
 				.setStepSound(Block.soundMetalFootstep)
-				.setCreativeTab(CreativeTabs.tabRedstone)
+				.setCreativeTab(WarpDrive.tabWD)
 				.setUnlocalizedName("Laser Emitter + Camera");
 		LanguageRegistry.addName(laserCamBlock, "Laser Emitter + Camera");
 		GameRegistry.registerBlock(laserCamBlock, "laserCamBlock");
@@ -278,7 +278,7 @@ public class WarpDrive implements LoadingCallback {
 		this.cameraBlock = new BlockCamera(WarpDriveConfig.i.camID, 0,
 				Material.rock).setHardness(0.5F)
 				.setStepSound(Block.soundMetalFootstep)
-				.setCreativeTab(CreativeTabs.tabRedstone)
+				.setCreativeTab(WarpDrive.tabWD)
 				.setUnlocalizedName("Camera block");
 		LanguageRegistry.addName(cameraBlock, "Camera");
 		GameRegistry.registerBlock(cameraBlock, "cameraBlock");
@@ -287,7 +287,7 @@ public class WarpDrive implements LoadingCallback {
 		// MONITOR
 		this.monitorBlock = new BlockMonitor(WarpDriveConfig.i.monitorID)
 		.setHardness(0.5F).setStepSound(Block.soundMetalFootstep)
-		.setCreativeTab(CreativeTabs.tabRedstone)
+		.setCreativeTab(WarpDrive.tabWD)
 		.setUnlocalizedName("Monitor");
 		LanguageRegistry.addName(monitorBlock, "Monitor");
 		GameRegistry.registerBlock(monitorBlock, "monitorBlock");
@@ -298,7 +298,7 @@ public class WarpDrive implements LoadingCallback {
 		this.miningLaserBlock = new BlockMiningLaser(
 				WarpDriveConfig.i.miningLaserID, 0, Material.rock)
 		.setHardness(0.5F).setStepSound(Block.soundMetalFootstep)
-		.setCreativeTab(CreativeTabs.tabRedstone)
+		.setCreativeTab(WarpDrive.tabWD)
 		.setUnlocalizedName("Mining Laser");
 		LanguageRegistry.addName(miningLaserBlock, "Mining Laser");
 		GameRegistry.registerBlock(miningLaserBlock, "miningLaserBlock");
@@ -309,7 +309,7 @@ public class WarpDrive implements LoadingCallback {
 		this.boosterBlock = new BlockParticleBooster(
 				WarpDriveConfig.i.particleBoosterID, 0, Material.rock)
 		.setHardness(0.5F).setStepSound(Block.soundMetalFootstep)
-		.setCreativeTab(CreativeTabs.tabRedstone)
+		.setCreativeTab(WarpDrive.tabWD)
 		.setUnlocalizedName("Particle Booster");
 		LanguageRegistry.addName(boosterBlock, "Particle Booster");
 		GameRegistry.registerBlock(boosterBlock, "boosterBlock");
@@ -320,7 +320,7 @@ public class WarpDrive implements LoadingCallback {
 		this.liftBlock = new BlockLift(WarpDriveConfig.i.liftID, 0,
 				Material.rock).setHardness(0.5F)
 				.setStepSound(Block.soundMetalFootstep)
-				.setCreativeTab(CreativeTabs.tabRedstone)
+				.setCreativeTab(WarpDrive.tabWD)
 				.setUnlocalizedName("Laser lift");
 		LanguageRegistry.addName(liftBlock, "Laser lift");
 		GameRegistry.registerBlock(liftBlock, "liftBlock");
@@ -330,7 +330,7 @@ public class WarpDrive implements LoadingCallback {
 		this.iridiumBlock = new BlockIridium(WarpDriveConfig.i.iridiumID)
 		.setHardness(0.8F).setResistance(150 * 4)
 		.setStepSound(Block.soundMetalFootstep)
-		.setCreativeTab(CreativeTabs.tabRedstone)
+		.setCreativeTab(WarpDrive.tabWD)
 		.setUnlocalizedName("Block of Iridium");
 		
 		LanguageRegistry.addName(iridiumBlock, "Block of Iridium");
@@ -339,7 +339,7 @@ public class WarpDrive implements LoadingCallback {
         // SHIP SCANNER
         this.scannerBlock = new BlockShipScanner(WarpDriveConfig.i.shipScannerID, 0, Material.rock)
         .setHardness(0.5F).setStepSound(Block.soundMetalFootstep)
-        .setCreativeTab(CreativeTabs.tabRedstone).setUnlocalizedName("Ship Scanner");
+        .setCreativeTab(WarpDrive.tabWD).setUnlocalizedName("Ship Scanner");
         
         LanguageRegistry.addName(scannerBlock, "Ship Scanner");
         GameRegistry.registerBlock(scannerBlock, "scannerBlock");
@@ -348,7 +348,7 @@ public class WarpDrive implements LoadingCallback {
         // CLOAKING DEVICE CORE
         this.cloakBlock = new BlockCloakingDeviceCore(WarpDriveConfig.i.cloakCoreID, 0, Material.rock)
         .setHardness(0.5F).setStepSound(Block.soundMetalFootstep)
-        .setCreativeTab(CreativeTabs.tabRedstone).setUnlocalizedName("Cloaking Device Core");
+        .setCreativeTab(WarpDrive.tabWD).setUnlocalizedName("Cloaking Device Core");
         
         LanguageRegistry.addName(cloakBlock, "Cloaking Device Core");
         GameRegistry.registerBlock(cloakBlock, "cloakBlock");
@@ -358,7 +358,7 @@ public class WarpDrive implements LoadingCallback {
 		this.cloakCoilBlock = new BlockCloakingCoil(WarpDriveConfig.i.cloakCoilID, 0, Material.rock)
 		.setHardness(0.5F)
 		.setStepSound(Block.soundMetalFootstep)
-		.setCreativeTab(CreativeTabs.tabRedstone)
+		.setCreativeTab(WarpDrive.tabWD)
 		.setUnlocalizedName("Cloaking Device Coil");
 		
 		LanguageRegistry.addName(cloakCoilBlock, "Cloaking Device Coil");
