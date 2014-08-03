@@ -9,15 +9,12 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.ForgeDirection;
 
-public class WorldGenGlowstoneTree extends WorldGenerator
-{
-	public WorldGenGlowstoneTree(boolean par1)
-	{
+public class WorldGenGlowstoneTree extends WorldGenerator {
+	public WorldGenGlowstoneTree(boolean par1) {
 		super();
 	}
 
-	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5)
-	{
+	public boolean generate(World par1World, Random par2Random, int par3, int par4, int par5) {
 		int l = par2Random.nextInt(3) + 5;
 		boolean flag = true;
 
@@ -55,7 +52,7 @@ public class WorldGenGlowstoneTree extends WorldGenerator
 					          int blockId = SpaceAgeCore.vulcanSurface.blockID;
 					          boolean properBlockId = (par1World.getBlockId(j1, i1, k1) == (blockId));
 					          
-					          int blockMeta = 0;
+					          int blockMeta = 2;
 					          boolean properBlockMeta = (par1World.getBlockMetadata(j1, i1, k1) == (blockMeta));
 
 							if (l1 != 0 && block != null && ((properBlockId == false/*block.isLeaves(par1World, par3, par4 + var16, par5)*/) && (properBlockMeta == false)))
@@ -107,7 +104,7 @@ public class WorldGenGlowstoneTree extends WorldGenerator
 
 									if (block == null || block.canBeReplacedByLeaves(par1World, l1, i2, k2))
 									{
-										this.setBlockAndMetadata(par1World, l1, i2, k2, SpaceAgeCore.vulcanSurface.blockID, 0);
+										this.setBlockAndMetadata(par1World, l1, i2, k2, SpaceAgeCore.vulcanSurface.blockID, 2);
 									}
 								}
 							}
@@ -123,7 +120,7 @@ public class WorldGenGlowstoneTree extends WorldGenerator
 				          int blockId = SpaceAgeCore.vulcanSurface.blockID;
 				          boolean properBlockId = (par1World.getBlockId(par3, par4 + i2, par5) == (blockId));
 				          
-				          int blockMeta = 0;
+				          int blockMeta = 2;
 				          boolean properBlockMeta = (par1World.getBlockMetadata(par3, par4 + i2, par5) == (blockMeta));
 
 						if (j1 == 0 || block == null || ((properBlockId == true/*block.isLeaves(par1World, par3, par4 + var16, par5)*/) && (properBlockMeta == true)))

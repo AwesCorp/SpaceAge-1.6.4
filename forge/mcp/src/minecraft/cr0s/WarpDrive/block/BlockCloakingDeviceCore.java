@@ -92,7 +92,7 @@ public class BlockCloakingDeviceCore extends Block
         	if (((TileEntityCloakingDeviceCore)te).isEnabled)
         		((TileEntityCloakingDeviceCore)te).disableCloakingField();
         	
-            te.invalidate();
+            //te.invalidate();
         }
 
         super.breakBlock(par1World, par2, par3, par4, par5, par6);

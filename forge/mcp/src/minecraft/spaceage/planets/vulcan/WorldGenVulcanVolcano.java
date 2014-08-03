@@ -11,7 +11,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 
 public class WorldGenVulcanVolcano extends WorldGenerator {
 	
-	ItemStack ash = new ItemStack(SpaceAgeCore.vulcanSurface, 1, 2);
+	//ItemStack ash = new ItemStack(SpaceAgeCore.vulcanSurface, 1, 2);
 
 	@Override
 	  public boolean generate(World var1, Random var2, int var3, int var4, int var5) {
@@ -21,7 +21,7 @@ public class WorldGenVulcanVolcano extends WorldGenerator {
 
 	    int var6 = var1.getBlockId(var3, var4, var5);
 
-	    if (var6 != ash.itemID) {
+	    if (var6 != SpaceAgeCore.T0011SurfaceID) {
 	      return false;
 	    }
 
