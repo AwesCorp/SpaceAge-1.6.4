@@ -5,9 +5,9 @@ import java.util.List;
 
 import spaceage.common.SpaceAgeCore;
 
+import cr0s.WarpDrive.CloakedArea;
 import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.WarpDriveConfig;
-import cr0s.WarpDrive.manager.CloakManager.CloakedArea;
 import cr0s.WarpDrive.space.SpaceTeleporter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

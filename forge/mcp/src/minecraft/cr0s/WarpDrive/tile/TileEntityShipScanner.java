@@ -487,7 +487,7 @@ public class TileEntityShipScanner extends TileElectricBase implements //TODO gu
 	}
 	
 	private boolean isEnoughEnergyForDeploy(int size) {
-		return capacity <= currentEnergyValue;
+		return MAX_ENERGY_JOULES <= currentEnergyValue;
 	}
 	
 	// Returns result array for CC interface: [ code, "message" ]

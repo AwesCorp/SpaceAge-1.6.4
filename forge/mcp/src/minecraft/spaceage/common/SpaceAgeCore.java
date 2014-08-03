@@ -177,7 +177,7 @@ public class SpaceAgeCore {
 	       metadata.name = "SpaceAge/Project Cosmos";
 	       metadata.description = "SpaceAge/Project Cosmos: Bringing Minecraft to the Space Age";
 	       metadata.url = "https://sites.google.com/site/spaceageminecraft/";
-	       metadata.logoFile = "assets/spaceage/logo.png";
+	       metadata.logoFile = "assets/spaceage/logo_nathan_test-2.png";
 	       metadata.version = "Alpha";
 	       metadata.authorList = Arrays.asList(new String[] { 
 	    		   "SkylordJoel", "big_fat_bunny"/*, "Super_Jen_Bot"*/ 

@@ -1,11 +1,15 @@
 package cr0s.WarpDrive.tile;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cr0s.WarpDrive.WarpDrive;
+import cr0s.WarpDrive.WarpDriveConfig;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 import java.util.ArrayList;
+
+import spaceage.planets.SpaceAgePlanets;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -712,7 +716,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
 	public String currentDimension() {
 		int id = worldObj.provider.dimensionId;
 		
-		SpaceAgePlanetsLoaded = Loader.isModLoaded("SpaceAgePlanets");
+		boolean SpaceAgePlanetsLoaded = Loader.isModLoaded("SpaceAgePlanets");
 		
 		if(id == 0) {
 			return "Earth";
@@ -721,11 +725,11 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
 		} else if(id == WarpDrive.instance.hyperSpaceDimID) {
 			return "Hyperspace";
 		} else if(SpaceAgePlanetsLoaded == true) {
-			if(id == SpaceAgePlanets.T0011ID) {
+			if(id == SpaceAgePlanets.i.T0011ID) {
 				return "0011";
-			} else if(id == SpaceAgePlanets.vulcanID) {
+			} else if(id == SpaceAgePlanets.i.vulcanID) {
 				return "Vulcan";
-			} else if(id == SpaceAgePlanets.hadesID) {
+			} else if(id == SpaceAgePlanets.i.hadesID) {
 				return "Hades";
 			}
 			

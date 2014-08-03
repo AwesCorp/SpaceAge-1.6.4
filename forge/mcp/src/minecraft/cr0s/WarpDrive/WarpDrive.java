@@ -99,6 +99,13 @@ import net.minecraftforge.common.MinecraftForge;
  * @author Cr0s, SkylordJoel
  */
 public class WarpDrive implements LoadingCallback {
+	
+	public static CreativeTabs tabWD = new CreativeTabs("tabWD") {
+		public ItemStack getIconItemstack() {
+			return new ItemStack(warpCore);
+		}
+	};
+	
 	// World limits
 	public final static int WORLD_LIMIT_BLOCKS = 100000;
 	

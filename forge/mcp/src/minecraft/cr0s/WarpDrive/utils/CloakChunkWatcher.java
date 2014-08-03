@@ -3,8 +3,8 @@ package cr0s.WarpDrive.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import cr0s.WarpDrive.CloakedArea;
 import cr0s.WarpDrive.WarpDrive;
-import cr0s.WarpDrive.manager.CloakManager.CloakedArea;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.packet.Packet56MapChunks;
 import net.minecraft.world.ChunkCoordIntPair;

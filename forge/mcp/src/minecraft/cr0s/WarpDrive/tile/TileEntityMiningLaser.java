@@ -364,8 +364,8 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral/*, 
 		if (booster != null)
 			if (test)
 				return packet <= booster.getCurrentEnergyValue();
-			else
-				return booster.consumeEnergy(packet);
+			//else
+				//return booster.consumeEnergy(packet); TODO
 		return false;
 	}
 

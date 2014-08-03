@@ -997,8 +997,7 @@ public class EntityJump extends Entity
 					newTileEntity = TileEntity.createAndLoadEntity(oldnbt);
 					newTileEntity.invalidate();
 				}
-				else if (blockID == WarpDriveConfig.i.GT_Machine)
-					newTileEntity = TileEntity.createAndLoadEntity(oldnbt);
+				
 				else if (blockID == WarpDriveConfig.i.AS_Turbine)
 				{
 					if (oldnbt.hasKey("zhuYao"))

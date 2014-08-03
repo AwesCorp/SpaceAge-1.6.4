@@ -53,6 +53,8 @@ public final class EntityCamera extends EntityLivingBase
 
     private float oldFOV;
     private float oldSens;
+    
+	private boolean isCentered = true;
 
     public EntityCamera(World world, ChunkPosition pos, EntityPlayer player)
     {

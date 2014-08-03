@@ -32,6 +32,8 @@ public class SpaceAgePlanets {
 	@SidedProxy(clientSide = "spaceage.planets.proxy.ClientProxy", serverSide = "spaceage.planets.proxy.CommonProxy")
 	public static CommonProxy proxy;
 	
+	public static SpaceAgePlanets i;
+	
 	public static final String modid = "SpaceAgePlanets";
 	
 	@Instance("SpaceAgePlanets")
