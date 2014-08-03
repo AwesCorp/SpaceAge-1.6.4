@@ -71,8 +71,8 @@ public class TileEntityReactor extends TileElectricBase {
     public int shipLeft, shipRight;
     public int shipUp, shipDown;
     public int shipHeight, shipWidth, shipLength;
-    int shipSize = 0;
-    int shipVolume;
+    int shipSize = 0;	//ship length in the direction of a jump
+    int shipVolume = 0; //number of all blocks the ship consists of
     int currentMode = 0;
 
     int currentEnergyValue = this.getPowerInt();
@@ -471,32 +471,32 @@ public class TileEntityReactor extends TileElectricBase {
         minY = yCoord - shipDown;
         maxY = yCoord + shipUp;
         this.shipSize = 0;
-
+	
+		int sizeFrontBack = shipFront + shipBack;
+		int sizeRightLeft = shipRight + shipLeft;
+		int sizeUpDown = shipUp + shipDown;
+	
         switch (this.direction)
         {
             case 0:
             case 180:
-                this.shipSize = this.shipBack + this.shipFront;
+                this.shipSize = sizeFrontBack;
                 break;
 
             case 90:
             case 270:
-                this.shipSize = this.shipLeft + shipRight;
+                this.shipSize = sizeRightLeft;
                 break;
 
             case -1:
             case -2:
-                this.shipSize = this.shipDown + this.shipUp;
+                this.shipSize = sizeUpDown;
                 break;
-                
-           default:
-				this.controller.setJumpFlag(false);
-				return false;                
-        }
-        
-        // Ship side is too big
-        if (shipLength > WarpDriveConfig.i.WC_MAX_SHIP_SIDE || shipWidth > WarpDriveConfig.i.WC_MAX_SHIP_SIDE || shipHeight > WarpDriveConfig.i.WC_MAX_SHIP_SIDE)
+        }   
+        // Ship size is too big
+        if (sizeFrontBack > WarpDriveConfig.i.WC_MAX_SHIP_SIDE || sizeRightLeft > WarpDriveConfig.i.WC_MAX_SHIP_SIDE || sizeUpDown > WarpDriveConfig.i.WC_MAX_SHIP_SIDE)
         {
+        	messageToAllPlayersOnShip("The ship is too long. The warp core cannot handle this much mass while warping.");
             this.controller.setJumpFlag(false);
             return false;
         }
@@ -582,10 +582,6 @@ public class TileEntityReactor extends TileElectricBase {
             worldObj.spawnEntityInWorld(jump);
             coreState = "";
         }
-        else
-        {
-            System.out.println("[TE-WC] Beacon not found.");
-        }
     }
 
     private boolean isShipInJumpgate(JumpGate jg)
@@ -621,8 +617,6 @@ public class TileEntityReactor extends TileElectricBase {
             System.out.println("[GATE] Is 0 blocks inside gate.");
             return false;
         }
-
-        System.out.println("[GATE] Ship volume: " + shipVolume + ", blocks in gate: " + numBlocks + ". Percentage: " + ((shipVolume / numBlocks) * 100));
 
         // At least 80% of ship must be inside jumpgate
         if (shipVolume / numBlocks > 0.8F)
@@ -804,11 +798,7 @@ public class TileEntityReactor extends TileElectricBase {
 
             JumpGate t = WarpDrive.instance.jumpGates.findNearestGate(xCoord, yCoord, zCoord);
 
-            
-            if (WarpDrive.instance.jumpGates == null) 
-            	System.out.println("[JumpGates] WarpDrive.instance.jumpGates is NULL!");
-            
-            if (WarpDrive.instance.jumpGates != null && t != null && !isShipInJumpgate(t))
+            if (t != null && !isShipInJumpgate(t))
             {
                 if (shipVolume < WarpDriveConfig.i.WC_MIN_SHIP_VOLUME_FOR_HYPERSPACE)
                 {
@@ -851,7 +841,6 @@ public class TileEntityReactor extends TileElectricBase {
                 }
             }
 
-            System.out.println((new StringBuilder()).append("[JUMP] Totally moving ").append((new StringBuilder()).append(shipVolume).append(" blocks to length ").append(distance).append(" blocks, direction: ").append(direction).toString()).toString());
             EntityJump jump = new EntityJump(worldObj, xCoord, yCoord, zCoord, distance, direction, dx, dz, this);
             jump.maxX = maxX;
             jump.minX = minX;

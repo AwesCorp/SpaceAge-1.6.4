@@ -13,6 +13,7 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.world.ChunkWatchEvent;
 
 public class CloakChunkWatcher {
+
 	@ForgeSubscribe
 	public void chunkLoaded(ChunkWatchEvent event)
 	{

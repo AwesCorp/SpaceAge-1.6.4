@@ -25,7 +25,7 @@ public class WarpDriveConfig
 	public boolean isASLoaded = false, isICBMLoaded = false, isMFFSLoaded = false;
 //
 	public int[] IC2_Air;
-	public int CC_Computer = 0, CC_peripheral = 0, CCT_Turtle = 0, CCT_Upgraded = 0, CCT_Advanced = 0, ASP = 0, AS_Turbine = 0, ICBM_Machine = 0, ICBM_Missile = 0, MFFS_Field = 0;
+	public int CC_Computer = 0, CC_peripheral = 0, CCT_Turtle = 0, CCT_Upgraded = 0, CCT_Advanced = 0, ASP = 0, AS_Turbine = 0, ICBM_Machine = 0, ICBM_Missile = 0, ICBM_Explosive = 0, MFFS_Field = 0;
 	public Set<Integer> SpaceHelmets, Jetpacks, MinerOres, scannerIgnoreBlocks;
 	public ArrayList<int[]> CommonWorldGenOres;
 
@@ -40,7 +40,7 @@ public class WarpDriveConfig
 	    public int WC_MAX_JUMP_DISTANCE = 128;   // Maximum jump length value
 	    public int WC_MAX_SHIP_VOLUME_ON_SURFACE = 15000;   // Maximum ship mass to jump on earth (15k blocks)
 	    public int WC_MIN_SHIP_VOLUME_FOR_HYPERSPACE = 10; // Minimum ship volume value for
-	    public int WC_MAX_SHIP_SIDE = 100;
+	    public int WC_MAX_SHIP_SIDE = 199;
 	    public int WC_COOLDOWN_INTERVAL_SECONDS = 4;
 	    public int WC_CORES_REGISTRY_UPDATE_INTERVAL_SECONDS = 10;
 	    public int WC_ISOLATION_UPDATE_INTARVAL_SECONDS = 10;		
@@ -291,7 +291,7 @@ public class WarpDriveConfig
 	private void LoadSpaceAgeIntegration()
 	{
 		//ASP = Items.getItem("solarPanel").itemID;
-		ASP = new ItemStack(SpaceAgeCore.metaGenerator,1,1).itemID;
+		ASP = SpaceAgeCore.metaGenerator.blockID;
 		//SpaceHelmets.add(Items.getItem("hazmatHelmet").itemID);
 		//SpaceHelmets.add(Items.getItem("quantumHelmet").itemID);
 		SpaceHelmets.add(SpaceAgeCore.advancedSpacesuitHelmetID); //TODO Normal spacesuit helmet below
@@ -330,10 +330,14 @@ public class WarpDriveConfig
 			CCT_Turtle = z.getField("turtleBlockID").getInt(null);
 			CCT_Upgraded = z.getField("turtleUpgradedBlockID").getInt(null);
 			CCT_Advanced = z.getField("turtleAdvancedBlockID").getInt(null);
+			scannerIgnoreBlocks.add(CC_Computer);
+			scannerIgnoreBlocks.add(CCT_Turtle);
+			scannerIgnoreBlocks.add(CCT_Upgraded);
+			scannerIgnoreBlocks.add(CCT_Advanced);
 		}
 		catch (Exception e)
 		{
-			System.out.println("WarpDrive: Error loading CC classes - Try downgrading to version 1.58 and deleting your config file");
+			System.out.println("WarpDriveConfig Error loading CC classes AWWW SHEEEEET NIGGA");
 			e.printStackTrace();
 		}
 	}
@@ -395,6 +399,8 @@ public class WarpDriveConfig
 			z = Class.forName("icbm.explosion.ICBMExplosion");
 			ICBM_Machine = ((Block)z.getField("blockMachine").get(null)).blockID;
 			ICBM_Missile = ((Item)z.getField("itemMissile").get(null)).itemID;
+			ICBM_Explosive = ((Block)z.getField("blockExplosive").get(null)).blockID;
+			scannerIgnoreBlocks.add(ICBM_Explosive);
 		}
 		catch (Exception e)
 		{

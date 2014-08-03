@@ -192,7 +192,7 @@ public class SpaceEventHandler //COOL
 		return false;
 	}
 	
-    @ForgeSubscribe
+/*    @ForgeSubscribe
     public void livingFall(LivingFallEvent event)
     {
         EntityLivingBase entity = event.entityLiving;
@@ -212,5 +212,5 @@ public class SpaceEventHandler //COOL
                 }
             }
         }
-    }	
+    }*/	
 }

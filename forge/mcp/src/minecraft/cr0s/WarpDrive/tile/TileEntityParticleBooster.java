@@ -153,15 +153,14 @@ public class TileEntityParticleBooster extends TileElectricBase {
         }*/
     }
 
-    @Override
-    public void invalidate()
+/*    public void invalidate()
     {
         /*if (addedToEnergyNet)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
             addedToEnergyNet = false;
-        }*/
+        }
 
         super.invalidate();
-    }
+    }*/
 }

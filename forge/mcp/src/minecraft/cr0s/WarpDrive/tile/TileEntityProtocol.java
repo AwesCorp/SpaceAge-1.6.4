@@ -207,20 +207,20 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
 
     public String getAttachedPlayersList()
     {
-        StringBuilder list = new StringBuilder("");
+        String list = "";
 
         for (int i = 0; i < this.players.size(); i++)
         {
             String nick = this.players.get(i);
-            list.append(nick + ((i == this.players.size() - 1) ? "" : ", "));
+            list += nick + ((i == this.players.size() - 1) ? "" : ", ");
         }
 
         if (players.isEmpty())
         {
-            list = new StringBuilder("<nobody>");
+            list = "<nobody>";
         }
 
-        return list.toString();
+        return list;
     }
 
     /**
@@ -488,7 +488,13 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
             case 0: // dim_getp ()
                 return new Integer[] { getFront(), getRight(), getUp() };
             case 1: // dim_setp (front, right, up)
-                if (arguments.length != 3 || (((Double)arguments[0]).intValue() < 0 || ((Double)arguments[1]).intValue() < 0 || ((Double)arguments[2]).intValue() < 0))
+                if ( arguments.length != 3 ||
+					( ( (Double)arguments[0] ).intValue() < 0 ||
+					( (Double)arguments[1] ).intValue() < 0 ||
+					( (Double)arguments[2] ).intValue() < 0 ||
+					( (Double)arguments[0] ).intValue() > WarpDriveConfig.i.WC_MAX_SHIP_SIDE ||
+					( (Double)arguments[1] ).intValue() > WarpDriveConfig.i.WC_MAX_SHIP_SIDE ||
+					( (Double)arguments[2] ).intValue() > WarpDriveConfig.i.WC_MAX_SHIP_SIDE ) )
                 {
                     return new Integer[] { -1 };
                 }
@@ -503,7 +509,13 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
             case 2: // dim_getn ()
                 return new Integer[] { getBack(), getLeft(), getDown() };
             case 3: // dim_setn (back, left, down)
-                if (arguments.length != 3 || (((Double)arguments[0]).intValue() < 0 || ((Double)arguments[1]).intValue() < 0 || ((Double)arguments[2]).intValue() < 0))
+                if ( arguments.length != 3 ||
+					( ( (Double)arguments[0] ).intValue() < 0 ||
+					( (Double)arguments[1] ).intValue() < 0 ||
+					( (Double)arguments[2] ).intValue() < 0 ||
+					( (Double)arguments[0] ).intValue() > WarpDriveConfig.i.WC_MAX_SHIP_SIDE ||
+					( (Double)arguments[1] ).intValue() > WarpDriveConfig.i.WC_MAX_SHIP_SIDE ||
+					( (Double)arguments[2] ).intValue() > WarpDriveConfig.i.WC_MAX_SHIP_SIDE ) )
                 {
                     return new Integer[] { -1 };
                 }
@@ -700,12 +712,25 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
 	public String currentDimension() {
 		int id = worldObj.provider.dimensionId;
 		
+		SpaceAgePlanetsLoaded = Loader.isModLoaded("SpaceAgePlanets");
+		
 		if(id == 0) {
-			return "Overworld";
+			return "Earth";
 		} else if(id == WarpDrive.instance.spaceDimID) {
 			return "Space";
 		} else if(id == WarpDrive.instance.hyperSpaceDimID) {
 			return "Hyperspace";
+		} else if(SpaceAgePlanetsLoaded == true) {
+			if(id == SpaceAgePlanets.T0011ID) {
+				return "0011";
+			} else if(id == SpaceAgePlanets.vulcanID) {
+				return "Vulcan";
+			} else if(id == SpaceAgePlanets.hadesID) {
+				return "Hades";
+			}
+			
+			return "BROKEN";
+			
 		}
 		
 		return "BROKEN";
