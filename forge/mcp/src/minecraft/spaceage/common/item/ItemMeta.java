@@ -28,10 +28,10 @@ public class ItemMeta extends Item {
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1) {
 		//this.blockIcon = par1.registerIcon(MoreFood.modid + ":" + (this.getUnlocalizedName().substring(5)));
-		icons = new Icon[14];
+		icons = new Icon[15];
 		
 		for(int i = 0; i < icons.length; i++) {
-			icons[i] = par1.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + i);
+			icons[i] = par1.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + namesTexture);
 		}
 		
 	}
@@ -54,14 +54,39 @@ public class ItemMeta extends Item {
 		ItemStack siliconE = new ItemStack(SpaceAgeCore.meta,1,12);
 		ItemStack lithium = new ItemStack(SpaceAgeCore.meta,1,13);
 		ItemStack fireessence = new ItemStack(SpaceAgeCore.meta,1,14);
+		ItemStack overClocker = new ItemStack(SpaceAgeCore.meta,1,15);
+		
+		switch(itemStack.getItemDamage()) {
+			case 0:
+				dataList.add("Ti");
+			case 1:
+				dataList.add("Al");
+			case 2:
+				dataList.add("V");
+			case 3:
+				dataList.add("Ti6Al4V"); //6% aluminium, 4% vanadium, 90% titanium
+			//case 4:
+				//dataList.add("");
+			case 5:
+				dataList.add("Ti6Al4V");
+			case 11:
+				dataList.add("Si");
+			case 12:
+				dataList.add("Si2H");
+			case 13:
+				dataList.add("Li");
+			case 14:
+				dataList.add("Si");
+		}
 		
 		//dataList.add("Precious Gemstone");
 	}
 	
-	public static final String[] names = new String[] {"Titanium Ingot", "Aluminium Ingot", "Vanadium Ingot", "Heavy Duty Ingot", "Arc Reactor", "Heavy Duty Plate", "Basic Circuit", "Advanced Circuit", "Aluminium Wire", "Oxygen Apparatus", "Thruster Pack", "Raw Silicon", "Enriched Silicon", "Lithium Dust", "Fire-Infused Essence"};
+	public static final String[] names = new String[] {"Titanium Ingot", "Aluminium Ingot", "Vanadium Ingot", "Heavy Duty Ingot", "Arc Reactor", "Heavy Duty Plate", "Basic Circuit", "Advanced Circuit", "Aluminium Wire", "Oxygen Apparatus", "Thruster Pack", "Raw Silicon", "Enriched Silicon", "Lithium Dust", "Fire-Infused Essence", "Overclocking Chip"};
+	public static final String[] namesTexture = new String[] {"titaniumIngot", "aluminiumIngot", "vanadiumIngot", "heavyDutyIngot", "arcReactor", "heavyDutyPlate", "basicCircuit", "advancedCircuit", "aluminiumWire", "oxygenApparatus", "thrusterPack", "rawSilicon", "enrichedSilicon", "lithiumDust", "fire-InfusedEssence", "overclockingChip"};
 	
 	public String getUnlocalizedName(ItemStack par1) {
-		int i = MathHelper.clamp_int(par1.getItemDamage(), 0, 14);
+		int i = MathHelper.clamp_int(par1.getItemDamage(), 0, 15);
 		return super.getUnlocalizedName() + "." + names[i];
 	}
 	
@@ -71,7 +96,7 @@ public class ItemMeta extends Item {
 	
 	@SideOnly(Side.CLIENT)
 	public void getSubItems(int par1, CreativeTabs par2, List par3) {
-		for(int i = 0; i < 14; i++) {
+		for(int i = 0; i < 15; i++) {
 			par3.add(new ItemStack(par1, 1, i));
 		}
 	}

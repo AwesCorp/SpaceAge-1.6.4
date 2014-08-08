@@ -85,6 +85,17 @@ public class ServerTickHandler implements ITickHandler {
 
 	    }
 	    
+	    if ((player.getCurrentItemOrArmor(4) != null) && (player.getCurrentItemOrArmor(3) != null)) {
+	      ItemStack helmet = player.getCurrentItemOrArmor(4);
+	      ItemStack plate = player.getCurrentItemOrArmor(3);
+
+	      if (((plate.getItem() == SpaceAgeCore.fireResistanceChestplate ? 1 : 0) | (helmet.getItem() == SpaceAgeCore.fireResistanceHelmet ? 1 : 0)) != 0) {
+	        player.addPotionEffect(new PotionEffect(Potion.fireResistance.getId(), 2, 5));
+	        player.fallDistance = 0.0F;
+	      }
+
+	    }
+	    
 	    if ((player.getCurrentItemOrArmor(4) != null) && (player.getCurrentItemOrArmor(3) != null) && (player.getCurrentItemOrArmor(2) != null) && (player.getCurrentItemOrArmor(1) != null))
 	    {
 	      ItemStack helmet = player.getCurrentItemOrArmor(4);

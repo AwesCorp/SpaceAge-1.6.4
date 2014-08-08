@@ -67,11 +67,6 @@ public class BiomeGen0011Clearing extends BiomeGenBase {
     this.setTemperatureRainfall(0.7F, 0.0F);
   }
   
-  @Override
-  public WorldGenerator getRandomWorldGenForTrees(Random par1Random) {
-    return new WorldGen0011Tree(false);
-  }
-  
   @SideOnly(Side.CLIENT)
   public int getBiomeGrassColor() {
       double d0 = (double)MathHelper.clamp_float(this.getFloatTemperature(), 0.0F, 1.0F);

@@ -351,6 +351,15 @@ public class BiomeDecoratorSA extends BiomeDecorator {
       this.vulcanSoulSandGen.generate(currentWorlds, this.random, var3, var4, var5);
     }
     
+    doGen = TerrainGen.decorate(currentWorlds, random, chunk_xs, chunk_zs, DecorateBiomeEvent.Decorate.EventType.TREE);
+    for (int j = 0; doGen && j < this.treesPerChunk; ++j) {
+        int k = this.chunk_xs + this.random.nextInt(16) + 8;
+        int l = this.chunk_zs + this.random.nextInt(16) + 8;
+        WorldGenerator worldgenerator = this.biome.getRandomWorldGenForTrees(this.random);
+        //worldgenerator.setScale(1.0D, 1.0D, 1.0D);
+        worldgenerator.generate(this.currentWorld, this.random, k, this.currentWorld.getHeightValue(k, l), l);
+    }
+    
     /*for (int var2 = 0; var2 < this.glowstoneTreeGenPerChunk; var2++) {
       int var3 = chunk_xs + this.random.nextInt(16) + 8;
       int var4 = this.random.nextInt(256);

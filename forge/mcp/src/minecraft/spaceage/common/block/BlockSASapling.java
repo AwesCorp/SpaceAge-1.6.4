@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
+import spaceage.common.block.BlockHades.Type;
 import spaceage.planets.technoorganic.WorldGen0011Tree;
 import spaceage.planets.vulcan.WorldGenGlowstoneTree;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -22,11 +25,20 @@ import net.minecraft.world.gen.feature.WorldGenTaiga2;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class BlockSASapling extends BlockFlower {
     public static final String[] WOOD_TYPES = new String[] {"glowQuartz", "techOrganic"};
     public static int amountOfSubBlocks = 2;
+    
+	private Type type;
+	
+	public Random randomG;
+	
+	public World worldObj;
+	
+	//private int netherrackID = Block.netherrack.blockID;
     
     @SideOnly(Side.CLIENT)
     private Icon[] saplingIcon;
@@ -37,10 +49,64 @@ public class BlockSASapling extends BlockFlower {
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
         this.setCreativeTab(SpaceAgeCore.tabSA);
     }
+    
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
+    	ItemStack item = player.getHeldItem();
+    	
+    	switch(type.ordinal()) {
+    		case 0:
+    	    	if((item.getItem() == SpaceAgeCore.meta) && (item.getItemDamage() == 14)) {
+    	    		growTree(world, x, y, z, randomG);
+    	    	}
+    		case 1:
+    			if((item.getItem() == SpaceAgeCore.meta) && (item.getItemDamage() == 15)) {
+    				growTree(world, x, y, z, randomG);
+    			}
+    	}
+    	
+    	return false;
+    }
+    
+    @Override
+    public boolean canThisPlantGrowOnThisBlockID(int blockID) {
+    	switch(type.ordinal()) {
+    		case 0:
+    			if(blockID == Block.netherrack.blockID) {
+    				return true;
+    			}
+    		case 1:
+    			if(blockID == SpaceAgeCore.T0011SurfaceID) {
+    				//if(worldObj.getBlockM)
+    				return true;
+    			}
+			default:
+				return false;
+    	}
+    }
+    
+    @Override
+    public boolean canBlockStay(World par1World, int x, int y, int z) {
+        //Block soil = blocksList[par1World.getBlockId(x, y - 1, z)];
+        int soil = par1World.getBlockId(x, y - 1, z);
+        int soilMeta = par1World.getBlockMetadata(x, y - 1, z);
+        
+        switch(type.ordinal()) {
+        	case 0:
+        		return (soil == Block.netherrack.blockID);
+        	case 1:
+        		return (soil == SpaceAgeCore.T0011SurfaceID && soilMeta == 0);
+    		default:
+    			return false;
+        }
+        //return (par1World.getFullBlockLightValue(x, y, z) >= 8 || par1World.canBlockSeeTheSky(x, y, z)) && 
+          //      (soil != null && soil.canSustainPlant(par1World, x, y - 1, z, ForgeDirection.UP, this));
+    }
 
     /**
      * Ticks the block if it's been scheduled
      */
+    @Override
     public void updateTick(World par1World, int par2, int par3, int par4, Random par5Random) {
         if (!par1World.isRemote) {
             super.updateTick(par1World, par2, par3, par4, par5Random);
@@ -53,6 +119,7 @@ public class BlockSASapling extends BlockFlower {
     /**
      * From the specified side and block metadata retrieves the blocks texture. Args: side, metadata
      */
+    @Override
     public Icon getIcon(int par1, int par2) {
         par2 &= 3;
         return this.saplingIcon[par2];
@@ -72,8 +139,8 @@ public class BlockSASapling extends BlockFlower {
      * Attempts to grow a sapling into a tree
      */
     public void growTree(World par1World, int par2, int par3, int par4, Random par5Random) {
-        if (!TerrainGen.saplingGrowTree(par1World, par5Random, par2, par3, par4)) 
-        	return;
+        //if (!TerrainGen.saplingGrowTree(par1World, par5Random, par2, par3, par4)) 
+        	//return; //TODO - unneeded code?
 
         int meta = par1World.getBlockMetadata(par2, par3, par4) & 3;
         Object object = null;
@@ -163,12 +230,13 @@ public class BlockSASapling extends BlockFlower {
     /**
      * Determines the damage on the item the block drops. Used in cloth and wood.
      */
+    @Override
     public int damageDropped(int par1) {
         return par1 & 3;
     }
 
     @SideOnly(Side.CLIENT)
-
+    @Override
     /**
      * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
      */
@@ -179,7 +247,7 @@ public class BlockSASapling extends BlockFlower {
     }
 
     @SideOnly(Side.CLIENT)
-
+    @Override
     /**
      * When this method is called, your block should register all the icons it needs with the given IconRegister. This
      * is the only chance you get to register icons.
@@ -191,4 +259,8 @@ public class BlockSASapling extends BlockFlower {
             this.saplingIcon[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + WOOD_TYPES[i]);
         }
     }
+    
+	public static enum Type {
+		GLOW_QUARTZ, TECH_ORGANIC;
+	}
 }

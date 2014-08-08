@@ -16,9 +16,12 @@ import spaceage.common.block.BlockHades;
 import spaceage.common.block.BlockOres1;
 import spaceage.common.block.BlockSpaceshipAlloy;
 import spaceage.common.block.BlockVulcan;
+import spaceage.common.item.ItemBlock0011;
 import spaceage.common.item.ItemBlockGeneratorTooltip;
+import spaceage.common.item.ItemBlockHades;
 import spaceage.common.item.ItemBlockSpaceshipAlloy;
 import spaceage.common.item.ItemBlockVulcan;
+import spaceage.common.item.ItemFireResistArmour;
 import spaceage.common.item.ItemMeta;
 import spaceage.common.item.ItemRepulsor;
 import spaceage.common.item.ItemStarboost;
@@ -33,6 +36,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
@@ -79,6 +83,7 @@ public class SpaceAgeCore {
 	public static CommonProxy proxy;
 	
 	public static final String modid = "SpaceAge";
+	//public String modid2 = modid.toLowerCase();
 	//public static final String REFERENCE = modid + ":";
 	
 	@Instance("SpaceAge")
@@ -91,18 +96,30 @@ public class SpaceAgeCore {
 	
 	//Blocks and Items Registry 
 	public static Item meta;
+	
 	public static Block spaceshipAlloyMeta;
 	public static Block ores1;
+	
 	public static Item advancedSpacesuitHelmet;
 	public static Item advancedSpacesuitChestplate;
 	public static Item advancedSpacesuitLeggings;
 	public static Item advancedSpacesuitBoots;
 	public static Item repulsor;
+	
+	public static Item fireResistanceHelmet;
+	public static Item fireResistanceChestplate;
+	public static Item fireResistanceLeggings;
+	public static Item fireResistanceBoots;
+	
 	public static Block metaGenerator;
+	
 	public static Block tintedGlass;
+	
 	public static Block vulcanSurface;
 	public static Block hadesSurface;
 	public static Block T0011Surface;
+	
+	public static Block metaSapling;
 	
 	//Custom ItemStacks (for crafting ease etc.)
 	//GameRegistry.registerCustomItemStack("ash", new ItemStack(vulcanSurface, 1, 2));
@@ -110,18 +127,31 @@ public class SpaceAgeCore {
 	
 	//ID Registry
 	public static int metaID;
+	
 	public static int ores1ID;
+	
 	public static int spaceshipAlloyMetaID;
+	
 	public static int advancedSpacesuitHelmetID;
 	public static int advancedSpacesuitChestplateID;
 	public static int advancedSpacesuitLeggingsID;
 	public static int advancedSpacesuitBootsID;
 	public static int repulsorID;
+	
+	public static int fireResistanceHelmetID;
+	public static int fireResistanceChestplateID;
+	public static int fireResistanceLeggingsID;
+	public static int fireResistanceBootsID;
+	
 	public static int metaGeneratorID;
+	
 	public static int tintedGlassID;
+	
 	public static int vulcanSurfaceID;
 	public static int hadesSurfaceID;
 	public static int T0011SurfaceID;
+	
+	public static int metaSaplingID;
 	
 	//ENERGY VALUES
 	//GENERATORS
@@ -155,6 +185,10 @@ public class SpaceAgeCore {
 		advancedSpacesuitLeggingsID = config.get("Items", "Value of the advanced spacesuit legs - do not edit this to play on the server", 5003).getInt();
 		advancedSpacesuitBootsID = config.get("Items", "Value of the advanced spacesuit boots - do not edit this to play on the server", 5004).getInt();
 		repulsorID = config.get("Items", "Value of the integrated laser cannon - do not edit this to play on the server", 5005).getInt();
+		fireResistanceHelmetID = config.get("Items", "Value of the fire resistance helmet - do not edit this to play on the server", 5006).getInt();
+		fireResistanceChestplateID = config.get("Items", "Value of the fire resistance chestplate - do not edit this to play on the server", 5007).getInt();
+		fireResistanceLeggingsID = config.get("Items", "Value of the fire resistance legs - do not edit this to play on the server", 5008).getInt();
+		fireResistanceBootsID = config.get("Items", "Value of the fire resistance boots - do not edit this to play on the server", 5009).getInt();
 		//SOLAR_ENERGY = config.get("Energy", "How much energy the solar panel generates - do not edit this to play on the server", 50).getInt();
 		//HEAT_ENERGY = config.get("Energy", "How much energy the geothermal turbine generates - do not edit this to play on the server", 50).getInt();
 		//SOLAR_CAPACITY = config.get("Energy", "How much energy the solar panel can store - do not edit this to play on the server", 250).getInt();
@@ -164,6 +198,7 @@ public class SpaceAgeCore {
 		vulcanSurfaceID = config.get("Blocks", "Value of the majority of Vulcan related blocks - do not edit this to play on the server", 255).getInt();
 		hadesSurfaceID = config.get("Blocks", "Value of the majority of Hades related blocks - do not edit to play on the server", 254).getInt();
 		T0011SurfaceID = config.get("Blocks", "Value of the majority of 0011 related blocks - do not edit to play on the server", 253).getInt(); //TODO remember that worldgen blocks are below 256 and also change meta so surface is first
+		metaSaplingID = config.get("Saplings", "Value of the saplings - do not edit to play on the server", 504).getInt();
 		
 		config.save();
 	}	
@@ -192,7 +227,9 @@ public class SpaceAgeCore {
 		this.initConfiguration(event);
 		LogHelper.log(Level.FINEST, "Loaded configuration successfully");
 		
-		EnumArmorMaterial armourADVANCEDSPACESUIT = EnumHelper.addArmorMaterial("ADVANCEDSPACESUIT", 50, new int[]{8, 20, 10, 6}, 30);
+		EnumArmorMaterial armourADVANCEDSPACESUIT = EnumHelper.addArmorMaterial("ADVANCEDSPACESUIT", 50, new int[]{8, 20, 10, 6}, 0);
+		EnumArmorMaterial armourFIRERESISTANCE = EnumHelper.addArmorMaterial("FIRERESISTANCE", 50, new int[]{8, 20, 10, 6}, 0);
+		
 		
 		meta = new ItemMeta/*meta*/(this.metaID).setUnlocalizedName("basicItem");
 		
@@ -210,8 +247,12 @@ public class SpaceAgeCore {
 		advancedSpacesuitChestplate = new ItemStarboost(this.advancedSpacesuitChestplateID, armourADVANCEDSPACESUIT, 0, 1).setUnlocalizedName("advChestplate");
 		advancedSpacesuitLeggings = new ItemStarboost(this.advancedSpacesuitLeggingsID, armourADVANCEDSPACESUIT, 0, 2).setUnlocalizedName("advLeggings");
 		advancedSpacesuitBoots = new ItemStarboost(this.advancedSpacesuitBootsID, armourADVANCEDSPACESUIT, 0, 3).setUnlocalizedName("advBoots");
-		
 		repulsor = new ItemRepulsor(this.repulsorID).setUnlocalizedName("laserCannon").setCreativeTab(tabSA);
+		
+		fireResistanceHelmet = new ItemFireResistArmour(this.fireResistanceHelmetID, armourFIRERESISTANCE, 0, 0).setUnlocalizedName("fireHelmet");
+		fireResistanceChestplate = new ItemFireResistArmour(this.fireResistanceChestplateID, armourFIRERESISTANCE, 0, 1).setUnlocalizedName("fireChestplate");
+		fireResistanceLeggings = new ItemFireResistArmour(this.fireResistanceLeggingsID, armourFIRERESISTANCE, 0, 2).setUnlocalizedName("fireLeggings");
+		fireResistanceBoots = new ItemFireResistArmour(this.fireResistanceBootsID, armourFIRERESISTANCE, 0, 3).setUnlocalizedName("fireBoots");
 		
 		tintedGlass = new BlockConnectedGlasses(this.tintedGlassID, Material.glass).setUnlocalizedName("reinforcedGlass");
 		
@@ -269,6 +310,7 @@ public class SpaceAgeCore {
 		ItemStack enrichedSilicon = new ItemStack(this.meta,1,12);
 		ItemStack lithiumDust = new ItemStack(this.meta,1,13);
 		ItemStack fireessence = new ItemStack(this.meta,1,14);
+		ItemStack overClocker = new ItemStack(this.meta,1,15);
 		
 		//OreDictionary.registerOre(id, ore)
 		OreDictionary.registerOre("titaniumIngot", titaniumIngot);
@@ -370,6 +412,7 @@ public class SpaceAgeCore {
 		ItemStack enrichedSilicon = new ItemStack(this.meta,1,12); //CREATED FROM HYDROGEN
 		ItemStack lithiumDust = new ItemStack(this.meta,1,13); //DO SEPARATION FROM CLAY IN A MACHINE
 		ItemStack fireessence = new ItemStack(this.meta,1,14); //DROPS DIRECTLY FROM BLOCK
+		ItemStack overClocker = new ItemStack(this.meta,1,15); //CIRCUITS and reprogrammed chip
 		
 		//GameRegistry.addShapedRecipe(output, params)
 		//GameRegistry.addShapelessRecipe(output, params)
@@ -417,6 +460,11 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(advancedSpacesuitChestplate, "Advanced Chestplate");
 		LanguageRegistry.addName(advancedSpacesuitLeggings, "Advanced Leggings");
 		LanguageRegistry.addName(advancedSpacesuitBoots, "Advanced Boots");
+		
+		LanguageRegistry.addName(fireResistanceHelmet, "Flame Resistant Helmet");
+		LanguageRegistry.addName(fireResistanceChestplate, "Flame Resistant Chestplate");
+		LanguageRegistry.addName(fireResistanceLeggings, "Flame Resistant Leggings");
+		LanguageRegistry.addName(fireResistanceBoots, "Flame Resistant Boots");
 		
 		LanguageRegistry.addName(repulsor, "Laser Cannon");
 		
@@ -467,6 +515,7 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(new ItemStack(meta, 1, 12), "Enriched Silicon");
 		LanguageRegistry.addName(new ItemStack(meta, 1, 13), "Lithium Dust");
 		LanguageRegistry.addName(new ItemStack(meta, 1, 14), "Fire-Infused Essence");
+		LanguageRegistry.addName(new ItemStack(meta, 1, 15), "Overclocking Chip");
 		
 		LanguageRegistry.addName(tintedGlass, "Reinforced Glass");
 		
@@ -480,17 +529,30 @@ public class SpaceAgeCore {
 		GameRegistry.registerItem(advancedSpacesuitLeggings, "Advanced Leggings");
 		GameRegistry.registerItem(advancedSpacesuitBoots, "Advanced Boots");
 		
+		GameRegistry.registerItem(fireResistanceHelmet, "Flame Resistant Helmet");
+		GameRegistry.registerItem(fireResistanceChestplate, "Flame Resistant Chestplate");
+		GameRegistry.registerItem(fireResistanceLeggings, "Flame Resistant Leggings");
+		GameRegistry.registerItem(fireResistanceBoots, "Flame Resistant Boots");
+		
 		GameRegistry.registerItem(repulsor, "Laser Cannon");
 		
-		GameRegistry.registerBlock(metaGenerator, ItemBlockGeneratorTooltip.class, "metaGenerator");
+		//GameRegistry.registerBlock(metaGenerator, ItemBlockGeneratorTooltip.class, "metaGenerator");
+		this.metaRegister(metaGenerator, ItemBlockGeneratorTooltip.class, metaGenerator.getUnlocalizedName());
 		GameRegistry.registerTileEntity(TileHeatGenerator.class, "heatGenerator");
 		GameRegistry.registerTileEntity(TileSolarPanel.class, "solarPanel");
 		
 		GameRegistry.registerBlock(tintedGlass, "Reinforced Glass");
 		
-		GameRegistry.registerBlock(spaceshipAlloyMeta, ItemBlockSpaceshipAlloy.class, modid + (spaceshipAlloyMeta.getUnlocalizedName().substring(5)));
+		//GameRegistry.registerBlock(spaceshipAlloyMeta, ItemBlockSpaceshipAlloy.class, modid + (spaceshipAlloyMeta.getUnlocalizedName().substring(5)));
+		this.metaRegister(spaceshipAlloyMeta, ItemBlockSpaceshipAlloy.class, spaceshipAlloyMeta.getUnlocalizedName());
+		//GameRegistry.registerBlock(vulcanSurface, ItemBlockVulcan.class, modid + (vulcanSurface.getUnlocalizedName().substring(5)));
 		
-		GameRegistry.registerBlock(vulcanSurface, ItemBlockVulcan.class, modid + (vulcanSurface.getUnlocalizedName().substring(5)));
+		this.metaRegister(vulcanSurface, ItemBlockVulcan.class, vulcanSurface.getUnlocalizedName());
+		this.metaRegister(hadesSurface, ItemBlockHades.class, hadesSurface.getUnlocalizedName());
+		this.metaRegister(T0011Surface, ItemBlock0011.class, T0011Surface.getUnlocalizedName());
+	}
+	public void metaRegister(Block block, Class<? extends ItemBlock> itemclass, String unlocalisedName) {
+		GameRegistry.registerBlock(block, itemclass, modid + (unlocalisedName.substring(5)));
 	}
 	
 /*	  public boolean onTickInGame(float f, Minecraft minecraft) {

@@ -97,7 +97,6 @@ public class TileSolarPanel extends TileGeneratorBase {
 
 	@Override
 	public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
-		// TODO 
 		return false;
 	}
 

@@ -34,6 +34,26 @@ public abstract class TileElectricInventoryBase extends TileElectricBase impleme
 		this.energy.receiveEnergy(CompatibilityModule.dischargeItem(itemStack, this.energy.getEmptySpace(), true), true);
 	}
 	
+	public boolean isBatteryFull(ItemStack itemStack) {
+		if(itemStack != null && (CompatibilityModule.isHandler(itemStack.getItem()))) {
+			if(CompatibilityModule.getEnergyItem(itemStack) >= CompatibilityModule.getMaxEnergyItem(itemStack)) {
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+	
+	public boolean isBatteryEmpty(ItemStack itemStack) {
+		if(itemStack != null && (CompatibilityModule.isHandler(itemStack.getItem()))) {
+			if(CompatibilityModule.getEnergyItem(itemStack) <= 0) {
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+	
 	 /**
      * Used for temporary constructors. Not recommended to be used. 
      * @author SkylordJoel

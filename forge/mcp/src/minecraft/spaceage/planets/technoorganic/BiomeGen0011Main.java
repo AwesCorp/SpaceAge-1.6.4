@@ -40,7 +40,7 @@ public class BiomeGen0011Main extends BiomeGenBase {
     this.fillerBlock = ((byte)SpaceAgeCore.T0011Surface.blockID);
     
     this.customBiomeDecorator.hadesIcePerChunk = 1;
-    this.customBiomeDecorator.treesPerChunk = -999;
+    this.customBiomeDecorator.treesPerChunk = 40;
     this.customBiomeDecorator.generateLakes = false;
     this.customBiomeDecorator.flowersPerChunk = -999;
     this.customBiomeDecorator.grassPerChunk = -999;
@@ -69,7 +69,7 @@ public class BiomeGen0011Main extends BiomeGenBase {
   
   @Override
   public WorldGenerator getRandomWorldGenForTrees(Random par1Random) {
-    return new WorldGen0011Tree(false);
+    return (WorldGenerator)(par1Random.nextInt(8) == 0 ? new WorldGen0011TreeHouse(false) : new WorldGen0011Tree(false));
   }
   
   @SideOnly(Side.CLIENT)

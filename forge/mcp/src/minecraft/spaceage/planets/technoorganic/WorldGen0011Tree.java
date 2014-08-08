@@ -11,8 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
-public class WorldGen0011Tree extends WorldGenerator
-{
+public class WorldGen0011Tree extends WorldGenerator {
 	public WorldGen0011Tree(boolean par1) {
 		
 	}

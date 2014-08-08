@@ -174,20 +174,20 @@ public class ChunkProvider0011 implements IChunkProvider {
 						double d13 = (d4 - d2) * d9;
 
 						for (int i2 = 0; i2 < 4; ++i2) {
-							int j2 = i2 + i1 * 4 << 11 | 0 + j1 * 4 << 7 | k1 * 8 + l1;
+							int x = i2 + i1 * 4 << 11 | 0 + j1 * 4 << 7 | k1 * 8 + l1;
 							short short1 = 128;
-							j2 -= short1;
+							x -= short1;
 							double d14 = 0.25D;
 							double d15 = (d11 - d10) * d14;
 							double d16 = d10 - d15;
 
 							for (int k2 = 0; k2 < 4; ++k2) {
 								if ((d16 += d15) > 0.0D) {
-									par3ArrayOfByte[j2 += short1] = (byte) SpaceAgeCore.T0011Surface.blockID;//Block.stone.blockID;
+									par3ArrayOfByte[x += short1] = (byte) SpaceAgeCore.T0011Surface.blockID;//Block.stone.blockID;
 								} else if (k1 * 8 + l1 < fillerBlock) {
-									par3ArrayOfByte[j2 += short1] = (byte) RotaryIntegration.lubricant.fluidID;
+									par3ArrayOfByte[x += short1] = (byte) RotaryIntegration.lubricant.fluidID;
 								} else {
-									par3ArrayOfByte[j2 += short1] = 0;
+									par3ArrayOfByte[x += short1] = 0;
 								}
 							}
 
@@ -336,7 +336,7 @@ public class ChunkProvider0011 implements IChunkProvider {
 		boolean flag = false;
 		boolean flag1 = false;
 		int i2 = 0;
-		int j2 = 0;
+		int x = 0;
 
 		for (int k2 = 0; k2 < par5; ++k2) {
 			for (int l2 = 0; l2 < par7; ++l2) {
@@ -365,7 +365,7 @@ public class ChunkProvider0011 implements IChunkProvider {
 				f2 /= f3;
 				f1 = f1 * 0.9F + 0.1F;
 				f2 = (f2 * 4.0F - 1.0F) / 8.0F;
-				double d2 = this.noise6[j2] / 8000.0D;
+				double d2 = this.noise6[x] / 8000.0D;
 
 				if (d2 < 0.0D) {
 					d2 = -d2 * 0.3D;
@@ -390,7 +390,7 @@ public class ChunkProvider0011 implements IChunkProvider {
 					d2 /= 8.0D;
 				}
 
-				++j2;
+				++x;
 
 				for (int k3 = 0; k3 < par6; ++k3) {
 					double d3 = (double) f2;
@@ -481,32 +481,32 @@ public class ChunkProvider0011 implements IChunkProvider {
 		for (k1 = 0; doGen && k1 < 8; ++k1) {
 			l1 = k + this.rand.nextInt(16) + 8;
 			i2 = this.rand.nextInt(128);
-			int j2 = l + this.rand.nextInt(16) + 8;
+			int x = l + this.rand.nextInt(16) + 8;
 
-			if ((new WorldGenDungeons()).generate(this.worldObj, this.rand, l1, i2, j2)) {
+			if ((new WorldGenDungeons()).generate(this.worldObj, this.rand, l1, i2, x)) {
 				;
 			}
 		}
 
-        //Trees
+/*        //Trees
         for (int c = 60; c > 0; c--) {
-                int j2 = k + rand.nextInt(16) + 8;
-                int l3 = rand.nextInt(120);
-                int j5 = l + rand.nextInt(16) + 8;
-                if ((worldObj.getBlockId(j2, l3, j5) == 0) && (worldObj.getBlockId(j2, l3 - 1, j5) == SpaceAgeCore.T0011Surface.blockID) && (worldObj.getBlockMetadata(j2, l3 - 1, j5) == 0)) {
-                        new WorldGen0011Tree(true).generate(worldObj, rand, j2, l3, j5);
+                int x = k + rand.nextInt(16) + 8;
+                int y = rand.nextInt(120);
+                int z = l + rand.nextInt(16) + 8;
+                if ((worldObj.getBlockId(x, y, z) == 0) && (worldObj.getBlockId(x, y - 1, z) == SpaceAgeCore.T0011Surface.blockID) && (worldObj.getBlockMetadata(x, y - 1, z) == 0)) {
+                        new WorldGen0011Tree(true).generate(worldObj, rand, x, y, z);
                 }
         }
         
         //Tree houses
         for (int c = 60; c > 0; c--) {
-            int j2 = k + rand.nextInt(16) + 8;
-            int l3 = rand.nextInt(120);
-            int j5 = l + rand.nextInt(16) + 8;
-            if ((worldObj.getBlockId(j2, l3, j5) == 0) && (worldObj.getBlockId(j2, l3 - 1, j5) == SpaceAgeCore.T0011Surface.blockID) && (worldObj.getBlockMetadata(j2, l3 - 1, j5) == 0)) {
-                    new WorldGen0011TreeHouse(true).generate(worldObj, rand, j2, l3, j5);
+            int x = k + rand.nextInt(16) + 8;
+            int y = rand.nextInt(120);
+            int z = l + rand.nextInt(16) + 8;
+            if ((worldObj.getBlockId(x, y, z) == 0) && (worldObj.getBlockId(x, y - 1, z) == SpaceAgeCore.T0011Surface.blockID) && (worldObj.getBlockMetadata(x, y - 1, z) == 0)) {
+                    new WorldGen0011TreeHouse(true).generate(worldObj, rand, x, y, z);
             }
-    }
+    }*/
       
 
 		MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(par1IChunkProvider, worldObj, rand, par2, par3, flag));
