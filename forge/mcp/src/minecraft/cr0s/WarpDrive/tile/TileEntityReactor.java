@@ -49,6 +49,13 @@ public class TileEntityReactor extends TileElectricBase {
     int WC_JOULES_PER_ENTITY_TO_SPACE = WarpDriveConfig.i.WC_ENERGY_PER_ENTITY_TO_SPACE * 250;
     
 	//public boolean addedToEnergyNet = false;
+    
+	public void setInfo() {
+		this.energy.setCapacity(capacity);
+		//this.energy.setMaxReceive(JOULES_MAX_RECEIVE);
+		//this.energy.setMaxExtract(0);
+		this.energy.setMaxTransfer(maxReceive);
+	}
 
     public boolean ready;
 
@@ -376,18 +383,16 @@ public class TileEntityReactor extends TileElectricBase {
         }
     }
 
-    public void summonPlayer(EntityPlayerMP player, int x, int y, int z)
-    {
-        if (this.currentEnergyValue - WC_JOULES_PER_ENTITY_TO_SPACE >= 0)
-        {
+    public void summonPlayer(EntityPlayerMP player, int x, int y, int z) {
+        if (this.currentEnergyValue - WC_JOULES_PER_ENTITY_TO_SPACE >= 0) {
             player.setPositionAndUpdate(x, y, z);
 
-            if (player.dimension != worldObj.provider.dimensionId)
-            {
+            if (player.dimension != worldObj.provider.dimensionId) {
                 player.mcServer.getConfigurationManager().transferPlayerToDimension(player, this.worldObj.provider.dimensionId, new SpaceTeleporter(DimensionManager.getWorld(this.worldObj.provider.dimensionId), 0, MathHelper.floor_double(player.posX), MathHelper.floor_double(player.posY), MathHelper.floor_double(player.posZ)));
             }
 
-            this.currentEnergyValue -= WC_JOULES_PER_ENTITY_TO_SPACE;
+            this.energy.extractEnergy(WC_JOULES_PER_ENTITY_TO_SPACE, true);
+            //this.currentEnergyValue -= WC_JOULES_PER_ENTITY_TO_SPACE;
         }
     }
 
@@ -554,8 +559,9 @@ public class TileEntityReactor extends TileElectricBase {
         // Now make jump to a beacon
         if (isBeaconFound)
         {
-            // Consume all energy
-            currentEnergyValue -= calculateRequiredEnergy(shipVolume, distance);
+            // Consume all 
+        	this.energy.extractEnergy(calculateRequiredEnergy(shipVolume, distance), true);
+            //currentEnergyValue -= calculateRequiredEnergy(shipVolume, distance);
             System.out.println("[TE-WC] Moving ship to a beacon (" + beaconX + "; " + yCoord + "; " + beaconZ + ")");
             EntityJump jump = new EntityJump(worldObj, xCoord, yCoord, zCoord, 1, 0, dx, dz, this);
             jump.maxX = maxX;
@@ -732,7 +738,9 @@ public class TileEntityReactor extends TileElectricBase {
             }
 
             // Consume energy
-            currentEnergyValue -= calculateRequiredEnergy(shipVolume, distance);
+            //currentEnergyValue -= calculateRequiredEnergy(shipVolume, distance);
+            this.energy.extractEnergy(calculateRequiredEnergy(shipVolume, distance), true);
+            
             System.out.println("[TE-WC] Moving ship to a place around gate '" + jg.name + "' (" + destX + "; " + destY + "; " + destZ + ")");
             EntityJump jump = new EntityJump(worldObj, xCoord, yCoord, zCoord, 1, 0, dx, dz, this);
             jump.maxX = maxX;
@@ -822,7 +830,9 @@ public class TileEntityReactor extends TileElectricBase {
                 return;
             }
 
-            this.currentEnergyValue -= calculateRequiredEnergy(shipVolume, distance);
+            //this.currentEnergyValue -= calculateRequiredEnergy(shipVolume, distance);
+            this.energy.extractEnergy(calculateRequiredEnergy(shipVolume, distance), true);
+            
             System.out.println((new StringBuilder()).append("Jump params: X ").append(minX).append(" -> ").append(maxX).append(" blocks").toString());
             System.out.println((new StringBuilder()).append("Jump params: Y ").append(minY).append(" -> ").append(maxY).append(" blocks").toString());
             System.out.println((new StringBuilder()).append("Jump params: Z ").append(minZ).append(" -> ").append(maxZ).append(" blocks").toString());
@@ -890,7 +900,8 @@ public class TileEntityReactor extends TileElectricBase {
                         return;
                     }
 
-                    currentEnergyValue -= WC_JOULES_PER_ENTITY_TO_SPACE;
+                    this.energy.extractEnergy(WC_JOULES_PER_ENTITY_TO_SPACE, true);
+                    //currentEnergyValue -= WC_JOULES_PER_ENTITY_TO_SPACE;
                     Entity entity = (Entity) o;
                     int x = MathHelper.floor_double(entity.posX);
                     int z = MathHelper.floor_double(entity.posZ);

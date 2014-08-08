@@ -352,7 +352,8 @@ public class TileEntityShipScanner extends TileElectricBase implements //TODO gu
 		int size = width * length * height;
 		
 		// Consume energy
-		currentEnergyValue = Math.abs(currentEnergyValue - size * JOULES_PER_BLOCK_SCAN);
+		//currentEnergyValue = Math.abs(currentEnergyValue - size * JOULES_PER_BLOCK_SCAN);
+		this.energy.extractEnergy(size * JOULES_PER_BLOCK_SCAN, true);
 		
 		System.out.println("[ShipScanner] Size: " + size);
 		
@@ -543,7 +544,8 @@ public class TileEntityShipScanner extends TileElectricBase implements //TODO gu
 		}
 		
 		// Consume energy
-		currentEnergyValue = 0;
+		//currentEnergyValue = 0;
+		this.energy.setEnergy(0);
 		
 		// Set deployment vars
 		this.blocksToDeploy = new JumpBlock[size];
@@ -623,13 +625,13 @@ public class TileEntityShipScanner extends TileElectricBase implements //TODO gu
 	@Override
 	public void readFromNBT(NBTTagCompound tag) {
 		super.readFromNBT(tag);
-		this.currentEnergyValue = tag.getInteger("energy");
+		//this.currentEnergyValue = tag.getInteger("energy");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tag) {
 		super.writeToNBT(tag);
-		tag.setInteger("energy", this.getCurrentEnergyValue());
+		//tag.setInteger("energy", this.getCurrentEnergyValue());
 	}
 
 	// CC
@@ -742,8 +744,12 @@ public class TileEntityShipScanner extends TileElectricBase implements //TODO gu
 	}
 
 	public int collectAllEnergy() { //TODO change to UE
-		int energy = currentEnergyValue;
-		currentEnergyValue = 0;
+		//int energy = currentEnergyValue;
+		//currentEnergyValue = 0;
+		//return energy;
+		int energy = this.currentEnergyValue;
+		this.energy.setEnergy(0);
+		
 		return energy;
 	}
 

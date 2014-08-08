@@ -135,7 +135,8 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 					if (radius != 0 && isEnergyEnoughForScanRadiusW(radius))
 					{
 						// Consume energy
-						this.currentEnergyValue -= radius * radius;
+						//this.currentEnergyValue -= radius * radius;
+						this.energy.extractEnergy(radius * radius, true);
 						// Begin searching
 						scanRadius = radius;
 						cooldownTime = 0;

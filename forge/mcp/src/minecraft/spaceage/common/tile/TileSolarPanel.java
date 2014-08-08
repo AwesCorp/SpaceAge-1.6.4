@@ -65,7 +65,7 @@ public class TileSolarPanel extends TileGeneratorBase {
 	public void updateEntity() {
 		super.updateEntity();
 		
-		this.produce();
+		//this.produce();
 		
 		if (!this.worldObj.isRemote) {
 			if (this.worldObj.canBlockSeeTheSky(xCoord, yCoord + 1, zCoord) && !this.worldObj.provider.hasNoSky) {
@@ -75,6 +75,7 @@ public class TileSolarPanel extends TileGeneratorBase {
 							Long produced = Long.valueOf(SpaceAgeCore.SOLAR_ENERGY);
 							this.produceEnergy(produced);
 						}
+						this.produce();
 					}
 				}
 			}

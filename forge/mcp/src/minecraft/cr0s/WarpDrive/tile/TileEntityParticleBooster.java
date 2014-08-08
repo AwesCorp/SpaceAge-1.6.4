@@ -31,7 +31,7 @@ public class TileEntityParticleBooster extends TileElectricBase {
 	static int JOULES_CAPACITY = WarpDriveConfig.i.PB_MAX_ENERGY_VALUE * 250;
 	static int MAX_RECEIVE = JOULES_CAPACITY / 5;
 	
-    private int currentEnergyValue;
+    private int currentEnergyValue = this.getPowerInt();
 
     int ticks = 0;
 
@@ -60,9 +60,10 @@ public class TileEntityParticleBooster extends TileElectricBase {
         if (++ticks > 40)
         {
             ticks = 0;
-            int power = getPowerRemainingScaled(1);
-            currentEnergyValue = Math.min(power, JOULES_CAPACITY);
-            //currentEnergyValue = Math.min(currentEnergyValue, WarpDriveConfig.i.PB_MAX_ENERGY_VALUE);
+            //int power = getPowerRemainingScaled(1);
+            //this.energy.extractEnergy(extract, doExtract)
+            int energyValue = Math.min(currentEnergyValue, (WarpDriveConfig.i.PB_MAX_ENERGY_VALUE) * 250);
+            this.energy.setEnergy(energyValue);
             //worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, currentEnergyValue / 10000, 2);
         }
     }
@@ -137,11 +138,15 @@ public class TileEntityParticleBooster extends TileElectricBase {
         return true;
     }*/
 
-    public int collectAllEnergy() {
-        int energy = currentEnergyValue;
-        currentEnergyValue = 0;
-        return energy;
-    }
+	public int collectAllEnergy() { //TODO change to UE
+		//int energy = currentEnergyValue;
+		//currentEnergyValue = 0;
+		//return energy;
+		int energy = this.currentEnergyValue;
+		this.energy.setEnergy(0);
+		
+		return energy;
+	}
 
     @Override
     public void onChunkUnload()

@@ -35,7 +35,7 @@ public class TileEntityLift extends TileElectricBase { //TODO receive energy
     private final static int MAX_ENERGY_VALUE = 2048; // eU
     private final static int MAX_ENERGY_JOULES = MAX_ENERGY_VALUE * 250;
     private final static int MAX_RECEIVE = MAX_ENERGY_JOULES / 5;
-    private int currentEnergyValue = this.getPowerRemainingScaled(1);//TODO
+    private int currentEnergyValue = this.getPowerInt();//TODO
 
     private int mode = 0; // 0 - inactive, 1 - up, 2 - down
     private int firstUncoveredY;
@@ -159,7 +159,8 @@ public class TileEntityLift extends TileElectricBase { //TODO receive energy
                         ((EntityLivingBase)o).setPositionAndUpdate(xCoord + 0.5f, yCoord + 1, zCoord + 0.5f);
                         sendLaserPacket(new Vector3(this).add(0.5), new Vector3(xCoord, firstUncoveredY, zCoord).add(0.5), 1, 1, 0, 40, 0, 100);
                         worldObj.playSoundEffect(xCoord + 0.5f, yCoord, zCoord + 0.5f, "warpdrive:hilaser", 4F, 1F);
-                        currentEnergyValue = 0;
+                        this.energy.setEnergy(0);
+                        //currentEnergyValue = 0;
                         return;
                     }
                 }
@@ -179,7 +180,8 @@ public class TileEntityLift extends TileElectricBase { //TODO receive energy
                         ((EntityLivingBase)o).setPositionAndUpdate(xCoord + 0.5f, firstUncoveredY + 1, zCoord + 0.5f);
                         sendLaserPacket(new Vector3(this).add(0.5), new Vector3(xCoord, firstUncoveredY + 1, zCoord).add(0.5), 1, 1, 0, 40, 0, 100);
                         worldObj.playSoundEffect(xCoord + 0.5f, yCoord, zCoord + 0.5f, "warpdrive:hilaser", 4F, 1F);
-                        currentEnergyValue = 0;
+                        this.energy.setEnergy(0);
+                        //currentEnergyValue = 0;
                         return;
                     }
                 }
@@ -264,14 +266,14 @@ public class TileEntityLift extends TileElectricBase { //TODO receive energy
     public void readFromNBT(NBTTagCompound tag)
     {
         super.readFromNBT(tag);
-        this.currentEnergyValue = tag.getInteger("energy");
+        //this.currentEnergyValue = tag.getInteger("energy");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tag)
     {
         super.writeToNBT(tag);
-        tag.setInteger("energy", this.getCurrentEnergyValue());
+        //tag.setInteger("energy", this.getCurrentEnergyValue());
     }
 
     // IEnergySink methods implementation
@@ -324,7 +326,8 @@ public class TileEntityLift extends TileElectricBase { //TODO receive energy
     public int collectAllEnergy()
     {
         int energy = currentEnergyValue;
-        currentEnergyValue = 0;
+        this.energy.setEnergy(0);
+        //currentEnergyValue = 0;
         return energy;
     }
 
@@ -338,16 +341,16 @@ public class TileEntityLift extends TileElectricBase { //TODO receive energy
         }*/
     }
 
-    @Override
+    /*@Override
     public void invalidate()
     {
-        /*if (addedToEnergyNet)
+        if (addedToEnergyNet)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
             addedToEnergyNet = false;
-        }*/
+        }
 
         super.invalidate();
-    }
+    }*/
     
 }

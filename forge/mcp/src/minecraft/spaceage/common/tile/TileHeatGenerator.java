@@ -49,9 +49,6 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
 	public void updateEntity() {
 		super.updateEntity();
 		
-		//Allows machines to be powered by internal reserves
-		this.produce();
-		
 		boolean powered = (worldObj.getBlockId(xCoord, yCoord - 1, zCoord) == Block.lavaStill.blockID) && (creatingSteam == true);
 		
         this.creatingSteam = false;
@@ -60,7 +57,7 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
             if (this.waterTank != null && this.waterTank.getFluid() != null && this.waterTank.getFluidAmount() > 1 && this.waterTank.getFluid().isFluidEqual(new FluidStack(FluidRegistry.WATER, 1000))) {
                 this.waterTank.drain(1, true);
                 this.creatingSteam = true;
-            }else {
+            } else {
 				FluidStack fluid = FluidContainerRegistry.getFluidForFilledItem(inventory[0]);
 
 				if(fluid != null && fluid.fluidID == FluidRegistry.WATER.getID()) {
@@ -75,9 +72,10 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
 		
 		if(powered == true/* && creatingSteam == true*/) {
 			if(!this.energy.isFull()) {
-			Long produced = Long.valueOf(SpaceAgeCore.HEAT_ENERGY);
-			this.produceEnergy(produced);
+				Long produced = Long.valueOf(SpaceAgeCore.HEAT_ENERGY);
+				this.produceEnergy(produced);
 			}
+			this.produce();
 		}
 	}
 	

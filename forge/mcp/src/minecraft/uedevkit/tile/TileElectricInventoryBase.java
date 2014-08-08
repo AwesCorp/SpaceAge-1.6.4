@@ -20,6 +20,20 @@ public abstract class TileElectricInventoryBase extends TileElectricBase impleme
 	public ItemStack[] inventory;
 	public String invName = "";
 	
+	/**
+	 * Recharges electric item.
+	 */
+	public void recharge(ItemStack itemStack) {
+		this.energy.extractEnergy(CompatibilityModule.chargeItem(itemStack, this.energy.getEnergy(), true), true);
+	}
+
+	/**
+	 * Discharges electric item.
+	 */
+	public void discharge(ItemStack itemStack) {
+		this.energy.receiveEnergy(CompatibilityModule.dischargeItem(itemStack, this.energy.getEmptySpace(), true), true);
+	}
+	
 	 /**
      * Used for temporary constructors. Not recommended to be used. 
      * @author SkylordJoel
