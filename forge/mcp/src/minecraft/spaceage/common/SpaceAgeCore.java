@@ -27,6 +27,7 @@ import spaceage.common.item.ItemRepulsor;
 import spaceage.common.item.ItemStarboost;
 import spaceage.common.tile.TileHeatGenerator;
 import spaceage.common.tile.TileSolarPanel;
+import spaceage.planets.aliens.Aliens;
 import universalelectricity.api.UniversalElectricity;
 
 import net.minecraft.block.Block;
@@ -81,6 +82,8 @@ public class SpaceAgeCore {
 	
 	@SidedProxy(clientSide = "spaceage.client.ClientProxy", serverSide = "spaceage.common.CommonProxy")
 	public static CommonProxy proxy;
+	
+	public static Aliens aliens;
 	
 	public static final String modid = "SpaceAge";
 	//public String modid2 = modid.toLowerCase();
@@ -282,6 +285,8 @@ public class SpaceAgeCore {
 		proxy.load();
 	    proxy.registerServerTickHandler();
 	    proxy.registerHandlers();
+	    
+	    aliens.registerEntities();
 	    
 
 	    //proxy.getArmorModel();

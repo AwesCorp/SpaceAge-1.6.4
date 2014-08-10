@@ -6,6 +6,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -13,6 +14,8 @@ import spaceage.client.model.ModelStarboost;
 import spaceage.common.CommonProxy;
 import spaceage.common.PlayerTickHandler;
 import spaceage.common.tile.TileSolarPanel;
+import spaceage.planets.aliens.entity.EntityBinary;
+import spaceage.planets.aliens.render.RenderBinary;
 
 /**
  * The client proxy, implementing rendering, of SpaceAgeCore. 
@@ -26,31 +29,33 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public ModelBiped getArmorModel(int id){
-	switch (id) {
-	case 0:
-	return advancedSpacesuitChestplate;
-	case 1:
-	return advancedSpacesuitLeggings;
-	default:
-	break;
-	}
-	return advancedSpacesuitChestplate; //default, if whenever you should have passed on a wrong id
+		switch (id) {
+			case 0:
+				return advancedSpacesuitChestplate;
+			case 1:
+				return advancedSpacesuitLeggings;
+			default:
+				break;
+		}
+		return advancedSpacesuitChestplate; //default, if whenever you should have passed on a wrong id
 	}
 	
 	@Override
 	public void registerRenderers() {
+		float shadowSize = 0.5F;
 		
+		RenderingRegistry.registerEntityRenderingHandler(EntityBinary.class, new RenderBinary(new ModelBiped(), shadowSize));
 	}
 	
+	@Override
 	public void load() {
 		TickRegistry.registerTickHandler(new SpaceAgeHUDHandler(), Side.CLIENT);
 		//TickRegistry.registerTickHandler(new SpaceAgeTickHandler(EnumSet.of(TickType.CLIENT)), Side.CLIENT);
 	}
 	
-	  public void registerHandlers()
-	  {
-	    TickRegistry.registerTickHandler(new PlayerTickHandler(), Side.SERVER);
+	@Override
+	public void registerHandlers() {
+		TickRegistry.registerTickHandler(new PlayerTickHandler(), Side.SERVER);
 	    TickRegistry.registerTickHandler(new PlayerTickHandler(), Side.CLIENT);
-	  }
-
+	}
 }

@@ -76,7 +76,7 @@ public class ItemMeta extends Item {
 			case 13:
 				dataList.add("Li");
 			case 14:
-				dataList.add("");
+				dataList.add("W15Re5C");
 		}
 		
 		//dataList.add("Precious Gemstone");
