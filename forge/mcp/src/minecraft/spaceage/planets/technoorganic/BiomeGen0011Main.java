@@ -11,6 +11,7 @@ import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
 import spaceage.integration.RotaryIntegration;
+import spaceage.planets.aliens.entity.EntityBinary;
 import spaceage.planets.general.BiomeDecoratorSA;
 import spaceage.planets.general.WorldGenLavaSpring;
 import net.minecraft.block.Block;
@@ -59,8 +60,9 @@ public class BiomeGen0011Main extends BiomeGenBase {
     this.spawnableMonsterList.clear();
     this.spawnableCaveCreatureList.clear();
     
-    this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 30, 4, 4)); //TODO check if works!!!
-    this.spawnableMonsterList.add(new SpawnListEntry(EntityGhast.class, 30, 4, 4));
+    this.spawnableCreatureList.add(new SpawnListEntry(EntityBinary.class, 12, 1, 7));
+    //this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 30, 4, 4)); //TODO check if works!!!
+    //this.spawnableMonsterList.add(new SpawnListEntry(EntityGhast.class, 30, 4, 4));
 
     this.lubricantSpring = new WorldGenLavaSpring(RotaryIntegration.lubricant.fluidID, 16, SpaceAgeCore.T0011Surface.blockID);
     
