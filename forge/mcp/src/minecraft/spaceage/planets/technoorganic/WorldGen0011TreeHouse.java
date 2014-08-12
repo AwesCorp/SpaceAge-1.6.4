@@ -22,7 +22,7 @@ public class WorldGen0011TreeHouse extends WorldGenerator {
 	int spawned;
 	
 	public void elevator() {
-		if(Loader.isModLoaded("WarpDrxve")) {
+		if(Loader.isModLoaded("WarpDrive")) {
 			ELEVATOR = WarpDrive.liftBlock.blockID;
 		}
 	}
