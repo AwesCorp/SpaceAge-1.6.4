@@ -34,7 +34,7 @@ import net.minecraftforge.client.IItemRenderer;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 @SideOnly(Side.CLIENT)
-public class RenderBinaryFemaleOne extends RenderLiving {
+public class RenderBinaryFemale extends RenderLiving {
 	
 protected ModelBinaryFemaleTest modelFemale;
 protected float field_77070_b;
@@ -48,16 +48,16 @@ private static final ResourceLocation texture1 = new ResourceLocation(SpaceAgeCo
 private static final ResourceLocation texture2 = new ResourceLocation(SpaceAgeCore.modid, "textures/entities/binary_female_2.png");
 private static final ResourceLocation texture3 = new ResourceLocation(SpaceAgeCore.modid, "textures/entities/binary_female_3.png");
 
-private static final ResourceLocation organicArmour = new ResourceLocation(SpaceAgeCore.modid, "textures/armour/binary_armour_1.png");
+//private static final ResourceLocation organicArmour = new ResourceLocation(SpaceAgeCore.modid, "textures/armour/binary_armour_female_1.png");
 
 /** List of binary armour texture filenames. */
 public static String[] bipedArmorFilenamePrefix = new String[] {"binary"}; //TODO binary armour
 
-public RenderBinaryFemaleOne(ModelBinaryFemaleTest par1ModelBinaryFemaleTest, float par2) {
+public RenderBinaryFemale(ModelBinaryFemaleTest par1ModelBinaryFemaleTest, float par2) {
 	this(par1ModelBinaryFemaleTest, par2, 1.0F);
 }
 
-public RenderBinaryFemaleOne(ModelBinaryFemaleTest par1ModelBinaryFemaleTest, float par2, float par3) {
+public RenderBinaryFemale(ModelBinaryFemaleTest par1ModelBinaryFemaleTest, float par2, float par3) {
 	super(par1ModelBinaryFemaleTest, par2);
 	this.modelFemale = par1ModelBinaryFemaleTest;
 	this.field_77070_b = par3;
@@ -69,14 +69,14 @@ protected void armourSizer() {
 	this.modelArmour = new ModelBinaryFemaleTest(0.5F);
 }
 
-protected int renderArmouredMob(EntityBinaryFemale par1Entity, int par2, float par3) {
+/*protected int renderArmouredMob(EntityBinaryFemale par1Entity, int par2, float par3) {
     if (par2 == 0 && par1Entity.getArmoured()) {
         this.bindTexture(organicArmour);
         return 1;
     } else {
         return -1;
     }
-}
+}*/
 
 /*@Deprecated //Use the more sensitve version getArmorResource below
 public static ResourceLocation func_110857_a(ItemArmor par0ItemArmor, int par1) {
@@ -105,12 +105,12 @@ return resourcelocation;
 * @param type Subtype, can be null or "overlay"
 * @return ResourceLocation pointing at the armor's texture
 */
-/*public static ResourceLocation getArmorResource(Entity entity, ItemStack stack, int slot, String type) {
+public static ResourceLocation getArmorResource(Entity entity, ItemStack stack, int slot, String type) {
 	ItemArmor item = (ItemArmor)stack.getItem();
-	String s2 = String.format(SpaceAgeCore.modid + ":" + "binary_armour_%d%s.png",
-			(slot == 2 ? 2 : 1), type == null ? "" : String.format("_%s", type));
-	String s1 = String.format("textures/models/armor/%s_layer_%d%s.png",
-			bipedArmorFilenamePrefix[item.renderIndex], (slot == 2 ? 2 : 1), type == null ? "" : String.format("_%s", type));
+	String s1 = String.format(SpaceAgeCore.modid + ":" + "binary_armour_female_%d%s.png",
+			(slot == 2 ? 2 : 1));
+	//String s1 = String.format("textures/models/armor/%s_layer_%d%s.png",
+			//bipedArmorFilenamePrefix[item.renderIndex], (slot == 2 ? 2 : 1), type == null ? "" : String.format("_%s", type));
 
 	s1 = ForgeHooksClient.getArmorTexture(entity, stack, s1, slot, type);
 	ResourceLocation resourcelocation = (ResourceLocation)field_110859_k.get(s1);
@@ -121,9 +121,9 @@ return resourcelocation;
 		}
 
 	return resourcelocation;
-	}*/
+	}
 
-/*protected int func_130006_a(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
+protected int setArmourModel(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
 	ItemStack itemstack = par1EntityLiving.func_130225_q(3 - par2);
 
 	if (itemstack != null) {
@@ -172,10 +172,10 @@ return resourcelocation;
 		}
 	}
 
-	return -1;TODO
-}*/
+	return -1;//TODO
+}
 
-/*protected void func_130013_c(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
+protected void func_130013_c(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
 	ItemStack itemstack = par1EntityLiving.func_130225_q(3 - par2);
 
 	if (itemstack != null) {
@@ -185,9 +185,9 @@ return resourcelocation;
 			this.bindTexture(getArmorResource(par1EntityLiving, itemstack, par2, "overlay"));
 			float f1 = 1.0F;
 			GL11.glColor3f(f1, f1, f1);
-		}TODO
+		}//TODO
 	}
-}*/
+}
 
 public void doRenderLiving(EntityBinaryFemale par1EntityLiving, double par2, double par4, double par6, float par8, float par9) {
 	float f2 = 1.0F;
@@ -332,7 +332,7 @@ protected void translateCrap() {
 * Queries whether should render the specified pass or not.
 */
 protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3) {
-	return this.renderArmouredMob((EntityBinaryFemale)par1EntityLivingBase, par2, par3);
+	return this.setArmourModel((EntityBinaryFemale)par1EntityLivingBase, par2, par3);
 }
 
 protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2) {

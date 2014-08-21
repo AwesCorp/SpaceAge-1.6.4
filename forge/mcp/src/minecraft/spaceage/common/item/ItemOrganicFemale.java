@@ -1,5 +1,7 @@
 package spaceage.common.item;
 
+import java.util.List;
+
 import spaceage.common.SpaceAgeCore;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -15,11 +17,11 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
 
-public class ItemStarboost extends ItemArmor {
+public class ItemOrganicFemale extends ItemArmor {
 	
 	private String texturePath = SpaceAgeCore.modid + ":" + "textures/armour/";
 
-	public ItemStarboost(int par1, EnumArmorMaterial par2EnumArmorMaterial,
+	public ItemOrganicFemale(int par1, EnumArmorMaterial par2EnumArmorMaterial,
 			int par3, int par4) {
 		super(par1, par2EnumArmorMaterial, par3, par4);
 		this.setCreativeTab(SpaceAgeCore.tabSA);
@@ -33,14 +35,14 @@ public class ItemStarboost extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot,
 	String type) {
-	switch(slot){
-		case 2:
-			return this.texturePath + "adv_spacesuit_2.png";
+		switch(slot){
+			case 2:
+				return this.texturePath + "binary_armour_female_2.png";
 	//2 should be the slot for legs
-		default:
-			return this.texturePath + "adv_spacesuit_1.png";
+			default:
+				return this.texturePath + "binary_armour_female_1.png";
+			}
 		}
-	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
@@ -49,13 +51,13 @@ public class ItemStarboost extends ItemArmor {
 	
 		ModelBiped armorModel = null;
 		if(itemStack != null) {
-			if(itemStack.getItem() instanceof ItemStarboost) {
+			if(itemStack.getItem() instanceof ItemOrganicFemale) {
 				int type = ((ItemArmor)itemStack.getItem()).armorType;
 
 				if(type == 1 || type == 3 || type == 0){
-				armorModel = SpaceAgeCore.proxy.getStarboostArmorModel(0);
+				armorModel = SpaceAgeCore.proxy.getFemaleBinaryArmorModel(0);
 				}else{
-				armorModel = SpaceAgeCore.proxy.getStarboostArmorModel(1);
+				armorModel = SpaceAgeCore.proxy.getFemaleBinaryArmorModel(1);
 				}
 			}
 			if(armorModel != null){
@@ -85,32 +87,24 @@ public class ItemStarboost extends ItemArmor {
 		   if ((player.getCurrentItemOrArmor(3) != null) && 
 				      (player.getCurrentItemOrArmor(4) != null) && 
 				      (player.getCurrentItemOrArmor(2) != null) && 
-				      (player.getCurrentItemOrArmor(1) != null))
-				    {
+				      (player.getCurrentItemOrArmor(1) != null)) {
 				      ItemStack chest = player.getCurrentItemOrArmor(3);
 				      ItemStack Helmet = player.getCurrentItemOrArmor(4);
 				      ItemStack Leggings = player.getCurrentItemOrArmor(2);
 				      ItemStack Boots = player.getCurrentItemOrArmor(1);
 
-				      if ((chest.getItem() == SpaceAgeCore.advancedSpacesuitChestplate) && 
-				        (Helmet.getItem() == SpaceAgeCore.advancedSpacesuitHelmet) && 
-				        (Leggings.getItem() == SpaceAgeCore.advancedSpacesuitLeggings) && 
-				        (Boots.getItem() == SpaceAgeCore.advancedSpacesuitBoots))
-				      {
-				        player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 14, 1));
-				        player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 14, 1));
-				      }
-
-				    }
-
-				    if (player.getCurrentItemOrArmor(3) != null) {
-				      ItemStack chest = player.getCurrentItemOrArmor(3);
-				      if ((chest.getItem() == SpaceAgeCore.advancedSpacesuitChestplate) && 
-				        (!player.isCollidedVertically)) {
-				        world.spawnParticle("flame", player.posX, player.posY - 1.03D, player.posZ, 0.0D, 0.1D, 0.0D);
-				        world.spawnParticle("flame", player.posX, player.posY - 1.3D, player.posZ, 0.0D, 0.1D, 0.0D);
-				        world.spawnParticle("flame", player.posX, player.posY - 1.3D, player.posZ, 0.0D, 0.1D, 0.0D);
+				      if ((chest.getItem() == SpaceAgeCore.organicFemaleChestplate) && 
+				        (Helmet.getItem() == SpaceAgeCore.organicFemaleHelmet) && 
+				        (Leggings.getItem() == SpaceAgeCore.organicFemaleLeggings) && 
+				        (Boots.getItem() == SpaceAgeCore.organicFemaleBoots)) {
+				    	  player.addPotionEffect(new PotionEffect(Potion.nightVision.id, 14, 1));
+				    	  player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 14, 1));
 				      }
 				    }
 				  }
+	
+	@Override
+	public void addInformation(ItemStack stack, EntityPlayer player, List list, boolean par4) {
+		list.add("Female Adjusted");
+	}
 }

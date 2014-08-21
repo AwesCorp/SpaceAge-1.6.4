@@ -30,7 +30,11 @@ public class CommonProxy {
 	    TickRegistry.registerTickHandler(new PlayerTickHandler(), Side.SERVER);
 	  }
 	  
-	public ModelBiped getArmorModel(int id) {
+	public ModelBiped getFemaleBinaryArmorModel(int id) {
 		  return null;
 	  }
+
+	public ModelBiped getStarboostArmorModel(int id) {
+		return null;
+	}
 }
