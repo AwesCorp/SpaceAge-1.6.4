@@ -172,7 +172,7 @@ return resourcelocation;
 		}
 	}
 
-	return -1;
+	return -1;TODO
 }*/
 
 /*protected void func_130013_c(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
@@ -185,7 +185,7 @@ return resourcelocation;
 			this.bindTexture(getArmorResource(par1EntityLiving, itemstack, par2, "overlay"));
 			float f1 = 1.0F;
 			GL11.glColor3f(f1, f1, f1);
-		}
+		}TODO
 	}
 }*/
 
@@ -324,9 +324,9 @@ protected void translateCrap() {
 	GL11.glTranslatef(0.0F, 0.1875F, 0.0F);
 }
 
-protected void func_82439_b(EntityLivingBase par1EntityLivingBase, int par2, float par3) {
+/*protected void func_82439_b(EntityLivingBase par1EntityLivingBase, int par2, float par3) {
 	this.func_130013_c((EntityBinaryFemale)par1EntityLivingBase, par2, par3);
-}
+}TODO*/
 
 /**
 * Queries whether should render the specified pass or not.

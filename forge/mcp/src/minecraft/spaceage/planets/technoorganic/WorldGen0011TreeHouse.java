@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import spaceage.common.SpaceAgeCore;
 import spaceage.planets.aliens.entity.EntityBinary;
+import spaceage.planets.aliens.entity.EntityBinaryFemale;
 
 /*
 *** MADE BY MxTHxON'S .SCHEMATxC TO yAVA CONVERTxNG TOOL v1.6 ***
@@ -2624,9 +2625,15 @@ public class WorldGen0011TreeHouse extends WorldGenerator {
     protected void spawnEntities(World world, int x, int y, int z, Random random) {
     	if((world.getBlockId(x, y - 1, z) == SpaceAgeCore.T0011SurfaceID) && (world.getBlockMetadata(x, y - 1, z) == 3)) {
     		if(random.nextInt(40) == 0) {
-    			EntityBinary entity = new EntityBinary(world);
-    			entity.setLocationAndAngles((double)x + 0.5D, (double)y, (double)z + 0.5D, 0.0F, 0.0F);
-    			world.spawnEntityInWorld(entity);
+    			if(random.nextInt(1) == 0) {
+    				EntityBinary entity = new EntityBinary(world);
+    				entity.setLocationAndAngles((double)x + 0.5D, (double)y, (double)z + 0.5D, 0.0F, 0.0F);
+    				world.spawnEntityInWorld(entity);
+    			} else {
+    				EntityBinaryFemale entity = new EntityBinaryFemale(world);
+    				entity.setLocationAndAngles((double)x + 0.5D, (double)y, (double)z + 0.5D, 0.0F, 0.0F);
+    				world.spawnEntityInWorld(entity);
+    			}
     		}
     	}
     }

@@ -58,7 +58,7 @@ public class EntityBinaryFemale extends EntityHumanoid
     /**
      * Set or remove the armour of mobs.
      */
-    public void getArmoured(boolean par1) {
+    public void setArmoured(boolean par1) {
         if (par1){
             this.dataWatcher.updateObject(16, Byte.valueOf((byte)1));
         } else {
