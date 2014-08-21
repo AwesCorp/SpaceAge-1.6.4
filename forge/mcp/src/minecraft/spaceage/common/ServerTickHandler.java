@@ -44,6 +44,18 @@ public class ServerTickHandler implements ITickHandler {
 	}
 	
 	private void onPlayerTick(EntityPlayer player, World world) {
+		starboostCrap(player);
+		binaryCrap(player);
+	}
+
+	public void binaryCrap(EntityPlayer player) {
+	    if ((player.getCurrentItemOrArmor(4) != null) && (player.getCurrentItemOrArmor(3) != null) && (player.getCurrentItemOrArmor(2) != null) && (player.getCurrentItemOrArmor(1) != null)) {
+	    	player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 2, 2));
+	    	player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 2, 2));
+	    }
+	}
+
+	public void starboostCrap(EntityPlayer player) {
 		if ((player.getCurrentItemOrArmor(4) != null)) {
 			ItemStack helmet = player.getCurrentItemOrArmor(4);
 			
@@ -111,7 +123,6 @@ public class ServerTickHandler implements ITickHandler {
 	    else if (!player.capabilities.isCreativeMode) {
 	      player.capabilities.allowFlying = false;
 	    }
-	    
+		
 	}
-
 }

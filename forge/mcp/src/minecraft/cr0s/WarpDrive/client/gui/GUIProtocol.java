@@ -86,6 +86,9 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    int blocksx;
 	    int blocksy;
 	    
+	    int coord0x;
+	    int coord0y;
+	    
 	    int pixelsPerWord = 10;
 	    
 	    String size0 = "Amount of blocks from Core to be moved: ";
@@ -95,6 +98,11 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    String dimension = furnaceInventory.currentDimension();
 	    
 	    String blocks = "Ship Size: " + String.valueOf(furnaceInventory.getShipSize());
+	    
+	    String coord0 = "Coordinates: ";
+	    String coord1 = "X: " + String.valueOf(furnaceInventory.core.xCoord);
+	    String coord2 = "Y: " + String.valueOf(furnaceInventory.core.yCoord);
+	    String coord3 = "Z: " + String.valueOf(furnaceInventory.core.zCoord);
 	    
 	    /**
 	     * Draw the foreground layer for the GuiContainer (everything in front of the items)
@@ -110,6 +118,11 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	        write(size2, sizex + (2 * pixelsPerWord), sizey, grey); //setN
 	        
 	        write(dimension, dimensionx, dimensiony, grey);
+	        
+	        write(coord0, coord0x, coord0y, grey);
+	        write(coord1, coord0x + pixelsPerWord, coord0y + pixelsPerWord, grey);
+	        write(coord2, coord0x + 2 * (pixelsPerWord), coord0y + 2 * (pixelsPerWord), grey);
+	        write(coord3, coord0x + 3 * (pixelsPerWord), coord0y + 3 * (pixelsPerWord), grey);
 	        
 	        write(blocks, blocksx, blocksy, grey);
 	        
@@ -190,7 +203,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	beaconInput.setFocused(false);
 	    	beaconInput.setMaxStringLength(2/*TODO*/);
 	    	
-	    	/**/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Disable"/*Text on button*/));
+	    	/**/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Jump"/*Text on button*/));
 	    	/**/buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Disable"/*Text on button*/));
 	    }
 	    
@@ -244,6 +257,9 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    protected void actionPerformed(GuiButton button) {
 	    	switch(button.id) {
 	    		case 0:
+	    			furnaceInventory.doJump();
+	    			System.out.println("Ship jumped from coordinates" + coord1 + ", " + coord2 + ", " + coord3);
+	    		case 1:
 	    			//System.out.println("Clicked!");//ACTION PERFORMED ON BUTTON CLICK
 	    	}
 	    }

@@ -60,7 +60,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     private int ticks = 0;
     private final int BLOCK_UPDATE_INTERVAL = 20 * 3; // 3 seconds
 
-    private TileEntity core;
+    public TileEntity core;
 
     @Override
     public void updateEntity()
@@ -118,10 +118,8 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         this.direction = dir;
     }
 
-    private void doJump()
-    {
-        if (core != null && core instanceof TileEntityReactor)
-        {
+    public void doJump() {
+        if (core != null && core instanceof TileEntityReactor) {
             ((TileEntityReactor)core).randomCooldownAddition = worldObj.rand.nextInt(60); // Adding random ticks to cooldown
         }
 

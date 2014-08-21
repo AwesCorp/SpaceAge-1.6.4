@@ -47,24 +47,6 @@ public class EntityBinaryFemale extends EntityHumanoid
 		
 		this.isImmuneToFire = true;
 	}
-	
-    /**
-     * Returns true if the mob is armoured.
-     */
-    public boolean getArmoured() {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
-    }
-
-    /**
-     * Set or remove the armour of mobs.
-     */
-    public void setArmoured(boolean par1) {
-        if (par1){
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)1));
-        } else {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)0));
-        }
-    }
 
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase target, float f) {
