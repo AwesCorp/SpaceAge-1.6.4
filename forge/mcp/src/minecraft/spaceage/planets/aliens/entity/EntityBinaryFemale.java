@@ -39,10 +39,10 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
-public class EntityBinary extends EntityHumanoid 
+public class EntityBinaryFemale extends EntityHumanoid 
 	implements IRangedAttackMob {
 
-	public EntityBinary(World par1World) {
+	public EntityBinaryFemale(World par1World) {
 		super(par1World);
 		
 		this.isImmuneToFire = true;

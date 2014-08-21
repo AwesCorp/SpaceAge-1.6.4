@@ -15,7 +15,10 @@ import spaceage.common.CommonProxy;
 import spaceage.common.PlayerTickHandler;
 import spaceage.common.tile.TileSolarPanel;
 import spaceage.planets.aliens.entity.EntityBinary;
+import spaceage.planets.aliens.entity.EntityBinaryFemale;
+import spaceage.planets.aliens.model.ModelBinaryFemale;
 import spaceage.planets.aliens.render.RenderBinary;
+import spaceage.planets.aliens.render.RenderBinaryFemaleTwo;
 
 /**
  * The client proxy, implementing rendering, of SpaceAgeCore. 
@@ -45,6 +48,8 @@ public class ClientProxy extends CommonProxy {
 		float shadowSize = 0.5F;
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityBinary.class, new RenderBinary(new ModelBiped(), shadowSize));
+		
+		RenderingRegistry.registerEntityRenderingHandler(EntityBinaryFemale.class, new RenderBinaryFemaleTwo(new ModelBinaryFemale(), shadowSize));
 	}
 	
 	@Override

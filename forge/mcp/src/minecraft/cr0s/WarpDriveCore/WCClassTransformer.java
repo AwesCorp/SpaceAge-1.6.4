@@ -20,7 +20,7 @@ public class WCClassTransformer implements net.minecraft.launchwrapper.IClassTra
 {
     private HashMap<String, String> nodemap = new HashMap<String, String>();
 
-    private final String GRAVITY_MANAGER_CLASS = "cr0s/WarpDrive/GravityManager";
+    private final String GRAVITY_MANAGER_CLASS = "cr0s/WarpDrive/manager/GravityManager";
 
     public WCClassTransformer()
     {

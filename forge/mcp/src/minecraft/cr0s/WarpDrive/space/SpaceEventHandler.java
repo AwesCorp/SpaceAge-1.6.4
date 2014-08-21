@@ -37,8 +37,7 @@ public class SpaceEventHandler //COOL
 	}
 
 	@ForgeSubscribe
-	public void livingUpdate(LivingUpdateEvent event)
-	{
+	public void livingUpdate(LivingUpdateEvent event) {
 		EntityLivingBase entity = event.entityLiving;
 		
 		// Instant kill if entity exceeds world's limit
@@ -61,60 +60,34 @@ public class SpaceEventHandler //COOL
 		}
 
 		// If player in vaccum, check and start consuming air cells
-		if (entity.worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID || entity.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID)
-		{
+		if (entity.worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID || entity.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) {
 			boolean inVacuum = isEntityInVacuum(entity);
 
 			// Damage entity if in vacuum without protection
-			if (inVacuum)
-			{
-				if (entity instanceof EntityPlayerMP)
-				{
+			if (inVacuum) {
+				if (entity instanceof EntityPlayerMP) {
 
-					if (((EntityPlayerMP)entity).getCurrentArmor(3) != null && WarpDriveConfig.i.SpaceHelmets.contains(((EntityPlayerMP)entity).getCurrentArmor(3).itemID))
-					{
-						Integer airValue = vacuumPlayers.get(((EntityPlayerMP)entity).username);
-
-						if (airValue == null)
-						{
-							vacuumPlayers.put(((EntityPlayerMP)entity).username, 300);
-							airValue = 300;
-						}
-
-						if (airValue <= 0)
-						{
-							if (consumeO2(((EntityPlayerMP)entity).inventory.mainInventory))
-							{
-								setPlayerAirValue(entity, 300);
-							}
-							else
-							{
-								setPlayerAirValue(entity, 0);
-								entity.attackEntityFrom(DamageSource.drown, 1);
-							}
-						}
-						else
-						{
-							setPlayerAirValue(entity, airValue - 1);
-						}
-					}
-					else
-					{
+					if (((EntityPlayerMP)entity).getCurrentArmor(3) != null && WarpDriveConfig.i.SpaceHelmets.contains(((EntityPlayerMP)entity).getCurrentArmor(3).itemID)) {
+						
+					} else { 
 						entity.attackEntityFrom(DamageSource.drown, 1);
-					}
+							}
+					} else {
+						entity.attackEntityFrom(DamageSource.drown, 1);
 
 					// If player falling down, teleport on earth
-					if (entity.posY < -10.0D)
-					{
-						((EntityPlayerMP)entity).mcServer.getConfigurationManager().transferPlayerToDimension(((EntityPlayerMP) entity), 0, new SpaceTeleporter(DimensionManager.getWorld(WarpDrive.instance.spaceDimID), 0, MathHelper.floor_double(entity.posX), 250, MathHelper.floor_double(entity.posZ)));
-						((EntityPlayerMP)entity).setFire(30);
-						((EntityPlayerMP)entity).setPositionAndUpdate(entity.posX, 250D, entity.posZ);
-					}
-				}
-				else
-				{
-					entity.attackEntityFrom(DamageSource.drown, 1);
-				}
+					//if (entity.posY < -10.0D)
+					//{
+						//((EntityPlayerMP)entity).mcServer.getConfigurationManager().transferPlayerToDimension(((EntityPlayerMP) entity), 0, new SpaceTeleporter(DimensionManager.getWorld(WarpDrive.instance.spaceDimID), 0, MathHelper.floor_double(entity.posX), 250, MathHelper.floor_double(entity.posZ)));
+						//((EntityPlayerMP)entity).setFire(30);
+						//((EntityPlayerMP)entity).setPositionAndUpdate(entity.posX, 250D, entity.posZ);
+					//}
+				//}
+				//else
+				//{
+					//entity.attackEntityFrom(DamageSource.drown, 1);
+				//}*/
+				} 
 			}
 		}
 	}
@@ -161,11 +134,11 @@ public class SpaceEventHandler //COOL
 		} catch (Exception e) { e.printStackTrace(); }
 	}
 	
-	private void setPlayerAirValue(EntityLivingBase entity, Integer air)
+	/*private void setPlayerAirValue(EntityLivingBase entity, Integer air)
 	{
 		vacuumPlayers.remove(((EntityPlayerMP)entity).username);
 		vacuumPlayers.put(((EntityPlayerMP)entity).username, air);
-	}
+	}*/
 
 	private boolean isEntityInVacuum(Entity e)
 	{
@@ -180,7 +153,7 @@ public class SpaceEventHandler //COOL
 		return true;
 	}
 
-	private boolean consumeO2(ItemStack[] i)
+	/*private boolean consumeO2(ItemStack[] i)
 	{
 		for (int j = 0; j < i.length; ++j)
 			if (i[j] != null && i[j].itemID == WarpDriveConfig.i.IC2_Air[0] && i[j].getItemDamage() == WarpDriveConfig.i.IC2_Air[1])
@@ -190,27 +163,23 @@ public class SpaceEventHandler //COOL
 				return true;
 			}
 		return false;
-	}
+	}*/
 	
-/*    @ForgeSubscribe
-    public void livingFall(LivingFallEvent event)
-    {
+    @ForgeSubscribe
+    public void livingFall(LivingFallEvent event) {
         EntityLivingBase entity = event.entityLiving;
         float distance = event.distance;
 
-        if (entity instanceof EntityPlayer)
-        {
+        if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             int check = MathHelper.ceiling_float_int(distance - 3.0F);
 
-            if (check > 0)
-            {
-                if ((player.getCurrentArmor(0) != null && player.getCurrentArmor(0).itemID == SpaceAgeCore.advancedSpacesuitBootsID) || //TODO Item for quantum, adv spacesuit
-                        (player.getCurrentArmor(2) != null && player.getCurrentArmor(2).itemID == SpaceAgeCore.advancedSpacesuitChestplateID))
-                {
+            if (check > 0) {
+                if ((player.getCurrentArmor(0) != null && player.getCurrentArmor(2).itemID == SpaceAgeCore.advancedSpacesuitChestplateID) || //TODO Item for quantum, adv spacesuit
+                        ((player.getCurrentArmor(2) != null && player.getCurrentArmor(2).itemID == SpaceAgeCore.advancedSpacesuitChestplateID) && (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).itemID == SpaceAgeCore.advancedSpacesuitBootsID))) {
                     event.setCanceled(true); // Don't damage player
                 }
             }
         }
-    }*/	
+    }
 }

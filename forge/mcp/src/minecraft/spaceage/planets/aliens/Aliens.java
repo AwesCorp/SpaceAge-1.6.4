@@ -10,12 +10,19 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import spaceage.planets.aliens.entity.EntityBinary;
+import spaceage.planets.aliens.entity.EntityBinaryFemale;
 
 public class Aliens {
 
 	public void registerEntities() {
-		registerEntity(EntityBinary.class, "Binary", 0xeaeae9, 0xc99a03); //TEMPORARY TODO
-		LanguageRegistry.instance().addStringLocalization("entity.Binary.name", "Binary");
+		int binaryColoursBack = 0xeaeae9;//TEMPORARY TODO
+		int binaryColoursFore = 0xc99a03;//TEMPORARY TODO
+		
+		registerEntity(EntityBinary.class, "Binary", binaryColoursBack, binaryColoursFore); 
+		LanguageRegistry.instance().addStringLocalization("entity.Binary.name", "Binary Male");
+		
+		registerEntity(EntityBinaryFemale.class, "BinaryFemale", binaryColoursBack, binaryColoursFore);
+		LanguageRegistry.instance().addStringLocalization("entity.BinaryFemale.name", "Binary Female");
 	}
 	
 	public void registerEntity(Class<? extends Entity> entityClass, String entityName, int bkEggColor, int fgEggColor) {
@@ -25,7 +32,7 @@ public class Aliens {
 		EntityList.entityEggs.put(Integer.valueOf(id), new EntityEggInfo(id, bkEggColor, fgEggColor));
 		}
 
-		public void addSpawn(Class<? extends EntityLiving> entityClass, int spawnProb, int min, int max, BiomeGenBase[] biomes) {
+	public void addSpawn(Class<? extends EntityLiving> entityClass, int spawnProb, int min, int max, BiomeGenBase[] biomes) {
 		
 		if (spawnProb > 0) {
 			EntityRegistry.addSpawn(entityClass, spawnProb, min, max, EnumCreatureType.creature, biomes);
