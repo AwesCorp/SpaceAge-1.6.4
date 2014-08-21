@@ -480,6 +480,20 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     	}
     	return 0;
     }
+    
+    public String getAttachedPlayers() {
+        String list = "";
+
+        for (int i = 0; i < this.players.size(); i++) {
+            String nick = this.players.get(i);
+            list += nick + ((i == this.players.size() - 1) ? "" : ",");
+        }
+
+        if (players.isEmpty()) {
+            list = "";
+        }
+        return list;
+    }
 
     @Override
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception

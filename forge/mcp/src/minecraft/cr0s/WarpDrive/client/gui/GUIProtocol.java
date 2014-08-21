@@ -7,8 +7,10 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerFurnace;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import uedevkit.gui.GuiSimpleBase;
@@ -165,6 +167,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    public void initGui() {
 	    	super.initGui();
 	    	buttonList.clear();
+	    	Keyboard.enableRepeatEvents(true);
 		    
 		    int biX = 0; //TODO
 		    int biY = 0;
@@ -174,56 +177,55 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		    
 		    int inputLength = 16;
 		    int inputWidth = 16;
+		    
+		    applyBasicAttributes(front);
+		    applyBasicAttributes(back);
+		    applyBasicAttributes(right);
+		    applyBasicAttributes(left);
+		    applyBasicAttributes(up);
+		    applyBasicAttributes(down);
+		    applyBasicAttributes(beaconInput);
 
 	    	front = new GuiTextField(this.fontRenderer, frontX, frontY, inputLength, inputWidth);
-	    	front.setFocused(false);
 	    	front.setMaxStringLength(3);
 	    	
 	    	back = new GuiTextField(this.fontRenderer, frontX, frontY + pixelsPerWord, inputLength, inputWidth);
-	    	back.setFocused(false);
 	    	back.setMaxStringLength(3);
 	    	
 	    	left = new GuiTextField(this.fontRenderer, frontX, frontY + (2 * pixelsPerWord), inputLength, inputWidth);
-	    	left.setFocused(false);
 	    	left.setMaxStringLength(3);
 	    	
 	    	right = new GuiTextField(this.fontRenderer, frontX, frontY + (3 * pixelsPerWord), inputLength, inputWidth);
-	    	right.setFocused(false);
 	    	right.setMaxStringLength(3);
 	    	
 	    	up = new GuiTextField(this.fontRenderer, frontX, frontY + (4 * pixelsPerWord), inputLength, inputWidth);
-	    	up.setFocused(false);
 	    	up.setMaxStringLength(3);
 	    	
 	    	down = new GuiTextField(this.fontRenderer, frontX, frontY + (5 * pixelsPerWord), inputLength, inputWidth);
-	    	down.setFocused(false);
 	    	down.setMaxStringLength(3);
 	    	
 	    	beaconInput = new GuiTextField(this.fontRenderer, biX, biY, inputLength, inputWidth);
-	    	beaconInput.setFocused(false);
 	    	beaconInput.setMaxStringLength(2/*TODO*/);
 	    	
 	    	/**/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Jump"/*Text on button*/));
 	    	/**/buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Disable"/*Text on button*/));
 	    }
 	    
-	    @Override
+	    public void applyBasicAttributes(GuiTextField field) {
+	    	field.setEnableBackgroundDrawing(true);
+	    	field.setFocused(false);
+	    	field.setCanLoseFocus(true);
+		}
+
+		@Override
 	    protected void keyTyped(char par1, int par2) {
-    		super.keyTyped(par1, par2);
-    		if(front.isFocused()) {
+    		//super.keyTyped(par1, par2);
+    		if(front.textboxKeyTyped(par1, par2)) {
+    			this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("", this.front.getText().getBytes()));
+    		} else if(back.textboxKeyTyped(par1, par2)) {
     			
-    		} else if(back.isFocused()) {
-    			
-    		} else if(left.isFocused()) {
-    			
-    		} else if(right.isFocused()) {
-    			
-    		} else if(up.isFocused()) {
-    			
-    		} else if(down.isFocused()) {
-    			
-    		} else if(beaconInput.isFocused()) {
-    			
+    		}/*etc*/ else {
+    			super.keyTyped(par1, par2);
     		}
 	    }
 	    
@@ -262,6 +264,12 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    		case 1:
 	    			//System.out.println("Clicked!");//ACTION PERFORMED ON BUTTON CLICK
 	    	}
+	    }
+	    
+	    @Override
+	    public void onGuiClosed() {
+	    	super.onGuiClosed();
+	    	Keyboard.enableRepeatEvents(false);
 	    }
 	}
 
