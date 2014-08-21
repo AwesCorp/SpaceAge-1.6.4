@@ -15,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -37,8 +38,8 @@ public class RenderBinaryFemaleOne extends RenderLiving {
 	
 protected ModelBinaryFemaleTest modelFemale;
 protected float field_77070_b;
-protected ModelBinaryFemaleTest field_82423_g;
-protected ModelBinaryFemaleTest field_82425_h;
+protected ModelBinaryFemaleTest modelArmourChestplate;
+protected ModelBinaryFemaleTest modelArmour;
 private static final Map field_110859_k = Maps.newHashMap();
 
 public Random random;
@@ -47,23 +48,34 @@ private static final ResourceLocation texture1 = new ResourceLocation(SpaceAgeCo
 private static final ResourceLocation texture2 = new ResourceLocation(SpaceAgeCore.modid, "textures/entities/binary_female_2.png");
 private static final ResourceLocation texture3 = new ResourceLocation(SpaceAgeCore.modid, "textures/entities/binary_female_3.png");
 
-/** List of armor texture filenames. */
-public static String[] bipedArmorFilenamePrefix = new String[] {"leather", "chainmail", "iron", "diamond", "gold"}; //TODO binary armour
+private static final ResourceLocation organicArmour = new ResourceLocation(SpaceAgeCore.modid, "textures/armour/binary_armour_1.png");
+
+/** List of binary armour texture filenames. */
+public static String[] bipedArmorFilenamePrefix = new String[] {"binary"}; //TODO binary armour
 
 public RenderBinaryFemaleOne(ModelBinaryFemaleTest par1ModelBinaryFemaleTest, float par2) {
-this(par1ModelBinaryFemaleTest, par2, 1.0F);
+	this(par1ModelBinaryFemaleTest, par2, 1.0F);
 }
 
 public RenderBinaryFemaleOne(ModelBinaryFemaleTest par1ModelBinaryFemaleTest, float par2, float par3) {
-super(par1ModelBinaryFemaleTest, par2);
-this.modelFemale = par1ModelBinaryFemaleTest;
-this.field_77070_b = par3;
-this.func_82421_b();
+	super(par1ModelBinaryFemaleTest, par2);
+	this.modelFemale = par1ModelBinaryFemaleTest;
+	this.field_77070_b = par3;
+	this.armourSizer();
 }
 
-protected void func_82421_b() {
-this.field_82423_g = new ModelBinaryFemaleTest(1.0F);
-this.field_82425_h = new ModelBinaryFemaleTest(0.5F);
+protected void armourSizer() {
+	this.modelArmourChestplate = new ModelBinaryFemaleTest(1.0F);
+	this.modelArmour = new ModelBinaryFemaleTest(0.5F);
+}
+
+protected int renderArmouredMob(EntityBinaryFemale par1Entity, int par2, float par3) {
+    if (par2 == 0 && par1Entity.getArmoured()) {
+        this.bindTexture(organicArmour);
+        return 1;
+    } else {
+        return -1;
+    }
 }
 
 /*@Deprecated //Use the more sensitve version getArmorResource below
@@ -93,8 +105,10 @@ return resourcelocation;
 * @param type Subtype, can be null or "overlay"
 * @return ResourceLocation pointing at the armor's texture
 */
-public static ResourceLocation getArmorResource(Entity entity, ItemStack stack, int slot, String type) {
+/*public static ResourceLocation getArmorResource(Entity entity, ItemStack stack, int slot, String type) {
 	ItemArmor item = (ItemArmor)stack.getItem();
+	String s2 = String.format(SpaceAgeCore.modid + ":" + "binary_armour_%d%s.png",
+			(slot == 2 ? 2 : 1), type == null ? "" : String.format("_%s", type));
 	String s1 = String.format("textures/models/armor/%s_layer_%d%s.png",
 			bipedArmorFilenamePrefix[item.renderIndex], (slot == 2 ? 2 : 1), type == null ? "" : String.format("_%s", type));
 
@@ -107,79 +121,79 @@ public static ResourceLocation getArmorResource(Entity entity, ItemStack stack, 
 		}
 
 	return resourcelocation;
+	}*/
+
+/*protected int func_130006_a(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
+	ItemStack itemstack = par1EntityLiving.func_130225_q(3 - par2);
+
+	if (itemstack != null) {
+		Item item = itemstack.getItem();
+
+		if (item instanceof ItemArmor) {
+			ItemArmor itemarmor = (ItemArmor)item;
+			this.bindTexture(getArmorResource(par1EntityLiving, itemstack, par2, null));
+			ModelBinaryFemaleTest modelFemale = par2 == 2 ? this.modelArmour : this.modelArmourChestplate;
+			modelFemale.bipedHead.showModel = par2 == 0;
+			modelFemale.bipedHeadwear.showModel = par2 == 0;
+			modelFemale.bipedBody.showModel = par2 == 1 || par2 == 2;
+			modelFemale.bipedRightArm.showModel = par2 == 1;
+			modelFemale.bipedLeftArm.showModel = par2 == 1;
+			modelFemale.bipedRightLeg.showModel = par2 == 2 || par2 == 3;
+			modelFemale.bipedLeftLeg.showModel = par2 == 2 || par2 == 3;
+			modelFemale = (ModelBinaryFemaleTest)ForgeHooksClient.getArmorModel(par1EntityLiving, itemstack, par2, modelFemale);
+			this.setRenderPassModel(modelFemale);
+			modelFemale.onGround = this.mainModel.onGround;
+			modelFemale.isRiding = this.mainModel.isRiding;
+			modelFemale.isChild = this.mainModel.isChild;
+			float f1 = 1.0F;
+
+			//Move out of if to allow for more then just CLOTH to have color
+			int j = itemarmor.getColor(itemstack);
+			if (j != -1) {
+				float f2 = (float)(j >> 16 & 255) / 255.0F;
+				float f3 = (float)(j >> 8 & 255) / 255.0F;
+				float f4 = (float)(j & 255) / 255.0F;
+				GL11.glColor3f(f1 * f2, f1 * f3, f1 * f4);
+
+				if (itemstack.isItemEnchanted()) {
+					return 31;
+				}
+
+				return 16;
+			}
+
+			GL11.glColor3f(f1, f1, f1);
+
+			if (itemstack.isItemEnchanted()) {
+				return 15;
+			}
+
+			return 1;
+		}
 	}
 
-protected int func_130006_a(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
-ItemStack itemstack = par1EntityLiving.func_130225_q(3 - par2);
+	return -1;
+}*/
 
-if (itemstack != null) {
-Item item = itemstack.getItem();
+/*protected void func_130013_c(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
+	ItemStack itemstack = par1EntityLiving.func_130225_q(3 - par2);
 
-if (item instanceof ItemArmor) {
-ItemArmor itemarmor = (ItemArmor)item;
-this.bindTexture(getArmorResource(par1EntityLiving, itemstack, par2, null));
-ModelBinaryFemaleTest modelFemale = par2 == 2 ? this.field_82425_h : this.field_82423_g;
-modelFemale.bipedHead.showModel = par2 == 0;
-modelFemale.bipedHeadwear.showModel = par2 == 0;
-modelFemale.bipedBody.showModel = par2 == 1 || par2 == 2;
-modelFemale.bipedRightArm.showModel = par2 == 1;
-modelFemale.bipedLeftArm.showModel = par2 == 1;
-modelFemale.bipedRightLeg.showModel = par2 == 2 || par2 == 3;
-modelFemale.bipedLeftLeg.showModel = par2 == 2 || par2 == 3;
-modelFemale = (ModelBinaryFemaleTest)ForgeHooksClient.getArmorModel(par1EntityLiving, itemstack, par2, modelFemale);
-this.setRenderPassModel(modelFemale);
-modelFemale.onGround = this.mainModel.onGround;
-modelFemale.isRiding = this.mainModel.isRiding;
-modelFemale.isChild = this.mainModel.isChild;
-float f1 = 1.0F;
+	if (itemstack != null) {
+		Item item = itemstack.getItem();
 
-//Move out of if to allow for more then just CLOTH to have color
-int j = itemarmor.getColor(itemstack);
-if (j != -1) {
-float f2 = (float)(j >> 16 & 255) / 255.0F;
-float f3 = (float)(j >> 8 & 255) / 255.0F;
-float f4 = (float)(j & 255) / 255.0F;
-GL11.glColor3f(f1 * f2, f1 * f3, f1 * f4);
-
-if (itemstack.isItemEnchanted()) {
-return 31;
-}
-
-return 16;
-}
-
-GL11.glColor3f(f1, f1, f1);
-
-if (itemstack.isItemEnchanted()) {
-return 15;
-}
-
-return 1;
-}
-}
-
-return -1;
-}
-
-protected void func_130013_c(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
-ItemStack itemstack = par1EntityLiving.func_130225_q(3 - par2);
-
-if (itemstack != null) {
-Item item = itemstack.getItem();
-
-if (item instanceof ItemArmor) {
-this.bindTexture(getArmorResource(par1EntityLiving, itemstack, par2, "overlay"));
-float f1 = 1.0F;
-GL11.glColor3f(f1, f1, f1);
-}
-}
-}
+		if (item instanceof ItemArmor) {
+			this.bindTexture(getArmorResource(par1EntityLiving, itemstack, par2, "overlay"));
+			float f1 = 1.0F;
+			GL11.glColor3f(f1, f1, f1);
+		}
+	}
+}*/
 
 public void doRenderLiving(EntityBinaryFemale par1EntityLiving, double par2, double par4, double par6, float par8, float par9) {
 	float f2 = 1.0F;
 	GL11.glColor3f(f2, f2, f2);
 	ItemStack itemstack = par1EntityLiving.getHeldItem();
-	this.func_82420_a(par1EntityLiving, itemstack);
+	this.renderOtherCrap(par1EntityLiving, itemstack);
 	double d3 = par4 - (double)par1EntityLiving.yOffset;
 
 	if (par1EntityLiving.isSneaking()) {
@@ -187,21 +201,21 @@ public void doRenderLiving(EntityBinaryFemale par1EntityLiving, double par2, dou
 	}
 
 	super.doRenderLiving(par1EntityLiving, par2, d3, par6, par8, par9);
-	this.field_82423_g.aimedBow = this.field_82425_h.aimedBow = this.modelFemale.aimedBow = false;
-	this.field_82423_g.isSneak = this.field_82425_h.isSneak = this.modelFemale.isSneak = false;
-	this.field_82423_g.heldItemRight = this.field_82425_h.heldItemRight = this.modelFemale.heldItemRight = 0;
+	this.modelArmourChestplate.aimedBow = this.modelArmour.aimedBow = this.modelFemale.aimedBow = false;
+	this.modelArmourChestplate.isSneak = this.modelArmour.isSneak = this.modelFemale.isSneak = false;
+	this.modelArmourChestplate.heldItemRight = this.modelArmour.heldItemRight = this.modelFemale.heldItemRight = 0;
 	}
 
 protected ResourceLocation func_110856_a(EntityBinaryFemale par1EntityBinary) {
 	return null;
 }
 
-protected void func_82420_a(EntityBinaryFemale par1EntityLiving, ItemStack par2ItemStack) {
-	this.field_82423_g.heldItemRight = this.field_82425_h.heldItemRight = this.modelFemale.heldItemRight = par2ItemStack != null ? 1 : 0;
-	this.field_82423_g.isSneak = this.field_82425_h.isSneak = this.modelFemale.isSneak = par1EntityLiving.isSneaking();
+protected void renderOtherCrap(EntityBinaryFemale par1EntityLiving, ItemStack par2ItemStack) {
+	this.modelArmourChestplate.heldItemRight = this.modelArmour.heldItemRight = this.modelFemale.heldItemRight = par2ItemStack != null ? 1 : 0;
+	this.modelArmourChestplate.isSneak = this.modelArmour.isSneak = this.modelFemale.isSneak = par1EntityLiving.isSneaking();
 }
 
-protected void func_130005_c(EntityBinaryFemale par1EntityLiving, float par2) {
+protected void renderSpecials(EntityBinaryFemale par1EntityLiving, float par2) {
 	float f1 = 1.0F;
 	GL11.glColor3f(f1, f1, f1);
 	super.renderEquippedItems(par1EntityLiving, par2);
@@ -281,7 +295,7 @@ protected void func_130005_c(EntityBinaryFemale par1EntityLiving, float par2) {
 			GL11.glTranslatef(0.0F, -0.125F, 0.0F);
 		}
 
-		this.func_82422_c();
+		this.translateCrap();
 		GL11.glScalef(f2, -f2, f2);
 		GL11.glRotatef(-100.0F, 1.0F, 0.0F, 0.0F);
 		GL11.glRotatef(45.0F, 0.0F, 1.0F, 0.0F);
@@ -306,7 +320,7 @@ protected void func_130005_c(EntityBinaryFemale par1EntityLiving, float par2) {
 	}
 }
 
-protected void func_82422_c() {
+protected void translateCrap() {
 	GL11.glTranslatef(0.0F, 0.1875F, 0.0F);
 }
 
@@ -318,11 +332,11 @@ protected void func_82439_b(EntityLivingBase par1EntityLivingBase, int par2, flo
 * Queries whether should render the specified pass or not.
 */
 protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3) {
-	return this.func_130006_a((EntityBinaryFemale)par1EntityLivingBase, par2, par3);
+	return this.renderArmouredMob((EntityBinaryFemale)par1EntityLivingBase, par2, par3);
 }
 
 protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2) {
-	this.func_130005_c((EntityBinaryFemale)par1EntityLivingBase, par2);
+	this.renderSpecials((EntityBinaryFemale)par1EntityLivingBase, par2);
 }
 
 public void renderPlayer(EntityLivingBase par1EntityLivingBase, double par2, double par4, double par6, float par8, float par9) {
