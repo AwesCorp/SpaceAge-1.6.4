@@ -149,9 +149,14 @@ public class BlockProtocol extends Block
     	
     	if(world.isRemote) {
     		return true;
-    	}else if(!player.isSneaking()) {
+    	} else if(controller != null) { 
+    		if(!player.isSneaking()) {
     			player.openGui(WarpDrive.instance, 0, world, x, y, z);
+    		} else if(player.isSneaking()) {
+    			controller.attachPlayer(player);
+    			player.addChatMessage("Currently Attached: " + controller.getAttachedPlayersList());
     		}
+    	}
     	return false;
     }
     

@@ -71,7 +71,9 @@ import cpw.mods.fml.relauncher.Side;
  */
 
 @Mod(modid=SpaceAgeCore.modid, name="SpaceAge/Project Cosmos: - bringing Minecraft to the Space Age", version="Alpha", dependencies="required-after:UniversalElectricity")
-@NetworkMod(clientSideRequired=true, serverSideRequired=false/*, serverPacketHandlerSpec=@NetworkMod.SidedPacketHandler(channels={"SpaceAge_C"}, packetHandler=ServerPacketHandler.class)*/)
+@NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"SpaceAge"}, packetHandler = PacketHandler.class
+
+		/*, serverPacketHandlerSpec=@NetworkMod.SidedPacketHandler(channels={"SpaceAge_C"}, packetHandler=ServerPacketHandler.class)*/)
 
 public class SpaceAgeCore {
 

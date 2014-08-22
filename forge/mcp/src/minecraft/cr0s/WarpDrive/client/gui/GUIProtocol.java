@@ -32,22 +32,22 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	public class GUIProtocol extends GuiSimpleBase { 
 		/*TODO
 		 * List of stuff:
-		 * dim_getP
-		 * dim_setP - in progress w/ text input, might change to slider or +- buttons
-		 * dim_getN
-		 * dim_setN - in progress w/ text input, might change to slider or +- buttons
+		 * dim_getP - done
+		 * dim_setP - done
+		 * dim_getN - done
+		 * dim_setN - done
 		 * setMode
 		 * setDistance
 		 * setDirection
-		 * getAttachedPlayers
+		 * getAttachedPlayers - done
 		 * summon
-		 * summonAll
-		 * getX
-		 * getY
-		 * getZ
+		 * summonAll - done
+		 * getX - done
+		 * getY - done
+		 * getZ - done
 		 * energyRemaining For Core
-		 * doJump
-		 * getShipSize
+		 * doJump - done
+		 * getShipSize - done
 		 * setBeaconFrequency
 		 * getDx
 		 * getDz
@@ -70,6 +70,8 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    private GuiTextField down;
 	    
 	    private GuiTextField beaconInput;
+	    
+	    private char[] allowedChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 
 	    public GUIProtocol(InventoryPlayer par1InventoryPlayer, TileEntityProtocol tile_entity)
 	    {
@@ -106,6 +108,11 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    String coord2 = "Y: " + String.valueOf(furnaceInventory.core.yCoord);
 	    String coord3 = "Z: " + String.valueOf(furnaceInventory.core.zCoord);
 	    
+	    String coord4 = "Destination Coordinates: ";
+	    String coord5 = "X: " + String.valueOf(furnaceInventory.getDestX());
+	    //String coord6 = "Y: " + String.valueOf(furnaceInventory.getDestY());
+	    String coord7 = "Z: " + String.valueOf(furnaceInventory.getDestZ());
+	    
 	    /**
 	     * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	     */
@@ -122,9 +129,13 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	        write(dimension, dimensionx, dimensiony, grey);
 	        
 	        write(coord0, coord0x, coord0y, grey);
-	        write(coord1, coord0x + pixelsPerWord, coord0y + pixelsPerWord, grey);
-	        write(coord2, coord0x + 2 * (pixelsPerWord), coord0y + 2 * (pixelsPerWord), grey);
-	        write(coord3, coord0x + 3 * (pixelsPerWord), coord0y + 3 * (pixelsPerWord), grey);
+	        write(coord1, coord0x + pixelsPerWord, coord0y, grey);
+	        write(coord2, coord0x + 2 * (pixelsPerWord), coord0y, grey);
+	        write(coord3, coord0x + 3 * (pixelsPerWord), coord0y, grey);
+	        
+	        write(coord4, coord0x + 5 * (pixelsPerWord), coord0y, grey);
+	        write(coord5, coord0x + 6 * (pixelsPerWord), coord0y, grey);
+	        write(coord7, coord0x + 7 * (pixelsPerWord), coord0y, grey);
 	        
 	        write(blocks, blocksx, blocksy, grey);
 	        
@@ -167,6 +178,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    public void initGui() {
 	    	super.initGui();
 	    	buttonList.clear();
+	    	
 	    	Keyboard.enableRepeatEvents(true);
 		    
 		    int biX = 0; //TODO
@@ -208,7 +220,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	beaconInput.setMaxStringLength(2/*TODO*/);
 	    	
 	    	/**/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Jump"/*Text on button*/));
-	    	/**/buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Disable"/*Text on button*/));
+	    	/**/buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Summon All"/*Text on button*/));
 	    }
 	    
 	    public void applyBasicAttributes(GuiTextField field) {
@@ -219,11 +231,23 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 
 		@Override
 	    protected void keyTyped(char par1, int par2) {
-    		//super.keyTyped(par1, par2);
-    		if(front.textboxKeyTyped(par1, par2)) {
-    			this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("", this.front.getText().getBytes()));
-    		} else if(back.textboxKeyTyped(par1, par2)) {
-    			
+			if(isValidChar(par1)) {
+				//super.keyTyped(par1, par2);
+				if(front.textboxKeyTyped(par1, par2)) {
+					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.front.getText().getBytes()));
+				} else if(back.textboxKeyTyped(par1, par2)) {
+					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.back.getText().getBytes()));
+				} else if(left.textboxKeyTyped(par1, par2)) {
+					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.left.getText().getBytes()));
+				} else if(right.textboxKeyTyped(par1, par2)) {
+					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.right.getText().getBytes()));
+				} else if(up.textboxKeyTyped(par1, par2)) {
+					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.up.getText().getBytes()));
+				} else if(down.textboxKeyTyped(par1, par2)) {
+					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.down.getText().getBytes()));
+				} else if(beaconInput.textboxKeyTyped(par1, par2)) {
+					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.beaconInput.getText().getBytes()));
+				}
     		}/*etc*/ else {
     			super.keyTyped(par1, par2);
     		}
@@ -241,6 +265,15 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	this.down.mouseClicked(x, y, buttonClicked);
 	    	
 	    	this.beaconInput.mouseClicked(x, y, buttonClicked);
+	    }
+	    
+	    private boolean isValidChar(char par1) {
+	    	for(int x = 0; x <= this.allowedChars.length; x++) {
+	    		if(par1 == this.allowedChars[x]) {
+	    			return true;
+	    		}
+	    	}
+	    	return false;
 	    }
 	    
 	    @Override
@@ -262,6 +295,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    			furnaceInventory.doJump();
 	    			System.out.println("Ship jumped from coordinates" + coord1 + ", " + coord2 + ", " + coord3);
 	    		case 1:
+	    			furnaceInventory.setSummonAllFlag(true);
 	    			//System.out.println("Clicked!");//ACTION PERFORMED ON BUTTON CLICK
 	    	}
 	    }
@@ -270,6 +304,17 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    public void onGuiClosed() {
 	    	super.onGuiClosed();
 	    	Keyboard.enableRepeatEvents(false);
+	    }
+	    
+	    @Override
+	    public void drawScreen(int par1, int par2, float par3) {
+	    	super.drawScreen(par1, par2, par3);
+	    	this.front.drawTextBox();
+	    	this.back.drawTextBox();
+	    	this.left.drawTextBox();
+	    	this.right.drawTextBox();
+	    	this.up.drawTextBox();
+	    	this.down.drawTextBox();
 	    }
 	}
 

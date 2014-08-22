@@ -494,6 +494,20 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         }
         return list;
     }
+    
+    public int getDestX() {
+    	if(core != null && core instanceof TileEntityReactor) {
+    		return (int)(((TileEntityReactor)core).dx);
+    	}
+    	return 0;
+    }
+    
+    public int getDestZ() {
+    	if(core != null && core instanceof TileEntityReactor) {
+    		return (int)(((TileEntityReactor)core).dz);
+    	}
+    	return 0;
+    }
 
     @Override
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception

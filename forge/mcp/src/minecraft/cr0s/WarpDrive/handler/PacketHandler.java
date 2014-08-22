@@ -29,31 +29,32 @@ import net.minecraft.client.multiplayer.WorldClient;
 public class PacketHandler implements IPacketHandler
 {
     @Override
-    public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player)
-    {
-        if (packet.channel.equals("WarpDriveBeam"))
-        {
+    public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
+        if (packet.channel.equals("WarpDriveBeam")) {
             handleBeam(packet, (EntityPlayer)player);
-        }
-        else if (packet.channel.equals("WarpDriveFreq"))
-        {
+        } else if (packet.channel.equals("WarpDriveFreq")) {
             handleFreqUpdate(packet, (EntityPlayer)player);
-        }
-        else if (packet.channel.equals("WarpDriveLaserT"))
-        {
+        } else if (packet.channel.equals("WarpDriveLaserT")) {
             handleLaserTargeting(packet, (EntityPlayer)player);
-        } 
-        else if (packet.channel.equals("WarpDriveCloaks")) 
-        {
+        } else if (packet.channel.equals("WarpDriveCloaks")) {
         	handleCloak(packet, (EntityPlayer)player);
+        /*} else if (packet.channel.equals("WarpDriveGUI")) {
+        	handleGUI(packet, (EntityPlayer)player);*/
         }
     }
 
-    public void handleCloak(Packet250CustomPayload packet, EntityPlayer player) {
+    /*public void handleGUI(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		try {
+			
+		}
+	}*/
+
+	public void handleCloak(Packet250CustomPayload packet, EntityPlayer player) {
         DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 
-        try
-        {   
+        try {   
             // Read cloaked area parameters
             int minX = inputStream.readInt();
             int minY = inputStream.readInt();

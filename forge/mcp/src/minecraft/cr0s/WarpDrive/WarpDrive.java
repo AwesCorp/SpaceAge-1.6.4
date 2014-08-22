@@ -94,7 +94,8 @@ import net.minecraftforge.common.MinecraftForge;
 		"WarpDriveBeam", 
 		"WarpDriveFreq", 
 		"WarpDriveLaserT",
-		"WarpDriveCloaks" }, packetHandler = PacketHandler.class)
+		"WarpDriveCloaks",
+		"WarpDriveGUI"}, packetHandler = PacketHandler.class)
 /**
  * @author Cr0s, SkylordJoel
  */
