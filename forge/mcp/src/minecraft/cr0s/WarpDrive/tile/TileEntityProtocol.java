@@ -87,7 +87,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         }
     }
 
-    private void setJumpDistance(int distance)
+    public void setJumpDistance(int distance) //TODO waypoint
     {
         System.out.println("Setting jump distance: " + distance);
         this.distance = distance;
@@ -99,7 +99,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         this.mode = mode;
     }
 
-    private void setDirection(int dir)
+    private void setDirection(int dir) //TODO waypoint
     {
         if (dir == 1)
         {
@@ -566,7 +566,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
                 setMode(((Double)arguments[0]).intValue());
                 break;
 
-            case 5: // set_distance (distance)
+            case 5: // set_distance (distance) TODO
                 if (arguments.length != 1)
                 {
                     return new Integer[] { -1 };
@@ -575,7 +575,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
                 setJumpDistance(((Double)arguments[0]).intValue());
                 break;
 
-            case 6: // set_direction (dir)
+            case 6: // set_direction (dir) TODO
                 if (arguments.length != 1)
                 {
                     return new Integer[] { -1 };

@@ -24,10 +24,13 @@ import cr0s.WarpDrive.registry.CamRegistryItem;
 import cr0s.WarpDrive.tile.TileEntityCamera;
 import cr0s.WarpDrive.tile.TileEntityLaser;
 import cr0s.WarpDrive.tile.TileEntityMonitor;
+import cr0s.WarpDrive.tile.TileEntityProtocol;
 import net.minecraft.client.multiplayer.WorldClient;
 
-public class PacketHandler implements IPacketHandler
-{
+public class PacketHandler implements IPacketHandler {
+	
+	TileEntityProtocol te;
+	
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
         if (packet.channel.equals("WarpDriveBeam")) {
@@ -38,12 +41,145 @@ public class PacketHandler implements IPacketHandler
             handleLaserTargeting(packet, (EntityPlayer)player);
         } else if (packet.channel.equals("WarpDriveCloaks")) {
         	handleCloak(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDrive_Protocol_Distance")) {
+        	handleProtocolDistance(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDrive_Protocol_Front")) {
+        	handleProtocolFront(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDrive_Protocol_Back")) {
+        	handleProtocolBack(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDrive_Protocol_Right")) {
+        	handleProtocolRight(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDrive_Protocol_Left")) {
+        	handleProtocolLeft(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDrive_Protocol_Up")) {
+        	handleProtocolUp(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDrive_Protocol_Down")) {
+        	handleProtocolDown(packet, (EntityPlayer)player);
         /*} else if (packet.channel.equals("WarpDriveGUI")) {
         	handleGUI(packet, (EntityPlayer)player);*/
         }
     }
 
-    /*public void handleGUI(Packet250CustomPayload packet, EntityPlayer player) {
+    public void handleProtocolDistance(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int field;
+		
+		try {
+			field = inputStream.readInt();
+			
+			te.setJumpDistance(field);
+			WarpDrive.instance.registry.removeDeadCores();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+    
+    public void handleProtocolFront(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int field;
+		
+		try {
+			field = inputStream.readInt();
+			
+			te.setFront(field);
+			WarpDrive.instance.registry.removeDeadCores();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+    
+    public void handleProtocolBack(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int field;
+		
+		try {
+			field = inputStream.readInt();
+			
+			te.setBack(field);
+			WarpDrive.instance.registry.removeDeadCores();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+    
+    public void handleProtocolRight(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int field;
+		
+		try {
+			field = inputStream.readInt();
+			
+			te.setRight(field);
+			WarpDrive.instance.registry.removeDeadCores();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+    
+    public void handleProtocolLeft(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int field;
+		
+		try {
+			field = inputStream.readInt();
+			
+			te.setLeft(field);
+			WarpDrive.instance.registry.removeDeadCores();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+    
+    public void handleProtocolUp(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int field;
+		
+		try {
+			field = inputStream.readInt();
+			
+			te.setUp(field);
+			WarpDrive.instance.registry.removeDeadCores();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+    
+    public void handleProtocolDown(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int field;
+		
+		try {
+			field = inputStream.readInt();
+			
+			te.setDown(field);
+			WarpDrive.instance.registry.removeDeadCores();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	/*public void handleGUI(Packet250CustomPayload packet, EntityPlayer player) {
 		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 		
 		try {

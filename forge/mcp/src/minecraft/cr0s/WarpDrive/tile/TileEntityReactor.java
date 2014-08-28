@@ -1166,8 +1166,7 @@ public class TileEntityReactor extends TileElectricBase {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag)
-    {
+    public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
         //currentEnergyValue = tag.getInteger("energy");
         coreFrequency = tag.getString("corefrequency");
@@ -1176,8 +1175,7 @@ public class TileEntityReactor extends TileElectricBase {
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag)
-    {
+    public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
         //tag.setInteger("energy", currentEnergyValue);
         tag.setString("corefrequency", coreFrequency);
@@ -1185,8 +1183,7 @@ public class TileEntityReactor extends TileElectricBase {
     }
 
     @Override
-    public void onChunkUnload()
-    {
+    public void onChunkUnload() {
         /*if (addedToEnergyNet)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileUnloadEvent(this));
@@ -1197,8 +1194,7 @@ public class TileEntityReactor extends TileElectricBase {
     }
 
     @Override
-    public void validate()
-    {
+    public void validate() {
         super.validate();
         WarpDrive.instance.registry.updateInRegistry(this);
         /*if (!addedToEnergyNet)

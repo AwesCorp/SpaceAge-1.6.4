@@ -1,12 +1,14 @@
 package cr0s.WarpDrive.client.gui;
 
-import net.minecraft.block.BlockAnvil;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.ResourceLocation;
 
@@ -37,7 +39,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		 * dim_getN - done
 		 * dim_setN - done
 		 * setMode
-		 * setDistance
+		 * setDistance - almost done...
 		 * setDirection
 		 * getAttachedPlayers - done
 		 * summon
@@ -48,7 +50,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		 * energyRemaining For Core
 		 * doJump - done
 		 * getShipSize - done
-		 * setBeaconFrequency
+		 * setBeaconFrequency - unused
 		 * getDx
 		 * getDz
 		 * setCoreFrequency
@@ -69,9 +71,13 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    private GuiTextField up;
 	    private GuiTextField down;
 	    
-	    private GuiTextField beaconInput;
+	    private GuiTextField distance;
+	    
+	    private GuiTextField mode;
+	    //private GuiTextField beaconInput; UNUSED
 	    
 	    private char[] allowedChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+	    private char[] modeChars = { '0'/*jump/long jump*/, '1'/*To hyperspace*/, '2'/*jumpgate*/, '3'/*jump to different dimensions*/ };
 
 	    public GUIProtocol(InventoryPlayer par1InventoryPlayer, TileEntityProtocol tile_entity)
 	    {
@@ -116,8 +122,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    /**
 	     * Draw the foreground layer for the GuiContainer (everything in front of the items)
 	     */
-	    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
-	    {
+	    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
 	        String s = this.furnaceInventory.isInvNameLocalized() ? this.furnaceInventory.getInvName() : I18n.getString(this.furnaceInventory.getInvName());
 	        this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
 	        this.fontRenderer.drawString(I18n.getString("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
@@ -146,14 +151,17 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	        up.drawTextBox();
 	        down.drawTextBox();
 	        
-	        beaconInput.drawTextBox();
+	        distance.drawTextBox();
+	        
+	        mode.drawTextBox();
+	        
+	        //beaconInput.drawTextBox(); UNUSED
 	    }
 
 	    /**
 	     * Draw the background layer for the GuiContainer (everything behind the items)
 	     */
-	    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3)
-	    {
+	    protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
 	        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
 	        this.mc.getTextureManager().bindTexture(furnaceGuiTextures);
 	        int k = (this.width - this.xSize) / 2;
@@ -181,11 +189,17 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	
 	    	Keyboard.enableRepeatEvents(true);
 		    
-		    int biX = 0; //TODO
-		    int biY = 0;
+		    //int biX = 0; UNUSED
+		    //int biY = 0; UNUSED
 	    	
 		    int frontX = 0; //TODO
 		    int frontY = 0;
+		    
+		    int diX = 0;
+		    int diY = 0;
+		    
+		    int moX = 0;
+		    int moY = 0;
 		    
 		    int inputLength = 16;
 		    int inputWidth = 16;
@@ -196,8 +210,18 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		    applyBasicAttributes(left);
 		    applyBasicAttributes(up);
 		    applyBasicAttributes(down);
-		    applyBasicAttributes(beaconInput);
+		    
+		    applyBasicAttributes(distance);
+		    
+		    applyBasicAttributes(mode);
+		    //applyBasicAttributes(beaconInput); UNUSED
+		    
+		    mode = new GuiTextField(this.fontRenderer, moX, moY, inputLength, inputWidth);
+		    //mode.setMaxStringLength(par1)
 
+		    distance = new GuiTextField(this.fontRenderer, diX, diY, inputLength, inputWidth);
+		    distance.setMaxStringLength(3);
+		    
 	    	front = new GuiTextField(this.fontRenderer, frontX, frontY, inputLength, inputWidth);
 	    	front.setMaxStringLength(3);
 	    	
@@ -216,8 +240,8 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	down = new GuiTextField(this.fontRenderer, frontX, frontY + (5 * pixelsPerWord), inputLength, inputWidth);
 	    	down.setMaxStringLength(3);
 	    	
-	    	beaconInput = new GuiTextField(this.fontRenderer, biX, biY, inputLength, inputWidth);
-	    	beaconInput.setMaxStringLength(2/*TODO*/);
+	    	//beaconInput = new GuiTextField(this.fontRenderer, biX, biY, inputLength, inputWidth); UNUSED
+	    	//beaconInput.setMaxStringLength(2); UNUSED
 	    	
 	    	/**/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Jump"/*Text on button*/));
 	    	/**/buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Summon All"/*Text on button*/));
@@ -234,26 +258,83 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 			if(isValidChar(par1)) {
 				//super.keyTyped(par1, par2);
 				if(front.textboxKeyTyped(par1, par2)) {
-					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.front.getText().getBytes()));
+					simpleTextPacket("WarpDrive_Protocol_Front", this.front, 3);
 				} else if(back.textboxKeyTyped(par1, par2)) {
-					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.back.getText().getBytes()));
+					simpleTextPacket("WarpDrive_Protocol_Back", this.back, 3);
 				} else if(left.textboxKeyTyped(par1, par2)) {
-					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.left.getText().getBytes()));
+					simpleTextPacket("WarpDrive_Protocol_Left", this.left, 3);
 				} else if(right.textboxKeyTyped(par1, par2)) {
-					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.right.getText().getBytes()));
+					simpleTextPacket("WarpDrive_Protocol_Right", this.right, 3);
 				} else if(up.textboxKeyTyped(par1, par2)) {
-					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.up.getText().getBytes()));
+					simpleTextPacket("WarpDrive_Protocol_Up", this.up, 3);
 				} else if(down.textboxKeyTyped(par1, par2)) {
-					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.down.getText().getBytes()));
-				} else if(beaconInput.textboxKeyTyped(par1, par2)) {
-					this.mc.thePlayer.sendQueue.addToSendQueue(new Packet250CustomPayload("MC|ItemName", this.beaconInput.getText().getBytes()));
+					simpleTextPacket("WarpDrive_Protocol_Down", this.down, 3);
+				} else if(distance.textboxKeyTyped(par1, par2)) {
+					simpleTextPacket("WarpDrive_Protocol_Distance", this.distance, 3);
+				} else if(isValidModeChar(par1)) {
+				if(mode.textboxKeyTyped(par1, par2)) {
+					modeTextPacket("WarpDrive_Protocol_Mode", this.mode, 1);
+				}
+				//} else if(beaconInput.textboxKeyTyped(par1, par2)) {UNUSED
+					//simpleTextPacket("WarpDrive_Protocol", this.beaconInput.getText().getBytes())); UNUSED
 				}
     		}/*etc*/ else {
     			super.keyTyped(par1, par2);
     		}
 	    }
-	    
-	    @Override
+		
+	    private boolean isValidModeChar(char par1) {
+	    	for(int x = 0; x <= this.allowedChars.length; x++) {
+	    		if(par1 == this.allowedChars[x]) {
+	    			return true;
+	    		}
+	    	}
+	    	return false;
+	    }
+
+		public void modeTextPacket(String channel, GuiTextField field, int lengthOfBytesInField) {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream(lengthOfBytesInField);
+			DataOutputStream output = new DataOutputStream(bos);
+			
+			try {
+				String f = field.getText();
+				int fI = Integer.parseInt(f);
+				
+				output.writeInt(fI);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			Packet250CustomPayload packet = new Packet250CustomPayload();
+			packet.channel = channel;
+			packet.data = bos.toByteArray();
+			packet.length = bos.size();
+			
+			this.mc.thePlayer.sendQueue.addToSendQueue(packet);
+		}
+
+		public void simpleTextPacket(String channel, GuiTextField field, int lengthOfBytesInField) {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream(lengthOfBytesInField);
+			DataOutputStream output = new DataOutputStream(bos);
+			
+			try {
+				String f = field.getText();
+				int fI = Integer.parseInt(f);
+				
+				output.writeInt(fI);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			Packet250CustomPayload packet = new Packet250CustomPayload();
+			packet.channel = channel;
+			packet.data = bos.toByteArray();
+			packet.length = bos.size();
+			
+			this.mc.thePlayer.sendQueue.addToSendQueue(packet);
+		}
+
+		@Override
 	    protected void mouseClicked(int x, int y, int buttonClicked) {
 	    	super.mouseClicked(x, y, buttonClicked);
 	    	
@@ -264,7 +345,9 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	this.up.mouseClicked(x, y, buttonClicked);
 	    	this.down.mouseClicked(x, y, buttonClicked);
 	    	
-	    	this.beaconInput.mouseClicked(x, y, buttonClicked);
+	    	this.distance.mouseClicked(x, y, buttonClicked);
+	    	
+	    	//this.beaconInput.mouseClicked(x, y, buttonClicked); UNUSED
 	    }
 	    
 	    private boolean isValidChar(char par1) {
@@ -285,7 +368,9 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	this.up.updateCursorCounter();
 	    	this.down.updateCursorCounter();
 	    	
-	    	this.beaconInput.updateCursorCounter();
+	    	this.distance.updateCursorCounter();
+	    	
+	    	//this.beaconInput.updateCursorCounter(); UNUSED
 	    }
 	    
 	    @Override
@@ -315,6 +400,8 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	this.right.drawTextBox();
 	    	this.up.drawTextBox();
 	    	this.down.drawTextBox();
+	    	
+	    	this.distance.drawTextBox();
 	    }
 	}
 

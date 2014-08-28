@@ -95,7 +95,13 @@ import net.minecraftforge.common.MinecraftForge;
 		"WarpDriveFreq", 
 		"WarpDriveLaserT",
 		"WarpDriveCloaks",
-		"WarpDriveGUI"}, packetHandler = PacketHandler.class)
+		"WarpDrive_Protocol_Distance",
+		"WarpDrive_Protocol_Front",
+		"WarpDrive_Protocol_Back",
+		"WarpDrive_Protocol_Right",
+		"WarpDrive_Protocol_Left",
+		"WarpDrive_Protocol_Up",
+		"WarpDrive_Protocol_Down"}, packetHandler = PacketHandler.class)
 /**
  * @author Cr0s, SkylordJoel
  */
@@ -280,7 +286,7 @@ public class WarpDrive implements LoadingCallback {
 				Material.rock).setHardness(0.5F)
 				.setStepSound(Block.soundMetalFootstep)
 				.setCreativeTab(WarpDrive.tabWD)
-				.setUnlocalizedName("Camera block");
+				.setUnlocalizedName("Camera Block");
 		LanguageRegistry.addName(cameraBlock, "Camera");
 		GameRegistry.registerBlock(cameraBlock, "cameraBlock");
 		GameRegistry.registerTileEntity(TileEntityCamera.class, "cameraBlock");
@@ -476,12 +482,9 @@ public class WarpDrive implements LoadingCallback {
 		
 		registry = new WarpCoresRegistry();
 
-		if (FMLCommonHandler.instance().getEffectiveSide().isServer())
-		{
+		if (FMLCommonHandler.instance().getEffectiveSide().isServer()) {
 			jumpGates = new JumpGatesRegistry();
-		}
-		else
-		{
+		} else {
 			cams = new CamRegistry();
 		}
 	}
