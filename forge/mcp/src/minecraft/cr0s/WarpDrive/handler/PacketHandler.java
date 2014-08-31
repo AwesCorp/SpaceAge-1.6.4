@@ -59,12 +59,60 @@ public class PacketHandler implements IPacketHandler {
         	handleProtocolDown(packet, (EntityPlayer)player);
         } else if (packet.channel.equals("WarpDrive_Protocol_Mode")) {
         	handleMode(packet, (EntityPlayer)player);
+        } else if(packet.channel.equals("WarpDrive_Protocol_Direction")) {
+        	handleDirection(packet, (EntityPlayer)player);
+        } else if(packet.channel.equals("WarpDrive_ShipName")) {
+        	handleShipName(packet, (EntityPlayer)player);
         /*} else if (packet.channel.equals("WarpDriveGUI")) {
         	handleGUI(packet, (EntityPlayer)player);*/
         }
     }
 
-    public void handleMode(Packet250CustomPayload packet, EntityPlayer player) {
+    public void handleShipName(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		String shipName;
+		
+		try {
+			shipName = inputStream.readUTF();
+			
+			te.setCoreFrequency(shipName);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	public void handleDirection(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int direction;
+		
+		try {
+			direction = inputStream.readInt();
+			
+			switch(direction) {
+				case 0:
+					te.setDirection(1);
+				case 1:
+					te.setDirection(2);
+				case 2:
+					te.setDirection(90);
+				case 3:
+					te.setDirection(255);
+				case 4:
+					te.setDirection(0);
+				case 5:
+					te.setDirection(180);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	public void handleMode(Packet250CustomPayload packet, EntityPlayer player) {
 		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 		
 		int mode;

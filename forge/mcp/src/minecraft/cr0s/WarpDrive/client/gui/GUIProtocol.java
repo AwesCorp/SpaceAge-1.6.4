@@ -38,9 +38,9 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		 * dim_setP - done
 		 * dim_getN - done
 		 * dim_setN - done
-		 * setMode
-		 * setDistance - almost done...
-		 * setDirection
+		 * setMode - done
+		 * setDistance - done
+		 * setDirection - done
 		 * getAttachedPlayers - done
 		 * summon
 		 * summonAll - done
@@ -51,9 +51,9 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		 * doJump - done
 		 * getShipSize - done
 		 * setBeaconFrequency - unused
-		 * getDx
-		 * getDz
-		 * setCoreFrequency
+		 * getDx - done
+		 * getDz - dome
+		 * setCoreFrequency - more like ship name, done	
 		 * isInSpace - done
 		 * isInHyperspace - done
 		 * setTargetJumpgate*/
@@ -74,10 +74,15 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    private GuiTextField distance;
 	    
 	    private GuiTextField mode;
+	    
+	    private GuiTextField direction;
+	    
+	    private GuiTextField shipName;
 	    //private GuiTextField beaconInput; UNUSED
 	    
 	    private char[] allowedChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
 	    private char[] modeChars = { '0'/*jump/long jump*/, '1'/*To hyperspace*/, '2'/*jumpgate*//*, '3'/*jump to different dimensions*/ };
+	    private char[] directionChars = { '0'/*up*/, '1'/*down*/, '2'/*left*/, '3'/*right*/, '4'/*forward*/, '5'/*back*/ };
 
 	    public GUIProtocol(InventoryPlayer par1InventoryPlayer, TileEntityProtocol tile_entity)
 	    {
@@ -155,6 +160,10 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	        
 	        mode.drawTextBox();
 	        
+	        direction.drawTextBox();
+	        
+	        shipName.drawTextBox();
+	        
 	        //beaconInput.drawTextBox(); UNUSED
 	    }
 
@@ -198,8 +207,14 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		    int diX = 0;
 		    int diY = 0;
 		    
+		    int dirX = 0;
+		    int dirY = 0;
+		    
 		    int moX = 0;
 		    int moY = 0;
+		    
+		    int sNX = 0;
+		    int sNY = 0;
 		    
 		    int inputLength = 16;
 		    int inputWidth = 16;
@@ -214,10 +229,20 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		    applyBasicAttributes(distance);
 		    
 		    applyBasicAttributes(mode);
+		    
+		    applyBasicAttributes(direction);
+		    
+		    applyBasicAttributes(shipName);
 		    //applyBasicAttributes(beaconInput); UNUSED
 		    
+		    shipName = new GuiTextField(this.fontRenderer, sNX, sNY, inputLength, inputWidth);
+		    shipName.setMaxStringLength(10);
+		    
+		    direction = new GuiTextField(this.fontRenderer, dirX, dirY, inputLength, inputWidth);
+		    direction.setMaxStringLength(1);
+		    
 		    mode = new GuiTextField(this.fontRenderer, moX, moY, inputLength, inputWidth);
-		    //mode.setMaxStringLength(par1)
+		    mode.setMaxStringLength(1);
 
 		    distance = new GuiTextField(this.fontRenderer, diX, diY, inputLength, inputWidth);
 		    distance.setMaxStringLength(3);
@@ -271,9 +296,15 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 					simpleTextPacket("WarpDrive_Protocol_Down", this.down, 3);
 				} else if(distance.textboxKeyTyped(par1, par2)) {
 					simpleTextPacket("WarpDrive_Protocol_Distance", this.distance, 3);
+				} else if(shipName.textboxKeyTyped(par1, par2)) {
+					shipName();
 				} else if(isValidModeChar(par1)) {
-				if(mode.textboxKeyTyped(par1, par2)) {
-					modeTextPacket("WarpDrive_Protocol_Mode", this.mode, 1);
+					if(mode.textboxKeyTyped(par1, par2)) {
+						modeTextPacket("WarpDrive_Protocol_Mode", this.mode, 1);
+				} else if(isValidDirectionChar(par1)) {
+					if(direction.textboxKeyTyped(par1, par2)) {
+						directionTextPacket("WarpDrive_Protocol_Direction", this.direction, 1);
+					}
 				}
 				//} else if(beaconInput.textboxKeyTyped(par1, par2)) {UNUSED
 					//simpleTextPacket("WarpDrive_Protocol", this.beaconInput.getText().getBytes())); UNUSED
@@ -283,9 +314,57 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
     		}
 	    }
 		
-	    private boolean isValidModeChar(char par1) {
-	    	for(int x = 0; x <= this.allowedChars.length; x++) {
-	    		if(par1 == this.allowedChars[x]) {
+	    public void shipName() {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream(shipName.getText().length());
+			DataOutputStream output = new DataOutputStream(bos);
+			
+			try {
+				String f = shipName.getText();
+				
+				output.writeUTF(f);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			Packet250CustomPayload packet = new Packet250CustomPayload();
+			packet.channel = "WarpDrive_ShipName";
+			packet.data = bos.toByteArray();
+			packet.length = bos.size();
+		}
+
+		public void directionTextPacket(String channel, GuiTextField field, int bytes) {
+			ByteArrayOutputStream bos = new ByteArrayOutputStream(bytes);
+			DataOutputStream output = new DataOutputStream(bos);
+			
+			try {
+				String f = field.getText();
+				int fI = Integer.parseInt(f);
+				
+				output.writeInt(fI);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			Packet250CustomPayload packet = new Packet250CustomPayload();
+			packet.channel = channel;
+			packet.data = bos.toByteArray();
+			packet.length = bos.size();
+			
+			this.mc.thePlayer.sendQueue.addToSendQueue(packet);
+		}
+
+		private boolean isValidDirectionChar(char par1) {
+	    	for(int x = 0; x <= this.directionChars.length; x++) {
+	    		if(par1 == this.directionChars[x]) {
+	    			return true;
+	    		}
+	    	}
+			return false;
+		}
+
+		private boolean isValidModeChar(char par1) {
+	    	for(int x = 0; x <= this.modeChars.length; x++) {
+	    		if(par1 == this.modeChars[x]) {
 	    			return true;
 	    		}
 	    	}

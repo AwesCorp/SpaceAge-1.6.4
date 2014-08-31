@@ -99,7 +99,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         this.mode = mode;
     }
 
-    private void setDirection(int dir) //TODO waypoint
+    public void setDirection(int dir) //TODO waypoint
     {
         if (dir == 1)
         {
@@ -507,6 +507,12 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     		return (int)(((TileEntityReactor)core).dz);
     	}
     	return 0;
+    }
+    
+    public void setCoreFrequency(String frequency) {
+    	if(core != null && core instanceof TileEntityReactor) {
+    		((TileEntityReactor)core).coreFrequency = frequency.replace("/", "").replace(".", "").replace("\\", ".");
+    	}
     }
 
     @Override

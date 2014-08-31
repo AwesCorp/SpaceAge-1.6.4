@@ -101,7 +101,10 @@ import net.minecraftforge.common.MinecraftForge;
 		"WarpDrive_Protocol_Right",
 		"WarpDrive_Protocol_Left",
 		"WarpDrive_Protocol_Up",
-		"WarpDrive_Protocol_Down"}, packetHandler = PacketHandler.class)
+		"WarpDrive_Protocol_Down",
+		"WarpDrive_Protocol_Direction",
+		"WarpDrive_Protocol_Mode",
+		"WarpDrive_ShipName"}, packetHandler = PacketHandler.class)
 /**
  * @author Cr0s, SkylordJoel
  */
