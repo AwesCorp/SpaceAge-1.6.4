@@ -31,6 +31,8 @@ public class PacketHandler implements IPacketHandler {
 	
 	TileEntityProtocol te;
 	
+	public World worldObj;
+	
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
         if (packet.channel.equals("WarpDriveBeam")) {
@@ -55,12 +57,43 @@ public class PacketHandler implements IPacketHandler {
         	handleProtocolUp(packet, (EntityPlayer)player);
         } else if (packet.channel.equals("WarpDrive_Protocol_Down")) {
         	handleProtocolDown(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDrive_Protocol_Mode")) {
+        	handleMode(packet, (EntityPlayer)player);
         /*} else if (packet.channel.equals("WarpDriveGUI")) {
         	handleGUI(packet, (EntityPlayer)player);*/
         }
     }
 
-    public void handleProtocolDistance(Packet250CustomPayload packet, EntityPlayer player) {
+    public void handleMode(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int mode;
+		
+		try {
+			mode = inputStream.readInt();
+			
+			switch(mode) {
+				case 0:
+					if(this.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) {
+						te.setMode(2);
+					} else {
+						te.setMode(1);
+					}
+				case 1:
+					te.setMode(5);
+				case 2:
+					te.setMode(6);
+				default:
+					te.setMode(1);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	public void handleProtocolDistance(Packet250CustomPayload packet, EntityPlayer player) {
 		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 		
 		int field;

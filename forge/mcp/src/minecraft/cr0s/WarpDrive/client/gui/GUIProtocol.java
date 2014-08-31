@@ -77,7 +77,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    //private GuiTextField beaconInput; UNUSED
 	    
 	    private char[] allowedChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
-	    private char[] modeChars = { '0'/*jump/long jump*/, '1'/*To hyperspace*/, '2'/*jumpgate*/, '3'/*jump to different dimensions*/ };
+	    private char[] modeChars = { '0'/*jump/long jump*/, '1'/*To hyperspace*/, '2'/*jumpgate*//*, '3'/*jump to different dimensions*/ };
 
 	    public GUIProtocol(InventoryPlayer par1InventoryPlayer, TileEntityProtocol tile_entity)
 	    {
@@ -347,6 +347,8 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	
 	    	this.distance.mouseClicked(x, y, buttonClicked);
 	    	
+	    	this.mode.mouseClicked(x, y, buttonClicked);
+	    	
 	    	//this.beaconInput.mouseClicked(x, y, buttonClicked); UNUSED
 	    }
 	    
@@ -369,6 +371,8 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	this.down.updateCursorCounter();
 	    	
 	    	this.distance.updateCursorCounter();
+	    	
+	    	this.mode.updateCursorCounter();
 	    	
 	    	//this.beaconInput.updateCursorCounter(); UNUSED
 	    }
@@ -402,6 +406,8 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	this.down.drawTextBox();
 	    	
 	    	this.distance.drawTextBox();
+	    	
+	    	this.mode.drawTextBox();
 	    }
 	}
 

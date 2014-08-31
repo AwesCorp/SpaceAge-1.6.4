@@ -93,7 +93,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         this.distance = distance;
     }
 
-    private void setMode(int mode)
+    public void setMode(int mode)
     {
         // System.out.println("Setting mode: " + mode);
         this.mode = mode;
