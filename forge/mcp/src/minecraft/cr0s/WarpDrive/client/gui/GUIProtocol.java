@@ -428,6 +428,10 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	
 	    	this.mode.mouseClicked(x, y, buttonClicked);
 	    	
+	    	this.direction.mouseClicked(x, y, buttonClicked);
+	    	
+	    	this.shipName.mouseClicked(x, y, buttonClicked);
+	    	
 	    	//this.beaconInput.mouseClicked(x, y, buttonClicked); UNUSED
 	    }
 	    
@@ -452,6 +456,10 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	this.distance.updateCursorCounter();
 	    	
 	    	this.mode.updateCursorCounter();
+	    	
+	    	this.direction.updateCursorCounter();
+	    	
+	    	this.shipName.updateCursorCounter();
 	    	
 	    	//this.beaconInput.updateCursorCounter(); UNUSED
 	    }
@@ -487,6 +495,10 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	this.distance.drawTextBox();
 	    	
 	    	this.mode.drawTextBox();
+	    	
+	    	this.direction.drawTextBox();
+	    	
+	    	this.shipName.drawTextBox();
 	    }
 	}
 

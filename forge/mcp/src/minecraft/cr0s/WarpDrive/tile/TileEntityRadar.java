@@ -115,25 +115,108 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	{
 		return methodsArray;
 	}
+	
+	public boolean scanRadius(int radius) {
+		if (radius <= 0 || radius > 10000) {
+			scanRadius = 0;
+			return false;
+		} if (radius != 0 && isEnergyEnoughForScanRadiusW(radius)) {
+			// Consume energy
+			//this.currentEnergyValue -= radius * radius;
+			this.energy.extractEnergy(radius * radius, true);
+			// Begin searching
+			scanRadius = radius;
+			cooldownTime = 0;
+			worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 2, 1 + 2);
+			
+			return true;
+		} else {
+			results = null;
+			System.out.println("Radius: " + radius + " | Enough energy: " + isEnergyEnoughForScanRadiusW(radius));
+			return false;
+		}
+		//return false;
+	}
+	
+	public int getResultCount() {
+		if(results != null) {
+			return results.size();
+		}
+		return 0;
+	}
+	
+	public String getResultFrequency(int index2) {
+		if (results != null) {
+			int index = index2;
+			if (index > -1 && index < results.size()) {
+				TileEntityReactor res = results.get(index);
+				if (res != null) {
+					int yAddition = (res.worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID) ? 256 : (res.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) ? 512 : 0;
+					//return res.coreFrequency, res.xCoord, res.yCoord + yAddition, res.zCoord;
+					return res.coreFrequency;//new Object[] { (String)res.coreFrequency, (Integer)res.xCoord, (Integer)res.yCoord + yAddition, (Integer)res.zCoord };
+				}
+			}
+		}
+		return "FAIL";//new Object[] { (String)"FAIL", 0, 0, 0 };
+	}
+	
+	public String getResultX(int index2) {
+		if (results != null) {
+			int index = index2;
+			if (index > -1 && index < results.size()) {
+				TileEntityReactor res = results.get(index);
+				if (res != null) {
+					int yAddition = (res.worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID) ? 256 : (res.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) ? 512 : 0;
+					//return res.coreFrequency, res.xCoord, res.yCoord + yAddition, res.zCoord;
+					return String.valueOf(res.xCoord);//new Object[] { (String)res.coreFrequency, (Integer)res.xCoord, (Integer)res.yCoord + yAddition, (Integer)res.zCoord };
+				}
+			}
+		}
+		return "0";//new Object[] { (String)"FAIL", 0, 0, 0 };
+	}
+	
+	public String getResultY(int index2) {
+		if (results != null) {
+			int index = index2;
+			if (index > -1 && index < results.size()) {
+				TileEntityReactor res = results.get(index);
+				if (res != null) {
+					int yAddition = (res.worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID) ? 256 : (res.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) ? 512 : 0;
+					//return res.coreFrequency, res.xCoord, res.yCoord + yAddition, res.zCoord;
+					return String.valueOf(res.xCoord + yAddition);//new Object[] { (String)res.coreFrequency, (Integer)res.xCoord, (Integer)res.yCoord + yAddition, (Integer)res.zCoord };
+				}
+			}
+		}
+		return "0";//new Object[] { (String)"FAIL", 0, 0, 0 };
+	}
+	
+	public String getResultZ(int index2) {
+		if (results != null) {
+			int index = index2;
+			if (index > -1 && index < results.size()) {
+				TileEntityReactor res = results.get(index);
+				if (res != null) {
+					int yAddition = (res.worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID) ? 256 : (res.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) ? 512 : 0;
+					//return res.coreFrequency, res.xCoord, res.yCoord + yAddition, res.zCoord;
+					return String.valueOf(res.zCoord);//new Object[] { (String)res.coreFrequency, (Integer)res.xCoord, (Integer)res.yCoord + yAddition, (Integer)res.zCoord };
+				}
+			}
+		}
+		return "0";//new Object[] { (String)"FAIL", 0, 0, 0 };
+	}
 
 	@Override
-	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
-	{
-		switch (method)
-		{
+	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception {
+		switch (method) {
 			case 0: // scanRay (toX, toY, toZ)
 				return new Object[] { -1 };
 			case 1: // scanRadius (radius)
-				if (arguments.length == 1)
-				{
+				if (arguments.length == 1) {
 					int radius = ((Double)arguments[0]).intValue();
-					if (radius <= 0 || radius > 10000)
-					{
+					if (radius <= 0 || radius > 10000) {
 						scanRadius = 0;
 						return new Boolean[] { false };
-					}
-					if (radius != 0 && isEnergyEnoughForScanRadiusW(radius))
-					{
+					} if (radius != 0 && isEnergyEnoughForScanRadiusW(radius)) {
 						// Consume energy
 						//this.currentEnergyValue -= radius * radius;
 						this.energy.extractEnergy(radius * radius, true);
@@ -141,9 +224,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 						scanRadius = radius;
 						cooldownTime = 0;
 						worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 2, 1 + 2);
-					}
-					else
-					{
+					} else {
 						results = null;
 						System.out.println("Radius: " + radius + " | Enough energy: " + isEnergyEnoughForScanRadiusW(radius));
 						return new Boolean[] { false };
@@ -158,8 +239,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 					return new Integer[] { results.size() };
 				return new Integer[] { 0 };
 			case 3: // getResult
-				if (arguments.length == 1 && (results != null))
-				{
+				if (arguments.length == 1 && (results != null)) {
 					int index = ((Double)arguments[0]).intValue();
 					if (index > -1 && index < results.size())
 					{

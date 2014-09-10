@@ -9,6 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import uedevkit.gui.GuiElectricBase;
+import uedevkit.util.MathHelper;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,7 +29,7 @@ import cr0s.WarpDrive.tile.TileEntityRadar;
 		 * getResultsCount
 		 * getResult
 		 * getEnergyLevel - done
-		 * pos*/
+		 * pos - done*/
 	   
 		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":" + "textures/gui/" + ClientProxy.guiRadar/*"textures/gui/container/furnace.png"*/);
 	    private TileEntityRadar furnaceInventory;
@@ -39,18 +40,12 @@ import cr0s.WarpDrive.tile.TileEntityRadar;
 	        this.furnaceInventory = tile_entity;
 	    }
 	    
-	    int mCoord0 = 3;
-	    int mCoord1 = 37;
-	    int qCoord0/* = */;
-	    int qCoord1/* = */;
-	    int eCoord0/* = */;
-	    int eCoord1/* = */;
-	    int lCoord0/* = */;
-	    int lCoord1/* = */;
-	    int omCoord0/* = */;
-	    int omCoord1/* = */;
-	    int olCoord0/* = */;
-	    int olCoord1/* = */;
+	    public int posXx;
+	    public int posXy;
+	    public int posYx;
+	    public int posYy;
+	    public int posZx;
+	    public int posZy;
 
 	    /**
 	     * Draw the foreground layer for the GuiContainer (everything in front of the items)
@@ -60,45 +55,19 @@ import cr0s.WarpDrive.tile.TileEntityRadar;
 	        this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
 	        this.fontRenderer.drawString(I18n.getString("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	        
-	        /*String mining = this.furnaceInventory.isMining ? "Mining" : "Not Mining"; //TODO
-	        this.fontRenderer.drawString(mining, mCoord0, mCoord1, 4210752);*/
+	        String posX = String.valueOf(this.furnaceInventory.xCoord);
+	        String posY = String.valueOf(this.furnaceInventory.yCoord);
+	        String posZ = String.valueOf(this.furnaceInventory.zCoord);
 	        
-	        /*String quarry = this.furnaceInventory.isQuarry ? "Quarrying" : "Not Quarrying"; //TODO
-	        this.fontRenderer.drawString(quarry, qCoord0, qCoord1, 4210752);*/
-	        
-	        /*int energyI = this.furnaceInventory.getBoosterEnergy();
-	        String energyS = energyI;
-	        this.fontRenderer.drawString(energy, eCoord0, eCoord1, 4210752);*/
-	        
-	        /*String layer = String.valueOf(this.furnaceInventory.currentLayer); //TODO
-	        this.fontRenderer.drawString(layer, lCoord0, lCoord1, 4210752);*/
-	        
-	        /*if(furnaceInventory.isMining) { //TODO
-				int valuablesInLayer, valuablesMined;
-				valuablesInLayer = furnaceInventory.valuablesInLayer.size();
-				valuablesMined = furnaceInventory.valuableIndex;
-	        
-	        String oresMined = String.valueOf(valuablesMined); //TODO
-	        this.fontRenderer.drawString(oresMined, omCoord0, omCoord1, 4210752);
-	        
-	        String oresInLayer = String.valueOf(valuablesInLayer); //TODO
-	        this.fontRenderer.drawString(oresInLayer, olCoord0, olCoord1, 4210752);
-	        
-	        }*/
+	        this.fontRenderer.drawString(posX, posXx, posXy, 4210752);
+	        this.fontRenderer.drawString(posY, posYx, posYy, 4210752);
+	        this.fontRenderer.drawString(posZ, posZx, posZy, 4210752);
 	        
 	        // Power level
 	        if (this.isPointInRegion(161, 3, 8, 80, mouseX, mouseY)) { //TODO CHECK IF WORKS!!!
 	            //String powerLevelLiteral = String.valueOf(this.ENTITY.getEnergy(ForgeDirection.UNKNOWN)) + "/" + String.valueOf(this.ENTITY.getEnergyCapacity(ForgeDirection.UNKNOWN));
 	            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Energy " + String.valueOf(this.furnaceInventory.getPowerRemainingScaled(100)) + " %");
 	        }
-	        
-	        //Text to add:
-	        //
-	        //
-	        //If it is mining
-	        //
-	        //All states, state (i/o), energy, current layer, amount of ores mined, amount of ores in layer
-	        //Offset???
 	    }
 
 	    /**
@@ -131,41 +100,156 @@ import cr0s.WarpDrive.tile.TileEntityRadar;
 	        this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);*/
 	    }
 	    
-	    @Override
-	    public void initGui() {
-	    	super.initGui();
-	    	buttonList.clear();
-	    	
-	    	int mineX = 100;//TODO TEMP 
-	    	int mineY = 14;//TODO TEMP  
-	    	int mL = 60; //TODO TEMP 
-	    	int mH = 20;//TODO TEMP 
-	    	
-	    	int quarryX = 100;//TODO TEMP 
-	    	int quarryY = 14;//TODO TEMP  
-	    	int qL = 60; //TODO TEMP 
-	    	int qH = 20;//TODO TEMP 
-	    	
-	    	/**/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + mineX/*Location in relation to left in pixels*/, guiTop + mineY/*Location in relation to top in pixels*/, mL/*Length in pixels*/, mH/*Height in pixels*/, "On/Off"/*Text on button*/));
-	    	/**/buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + quarryX/*Location in relation to left in pixels*/, guiTop + quarryY/*Location in relation to top in pixels*/, qL/*Length in pixels*/, qH/*Height in pixels*/, "Quarry Engage/Disengage"/*Text on button*/));
-	    	
-	    	//Buttons to add: 
-	    	//
-	    	//
-	    	//
-	    	//
-	    	//
-	    	//
-	    }
-	    
-	    @Override
-	    protected void actionPerformed(GuiButton button) {
-	    	switch(button.id) {
-	    		case 0:
-	    			//furnaceInventory.;
-	    		case 1:
-	    			//furnaceInventory.;
-	    	}
-	    }
+	    int w = 142;
+	    int h = 68;
+	    		 
+		/*public void colorScreen(int color) {
+			for (int a = 2; a > w-1; a++) {
+				for(int b = 1; b < h; b++) {
+					paintutils.drawPixel(a,b,color);
+				}
+			}
+		}*/
+		
+		int radius = 500;
+		int scale = 25;
+    	
+    	public int translateX(int oldX) {
+    		int x = furnaceInventory.xCoord - oldX;
+    		
+    		x = x / (radius / scale);
+    		
+    		x = x + (w / 2);
+    		
+    		x = MathHelper.floor(x);
+    		
+    		return x;
+    	}
+    	
+    	public int translateZ(int oldZ) {
+    		int x = furnaceInventory.yCoord - oldZ;
+    		
+    		x = x / (radius / scale);
+    		
+    		x = x + (w / 2);
+    		
+    		x = MathHelper.floor(x);
+    		
+    		return x;
+    	}
+	    		 
+		public void drawContact(int x, int y, int z, String name, int color) {
+			int newX = translateX(x);
+			int newZ = translateZ(z);
+			
+			int contactX = 176;
+			int contactZ = 80;
+			
+			this.drawTexturedModalRect(newX, newZ, contactX, contactZ, 1 + color, 1);
+			//paintutils.drawPixel(newX, newZ, color);
+			this.fontRenderer.drawString(name, newX - 3, newZ + 1, 4210752);
+			//textOut(newX - 3, newZ + 1, "[" + name + "]", colors.white, colors.black);
+		}
+	    		 
+		public int scanAndDraw() {
+			if (furnaceInventory.getCurrentEnergyValue() < radius*radius) {
+				int hh = MathHelper.floor(h / 2);
+				int hw = MathHelper.floor(w / 2);
+	    		   
+				paintutils.drawLine(hw - 5, hh - 1, hw + 5, hh - 1, 9843760);
+				paintutils.drawLine(hw - 5, hh, hw + 5, hh, 9843760);
+		    
+				textOut(hw - 4, hh, "LOW POWER", 14540253, 9843760);
+		    
+				paintutils.drawLine(hw - 5, hh + 1, hw + 5, hh + 1, 9843760);
+	    		   
+				return 0;
+			}
+			
+			furnaceInventory.scanRadius(radius);
+  		 
+  		  redraw();
+  		 
+  		  int numResults = furnaceInventory.getResultCount();
+  		 
+  		  if ((numResults < 1) || (numResults > -1)) {
+  		    for (int i = 0; i < numResults-1; i++) {
+  		      //freq, cx, cy, cz = radar.getResult(i);
+  		      String freq = furnaceInventory.getResultFrequency(i);
+  		      int cx = Integer.parseInt(furnaceInventory.getResultX(i));
+  		      int cy = Integer.parseInt(furnaceInventory.getResultY(i));
+  		      int cz = Integer.parseInt(furnaceInventory.getResultZ(i));
+  		     
+  		      drawContact(cx, cy, cz, freq, 0);
+  		  	}
+  		  }
+  		 
+  		  drawContact(radarX, radarY, radarZ, "RAD", 1);
+  		}
+		
+		public void drawLine(int startX, int startY, int endX, int endY, int nColour) {
+			
+			int startX2 = MathHelper.floor(startX);
+			int startY2 = MathHelper.floor(startY);
+			int endX2 = MathHelper.floor(endX);
+			int endY2 = MathHelper.floor(endY);
+			
+			if(startX2 == endX2 && startY2 == endY2) {
+				drawPixelInternal(startX2, startY2);
+				return;
+			}
+			
+			int minX = startX2 - endX2;
+			if(minX == startX2) {
+				int minY = startY2;
+				int maxY = endY2;
+				int maxX = endX2;
+			} else {
+				int minY = endY2;
+				int maxY = startY2;
+				int maxX = startX2;
+			}
+			
+			int xDiff = maxX - minX;
+			int yDiff = maxY - minY;
+			
+			if(xDiff > yDiff) {
+				int y = minY;
+				int dy = yDiff / xDiff;
+				
+				for(int x = minX; minX < maxX; minX++) {
+					drawPixelInternal(x, MathHelper.floor(y + 0.5));
+					int y2 = y + dy;
+				}
+			}
+			int x = minX;
+			int dx = xDiff / yDiff;
+			
+			if(maxY >= minY) {
+				for(int y = minX; y < maxY; y++) {
+					drawPixelInternal(MathHelper.floor(x + 0.5), y);
+					int x2 = x + dx;
+				}
+			}
+		}
+	    		  
+	    		 
+	    		public void redraw() {
+	    		   shell.run("clear");
+	    		   //colorScreen(3491355);
+	    		   
+	    		   paintutils.drawLine(1, 1, w, 1, 1644054);
+	    		   
+	    		   textOut(h, 1, "= W-Radar v0.1 =", 14540253, 1644054);
+	    		   
+	    		   textOut(w - 3, 1, "[X]", 14540253, 9843760);
+	    		   
+	    		   paintutils.drawLine(1, h, w, h, 1644054);
+	    		}
+	    		   
+	    		textOut(4, h, "Energy: " + furnaceInventory.getEnergyLevel() + " Eu | Scan radius: " + radius, colors.white, colors.black);
+	    		int radarY = furnaceInventory.yCoord;
+	    		int radarZ = furnaceInventory.zCoord;
+	    		scanAndDraw();
 	}
 
