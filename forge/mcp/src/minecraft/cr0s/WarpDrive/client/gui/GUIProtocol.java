@@ -84,8 +84,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    private char[] modeChars = { '0'/*jump/long jump*/, '1'/*To hyperspace*/, '2'/*jumpgate*//*, '3'/*jump to different dimensions*/ };
 	    private char[] directionChars = { '0'/*up*/, '1'/*down*/, '2'/*left*/, '3'/*right*/, '4'/*forward*/, '5'/*back*/ };
 
-	    public GUIProtocol(InventoryPlayer par1InventoryPlayer, TileEntityProtocol tile_entity)
-	    {
+	    public GUIProtocol(InventoryPlayer par1InventoryPlayer, TileEntityProtocol tile_entity) {
 	        super(new ContainerProtocol(par1InventoryPlayer, tile_entity));
 	        this.furnaceInventory = tile_entity;
 	    }

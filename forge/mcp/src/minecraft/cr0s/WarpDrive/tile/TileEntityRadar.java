@@ -381,10 +381,6 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 		
 		return x;
 	}
-	
-	public void drawTexturedModalRect(int x, int z, int u, int v, int length, int height) {
-		GUIRadar.access.drawTMR(x, z, u, v, length, height);
-	}
     		 
 	public void drawContact(int x, int y, int z, String name, int color) {
 		int newX = translateX(x);
@@ -395,12 +391,12 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 		
 		this.drawTexturedModalRect(newX, newZ, contactX, contactZ, 1 + color, 1);
 		//paintutils.drawPixel(newX, newZ, color);
-		this.fontRenderer.drawString(name, newX - 3, newZ + 1, 4210752);
+		write(name, newX - 3, newZ + 1, 4210752);
 		//textOut(newX - 3, newZ + 1, "[" + name + "]", colors.white, colors.black);
 	}
     		 
 	public int scanAndDraw() {
-		if (getCurrentEnergyValue() < radius*radius) {
+		if (getCurrentEnergyValue() < radius * radius) {
 			int hh = MathHelper.floor(h / 2);
 			int hw = MathHelper.floor(w / 2);
     		   
@@ -412,28 +408,30 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 			drawLine(hw - 5, hh + 1, hw + 5, hh + 1, 9843760);
     		   
 			return 0;
-		}
+		} else {
+			scanRadius(radius);
+			redraw();
+			
+			int numResults = getResultCount();
+			
+			if ((numResults < 1) || (numResults > -1)) {
+				for (int i = 0; i < numResults-1; i++) {
+					//freq, cx, cy, cz = radar.getResult(i);
+					String freq = getResultFrequency(i);
+					int cx = Integer.parseInt(getResultX(i));
+					int cy = Integer.parseInt(getResultY(i));
+					int cz = Integer.parseInt(getResultZ(i));
+					
+					drawContact(cx, cy, cz, freq, 0);
+					
+					}
+				}
+			}
 		
-		scanRadius(radius);
-		 
-		  redraw();
-		 
-		  int numResults = getResultCount();
-		 
-		  if ((numResults < 1) || (numResults > -1)) {
-		    for (int i = 0; i < numResults-1; i++) {
-		      //freq, cx, cy, cz = radar.getResult(i);
-		      String freq = getResultFrequency(i);
-		      int cx = Integer.parseInt(getResultX(i));
-		      int cy = Integer.parseInt(getResultY(i));
-		      int cz = Integer.parseInt(getResultZ(i));
-		     
-		      drawContact(cx, cy, cz, freq, 0);
-		  	}
-		  }
-		 
-		  drawContact(xCoord/* radarX*/, yCoord/*radarY*/, zCoord/*radarZ*/, "RAD", 1);
-		}
+		drawContact(xCoord/* radarX*/, yCoord/*radarY*/, zCoord/*radarZ*/, "RAD", 1);
+		
+		
+	}
 	
 	public void drawPixelRed(int x, int y) {
 		this.drawTexturedModalRect(x, y, 176, 80, 1, 1);
@@ -516,7 +514,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 		//textOut(h, 1, "= W-Radar v0.1 =", 14540253, 1644054);
     		   
 		//textOut(w - 3/*cursor x*/, 1/*cursor y*/, "[X]"/*text*/, 14540253/*text colour*/, 9843760);
-    	this.fontRenderer.drawString("[X]", /*TEST FOR DEBUG*/w-3, /*TEST FOR DEBUG*/1, 14540253);
+    	write("[X]", /*TEST FOR DEBUG*/w-3, /*TEST FOR DEBUG*/1, 14540253);
 		
 		drawLine(1, h, w, h, 1644054);
 	}
