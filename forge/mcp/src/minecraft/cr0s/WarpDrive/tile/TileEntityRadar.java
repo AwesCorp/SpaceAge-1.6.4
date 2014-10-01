@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.WarpDriveConfig;
+import cr0s.WarpDrive.client.gui.GUIRadar;
 import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
@@ -14,6 +15,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import uedevkit.tile.TileElectricBase;
+import uedevkit.util.MathHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -56,35 +58,32 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	}
 
 	@Override
-	public void updateEntity()
-	{
+	public void updateEntity() {
 		/*if (!addedToEnergyNet && !this.tileEntityInvalid)
 		{
 			MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
 			addedToEnergyNet = true;
 		}*/
 
-		if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-		{
+		if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
 			return;
 		}
 
-		try
-		{
-			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 2)
-			{
-				if (cooldownTime++ > (20 * ((scanRadius / 1000) + 1)))
-				{
+		try {
+			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 2) {
+				if (cooldownTime++ > (20 * ((scanRadius / 1000) + 1))) {
 					//System.out.println("Scanning...");
 					WarpDrive.instance.registry.removeDeadCores();
 					results = WarpDrive.instance.registry.searchWarpCoresInRadius(xCoord, yCoord, zCoord, scanRadius);
 					worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 1 + 2);
 					cooldownTime = 0;
+					
+					
+					 
+					scanAndDraw();
 				}
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -344,4 +343,183 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	{
 		super.invalidate();
 	}*/
+	
+    int w = 142;
+    int h = 68;
+    		 
+	/*public void colorScreen(int color) {
+		for (int a = 2; a > w-1; a++) {
+			for(int b = 1; b < h; b++) {
+				paintutils.drawPixel(a,b,color);
+			}
+		}
+	}*/
+	
+	int radius = 500;
+	int scale = 25;
+	
+	public int translateX(int oldX) {
+		int x = xCoord - oldX;
+		
+		x = x / (radius / scale);
+		
+		x = x + (w / 2);
+		
+		x = MathHelper.floor(x);
+		
+		return x;
+	}
+	
+	public int translateZ(int oldZ) {
+		int x = yCoord - oldZ;
+		
+		x = x / (radius / scale);
+		
+		x = x + (w / 2);
+		
+		x = MathHelper.floor(x);
+		
+		return x;
+	}
+	
+	public void drawTexturedModalRect(int x, int z, int u, int v, int length, int height) {
+		GUIRadar.access.drawTMR(x, z, u, v, length, height);
+	}
+    		 
+	public void drawContact(int x, int y, int z, String name, int color) {
+		int newX = translateX(x);
+		int newZ = translateZ(z);
+		
+		int contactX = 176;
+		int contactZ = 80;
+		
+		this.drawTexturedModalRect(newX, newZ, contactX, contactZ, 1 + color, 1);
+		//paintutils.drawPixel(newX, newZ, color);
+		this.fontRenderer.drawString(name, newX - 3, newZ + 1, 4210752);
+		//textOut(newX - 3, newZ + 1, "[" + name + "]", colors.white, colors.black);
+	}
+    		 
+	public int scanAndDraw() {
+		if (getCurrentEnergyValue() < radius*radius) {
+			int hh = MathHelper.floor(h / 2);
+			int hw = MathHelper.floor(w / 2);
+    		   
+			drawLine(hw - 5, hh - 1, hw + 5, hh - 1, 9843760);
+			drawLine(hw - 5, hh, hw + 5, hh, 9843760);
+	    
+			this.fontRenderer.drawString("Insufficient Energy", hw-4/*TEST - DEBUG*/, hh/*TEST - DEBUG*/, 14540253);//(hw - 4, hh, "LOW POWER", 14540253, 9843760);
+	    
+			drawLine(hw - 5, hh + 1, hw + 5, hh + 1, 9843760);
+    		   
+			return 0;
+		}
+		
+		scanRadius(radius);
+		 
+		  redraw();
+		 
+		  int numResults = getResultCount();
+		 
+		  if ((numResults < 1) || (numResults > -1)) {
+		    for (int i = 0; i < numResults-1; i++) {
+		      //freq, cx, cy, cz = radar.getResult(i);
+		      String freq = getResultFrequency(i);
+		      int cx = Integer.parseInt(getResultX(i));
+		      int cy = Integer.parseInt(getResultY(i));
+		      int cz = Integer.parseInt(getResultZ(i));
+		     
+		      drawContact(cx, cy, cz, freq, 0);
+		  	}
+		  }
+		 
+		  drawContact(xCoord/* radarX*/, yCoord/*radarY*/, zCoord/*radarZ*/, "RAD", 1);
+		}
+	
+	public void drawPixelRed(int x, int y) {
+		this.drawTexturedModalRect(x, y, 176, 80, 1, 1);
+	}
+	
+	public void drawPixelYellow(int x, int y) {
+		this.drawTexturedModalRect(x, y, 177, 80, 1, 1);
+	}
+	
+	public void drawPixelForeground(int x, int y) {
+		this.drawTexturedModalRect(x, y, 2, 1, 1, 1);
+	}
+	
+	public void drawLine(int startX, int startY, int endX, int endY, int nColour) {
+		//later additions
+		int minY;
+		int maxX;
+		int maxY;
+		
+		int startX2 = MathHelper.floor(startX);
+		int startY2 = MathHelper.floor(startY);
+		int endX2 = MathHelper.floor(endX);
+		int endY2 = MathHelper.floor(endY);
+		
+		if(startX2 == endX2 && startY2 == endY2) {
+			drawPixelForeground(startX2, startY2);
+			return;
+		}
+		
+		int minX = startX2 - endX2;
+		
+		if(minX == startX2) {
+			minY = startY2;
+			maxY = endY2;
+			maxX = endX2;
+		} else {
+			minY = endY2;
+			maxY = startY2;
+			maxX = startX2;
+		}
+		
+		int xDiff = maxX - minX;
+		int yDiff = maxY - minY;
+		
+		if(xDiff > yDiff) {
+			int y = minY;
+			int dy = yDiff / xDiff;
+			
+			for(int x = minX; x < maxX; x++) {
+				drawPixelForeground(x, MathHelper.floor(y + 0.5));
+				
+				int y2 = y + dy;
+			}
+		}
+		int x = minX;
+		int dx = xDiff / yDiff;
+		
+		if(maxY >= minY) {
+			for(int y = minX; y < maxY; y++) {
+				drawPixelForeground(MathHelper.floor(x + 0.5), y);
+				
+				int x2 = x + dx;
+			} 
+			
+			for(int y = minY; y > maxY; y--) {
+				drawPixelForeground(MathHelper.floor(x + 0.5), y);
+				
+				int x2 = x + dx;	
+			}
+		}
+	}
+    		  
+    		 
+	public void redraw() {
+		//shell.run("clear");
+    		   //colorScreen(3491355);
+    		   
+		drawLine(1, 1, w, 1, 1644054);
+    		   
+		//textOut(h, 1, "= W-Radar v0.1 =", 14540253, 1644054);
+    		   
+		//textOut(w - 3/*cursor x*/, 1/*cursor y*/, "[X]"/*text*/, 14540253/*text colour*/, 9843760);
+    	this.fontRenderer.drawString("[X]", /*TEST FOR DEBUG*/w-3, /*TEST FOR DEBUG*/1, 14540253);
+		
+		drawLine(1, h, w, h, 1644054);
+	}
+    		   
+    		//textOut(4, h, "Energy: " + furnaceInventory.getEnergyLevel() + " Eu | Scan radius: " + radius, colors.white, colors.black);
 }
