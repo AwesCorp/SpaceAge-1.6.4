@@ -261,20 +261,17 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	}
 
 	@Override
-	public boolean canAttachToSide(int side)
-	{
+	public boolean canAttachToSide(int side) {
 		return true;
 	}
 
 	@Override
-	public void attach(IComputerAccess computer)
-	{
+	public void attach(IComputerAccess computer) {
 		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 1 + 2);
 	}
 
 	@Override
-	public void detach(IComputerAccess computer)
-	{
+	public void detach(IComputerAccess computer) {
 		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 1 + 2);
 	}
 
@@ -403,7 +400,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 			drawLine(hw - 5, hh - 1, hw + 5, hh - 1, 9843760);
 			drawLine(hw - 5, hh, hw + 5, hh, 9843760);
 	    
-			this.fontRenderer.drawString("Insufficient Energy", hw-4/*TEST - DEBUG*/, hh/*TEST - DEBUG*/, 14540253);//(hw - 4, hh, "LOW POWER", 14540253, 9843760);
+			write("Insufficient Energy", hw-4/*TEST - DEBUG*/, hh/*TEST - DEBUG*/, 14540253);//(hw - 4, hh, "LOW POWER", 14540253, 9843760);
 	    
 			drawLine(hw - 5, hh + 1, hw + 5, hh + 1, 9843760);
     		   
