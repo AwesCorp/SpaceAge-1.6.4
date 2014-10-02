@@ -38,8 +38,8 @@ public class RenderBinaryFemale extends RenderLiving {
 	
 protected ModelBinaryFemaleTest modelFemale;
 protected float field_77070_b;
-protected ModelBinaryFemaleTest modelArmourChestplate;
-protected ModelBinaryFemaleTest modelArmour;
+//protected ModelBinaryFemaleTest modelArmourChestplate;
+//protected ModelBinaryFemaleTest modelArmour;
 private static final Map field_110859_k = Maps.newHashMap();
 
 public Random random;
@@ -51,7 +51,7 @@ private static final ResourceLocation texture3 = new ResourceLocation(SpaceAgeCo
 //private static final ResourceLocation organicArmour = new ResourceLocation(SpaceAgeCore.modid, "textures/armour/binary_armour_female_1.png");
 
 /** List of binary armour texture filenames. */
-public static String[] bipedArmorFilenamePrefix = new String[] {"binary"}; //TODO binary armour
+//public static String[] bipedArmorFilenamePrefix = new String[] {"binary"}; //TODO binary armour
 
 public RenderBinaryFemale(ModelBinaryFemaleTest par1ModelBinaryFemaleTest, float par2) {
 	this(par1ModelBinaryFemaleTest, par2, 1.0F);
@@ -61,13 +61,13 @@ public RenderBinaryFemale(ModelBinaryFemaleTest par1ModelBinaryFemaleTest, float
 	super(par1ModelBinaryFemaleTest, par2);
 	this.modelFemale = par1ModelBinaryFemaleTest;
 	this.field_77070_b = par3;
-	this.armourSizer();
+	//this.armourSizer();
 }
 
-protected void armourSizer() {
+/*protected void armourSizer() {
 	this.modelArmourChestplate = new ModelBinaryFemaleTest(1.0F);
 	this.modelArmour = new ModelBinaryFemaleTest(0.5F);
-}
+}*/
 
 /*protected int renderArmouredMob(EntityBinaryFemale par1Entity, int par2, float par3) {
     if (par2 == 0 && par1Entity.getArmoured()) {
@@ -105,7 +105,7 @@ return resourcelocation;
 * @param type Subtype, can be null or "overlay"
 * @return ResourceLocation pointing at the armor's texture
 */
-public static ResourceLocation getArmorResource(Entity entity, ItemStack stack, int slot, String type) {
+/*public static ResourceLocation getArmorResource(Entity entity, ItemStack stack, int slot, String type) {
 	ItemArmor item = (ItemArmor)stack.getItem();
 	String s1 = String.format(SpaceAgeCore.modid + ":" + "binary_armour_female_%d%s.png",
 			(slot == 2 ? 2 : 1));
@@ -121,9 +121,9 @@ public static ResourceLocation getArmorResource(Entity entity, ItemStack stack, 
 		}
 
 	return resourcelocation;
-	}
+	}*/
 
-protected int setArmourModel(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
+/*protected int setArmourModel(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
 	ItemStack itemstack = par1EntityLiving.func_130225_q(3 - par2);
 
 	if (itemstack != null) {
@@ -173,9 +173,9 @@ protected int setArmourModel(EntityBinaryFemale par1EntityLiving, int par2, floa
 	}
 
 	return -1;//TODO
-}
+}*/
 
-protected void func_130013_c(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
+/*protected void func_130013_c(EntityBinaryFemale par1EntityLiving, int par2, float par3) {
 	ItemStack itemstack = par1EntityLiving.func_130225_q(3 - par2);
 
 	if (itemstack != null) {
@@ -187,7 +187,7 @@ protected void func_130013_c(EntityBinaryFemale par1EntityLiving, int par2, floa
 			GL11.glColor3f(f1, f1, f1);
 		}//TODO
 	}
-}
+}*/
 
 public void doRenderLiving(EntityBinaryFemale par1EntityLiving, double par2, double par4, double par6, float par8, float par9) {
 	float f2 = 1.0F;
@@ -201,9 +201,9 @@ public void doRenderLiving(EntityBinaryFemale par1EntityLiving, double par2, dou
 	}
 
 	super.doRenderLiving(par1EntityLiving, par2, d3, par6, par8, par9);
-	this.modelArmourChestplate.aimedBow = this.modelArmour.aimedBow = this.modelFemale.aimedBow = false;
-	this.modelArmourChestplate.isSneak = this.modelArmour.isSneak = this.modelFemale.isSneak = false;
-	this.modelArmourChestplate.heldItemRight = this.modelArmour.heldItemRight = this.modelFemale.heldItemRight = 0;
+	this.modelFemale.aimedBow = false;
+	this.modelFemale.isSneak = false;
+	this.modelFemale.heldItemRight = 0;
 	}
 
 protected ResourceLocation func_110856_a(EntityBinaryFemale par1EntityBinary) {
@@ -211,8 +211,8 @@ protected ResourceLocation func_110856_a(EntityBinaryFemale par1EntityBinary) {
 }
 
 protected void renderOtherCrap(EntityBinaryFemale par1EntityLiving, ItemStack par2ItemStack) {
-	this.modelArmourChestplate.heldItemRight = this.modelArmour.heldItemRight = this.modelFemale.heldItemRight = par2ItemStack != null ? 1 : 0;
-	this.modelArmourChestplate.isSneak = this.modelArmour.isSneak = this.modelFemale.isSneak = par1EntityLiving.isSneaking();
+	this.modelFemale.heldItemRight = par2ItemStack != null ? 1 : 0;
+	this.modelFemale.isSneak = par1EntityLiving.isSneaking();
 }
 
 protected void renderSpecials(EntityBinaryFemale par1EntityLiving, float par2) {
@@ -332,7 +332,7 @@ protected void translateCrap() {
 * Queries whether should render the specified pass or not.
 */
 protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3) {
-	return this.setArmourModel((EntityBinaryFemale)par1EntityLivingBase, par2, par3);
+	return -1;
 }
 
 protected void renderEquippedItems(EntityLivingBase par1EntityLivingBase, float par2) {
