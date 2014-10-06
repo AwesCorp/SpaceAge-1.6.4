@@ -139,6 +139,7 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    	
 	    	/*Start/stop mining*/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + mineX/*Location in relation to left in pixels*/, guiTop + mineY/*Location in relation to top in pixels*/, mL/*Length in pixels*/, mH/*Height in pixels*/, "On/Off"/*Text on button*/));
 	    	/*Start/stop quarrying*/buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + quarryX/*Location in relation to left in pixels*/, guiTop + quarryY/*Location in relation to top in pixels*/, qL/*Length in pixels*/, qH/*Height in pixels*/, "Quarry Engage/Disengage"/*Text on button*/));
+	    	buttonList.add(new GuiButton(2, guiLeft + 100, guiTop + 14, 60, 20, "Wiki"));
 	    	
 	    	//Buttons to add: 
 	    	//Start mining
@@ -156,6 +157,8 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    			furnaceInventory.mine();
 	    		case 1:
 	    			furnaceInventory.quarry();
+	    		case 2:
+	    			openURL("https://sites.google.com/site/spaceageminecraft/wiki/blocks/mining-laser");
 	    	}
 	    }
 	}

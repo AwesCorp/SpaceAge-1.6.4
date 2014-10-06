@@ -101,4 +101,20 @@ import cr0s.WarpDrive.tile.TileEntityRadar;
 	        /*i1 = this.furnaceInventory.getCookProgressScaled(24);
 	        this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);*/
 	    }
+	    
+	    @Override
+	    public void initGui() {
+	    	super.initGui();
+	    	buttonList.clear();
+	    	
+	    	buttonList.add(new GuiButton(0, guiLeft + 100, guiTop + 14, 60, 20, "Wiki"));
+	    }
+	    
+	    @Override
+	    public void actionPerformed(GuiButton button) {
+	    	switch(button.id) {
+	    		case 0: 
+	    			openURL("https://sites.google.com/site/spaceageminecraft/wiki/blocks/warp-radar");
+	    	}
+	    }
 	}

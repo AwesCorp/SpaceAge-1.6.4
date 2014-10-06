@@ -15,21 +15,24 @@ public class ClientProxy extends CommonProxy {
 	public static String guiCloakingDeviceCore;
 	public static String guiMiningLaser;
 	public static String guiReactor;
+	public static String guiAirGen;
 	
     @Override
     public void registerRenderers() {
     	if(WarpDriveConfig.i.GUI_NORMAL_STYLE == false) {
     		warpInterfaceGui = "guiWarpInterface_alternate.png";
     		guiRadar = "guiRadar_alternate.png";
-    		guiReactor = "guiReactor_alternate.png";
+    		guiReactor = "guiCore_alternate.png";
     		guiCloakingDeviceCore = "guiCloakingDevice_alternate.png";
     		guiMiningLaser = "guiMiningLaser_alternate.png";
+    		guiAirGen = "guiAirGen_alternate.png";
     	} else {
     		warpInterfaceGui = "guiWarpInterface.png";
     		guiRadar = "guiRadar.png";
     		guiReactor = "guiReactor.png";
     		guiCloakingDeviceCore = "guiCloakingDevice.png";
     		guiMiningLaser = "guiMiningLaser.png";
+    		guiAirGen = "guiAirGen.png";
     	}
     }
 

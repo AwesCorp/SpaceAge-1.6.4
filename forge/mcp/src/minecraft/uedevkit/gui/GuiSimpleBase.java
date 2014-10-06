@@ -1,5 +1,10 @@
 package uedevkit.gui;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -106,5 +111,22 @@ public abstract class GuiSimpleBase extends GuiContainer {
 	if (this.isPointInRegion(161, 3, 8, 80, mouseX, mouseY)) {
 		this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Energy " + String.valueOf(this.YOUR_TILE.getPowerRemainingScaled(100)) + " %");
 	        } */
+	
+	public static String openURL(String url) {
+		if(Desktop.isDesktopSupported()) {
+			try {
+				Desktop.getDesktop().browse(new URI(url));
+			} catch(IOException e) {
+				e.printStackTrace();
+				return "Unable to open browser from IOException";
+			} catch(URISyntaxException e) {
+				e.printStackTrace();
+				return "Invalid URL: Mod-related bug";
+			}
+		} else {
+			return "Can't open browser for unknown reason";
+		}
+		return null;
+	}
 
 }

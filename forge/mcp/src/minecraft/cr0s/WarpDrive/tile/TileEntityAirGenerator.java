@@ -39,77 +39,63 @@ public class TileEntityAirGenerator extends TileElectricBase { //TODO receive en
     @Override
     public void updateEntity() {
 
-        /*if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-        {
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
             return;
         }
 
-        if (!addedToEnergyNet && !this.tileEntityInvalid)
+        /*if (!addedToEnergyNet && !this.tileEntityInvalid)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
             addedToEnergyNet = true;
         }*/ //IC2 Stuff
 
         // Air generator works only in spaces
-        if (worldObj.provider.dimensionId != WarpDrive.instance.spaceDimID && worldObj.provider.dimensionId != WarpDrive.instance.hyperSpaceDimID)
-        {
+        if (worldObj.provider.dimensionId != WarpDrive.instance.spaceDimID && worldObj.provider.dimensionId != WarpDrive.instance.hyperSpaceDimID) {
             return;
         }
 
-        if (currentEnergyValue > JOULES_PER_AIRBLOCK)
-        {
-            if (cooldownTicks++ > AIR_POLLUTION_INTERVAL * 20)
-            {
+        if (currentEnergyValue > JOULES_PER_AIRBLOCK) {
+            if (cooldownTicks++ > AIR_POLLUTION_INTERVAL * 20) {
                 cooldownTicks = 0;
                 worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 1, 2); // set enabled texture
                 releaseAir();
             }
-        }
-        else
-        {
-            if (cooldownTicks++ > 20)
-            {
+        } else {
+            if (cooldownTicks++ > 20) {
                 worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2); // set disabled texture
                 cooldownTicks = 0;
             }
         }
     }
 
-    private void releaseAir()
-    {
-        if (worldObj.isAirBlock(xCoord + 1, yCoord, zCoord) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0))
-        {
+    private void releaseAir() {
+        if (worldObj.isAirBlock(xCoord + 1, yCoord, zCoord) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0)) {
             worldObj.setBlock(xCoord + 1, yCoord, zCoord, WarpDriveConfig.i.airID, START_CONCENTRATION_VALUE, 2);
             //this.energy.extractEnergy(JOULES_PER_AIRBLOCK, true);
             this.energy.extractEnergy(JOULES_PER_AIRBLOCK, true);
         }
 
-        if (worldObj.isAirBlock(xCoord - 1, yCoord, zCoord) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0))
-        {
+        if (worldObj.isAirBlock(xCoord - 1, yCoord, zCoord) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0)) {
             worldObj.setBlock(xCoord - 1, yCoord, zCoord, WarpDriveConfig.i.airID, START_CONCENTRATION_VALUE, 2);
             this.energy.extractEnergy(JOULES_PER_AIRBLOCK, true);
         }
 
-        if (worldObj.isAirBlock(xCoord, yCoord + 1, zCoord) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0))
-        {
+        if (worldObj.isAirBlock(xCoord, yCoord + 1, zCoord) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0)) {
             worldObj.setBlock(xCoord, yCoord + 1, zCoord, WarpDriveConfig.i.airID, START_CONCENTRATION_VALUE, 2);
             this.energy.extractEnergy(JOULES_PER_AIRBLOCK, true);
         }
 
-        if (worldObj.isAirBlock(xCoord, yCoord - 1, zCoord) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0))
-        {
+        if (worldObj.isAirBlock(xCoord, yCoord - 1, zCoord) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0)) {
             worldObj.setBlock(xCoord, yCoord - 1, zCoord, WarpDriveConfig.i.airID, START_CONCENTRATION_VALUE, 2);
             this.energy.extractEnergy(JOULES_PER_AIRBLOCK, true);
         }
 
-        if (worldObj.isAirBlock(xCoord, yCoord, zCoord + 1) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0))
-        {
+        if (worldObj.isAirBlock(xCoord, yCoord, zCoord + 1) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0)) {
             worldObj.setBlock(xCoord, yCoord, zCoord + 1, WarpDriveConfig.i.airID, START_CONCENTRATION_VALUE, 2);
             this.energy.extractEnergy(JOULES_PER_AIRBLOCK, true);
         }
 
-        if (worldObj.isAirBlock(xCoord, yCoord, zCoord - 1) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0))
-        {
+        if (worldObj.isAirBlock(xCoord, yCoord, zCoord - 1) && (currentEnergyValue - JOULES_PER_AIRBLOCK >= 0)) {
             worldObj.setBlock(xCoord, yCoord, zCoord - 1, WarpDriveConfig.i.airID, START_CONCENTRATION_VALUE, 2);
             this.energy.extractEnergy(JOULES_PER_AIRBLOCK, true);
         }
@@ -164,8 +150,7 @@ public class TileEntityAirGenerator extends TileElectricBase { //TODO receive en
     /**
      * @return the currentEnergyValue
      */
-    public int getCurrentEnergyValue()
-    {
+    public int getCurrentEnergyValue() {
         return currentEnergyValue;
     }
 

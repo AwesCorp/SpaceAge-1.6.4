@@ -31,9 +31,9 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 		super(capacity, maxReceive, 0);
 	}
 	
-	public boolean isDrawingRed = false;
-	public boolean isDrawingYellow = false;
-	public boolean isDrawingForeground = false;
+	//public boolean isDrawingRed = false;
+	//public boolean isDrawingYellow = false;
+	//public boolean isDrawingForeground = false;
 	//public boolean addedToEnergyNet = false;
 	static int capacity = WarpDriveConfig.i.WR_MAX_ENERGY_VALUE * 250;
 	static int maxReceive = capacity / 5;
@@ -434,18 +434,18 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	}
 	
 	public void drawPixelRed(int x, int y) {
-		//this.drawTexturedModalRect(x, y, 176, 80, 1, 1);
-		this.isDrawingRed = true;
+		this.drawTexturedModalRect(x, y, 176, 80, 1, 1);
+		//this.isDrawingRed = true;
 	}
 	
 	public void drawPixelYellow(int x, int y) {
-		//this.drawTexturedModalRect(x, y, 177, 80, 1, 1);
-		this.isDrawingYellow = true;
+		this.drawTexturedModalRect(x, y, 177, 80, 1, 1);
+		//this.isDrawingYellow = true;
 	}
 	
 	public void drawPixelForeground(int x, int y) {
-		//this.drawTexturedModalRect(x, y, 2, 1, 1, 1);
-		this.isDrawingForeground = true;
+		this.drawTexturedModalRect(x, y, 2, 1, 1, 1);
+		//this.isDrawingForeground = true;
 	}
 	
 	public void drawLine(int startX, int startY, int endX, int endY, int nColour) {

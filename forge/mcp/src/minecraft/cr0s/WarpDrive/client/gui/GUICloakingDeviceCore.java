@@ -116,13 +116,8 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    	int cL = 60; //TODO TEMP 
 	    	int cH = 20;//TODO TEMP 
 	    	
-	    	int quarryX = 100;//TODO TEMP 
-	    	int quarryY = 14;//TODO TEMP  
-	    	int qL = 60; //TODO TEMP 
-	    	int qH = 20;//TODO TEMP 
-	    	
 	    	/*Turn on/off*/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + cloakX/*Location in relation to left in pixels*/, guiTop + cloakY/*Location in relation to top in pixels*/, cL/*Length in pixels*/, cH/*Height in pixels*/, "On/Off"/*Text on button*/));
-	    	//TODO buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + quarryX/*Location in relation to left in pixels*/, guiTop + quarryY/*Location in relation to top in pixels*/, qL/*Length in pixels*/, qH/*Height in pixels*/, "Quarry Engage/Disengage"/*Text on button*/));
+	    	buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Wiki"/*Text on button*/));
 	    	
 	    	//Buttons to add: 
 	    	//On/Off
@@ -138,6 +133,8 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    	switch(button.id) {
 	    		case 0:
 	    			furnaceInventory.cloak();
+	    		case 1:
+	    			openURL("https://sites.google.com/site/spaceageminecraft/wiki/blocks/cloaking-device-core");
 	    		/*case 1:
 	    			furnaceInventory.quarry();*/ //TODO
 	    	}

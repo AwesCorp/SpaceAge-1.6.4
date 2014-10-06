@@ -269,6 +269,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	
 	    	/**/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Jump"/*Text on button*/));
 	    	/**/buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Summon All"/*Text on button*/));
+	    	buttonList.add(new GuiButton(2, guiLeft + 100, guiTop + 14, 60, 20, "Wiki"));
 	    }
 	    
 	    public void applyBasicAttributes(GuiTextField field) {
@@ -472,6 +473,8 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    		case 1:
 	    			furnaceInventory.setSummonAllFlag(true);
 	    			//System.out.println("Clicked!");//ACTION PERFORMED ON BUTTON CLICK
+	    		case 2:
+	    			openURL("https://sites.google.com/site/spaceageminecraft/wiki/blocks/warp-interface");
 	    	}
 	    }
 	    

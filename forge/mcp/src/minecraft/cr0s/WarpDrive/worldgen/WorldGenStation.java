@@ -12,12 +12,10 @@ import net.minecraft.world.World;
  *
  * @author user
  */
-public class WorldGenStation
-{
+public class WorldGenStation {
     public WorldGenStation() { }
 
-    public boolean generate(World world, Random rand, int i, int j, int k)
-    {
+    public boolean generate(World world, Random rand, int i, int j, int k) {
         world.setBlock(i + 1, j + 0, k + 3, Block.stone.blockID);
         world.setBlock(i + 1, j + 0, k + 12, Block.stone.blockID);
         world.setBlock(i + 1, j + 1, k + 3, Block.stone.blockID);
