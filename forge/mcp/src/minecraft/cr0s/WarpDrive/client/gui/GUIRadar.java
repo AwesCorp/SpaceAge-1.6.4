@@ -89,7 +89,6 @@ import cr0s.WarpDrive.tile.TileEntityRadar;
 	        // Filler Coords: 176x56 (176x0 if cursor is on)
 	        // Image Size WH: 18x32 (8x80)
 	        this.drawTexturedModalRect(k/*screenX*/ + 161, l/*screenY*/ + 3, 176, 0, 8, 80 - powerRemainingPercentage);
-
 	        
 	        //FLAME - DON'T NEED
 	        /*if (this.furnaceInventory.isBurning())
@@ -102,10 +101,4 @@ import cr0s.WarpDrive.tile.TileEntityRadar;
 	        /*i1 = this.furnaceInventory.getCookProgressScaled(24);
 	        this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);*/
 	    }
-
-		public void drawTMR(int x, int z, int u, int v, int length, int height) {
-			this.drawTexturedModalRect(x, z, u, v, length, height); 
-		} 
-		
-		
 	}

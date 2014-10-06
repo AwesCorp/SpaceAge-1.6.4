@@ -30,6 +30,10 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	public TileEntityRadar() {
 		super(capacity, maxReceive, 0);
 	}
+	
+	public boolean isDrawingRed = false;
+	public boolean isDrawingYellow = false;
+	public boolean isDrawingForeground = false;
 	//public boolean addedToEnergyNet = false;
 	static int capacity = WarpDriveConfig.i.WR_MAX_ENERGY_VALUE * 250;
 	static int maxReceive = capacity / 5;
@@ -51,8 +55,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	private int scanRadius = 0;
 	private int cooldownTime = 0;
 
-	private boolean isEnergyEnoughForScanRadiusW(int radius)
-	{
+	private boolean isEnergyEnoughForScanRadiusW(int radius) {
 		int needEnergy = (radius * radius);
 		return ((getCurrentEnergyValue() - needEnergy) > 0);
 	}
@@ -341,17 +344,17 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 		super.invalidate();
 	}*/
 	
+	/*public void colorScreen(int color) {
+	for (int a = 2; a > w-1; a++) {
+		for(int b = 1; b < h; b++) {
+			paintutils.drawPixel(a,b,color);
+		}
+	}
+}*/
+	
     int w = 142;
     int h = 68;
-    		 
-	/*public void colorScreen(int color) {
-		for (int a = 2; a > w-1; a++) {
-			for(int b = 1; b < h; b++) {
-				paintutils.drawPixel(a,b,color);
-			}
-		}
-	}*/
-	
+    		 	
 	int radius = 500;
 	int scale = 25;
 	
@@ -431,15 +434,18 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	}
 	
 	public void drawPixelRed(int x, int y) {
-		this.drawTexturedModalRect(x, y, 176, 80, 1, 1);
+		//this.drawTexturedModalRect(x, y, 176, 80, 1, 1);
+		this.isDrawingRed = true;
 	}
 	
 	public void drawPixelYellow(int x, int y) {
-		this.drawTexturedModalRect(x, y, 177, 80, 1, 1);
+		//this.drawTexturedModalRect(x, y, 177, 80, 1, 1);
+		this.isDrawingYellow = true;
 	}
 	
 	public void drawPixelForeground(int x, int y) {
-		this.drawTexturedModalRect(x, y, 2, 1, 1, 1);
+		//this.drawTexturedModalRect(x, y, 2, 1, 1, 1);
+		this.isDrawingForeground = true;
 	}
 	
 	public void drawLine(int startX, int startY, int endX, int endY, int nColour) {
@@ -514,7 +520,6 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
     	write("[X]", /*TEST FOR DEBUG*/w-3, /*TEST FOR DEBUG*/1, 14540253);
 		
 		drawLine(1, h, w, h, 1644054);
-	}
-    		   
+	}  		   
     		//textOut(4, h, "Energy: " + furnaceInventory.getEnergyLevel() + " Eu | Scan radius: " + radius, colors.white, colors.black);
 }
