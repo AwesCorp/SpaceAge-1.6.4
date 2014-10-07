@@ -352,7 +352,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	}
 }*/
 	
-    int w = 142;
+    int w = 124;
     int h = 68;
     		 	
 	int radius = 500;
@@ -375,7 +375,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 		
 		x = x / (radius / scale);
 		
-		x = x + (w / 2);
+		x = x + (h / 2);
 		
 		x = MathHelper.floor(x);
 		

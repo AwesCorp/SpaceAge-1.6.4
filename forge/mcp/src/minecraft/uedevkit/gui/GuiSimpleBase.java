@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL12;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.inventory.Container;
 
 /** As an added bonus with UEDevKit, you receive this Gui base. It allows tooltips and a simpler version of drawing strings.
@@ -129,4 +130,10 @@ public abstract class GuiSimpleBase extends GuiContainer {
 		return null;
 	}
 
+	public void addQuad() {
+		Tessellator t = Tessellator.instance;
+		t.startDrawingQuads();
+		
+		
+	}
 }

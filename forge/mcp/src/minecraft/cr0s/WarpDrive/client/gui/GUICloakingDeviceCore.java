@@ -45,14 +45,6 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    int tCoord1 = 37;
 	    int aCoord0 = 3;
 	    int aCoord1 = 37;
-	    int eCoord0/* = */;
-	    int eCoord1/* = */;
-	    int lCoord0/* = */;
-	    int lCoord1/* = */;
-	    int omCoord0/* = */;
-	    int omCoord1/* = */;
-	    int olCoord0/* = */;
-	    int olCoord1/* = */;
 
 	    /**
 	     * Draw the foreground layer for the GuiContainer (everything in front of the items)

@@ -1,0 +1,16 @@
+tile.reinforcedGlass.name=Reinforced Glass
+
+item.advHelmet.name=Advanced Helmet
+item.advChestplate.name=Advanced Chestplate
+item.advLeggings.name=Advanced Leggings
+item.advBoots.name=Advanced Boots
+item.laserCannon.name=Arm-Mounted Plasma Cannon
+item.fireHelmet.name=Flame Resistant Helmet
+item.fireChestplate.name=Flame Resistant Chestplate
+item.fireLeggings.name=Flame Resistant Leggings
+item.fireBoots.name=Flame Resistant Boots
+
+itemGroup.tabSA=SpaceAge
+
+spaceage.achSpace=The Final Frontier
+spaceage.achSpaceDeath=In Space, no-one can hear you scream

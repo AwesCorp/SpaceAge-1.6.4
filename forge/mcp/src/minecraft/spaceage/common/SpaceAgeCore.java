@@ -23,7 +23,6 @@ import spaceage.common.item.ItemBlockSpaceshipAlloy;
 import spaceage.common.item.ItemBlockVulcan;
 import spaceage.common.item.ItemFireResistArmour;
 import spaceage.common.item.ItemMeta;
-import spaceage.common.item.ItemOrganicFemale;
 import spaceage.common.item.ItemRepulsor;
 import spaceage.common.item.ItemStarboost;
 import spaceage.common.tile.TileHeatGenerator;
@@ -275,10 +274,10 @@ public class SpaceAgeCore {
 		fireResistanceLeggings = new ItemFireResistArmour(this.fireResistanceLeggingsID, armourFIRERESISTANCE, 0, 2).setUnlocalizedName("fireLeggings");
 		fireResistanceBoots = new ItemFireResistArmour(this.fireResistanceBootsID, armourFIRERESISTANCE, 0, 3).setUnlocalizedName("fireBoots");
 		
-		organicFemaleHelmet = new ItemOrganicFemale(this.organicFemaleHelmetID, armourBINARY, 0, 0).setUnlocalizedName("fOHelmet");
-		organicFemaleChestplate = new ItemOrganicFemale(this.organicFemaleChestplateID, armourBINARY, 0, 1).setUnlocalizedName("fOChestplate");
-		organicFemaleLeggings = new ItemOrganicFemale(this.organicFemaleLeggingsID, armourBINARY, 0, 2).setUnlocalizedName("fOLeggings");
-		organicFemaleBoots = new ItemOrganicFemale(this.organicFemaleBootsID, armourBINARY, 0, 3).setUnlocalizedName("fOBoots");
+		//organicFemaleHelmet = new ItemOrganicFemale(this.organicFemaleHelmetID, armourBINARY, 0, 0).setUnlocalizedName("fOHelmet");
+		//organicFemaleChestplate = new ItemOrganicFemale(this.organicFemaleChestplateID, armourBINARY, 0, 1).setUnlocalizedName("fOChestplate");
+		//organicFemaleLeggings = new ItemOrganicFemale(this.organicFemaleLeggingsID, armourBINARY, 0, 2).setUnlocalizedName("fOLeggings");
+		//organicFemaleBoots = new ItemOrganicFemale(this.organicFemaleBootsID, armourBINARY, 0, 3).setUnlocalizedName("fOBoots");
 		
 		tintedGlass = new BlockConnectedGlasses(this.tintedGlassID, Material.glass).setUnlocalizedName("reinforcedGlass");
 		
