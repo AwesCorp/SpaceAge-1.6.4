@@ -1,11 +1,17 @@
 package cr0s.WarpDrive.client.gui;
 
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.util.ResourceLocation;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 
 import uedevkit.gui.GuiElectricBase;
@@ -34,6 +40,12 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    private TileEntityCloakingDeviceCore furnaceInventory;
 	    //private TileEntityParticleBooster particle;
 
+	    private GuiTextField setFieldTier;
+	    private GuiTextField setFrequency;
+	    
+	    private char[] allowedChars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+	    private char[] fieldChars = { '1', '2' };
+	    
 	    public GUICloakingDeviceCore(InventoryPlayer par1InventoryPlayer, TileEntityCloakingDeviceCore tile_entity) {
 	        super(new ContainerCloakingDeviceCore(par1InventoryPlayer, tile_entity));
 	        this.furnaceInventory = tile_entity;
@@ -66,6 +78,8 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Energy " + String.valueOf(this.furnaceInventory.getPowerRemainingScaled(100)) + " %");
 	        }
 	      
+	        setFieldTier.drawTextBox();
+	        setFrequency.drawTextBox();
 	    }
 
 	    /**
@@ -103,21 +117,112 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    	super.initGui();
 	    	buttonList.clear();
 	    	
+	    	Keyboard.enableRepeatEvents(true);
+	    	
+		    int inputLength = 16;
+		    int inputWidth = 16;
+		    
+		    applyBasicAttributes(setFieldTier);
+		    applyBasicAttributes(setFrequency);
+	    	
 	    	int cloakX = 100;//TODO TEMP 
 	    	int cloakY = 14;//TODO TEMP  
 	    	int cL = 60; //TODO TEMP 
 	    	int cH = 20;//TODO TEMP 
 	    	
+	    	int tX = 100;
+	    	int tY = 14;
+	    	int fX = 100;
+	    	int fY = 14;
+	    	
+	    	setFieldTier = new GuiTextField(this.fontRenderer, tX, tY, inputLength, inputWidth);
+	    	setFieldTier.setMaxStringLength(1);
+		    
+	    	setFrequency = new GuiTextField(this.fontRenderer, fX, fY, inputLength, inputWidth);
+	    	setFrequency.setMaxStringLength(1);
+	    	
 	    	/*Turn on/off*/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + cloakX/*Location in relation to left in pixels*/, guiTop + cloakY/*Location in relation to top in pixels*/, cL/*Length in pixels*/, cH/*Height in pixels*/, "On/Off"/*Text on button*/));
 	    	buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Wiki"/*Text on button*/));
 	    	
 	    	//Buttons to add: 
-	    	//On/Off
+	    	//set field tier
 	    	//Set field frequency: + and - buttons? Or text editing?
 	    	//
 	    	//
 	    	//
 	    	//Offset??? TODO Ask dad how to do offset
+	    }
+	    
+	    @Override
+	    public void keyTyped(char par1, int par2) {
+	    	if(isValidChar(par1)) {
+	    		if(setFrequency.textboxKeyTyped(par1, par2)) {
+	    			stringIntPacket("WarpDrive_CD_Frequency", this.setFrequency);
+	    		} else if(isValidFieldChar(par1)) {
+	    			if(setFieldTier.textboxKeyTyped(par1, par2)) {
+	    				stringIntPacket("WarpDrive_CD_Tier", this.setFieldTier);
+	    			}
+	    		}
+	    	} else {
+	    		super.keyTyped(par1, par2);
+	    	}
+	    }
+	    
+	    public void stringIntPacket(String channel, GuiTextField fieldToPass) {
+	    	ByteArrayOutputStream bos = new ByteArrayOutputStream(3);
+	    	DataOutputStream outputStream = new DataOutputStream(bos);
+	    	
+	    	try {
+	    		String f = fieldToPass.getText();
+	    		int fI = Integer.parseInt(f);
+	    		
+	    		outputStream.writeInt(fI);
+	    	} catch (Exception ex) {
+	    	        ex.printStackTrace();
+	    	}
+
+	    	Packet250CustomPayload packet = new Packet250CustomPayload();
+	    	packet.channel = channel;
+	    	packet.data = bos.toByteArray();
+	    	packet.length = bos.size();
+		}
+
+		public void applyBasicAttributes(GuiTextField field) {
+	    	field.setEnableBackgroundDrawing(true);
+	    	field.setFocused(false);
+	    	field.setCanLoseFocus(true);
+		}
+	    
+	    private boolean isValidChar(char par1) {
+	    	for(int x = 0; x <= this.allowedChars.length; x++) {
+	    		if(par1 == this.allowedChars[x]) {
+	    			return true;
+	    		}
+	    	}
+	    	return false;
+	    }
+	    
+	    private boolean isValidFieldChar(char par1) {
+	    	for(int x = 0; x <= this.fieldChars.length; x++) {
+	    		if(par1 == this.fieldChars[x]) {
+	    			return true;
+	    		}
+	    	}
+	    	return false;
+	    }
+	    
+	    @Override
+	    protected void mouseClicked(int x, int y, int buttonClicked) {
+	    	super.mouseClicked(x, y, buttonClicked);
+	    	
+	    	this.setFieldTier.mouseClicked(x, y, buttonClicked);
+	    	this.setFrequency.mouseClicked(x, y, buttonClicked);
+	    }
+	    
+	    @Override
+	    public void updateScreen() {
+	    	this.setFieldTier.updateCursorCounter();
+	    	this.setFrequency.updateCursorCounter();
 	    }
 	    
 	    @Override
@@ -130,6 +235,20 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    		/*case 1:
 	    			furnaceInventory.quarry();*/ //TODO
 	    	}
+	    }
+	    
+	    @Override
+	    public void onGuiClosed() {
+	    	super.onGuiClosed();
+	    	Keyboard.enableRepeatEvents(false);
+	    }
+	    
+	    @Override
+	    public void drawScreen(int par1, int par2, float par3) {
+	    	super.drawScreen(par1, par2, par3);
+	    	
+	    	this.setFieldTier.drawTextBox();
+	    	this.setFrequency.drawTextBox();
 	    }
 	}
 

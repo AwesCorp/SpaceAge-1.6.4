@@ -280,30 +280,31 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 
 		@Override
 	    protected void keyTyped(char par1, int par2) {
+			if(shipName.textboxKeyTyped(par1, par2)) {
+				shipName();
+			}
 			if(isValidChar(par1)) {
 				//super.keyTyped(par1, par2);
 				if(front.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Front", this.front, 3);
+					simpleTextPacket("WarpDrive_Protocol_Front", this.front, 4);
 				} else if(back.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Back", this.back, 3);
+					simpleTextPacket("WarpDrive_Protocol_Back", this.back, 4);
 				} else if(left.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Left", this.left, 3);
+					simpleTextPacket("WarpDrive_Protocol_Left", this.left, 4);
 				} else if(right.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Right", this.right, 3);
+					simpleTextPacket("WarpDrive_Protocol_Right", this.right, 4);
 				} else if(up.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Up", this.up, 3);
+					simpleTextPacket("WarpDrive_Protocol_Up", this.up, 4);
 				} else if(down.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Down", this.down, 3);
+					simpleTextPacket("WarpDrive_Protocol_Down", this.down, 4);
 				} else if(distance.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Distance", this.distance, 3);
-				} else if(shipName.textboxKeyTyped(par1, par2)) {
-					shipName();
+					simpleTextPacket("WarpDrive_Protocol_Distance", this.distance, 4);
 				} else if(isValidModeChar(par1)) {
 					if(mode.textboxKeyTyped(par1, par2)) {
-						modeTextPacket("WarpDrive_Protocol_Mode", this.mode, 1);
+						modeTextPacket("WarpDrive_Protocol_Mode", this.mode, 4);
 				} else if(isValidDirectionChar(par1)) {
 					if(direction.textboxKeyTyped(par1, par2)) {
-						directionTextPacket("WarpDrive_Protocol_Direction", this.direction, 1);
+						directionTextPacket("WarpDrive_Protocol_Direction", this.direction, 4);
 					}
 				}
 				//} else if(beaconInput.textboxKeyTyped(par1, par2)) {UNUSED

@@ -20,6 +20,8 @@ import net.minecraft.inventory.Container;
  */
 
 public abstract class GuiSimpleBase extends GuiContainer {
+	
+	Tessellator t = Tessellator.instance;
 
 	/** Change these params to InventoryPlayer and your tile entity. 
 	 * 
@@ -30,8 +32,8 @@ public abstract class GuiSimpleBase extends GuiContainer {
 	 * @author SkylordJoel
 	 *
 	 */
-	public GuiSimpleBase(Container par1Container) {
-		super(par1Container);
+	public GuiSimpleBase(Container xContainer) {
+		super(xContainer);
 	}
 
 	/** Simpler version of drawing strings. Simply type write in your drawGuiContainerForegroundLayer and fill the parameters. 
@@ -130,10 +132,28 @@ public abstract class GuiSimpleBase extends GuiContainer {
 		return null;
 	}
 
-	public void addQuad() {
-		Tessellator t = Tessellator.instance;
-		t.startDrawingQuads();
-		
-		
+	/**Needs to have a t.startDrawingQuads in the calling function - basically just enables code for a larger function
+	 * @author SkylordJoel
+	 */
+	public void addPixelQuad(int x, int y, int u, int v) {
+		//Tessellator t = Tessellator.instance;
+		t.addVertexWithUV(x, 		y, 		0, u, 		v);
+		t.addVertexWithUV(x, 		y + 1, 	0, u, 		v + 1);
+		t.addVertexWithUV(x + 1, 	y + 1, 	0, u + 1, 	v + 1);
+		t.addVertexWithUV(x + 1, 	y, 		0, u + 1, 	v);
 	}
+	
+    /*public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height) {
+        float f = 0.00390625F;
+        float f1 = 0.00390625F;
+        
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        
+        tessellator.addVertexWithUV((double)(x + 0), (double)(y + height), (double)this.zLevel, (double)((float)(u + 0) * f), (double)((float)(v + height) * f1));
+        tessellator.addVertexWithUV((double)(x + width), (double)(y + height), (double)this.zLevel, (double)((float)(u + width) * f), (double)((float)(v + height) * f1));
+        tessellator.addVertexWithUV((double)(x + width), (double)(y + 0), (double)this.zLevel, (double)((float)(u + width) * f), (double)((float)(v + 0) * f1));
+        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)this.zLevel, (double)((float)(u + 0) * f), (double)((float)(v + 0) * f1));
+        tessellator.draw();
+    }*/
 }

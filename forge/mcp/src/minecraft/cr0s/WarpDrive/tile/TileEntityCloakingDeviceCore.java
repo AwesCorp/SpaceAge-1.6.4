@@ -241,6 +241,7 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase implements//T
 		
 		//System.out.println("[CloakDev] Consuming " + energyToConsume + " eU for " + blocksCount + " blocks");
 		this.currentEnergyValue -= energyToConsume;
+		
 	}
 	
 	public void sendLaserPacket(Vector3 source, Vector3 dest, float r, float g, float b, int age, int energy, int radius) {
@@ -428,6 +429,19 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase implements//T
 		}
 		
 		return null;
+	}
+	
+	public boolean setFieldFrequency(int frequency) {
+		if(isEnabled) {
+			disableCloakingField();
+		}
+		
+		if(WarpDrive.instance.cloaks.isAreaExists(frequency)) {
+			return false;
+		}
+		
+		this.frequency = frequency;
+		return true;
 	}
 
 	@Override
