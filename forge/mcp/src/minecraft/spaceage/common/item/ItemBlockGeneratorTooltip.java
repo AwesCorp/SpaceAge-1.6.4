@@ -15,6 +15,7 @@ public class ItemBlockGeneratorTooltip extends ItemBlock {
 
 	public ItemBlockGeneratorTooltip(int id) {
 		super(id);
+		setHasSubtypes(true);
 	}
 	
     @Override
@@ -32,5 +33,25 @@ public class ItemBlockGeneratorTooltip extends ItemBlock {
             info.addAll(Utils.splitStringPerWord(String.valueOf(defaultTooltip), 10));
         }
     }
-
+    
+	public String getUnlocalizedName(ItemStack itemStack) {
+		String name = "";
+		switch(itemStack.getItemDamage()) {
+			case 0: {
+				name = "heatGen";
+				break;
+			}
+			case 1: {
+				name = "solarGen";
+				break;
+			}
+			default: 
+				name = "broken";
+			}
+			return getUnlocalizedName() + "." + name;
+		}
+	
+	public int getMetadata(int par1) {
+		return par1;
+		}
 }

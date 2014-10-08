@@ -285,7 +285,7 @@ public class SpaceAgeCore {
 		metaGenerator = new BlockGenerator(metaGeneratorID, UniversalElectricity.machine).setUnlocalizedName("metaGenerator").setCreativeTab(tabSA);
 		
 		gameRegisters();
-		languageRegisters();
+		//languageRegisters(); Now has localizing
 		craftingRecipes();
 		smeltingRecipes();
 		blockHarvest();
@@ -476,7 +476,7 @@ public class SpaceAgeCore {
 		
 	}
 
-	private void languageRegisters() {
+	/*private void languageRegisters() { //outdated
 		//LanguageRegistry.addName(objectToName, name)
 		LanguageRegistry.instance().addStringLocalization("itemGroup.tabSA", "en_US", "SpaceAge");
 		
@@ -493,10 +493,10 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(fireResistanceLeggings, "Flame Resistant Leggings");
 		LanguageRegistry.addName(fireResistanceBoots, "Flame Resistant Boots");
 		
-		LanguageRegistry.addName(organicFemaleHelmet, "Exoskeleton Helmet");
-		LanguageRegistry.addName(organicFemaleChestplate, "Exoskeleton Chestplate");
-		LanguageRegistry.addName(organicFemaleLeggings, "Exoskeleton Leggings");
-		LanguageRegistry.addName(organicFemaleBoots, "Exoskeleton Boots");
+		//LanguageRegistry.addName(organicFemaleHelmet, "Exoskeleton Helmet");
+		//LanguageRegistry.addName(organicFemaleChestplate, "Exoskeleton Chestplate");
+		//LanguageRegistry.addName(organicFemaleLeggings, "Exoskeleton Leggings");
+		//LanguageRegistry.addName(organicFemaleBoots, "Exoskeleton Boots");
 		
 		LanguageRegistry.addName(repulsor, "Laser Cannon");
 		
@@ -551,7 +551,7 @@ public class SpaceAgeCore {
 		
 		LanguageRegistry.addName(tintedGlass, "Reinforced Glass");
 		
-	}
+	}*/
 
 	private void gameRegisters() {
 		//GameRegistry.registerBlock(block, name)

@@ -1,10 +1,67 @@
 tile.reinforcedGlass.name=Reinforced Glass
+#
+#Generators
+tile.metaGenerator.heatGen.name=Geothermal Turbine
+tile.metaGenerator.solarGen.name=Photovoltaic Panel
+#
+#Spaceship alloy
+tile.spaceshipAlloy.blackAlloy.name=Black Alloy
+tile.spaceshipAlloy.redAlloy.name=Red Alloy
+tile.spaceshipAlloy.greenAlloy.name=Green Alloy
+tile.spaceshipAlloy.brownAlloy.name=Brown Alloy
+tile.spaceshipAlloy.blueAlloy.name=Blue Alloy
+tile.spaceshipAlloy.purpleAlloy.name=Purple Alloy
+tile.spaceshipAlloy.cyanAlloy.name=Cyan Alloy
+tile.spaceshipAlloy.silverAlloy.name=Silver Alloy
+tile.spaceshipAlloy.grayAlloy.name=Gray Alloy
+tile.spaceshipAlloy.pinkAlloy.name=Pink Alloy
+tile.spaceshipAlloy.limeAlloy.name=Lime Alloy
+tile.spaceshipAlloy.yellowAlloy.name=Yellow Alloy
+tile.spaceshipAlloy.lightBlueAlloy.name=Light Blue Alloy
+tile.spaceshipAlloy.magentaAlloy.name=Magenta Alloy
+tile.spaceshipAlloy.orangeAlloy.name=Orange Alloy
+tile.spaceshipAlloy.whiteAlloy.name=White Alloy
+#
+#0011 Block
+tile.0011Block.tech_dirt.name=Cyberdirt
+tile.0011Block.solar_leaves.name=Photovoltaic Leaves
+tile.0011Block.heavy_alloy_wood.name=Heavy Alloy Encrusted Log
+tile.0011Block.organic_building_block.name=Chlorophyll
+#
+#Hades Block
+tile.hadesBlock.fake_dirt.name=Dirt
+#
+#Vulcan Block
+tile.vulcanBlock.ash.name=Volcanic Ash
+tile.vulcanBlock.quartzWood.name=Quartz Encrusted Log
+tile.vulcanBlock.glowLeaves.name=Glowdust Leaves
+tile.vulcanBlock.fireEssence.name=Fire Essence
 
+item.basicItem.titaniumIngot.name=Titanium Ingot
+item.basicItem.aluminiumIngot.name=Aluminium Ingot
+item.basicItem.vanadiumIngot.name=Vanadium Ingot
+item.basicItem.heavyDutyIngot.name=Heavy Duty Ingot
+item.basicItem.arcReactor.name=Micro Fusion Reactor
+item.basicItem.heavyDutyPlate.name=Heavy Duty Plate
+item.basicItem.basicCircuit.name=Basic Circuit
+item.basicItem.advancedCircuit.name=Advanced Circuit
+item.basicItem.aluminiumWire.name=Aluminium Wire
+item.basicItem.oxygenApparatus.name=Oxygen Apparatus
+item.basicItem.thrusterPack.name=Thruster Pack
+item.basicItem.rawSilicon.name=Raw Silicon
+item.basicItem.enrichedSilicon.name=Enriched Silicon
+item.basicItem.lithiumDust.name=Lithium Dust
+item.basicItem.fire-InfusedEssence.name=Fire-Infused Essence
+item.basicItem.overclockingChip.name=Overclocking Chip
+#
+#Advanced Spacesuit
 item.advHelmet.name=Advanced Helmet
 item.advChestplate.name=Advanced Chestplate
 item.advLeggings.name=Advanced Leggings
 item.advBoots.name=Advanced Boots
 item.laserCannon.name=Arm-Mounted Plasma Cannon
+#
+#Fire Resistant Armour
 item.fireHelmet.name=Flame Resistant Helmet
 item.fireChestplate.name=Flame Resistant Chestplate
 item.fireLeggings.name=Flame Resistant Leggings
