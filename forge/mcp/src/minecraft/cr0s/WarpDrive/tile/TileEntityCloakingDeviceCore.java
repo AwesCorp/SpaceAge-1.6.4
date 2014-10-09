@@ -240,7 +240,8 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase implements//T
 		int energyToConsume = euToConsume * 250;
 		
 		//System.out.println("[CloakDev] Consuming " + energyToConsume + " eU for " + blocksCount + " blocks");
-		this.currentEnergyValue -= energyToConsume;
+		//this.currentEnergyValue -= energyToConsume;
+		this.energy.extractEnergy(energyToConsume, true);
 		
 	}
 	

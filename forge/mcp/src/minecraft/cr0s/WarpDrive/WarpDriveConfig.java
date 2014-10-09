@@ -20,7 +20,7 @@ public class WarpDriveConfig
 {
 	public static WarpDriveConfig i;
 	private Configuration config;
-	public int coreID, controllerID, radarID, isolationID, airID, airgenID, gasID, laserID, miningLaserID, particleBoosterID, liftID, laserCamID, camID, monitorID, iridiumID, shipScannerID, cloakCoreID, cloakCoilID;
+	public int coreID, controllerID, radarID, isolationID, airID, airgenID, gasID, laserID, miningLaserID, particleBoosterID, liftID, laserCamID, camID, monitorID, /*iridiumID,*/ shipScannerID, cloakCoreID, cloakCoilID;
 //
 	public boolean isASLoaded = false, isICBMLoaded = false, isMFFSLoaded = false;
 //
@@ -230,7 +230,7 @@ public class WarpDriveConfig
 		laserCamID = config.getBlock("lasercam", 512).getInt();
 		camID = config.getBlock("camera", 513).getInt();
 		monitorID = config.getBlock("monitor", 514).getInt();
-		iridiumID = config.getBlock("iridium", 515).getInt();
+		//iridiumID = config.getBlock("iridium", 515).getInt();
 		shipScannerID = config.getBlock("shipscanner", 516).getInt();
 		cloakCoreID = config.getBlock("cloakcore", 517).getInt();
 		cloakCoilID = config.getBlock("cloakcoil", 518).getInt();
@@ -273,7 +273,7 @@ public class WarpDriveConfig
 		// Ignore WarpDrive blocks (which potentially will be duplicated by cheaters using ship scan/deploy)
 		scannerIgnoreBlocks.add(coreID);
 		scannerIgnoreBlocks.add(controllerID);
-		scannerIgnoreBlocks.add(iridiumID);
+		//scannerIgnoreBlocks.add(iridiumID);
 		
 		/*scannerIgnoreBlocks.add(Items.getItem("mfsUnit").itemID);
 		scannerIgnoreBlocks.add(Items.getItem("mfeUnit").itemID);
@@ -496,22 +496,16 @@ public class WarpDriveConfig
 		return new int[] {blockID, blockMeta};
 	}
 
-	public int[] getRandomNetherBlock(Random random, int blockID, int blockMeta)
-	{
-		if (random.nextInt(10000) == 42)
-			return new int[] {iridiumID, 0};
-		else if (random.nextInt(25) == 1)
+	public int[] getRandomNetherBlock(Random random, int blockID, int blockMeta) {
+		if (random.nextInt(25) == 1)
 			return new int[] {Block.oreNetherQuartz.blockID, 0};
 		else if (random.nextInt(100) == 13)
 			return CommonWorldGenOres.get(random.nextInt(CommonWorldGenOres.size()));
 		return new int[] {blockID, blockMeta};
 	}
 
-	public int[] getRandomEndBlock(Random random, int blockID, int blockMeta)
-	{
-		if (random.nextInt(10000) == 42)
-			return new int[] {iridiumID, 0};
-		else if (random.nextInt(200) == 13)
+	public int[] getRandomEndBlock(Random random, int blockID, int blockMeta) {
+		if (random.nextInt(200) == 13)
 			return CommonWorldGenOres.get(random.nextInt(CommonWorldGenOres.size()));
 		return new int[] {blockID, blockMeta};
 	}

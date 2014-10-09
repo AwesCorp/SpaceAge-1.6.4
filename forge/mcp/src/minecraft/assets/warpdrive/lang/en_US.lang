@@ -1,0 +1,17 @@
+tile.warpInterface.name=Warp Interface
+tile.warpCore.name=Warp Core
+tile.wRadar.name=Radar
+tile.warpIsolation.name=Warp-Field Isolator
+tile.airGen.name=Air Distributor
+tile.wdAir.name=Air
+tile.wdGas.name=Gas
+tile.laserEmitter.name=Laser Emitter
+tile.laserEmitterCam.name=Laser Emitter Camera
+tile.camera.name=Camera
+tile.monitor.name=Monitor
+tile.miningLaser.name=Mining Laser
+tile.particleBooster.name=Particle Booster
+tile.laserLift.name=Short-Distance Transporter
+tile.shipScanner.name=Spacecraft Scanner
+tile.cloakingDeviceCore.name=Cloaking Device
+tile.cloakingCoil.name=Cloak Projection Matrix

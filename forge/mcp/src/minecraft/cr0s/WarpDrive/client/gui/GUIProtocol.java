@@ -331,6 +331,8 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 			packet.channel = "WarpDrive_ShipName";
 			packet.data = bos.toByteArray();
 			packet.length = bos.size();
+			
+			this.mc.thePlayer.sendQueue.addToSendQueue(packet);
 		}
 
 		public void directionTextPacket(String channel, GuiTextField field, int bytes) {

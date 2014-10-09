@@ -27,14 +27,7 @@ import cr0s.WarpDrive.tile.TileEntityMiningLaser;
 import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 
 	@SideOnly(Side.CLIENT)
-	public class GUICloakingDeviceCore extends GuiElectricBase { //TODO gui testing, 
-		
-		/*TODO list
-		 * Field tier (1 or 2), checks automatically
-		 * isAssemblyValid, checks automatically
-		 * energy level
-		 * enable/disable button
-		 * setFieldFrequency button*/
+	public class GUICloakingDeviceCore extends GuiElectricBase { //TODO gui testing, button and text box placement
 	   
 		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":" + "textures/gui/" + ClientProxy.guiCloakingDeviceCore/*"textures/gui/container/furnace.png"*/);
 	    private TileEntityCloakingDeviceCore furnaceInventory;
@@ -143,14 +136,7 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    	
 	    	/*Turn on/off*/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + cloakX/*Location in relation to left in pixels*/, guiTop + cloakY/*Location in relation to top in pixels*/, cL/*Length in pixels*/, cH/*Height in pixels*/, "On/Off"/*Text on button*/));
 	    	buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Wiki"/*Text on button*/));
-	    	
-	    	//Buttons to add: 
-	    	//set field tier
-	    	//Set field frequency: + and - buttons? Or text editing?
-	    	//
-	    	//
-	    	//
-	    	//Offset??? TODO Ask dad how to do offset
+	   
 	    }
 	    
 	    @Override
@@ -169,7 +155,7 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    }
 	    
 	    public void stringIntPacket(String channel, GuiTextField fieldToPass) {
-	    	ByteArrayOutputStream bos = new ByteArrayOutputStream(3);
+	    	ByteArrayOutputStream bos = new ByteArrayOutputStream(4);
 	    	DataOutputStream outputStream = new DataOutputStream(bos);
 	    	
 	    	try {
@@ -185,6 +171,8 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    	packet.channel = channel;
 	    	packet.data = bos.toByteArray();
 	    	packet.length = bos.size();
+			
+			this.mc.thePlayer.sendQueue.addToSendQueue(packet);
 		}
 
 		public void applyBasicAttributes(GuiTextField field) {

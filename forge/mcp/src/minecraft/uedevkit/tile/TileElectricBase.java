@@ -36,6 +36,7 @@ public abstract class TileElectricBase extends TileEntity implements IEnergyInte
      */
     public TileElectricBase(long capacity) {
         this(capacity, capacity, capacity);
+        this.energy.setCapacity(capacity);
     }
 
     /**
@@ -44,6 +45,8 @@ public abstract class TileElectricBase extends TileEntity implements IEnergyInte
      */
     public TileElectricBase(long energyCapacity, long transferRate) {
         energy = new EnergyStorageHandler(energyCapacity, transferRate);
+        this.energy.setCapacity(energyCapacity);
+        this.energy.setMaxTransfer(transferRate);
     }
 
     /**
@@ -52,6 +55,9 @@ public abstract class TileElectricBase extends TileEntity implements IEnergyInte
      */
     public TileElectricBase(long capacity, long maxReceive, long maxExtract) {
         energy = new EnergyStorageHandler(capacity, maxReceive, maxExtract);
+        this.energy.setCapacity(capacity);
+        this.energy.setMaxReceive(maxReceive);
+        this.energy.setMaxExtract(maxExtract);
     }
 
     @Override

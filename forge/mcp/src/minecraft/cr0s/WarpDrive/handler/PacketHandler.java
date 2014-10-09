@@ -22,6 +22,7 @@ import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.WarpDriveConfig;
 import cr0s.WarpDrive.registry.CamRegistryItem;
 import cr0s.WarpDrive.tile.TileEntityCamera;
+import cr0s.WarpDrive.tile.TileEntityCloakingDeviceCore;
 import cr0s.WarpDrive.tile.TileEntityLaser;
 import cr0s.WarpDrive.tile.TileEntityMonitor;
 import cr0s.WarpDrive.tile.TileEntityProtocol;
@@ -29,7 +30,8 @@ import net.minecraft.client.multiplayer.WorldClient;
 
 public class PacketHandler implements IPacketHandler {
 	
-	TileEntityProtocol te;
+	TileEntityProtocol protocol;
+	TileEntityCloakingDeviceCore cloak;
 	
 	public World worldObj;
 	
@@ -63,12 +65,46 @@ public class PacketHandler implements IPacketHandler {
         	handleDirection(packet, (EntityPlayer)player);
         } else if(packet.channel.equals("WarpDrive_ShipName")) {
         	handleShipName(packet, (EntityPlayer)player);
-        /*} else if (packet.channel.equals("WarpDriveGUI")) {
-        	handleGUI(packet, (EntityPlayer)player);*/
+        } else if (packet.channel.equals("WarpDrive_CD_Frequency")) {
+        	handleFrequency(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDrive_CD_Tier")) {
+        	handleTier(packet, (EntityPlayer)player);
         }
     }
 
-    public void handleShipName(Packet250CustomPayload packet, EntityPlayer player) {
+    public void handleFrequency(Packet250CustomPayload packet,
+			EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int frequency;
+		
+		try {
+			frequency = inputStream.readInt();
+			
+			cloak.setFieldFrequency(frequency);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+    
+    public void handleTier(Packet250CustomPayload packet,
+			EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int tier;
+		
+		try {
+			tier = inputStream.readInt();
+			
+			cloak.tier = (byte)tier;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	public void handleShipName(Packet250CustomPayload packet, EntityPlayer player) {
 		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 		
 		String shipName;
@@ -76,7 +112,7 @@ public class PacketHandler implements IPacketHandler {
 		try {
 			shipName = inputStream.readUTF();
 			
-			te.setCoreFrequency(shipName);
+			protocol.setCoreFrequency(shipName);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
@@ -93,17 +129,17 @@ public class PacketHandler implements IPacketHandler {
 			
 			switch(direction) {
 				case 0:
-					te.setDirection(1);
+					protocol.setDirection(1);
 				case 1:
-					te.setDirection(2);
+					protocol.setDirection(2);
 				case 2:
-					te.setDirection(90);
+					protocol.setDirection(90);
 				case 3:
-					te.setDirection(255);
+					protocol.setDirection(255);
 				case 4:
-					te.setDirection(0);
+					protocol.setDirection(0);
 				case 5:
-					te.setDirection(180);
+					protocol.setDirection(180);
 			}
 			
 		} catch (IOException e) {
@@ -123,16 +159,16 @@ public class PacketHandler implements IPacketHandler {
 			switch(mode) {
 				case 0:
 					if(this.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) {
-						te.setMode(2);
+						protocol.setMode(2);
 					} else {
-						te.setMode(1);
+						protocol.setMode(1);
 					}
 				case 1:
-					te.setMode(5);
+					protocol.setMode(5);
 				case 2:
-					te.setMode(6);
+					protocol.setMode(6);
 				default:
-					te.setMode(1);
+					protocol.setMode(1);
 			}
 			
 		} catch (IOException e) {
@@ -149,7 +185,7 @@ public class PacketHandler implements IPacketHandler {
 		try {
 			field = inputStream.readInt();
 			
-			te.setJumpDistance(field);
+			protocol.setJumpDistance(field);
 			WarpDrive.instance.registry.removeDeadCores();
 			
 		} catch (IOException e) {
@@ -166,7 +202,7 @@ public class PacketHandler implements IPacketHandler {
 		try {
 			field = inputStream.readInt();
 			
-			te.setFront(field);
+			protocol.setFront(field);
 			WarpDrive.instance.registry.removeDeadCores();
 			
 		} catch (IOException e) {
@@ -183,7 +219,7 @@ public class PacketHandler implements IPacketHandler {
 		try {
 			field = inputStream.readInt();
 			
-			te.setBack(field);
+			protocol.setBack(field);
 			WarpDrive.instance.registry.removeDeadCores();
 			
 		} catch (IOException e) {
@@ -200,7 +236,7 @@ public class PacketHandler implements IPacketHandler {
 		try {
 			field = inputStream.readInt();
 			
-			te.setRight(field);
+			protocol.setRight(field);
 			WarpDrive.instance.registry.removeDeadCores();
 			
 		} catch (IOException e) {
@@ -217,7 +253,7 @@ public class PacketHandler implements IPacketHandler {
 		try {
 			field = inputStream.readInt();
 			
-			te.setLeft(field);
+			protocol.setLeft(field);
 			WarpDrive.instance.registry.removeDeadCores();
 			
 		} catch (IOException e) {
@@ -234,7 +270,7 @@ public class PacketHandler implements IPacketHandler {
 		try {
 			field = inputStream.readInt();
 			
-			te.setUp(field);
+			protocol.setUp(field);
 			WarpDrive.instance.registry.removeDeadCores();
 			
 		} catch (IOException e) {
@@ -251,7 +287,7 @@ public class PacketHandler implements IPacketHandler {
 		try {
 			field = inputStream.readInt();
 			
-			te.setDown(field);
+			protocol.setDown(field);
 			WarpDrive.instance.registry.removeDeadCores();
 			
 		} catch (IOException e) {
