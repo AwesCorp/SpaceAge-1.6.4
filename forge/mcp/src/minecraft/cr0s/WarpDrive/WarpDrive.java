@@ -106,7 +106,8 @@ import net.minecraftforge.common.MinecraftForge;
 		"WarpDrive_Protocol_Mode",
 		"WarpDrive_ShipName",
 		"WarpDrive_CD_Frequency",
-		"WarpDrive_CD_Tier"}, packetHandler = PacketHandler.class)
+		"WarpDrive_CD_Tier",
+		"WarpDrive_Radar_Pixel"}, packetHandler = PacketHandler.class)
 /**
  * @author Cr0s, SkylordJoel
  */

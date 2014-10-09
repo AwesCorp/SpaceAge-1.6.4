@@ -1,6 +1,8 @@
 package cr0s.WarpDrive.tile;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.PacketDispatcher;
+import cpw.mods.fml.common.network.Player;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cr0s.WarpDrive.WarpDrive;
@@ -10,6 +12,9 @@ import dan200.computer.api.IComputerAccess;
 import dan200.computer.api.ILuaContext;
 import dan200.computer.api.IPeripheral;
 import net.minecraftforge.common.ForgeDirection;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -19,6 +24,7 @@ import uedevkit.util.MathHelper;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -434,17 +440,41 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	}
 	
 	public void drawPixelRed(int x, int y) {
-		this.addPixelQuad(x, y, 176, 80);
+		sendPixelPacket("WarpDrive_Radar_Pixel", x, y, 176, 80);
+		//this.addPixelQuad(x, y, 176, 80);
 		//this.isDrawingRed = true;
 	}
 	
+	public void sendPixelPacket(String channel, int x, int y, int colourX, int colourY) {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream(16);
+		DataOutputStream outputStream = new DataOutputStream(bos);
+		
+		try {
+		        outputStream.writeInt(x);
+		        outputStream.writeInt(y);
+		        outputStream.writeInt(colourX);
+		        outputStream.writeInt(colourY);
+		} catch (Exception ex) {
+		        ex.printStackTrace();
+		}
+
+		Packet250CustomPayload packet = new Packet250CustomPayload();
+		packet.channel = channel;
+		packet.data = bos.toByteArray();
+		packet.length = bos.size();
+		
+		PacketDispatcher.sendPacketToPlayer(packet, (Player)player);
+	}
+
 	public void drawPixelYellow(int x, int y) {
-		this.addPixelQuad(x, y, 177, 80);
+		sendPixelPacket("WarpDrive_Radar_Pixel", x, y, 177, 80);
+		//this.addPixelQuad(x, y, 177, 80);
 		//this.isDrawingYellow = true;
 	}
 	
 	public void drawPixelForeground(int x, int y) {
-		this.addPixelQuad(x, y, 2, 1);
+		sendPixelPacket("WarpDrive_Radar_Pixel", x, y, 2, 1);
+		//this.addPixelQuad(x, y, 2, 1);
 		//this.isDrawingForeground = true;
 	}
 	

@@ -21,6 +21,8 @@ import universalelectricity.api.vector.Vector3;
 @UniversalClass
 public abstract class TileElectricBase extends TileEntity implements IEnergyInterface, IEnergyContainer {
     protected EnergyStorageHandler energy;
+    
+    protected EntityPlayer player;
 
     /**
      * Used for temporary constructors. Not recommended to be used. 

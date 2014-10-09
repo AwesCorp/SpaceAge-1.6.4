@@ -69,10 +69,33 @@ public class PacketHandler implements IPacketHandler {
         	handleFrequency(packet, (EntityPlayer)player);
         } else if (packet.channel.equals("WarpDrive_CD_Tier")) {
         	handleTier(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDrive_Radar_Pixel")) {
+        	handlePixel(packet, (EntityPlayer)player);
         }
     }
 
-    public void handleFrequency(Packet250CustomPayload packet,
+    public void handlePixel(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int x;
+		int y;
+		int colourX;
+		int colourY;
+		
+		try {
+			x = inputStream.readInt();
+			y = inputStream.readInt();
+			colourX = inputStream.readInt();
+			colourY = inputStream.readInt();
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	public void handleFrequency(Packet250CustomPayload packet,
 			EntityPlayer player) {
 		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 		
