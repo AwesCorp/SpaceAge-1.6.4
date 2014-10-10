@@ -4,11 +4,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
+import cr0s.WarpDrive.common.container.ContainerAirDistributor;
 import cr0s.WarpDrive.common.container.ContainerCloakingDeviceCore;
 import cr0s.WarpDrive.common.container.ContainerMiningLaser;
 import cr0s.WarpDrive.common.container.ContainerProtocol;
 import cr0s.WarpDrive.common.container.ContainerRadar;
 import cr0s.WarpDrive.common.container.ContainerReactor;
+import cr0s.WarpDrive.tile.TileEntityAirDistributor;
 import cr0s.WarpDrive.tile.TileEntityCloakingDeviceCore;
 import cr0s.WarpDrive.tile.TileEntityMiningLaser;
 import cr0s.WarpDrive.tile.TileEntityProtocol;
@@ -28,6 +30,7 @@ public class WDGUI implements IGuiHandler {
 			case 2: return new ContainerRadar(player.inventory, (TileEntityRadar) tile_entity);
 			case 3: return new ContainerCloakingDeviceCore(player.inventory, (TileEntityCloakingDeviceCore) tile_entity);
 			case 4: return new ContainerMiningLaser(player.inventory, (TileEntityMiningLaser) tile_entity);
+			case 5: return new ContainerAirDistributor(player.inventory, (TileEntityAirDistributor) tile_entity);
 			}
 		return null;
 	}
@@ -43,6 +46,7 @@ public class WDGUI implements IGuiHandler {
 			case 2: return new GUIRadar(player.inventory, (TileEntityRadar) tile_entity);
 			case 3: return new GUICloakingDeviceCore(player.inventory, (TileEntityCloakingDeviceCore) tile_entity);
 			case 4: return new GUIMiningLaser(player.inventory, (TileEntityMiningLaser) tile_entity);
+			case 5: return new GUIAirDistributor(player.inventory, (TileEntityAirDistributor) tile_entity);
 			}
 		return null;
 	}

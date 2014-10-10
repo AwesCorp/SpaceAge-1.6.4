@@ -11,15 +11,15 @@ import cpw.mods.fml.relauncher.SideOnly;
 import cr0s.WarpDrive.*;
 import cr0s.WarpDrive.client.ClientProxy;
 import cr0s.WarpDrive.common.container.ContainerAirDistributor;
-import cr0s.WarpDrive.tile.TileEntityAirGenerator;
+import cr0s.WarpDrive.tile.TileEntityAirDistributor;
 
 	@SideOnly(Side.CLIENT)
 	public class GUIAirDistributor extends GuiElectricBase {
 
 		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":" + "textures/gui" + ClientProxy.guiAirGen);
-		private TileEntityAirGenerator furnaceInventory;
+		private TileEntityAirDistributor furnaceInventory;
 		
-		public GUIAirDistributor(InventoryPlayer player, TileEntityAirGenerator tile_entity) {
+		public GUIAirDistributor(InventoryPlayer player, TileEntityAirDistributor tile_entity) {
 			super(new ContainerAirDistributor(player, tile_entity));
 			this.furnaceInventory = tile_entity;
 		}

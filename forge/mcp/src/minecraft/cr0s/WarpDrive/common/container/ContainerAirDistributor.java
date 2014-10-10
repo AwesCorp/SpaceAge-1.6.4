@@ -1,6 +1,6 @@
 package cr0s.WarpDrive.common.container;
 
-import cr0s.WarpDrive.tile.TileEntityAirGenerator;
+import cr0s.WarpDrive.tile.TileEntityAirDistributor;
 import cr0s.WarpDrive.tile.TileEntityCloakingDeviceCore;
 import cr0s.WarpDrive.tile.TileEntityProtocol;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,9 +11,9 @@ import net.minecraft.item.ItemStack;
 
 public class ContainerAirDistributor extends Container {
 	
-	private TileEntityAirGenerator tileEntity;
+	private TileEntityAirDistributor tileEntity;
 	
-	public ContainerAirDistributor(InventoryPlayer player, TileEntityAirGenerator tileEntity) {
+	public ContainerAirDistributor(InventoryPlayer player, TileEntityAirDistributor tileEntity) {
 		this.tileEntity = tileEntity;
 		
 		int var3;

@@ -19,7 +19,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cr0s.WarpDrive.block.BlockAir;
-import cr0s.WarpDrive.block.BlockAirGenerator;
+import cr0s.WarpDrive.block.BlockAirDistributor;
 import cr0s.WarpDrive.block.BlockCamera;
 import cr0s.WarpDrive.block.BlockCloakingCoil;
 import cr0s.WarpDrive.block.BlockCloakingDeviceCore;
@@ -53,7 +53,7 @@ import cr0s.WarpDrive.space.SpaceEventHandler;
 import cr0s.WarpDrive.space.SpaceProvider;
 import cr0s.WarpDrive.space.SpaceTpCommand;
 import cr0s.WarpDrive.space.SpaceWorldGenerator;
-import cr0s.WarpDrive.tile.TileEntityAirGenerator;
+import cr0s.WarpDrive.tile.TileEntityAirDistributor;
 import cr0s.WarpDrive.tile.TileEntityCamera;
 import cr0s.WarpDrive.tile.TileEntityCloakingDeviceCore;
 import cr0s.WarpDrive.tile.TileEntityLaser;
@@ -88,6 +88,9 @@ import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeChunkManager.LoadingCallback;
 import net.minecraftforge.common.ForgeChunkManager.Ticket;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
 
 @Mod(modid = WarpDrive.modid, name = "WarpDrive - Universal Electricity", version = "1.2.0_ZLO", dependencies = "required-after:UniversalElectricity; required-after:ComputerCraft@[1.58]; required-after:SpaceAge; after:CCTurtle; after:AtomicScience; after:ICBM|Explosion; after:MFFS")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
@@ -204,6 +207,11 @@ public class WarpDrive implements LoadingCallback {
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
 		WarpDriveConfig.i.Init2();
+		
+		OxygenHelper.OXYGEN = new Fluid("oxygen");
+		OxygenHelper.OXYGEN.setGaseous(true);
+		FluidRegistry.registerFluid(OxygenHelper.OXYGEN);
+		OxygenHelper.fluidstack_OXYGEN = new FluidStack(OxygenHelper.OXYGEN, 0);
 
 		// CORE CONTROLLER
 		this.protocolBlock = new BlockProtocol(WarpDriveConfig.i.controllerID,
@@ -246,14 +254,14 @@ public class WarpDrive implements LoadingCallback {
 		GameRegistry.registerBlock(isolationBlock, "isolationBlock");
 		
 		// AIR GENERATOR
-		this.airgenBlock = new BlockAirGenerator(WarpDriveConfig.i.airgenID, 0,
+		this.airgenBlock = new BlockAirDistributor(WarpDriveConfig.i.airgenID, 0,
 				Material.rock).setHardness(0.5F)
 				.setStepSound(Block.soundMetalFootstep)
 				.setCreativeTab(WarpDrive.tabWD)
 				.setUnlocalizedName("airGen");
 		//LanguageRegistry.addName(airgenBlock, "Air Generator");
 		GameRegistry.registerBlock(airgenBlock, "airgenBlock");
-		GameRegistry.registerTileEntity(TileEntityAirGenerator.class,
+		GameRegistry.registerTileEntity(TileEntityAirDistributor.class,
 				"airgenBlock");
 		
 		// AIR BLOCK
