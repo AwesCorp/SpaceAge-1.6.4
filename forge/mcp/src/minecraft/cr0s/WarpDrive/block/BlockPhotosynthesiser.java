@@ -30,9 +30,9 @@ public class BlockPhotosynthesiser extends Block {
     @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
         iconBuffer = new Icon[4];
-        iconBuffer[ICON_INACTIVE_SIDE] = par1IconRegister.registerIcon("warpdrive:airSideInactive");
-        iconBuffer[ICON_BOTTOM] = par1IconRegister.registerIcon("warpdrive:contBottom");
-        iconBuffer[ICON_SIDE_ACTIVATED] = par1IconRegister.registerIcon("warpdrive:airSideActive");
+        iconBuffer[ICON_INACTIVE_SIDE] = par1IconRegister.registerIcon("warpdrive:photosynthSideInactive");
+        iconBuffer[ICON_BOTTOM] = par1IconRegister.registerIcon("warpdrive:photosynthBottom");
+        iconBuffer[ICON_SIDE_ACTIVATED] = par1IconRegister.registerIcon("warpdrive:photosynthSideActive");
         iconBuffer[ICON_TOP] = par1IconRegister.registerIcon("warpdrive:photosynthTop");
     }
 

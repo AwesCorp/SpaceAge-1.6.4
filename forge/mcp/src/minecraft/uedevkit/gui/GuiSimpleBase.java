@@ -135,13 +135,13 @@ public abstract class GuiSimpleBase extends GuiContainer {
 	/**Needs to have a t.startDrawingQuads in the calling function - basically just enables code for a larger function
 	 * @author SkylordJoel
 	 */
-	public void addPixelQuad(int x, int y, int u, int v) {
+/*	public void addPixelQuad(int x, int y, int u, int v) {
 		//Tessellator t = Tessellator.instance;
 		t.addVertexWithUV(x, 		y, 		0, u, 		v);
 		t.addVertexWithUV(x, 		y + 1, 	0, u, 		v + 1);
 		t.addVertexWithUV(x + 1, 	y + 1, 	0, u + 1, 	v + 1);
 		t.addVertexWithUV(x + 1, 	y, 		0, u + 1, 	v);
-	}
+	}*/
 	
     /*public void drawTexturedModalRect(int x, int y, int u, int v, int width, int height) {
         float f = 0.00390625F;

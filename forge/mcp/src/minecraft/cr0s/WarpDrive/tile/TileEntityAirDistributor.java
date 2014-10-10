@@ -6,6 +6,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cr0s.WarpDrive.OxygenHelper;
 import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.WarpDriveConfig;
+import cr0s.WarpDrive.tile.prefab.TileElectricOxygenBase;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -18,10 +19,7 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TileEntityAirDistributor extends TileElectricBase implements IFluidHandler, FluidGuiHelper { //TODO receive energy
-	
-	public int oxygenTankSize = 2000;
-	public FluidTank oxygenTank = new FluidTank(oxygenTankSize); 
+public class TileEntityAirDistributor extends TileElectricOxygenBase implements IFluidHandler, FluidGuiHelper { //TODO receive energy
 	
 	public TileEntityAirDistributor() {
 		super(MAX_ENERGY_VALUE, JOULES_MAX_RECEIVE, 0);
@@ -127,14 +125,14 @@ public class TileEntityAirDistributor extends TileElectricBase implements IFluid
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
-        oxygenTank.readFromNBT(tag);
+        //oxygenTank.readFromNBT(tag);
         //this.currentEnergyValue = tag.getInteger("energy");
     }
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
-        oxygenTank.writeToNBT(tag);
+        //oxygenTank.writeToNBT(tag);
         //tag.setInteger("energy", this.getCurrentEnergyValue());
     }
 
