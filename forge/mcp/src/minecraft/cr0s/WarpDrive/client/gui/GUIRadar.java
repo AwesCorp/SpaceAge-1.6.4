@@ -117,4 +117,15 @@ import cr0s.WarpDrive.tile.TileEntityRadar;
 	    			openURL("https://sites.google.com/site/spaceageminecraft/wiki/blocks/warp-radar");
 	    	}
 	    }
+
+		public void handlePixel(int x, int y, int colourX, int colourY) {
+			t.startDrawingQuads();
+			
+			t.addVertexWithUV(x, 		y, 		0, colourX, 		colourY);
+			t.addVertexWithUV(x, 		y + 1, 	0, colourX, 		colourY + 1);
+			t.addVertexWithUV(x + 1, 	y + 1, 	0, colourX + 1, 	colourY + 1);
+			t.addVertexWithUV(x + 1, 	y, 		0, colourX + 1, 	colourY);
+			
+			t.draw();
+		}
 	}

@@ -20,6 +20,7 @@ import cpw.mods.fml.common.network.Player;
 import cr0s.WarpDrive.Vector3;
 import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.WarpDriveConfig;
+import cr0s.WarpDrive.client.gui.GUIRadar;
 import cr0s.WarpDrive.registry.CamRegistryItem;
 import cr0s.WarpDrive.tile.TileEntityCamera;
 import cr0s.WarpDrive.tile.TileEntityCloakingDeviceCore;
@@ -32,6 +33,7 @@ public class PacketHandler implements IPacketHandler {
 	
 	TileEntityProtocol protocol;
 	TileEntityCloakingDeviceCore cloak;
+	GUIRadar radarGUI;
 	
 	public World worldObj;
 	
@@ -88,7 +90,7 @@ public class PacketHandler implements IPacketHandler {
 			colourX = inputStream.readInt();
 			colourY = inputStream.readInt();
 			
-			
+			radarGUI.handlePixel(x, y, colourX, colourY);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;

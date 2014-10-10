@@ -21,7 +21,7 @@ import net.minecraft.inventory.Container;
 
 public abstract class GuiSimpleBase extends GuiContainer {
 	
-	Tessellator t = Tessellator.instance;
+	protected Tessellator t = Tessellator.instance;
 
 	/** Change these params to InventoryPlayer and your tile entity. 
 	 * 
