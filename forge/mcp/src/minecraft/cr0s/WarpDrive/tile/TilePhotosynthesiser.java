@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 
-public class TilePhotosynthesiser extends TileEntityOxygenHandler implements IFluidHandler, FluidGuiHelper {
+public class TilePhotosynthesiser extends TileEntityOxygenHandler implements IFluidHandler {
 	
 	//public int oxygenTankSize = 2000;
 	//public FluidTank oxygenTank = new FluidTank(OxygenHelper.fluidstack_OXYGEN, oxygenTankSize); 
@@ -212,9 +212,13 @@ public class TilePhotosynthesiser extends TileEntityOxygenHandler implements IFl
 		waterTank.readFromNBT(tag);
 	}
 
-	@Override
-	public int getFluidRemainingScaled(int capacityScaledTo) {
-        Double result = Long.valueOf(this.oxygenTank.getFluidAmount()).doubleValue() * Long.valueOf(capacityScaledTo).doubleValue() / Long.valueOf(oxygenTankSize).doubleValue();
+	public int getWaterRemainingScaled(int capacityScaledTo) {
+        Double result = Long.valueOf(this.waterTank.getFluidAmount()).doubleValue() * Long.valueOf(capacityScaledTo).doubleValue() / Long.valueOf(waterTank.getCapacity()).doubleValue();
+        return result.intValue();
+	}
+
+	public int getOxygenRemainingScaled(int capacityScaledTo) {
+        Double result = Long.valueOf(this.oxygenTank.getFluidAmount()).doubleValue() * Long.valueOf(capacityScaledTo).doubleValue() / Long.valueOf(oxygenTank.getCapacity()).doubleValue();
         return result.intValue();
 	}
 }

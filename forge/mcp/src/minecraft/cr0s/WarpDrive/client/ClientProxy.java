@@ -16,6 +16,7 @@ public class ClientProxy extends CommonProxy {
 	public static String guiMiningLaser;
 	public static String guiReactor;
 	public static String guiAirGen;
+	public static String guiPhotoSynth;
 	
     @Override
     public void registerRenderers() {
@@ -26,6 +27,7 @@ public class ClientProxy extends CommonProxy {
     		guiCloakingDeviceCore = "guiCloakingDevice_alternate.png";
     		guiMiningLaser = "guiMiningLaser_alternate.png";
     		guiAirGen = "guiAirGen_alternate.png";
+    		guiPhotoSynth = "guiPhotoSynth_alternate.png";
     	} else {
     		warpInterfaceGui = "guiWarpInterface.png";
     		guiRadar = "guiRadar.png";
@@ -33,6 +35,7 @@ public class ClientProxy extends CommonProxy {
     		guiCloakingDeviceCore = "guiCloakingDevice.png";
     		guiMiningLaser = "guiMiningLaser.png";
     		guiAirGen = "guiAirGen.png";
+    		guiPhotoSynth = "guiPhotoSynth.png";
     	}
     }
 
