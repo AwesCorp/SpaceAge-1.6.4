@@ -395,13 +395,13 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 		int contactX = 176;
 		int contactZ = 80;
 		
-		this.drawTexturedModalRect(newX, newZ, contactX, contactZ, 1 + color, 1);
+		//TODO brokenthis.drawTexturedModalRect(newX, newZ, contactX, contactZ, 1 + color, 1);
 		//paintutils.drawPixel(newX, newZ, color);
-		write(name, newX - 3, newZ + 1, 4210752);
+		//TODO brokenwrite(name, newX - 3, newZ + 1, 4210752);
 		//textOut(newX - 3, newZ + 1, "[" + name + "]", colors.white, colors.black);
 	}
     		 
-	public int scanAndDraw() {
+	public void scanAndDraw() {
 		if (getCurrentEnergyValue() < radius * radius) {
 			int hh = MathHelper.floor(h / 2);
 			int hw = MathHelper.floor(w / 2);
@@ -409,11 +409,11 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 			drawLine(hw - 5, hh - 1, hw + 5, hh - 1, 9843760);
 			drawLine(hw - 5, hh, hw + 5, hh, 9843760);
 	    
-			write("Insufficient Energy", hw-4/*TEST - DEBUG*/, hh/*TEST - DEBUG*/, 14540253);//(hw - 4, hh, "LOW POWER", 14540253, 9843760);
+			//TODO brokenwrite("Insufficient Energy", hw-4/*TEST - DEBUG*/, hh/*TEST - DEBUG*/, 14540253);//(hw - 4, hh, "LOW POWER", 14540253, 9843760);
 	    
 			drawLine(hw - 5, hh + 1, hw + 5, hh + 1, 9843760);
     		   
-			return 0;
+			//return 0;
 		} else {
 			scanRadius(radius);
 			redraw();
@@ -547,7 +547,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 		//textOut(h, 1, "= W-Radar v0.1 =", 14540253, 1644054);
     		   
 		//textOut(w - 3/*cursor x*/, 1/*cursor y*/, "[X]"/*text*/, 14540253/*text colour*/, 9843760);
-    	write("[X]", /*TEST FOR DEBUG*/w-3, /*TEST FOR DEBUG*/1, 14540253);
+    	//TODO brokenwrite("[X]", /*TEST FOR DEBUG*/w-3, /*TEST FOR DEBUG*/1, 14540253);
 		
 		drawLine(1, h, w, h, 1644054);
 	}  		   
