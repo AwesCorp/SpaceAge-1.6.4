@@ -79,7 +79,7 @@ public class BlockGenerator extends Block {
     		return true;
     	}else if(!player.isSneaking()) {
         	int GUIMetadata = tileEntity.getBlockMetadata();
-    			player.openGui(SpaceAgeCore.instance, GUIMetadata/**/, world, x, y, z);
+    			player.openGui(SpaceAgeCore.instance, GUIMetadata + 2/**/, world, x, y, z);
     		}
     	return false;
     }

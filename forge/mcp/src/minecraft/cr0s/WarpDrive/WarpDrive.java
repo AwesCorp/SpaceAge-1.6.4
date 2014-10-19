@@ -31,6 +31,7 @@ import cr0s.WarpDrive.block.BlockLift;
 import cr0s.WarpDrive.block.BlockMiningLaser;
 import cr0s.WarpDrive.block.BlockMonitor;
 import cr0s.WarpDrive.block.BlockParticleBooster;
+import cr0s.WarpDrive.block.BlockPhotosynthesiser;
 import cr0s.WarpDrive.block.BlockProtocol;
 import cr0s.WarpDrive.block.BlockRadar;
 import cr0s.WarpDrive.block.BlockReactor;
@@ -65,6 +66,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 import cr0s.WarpDrive.tile.TileEntityRadar;
 import cr0s.WarpDrive.tile.TileEntityReactor;
 import cr0s.WarpDrive.tile.TileEntityShipScanner;
+import cr0s.WarpDrive.tile.TilePhotosynthesiser;
 import cr0s.WarpDrive.utils.CameraOverlay;
 import cr0s.WarpDrive.utils.CloakChunkWatcher;
 
@@ -129,9 +131,10 @@ public class WarpDrive implements LoadingCallback {
 
 	public static Block warpCore;
 	public static Block protocolBlock;
-	public static Block radarBlock;
+	//public static Block radarBlock; TODO temporary
 	public static Block isolationBlock;
 	public static Block airgenBlock;
+	public static Block photoSynth;
 	public static Block laserBlock;
 	public static Block laserCamBlock;
 	public static Block cameraBlock;
@@ -232,8 +235,8 @@ public class WarpDrive implements LoadingCallback {
 		GameRegistry.registerBlock(warpCore, "warpCore");
 		GameRegistry.registerTileEntity(TileEntityReactor.class, "warpCore");		
 		
-		// WARP RADAR
-		this.radarBlock = new BlockRadar(WarpDriveConfig.i.radarID, 0,
+		// WARP RADAR TODO Temporary
+		/*this.radarBlock = new BlockRadar(WarpDriveConfig.i.radarID, 0,
 				Material.rock).setHardness(0.5F)
 				.setStepSound(Block.soundMetalFootstep)
 				.setCreativeTab(WarpDrive.tabWD)
@@ -241,7 +244,7 @@ public class WarpDrive implements LoadingCallback {
 		
 		//LanguageRegistry.addName(radarBlock, "W-Radar");
 		GameRegistry.registerBlock(radarBlock, "radarBlock");
-		GameRegistry.registerTileEntity(TileEntityRadar.class, "radarBlock");
+		GameRegistry.registerTileEntity(TileEntityRadar.class, "radarBlock");*/
 		
 		// WARP ISOLATION
 		this.isolationBlock = new BlockWarpIsolation(
@@ -263,6 +266,15 @@ public class WarpDrive implements LoadingCallback {
 		GameRegistry.registerBlock(airgenBlock, "airgenBlock");
 		GameRegistry.registerTileEntity(TileEntityAirDistributor.class,
 				"airgenBlock");
+		
+		this.photoSynth = new BlockPhotosynthesiser(WarpDriveConfig.i.photoSynthID, Material.iron)
+			.setHardness(0.5F)
+			.setStepSound(Block.soundMetalFootstep)
+			.setCreativeTab(WarpDrive.tabWD)
+			.setUnlocalizedName("photoSynth");
+		
+		GameRegistry.registerBlock(photoSynth, "photoSynth");
+		GameRegistry.registerTileEntity(TilePhotosynthesiser.class, "photoSynth");
 		
 		// AIR BLOCK
 		this.airBlock = (new BlockAir(WarpDriveConfig.i.airID)).setHardness(

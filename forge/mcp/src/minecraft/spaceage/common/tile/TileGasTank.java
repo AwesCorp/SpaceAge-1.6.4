@@ -15,16 +15,15 @@ import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidContainerItem;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.fluids.IFluidTank;
 import net.minecraftforge.fluids.ItemFluidContainer;
 
-public class TileLiquidTank extends TileEntity implements ISidedInventory, IFluidHandler, FluidGuiHelper {
+public class TileGasTank extends TileEntity implements ISidedInventory, IFluidHandler, FluidGuiHelper {
 	
 	public int tankSize = 4000;
 	public FluidTank tank = new FluidTank(tankSize);
 	
 	ItemStack[] inventory = new ItemStack[2];
-	
+
 	IFluidContainerItem fluidContainerInterface;
 	ItemFluidContainer fluidCont;
 	
@@ -62,22 +61,9 @@ public class TileLiquidTank extends TileEntity implements ISidedInventory, IFlui
 					inventory[1] = containerStack2;
 				}
 			}
-		} else if(worldObj.isRemote) {
-			int prevLightValue = 0;
-			int lightValue = fluidLightLevel();
-			if(prevLightValue != lightValue) {
-				prevLightValue = lightValue;
-				worldObj.updateLightByType(EnumSkyBlock.Block, xCoord, yCoord, zCoord);
-			}
-			return;
-		}
+		} 
 	}
-
-	private int fluidLightLevel() {
-		FluidStack tankFluid = tank.getFluid();
-		return tankFluid == null ? 0 : tankFluid.getFluid().getLuminosity(tankFluid);
-	}
-
+	
 	@Override
 	public int fill(ForgeDirection from, FluidStack resource, boolean doFill) {
 		if((resource == null) || (tank.getFluidAmount() == tank.getCapacity()) || ((tank.getFluidAmount() + resource.amount) > tank.getCapacity())) {
@@ -86,7 +72,7 @@ public class TileLiquidTank extends TileEntity implements ISidedInventory, IFlui
 			if(resource != tank.getFluid()) {
 				return 0;
 			}
-		} else if(resource.getFluid().isGaseous() == false) {
+		} else if(resource.getFluid().isGaseous() == true) {
 			return this.tank.fill(resource, doFill);
 		}
 		return 0;

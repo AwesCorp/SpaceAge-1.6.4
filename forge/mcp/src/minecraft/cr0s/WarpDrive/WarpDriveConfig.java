@@ -20,7 +20,7 @@ public class WarpDriveConfig
 {
 	public static WarpDriveConfig i;
 	private Configuration config;
-	public int coreID, controllerID, radarID, isolationID, airID, airgenID, gasID, laserID, miningLaserID, particleBoosterID, liftID, laserCamID, camID, monitorID, /*iridiumID,*/ shipScannerID, cloakCoreID, cloakCoilID;
+	public int coreID, controllerID, radarID, isolationID, airID, airgenID, gasID, laserID, miningLaserID, particleBoosterID, liftID, laserCamID, camID, monitorID, /*iridiumID,*/ shipScannerID, cloakCoreID, cloakCoilID, photoSynthID;
 //
 	public boolean isASLoaded = false, isICBMLoaded = false, isMFFSLoaded = false;
 //
@@ -234,6 +234,7 @@ public class WarpDriveConfig
 		shipScannerID = config.getBlock("shipscanner", 516).getInt();
 		cloakCoreID = config.getBlock("cloakcore", 517).getInt();
 		cloakCoilID = config.getBlock("cloakcoil", 518).getInt();
+		photoSynthID = config.getBlock("photoSynth", 519).getInt();
 		
 		LoadSpaceAgeIntegration();
 		LoadCC();

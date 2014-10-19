@@ -45,13 +45,13 @@ public class ServerTickHandler implements ITickHandler {
 	
 	private void onPlayerTick(EntityPlayer player, World world) {
 		starboostCrap(player);
-		binaryCrap(player);
+		//binaryCrap(player);
 	}
 
 	public void binaryCrap(EntityPlayer player) {
 	    if ((player.getCurrentItemOrArmor(4) != null) && (player.getCurrentItemOrArmor(3) != null) && (player.getCurrentItemOrArmor(2) != null) && (player.getCurrentItemOrArmor(1) != null)) {
 	    	player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 2, 2));
-	    	player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 2, 2));
+	    	//player.addPotionEffect(new PotionEffect(Potion.nightVision.getId(), 2, 2));
 	    }
 	}
 
@@ -80,7 +80,9 @@ public class ServerTickHandler implements ITickHandler {
 	      ItemStack plate = player.getCurrentItemOrArmor(3);
 
 	      if ((plate.getItem() == SpaceAgeCore.advancedSpacesuitChestplate ? 1 : 0) != 0) {
-	        player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 2, 2));
+	    	  System.out.println("SPACEAGE: ABOUT TO RUN POTION WITH NEGATIVE VALUE");
+	        player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 2, -1));
+	        System.out.println("SPACEAGE: SUCCESSFULLY RAN POTION WITH NEGATIVE VALUE");
 	        player.fallDistance = 0.0F;
 	      }
 	    }
@@ -91,7 +93,9 @@ public class ServerTickHandler implements ITickHandler {
 	      ItemStack plate = player.getCurrentItemOrArmor(3);
 
 	      if (((plate.getItem() == SpaceAgeCore.advancedSpacesuitChestplate ? 1 : 0) | (helmet.getItem() == SpaceAgeCore.advancedSpacesuitHelmet ? 1 : 0)) != 0) {
-	        player.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 2, 5));
+	     	  System.out.println("SPACEAGE: ABOUT TO RUN POTION WITH NEGATIVE VALUE");
+	        player.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 2, -1));
+	        System.out.println("SPACEAGE: SUCCESSFULLY RAN POTION WITH NEGATIVE VALUE");
 	        player.fallDistance = 0.0F;
 	      }
 
