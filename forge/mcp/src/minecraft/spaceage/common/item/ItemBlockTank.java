@@ -2,7 +2,6 @@ package spaceage.common.item;
 
 import java.util.List;
 
-import spaceage.common.block.BlockGenerator;
 import spaceage.common.stuff.Utils;
 
 import org.lwjgl.input.Keyboard;
@@ -11,9 +10,9 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 
-public class ItemBlockGeneratorTooltip extends ItemBlock {
+public class ItemBlockTank extends ItemBlock {
 
-	public ItemBlockGeneratorTooltip(int id) {
+	public ItemBlockTank(int id) {
 		super(id);
 		setHasSubtypes(true);
 	}
@@ -21,7 +20,7 @@ public class ItemBlockGeneratorTooltip extends ItemBlock {
     @Override
     public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List info, boolean par4) {
         // Only displays tooltip information when SHIFT key is pressed.
-        String tooltip = StatCollector.translateToLocal(getUnlocalizedName() + ".tooltip");//"Type: Electrical Generator";
+        String tooltip = StatCollector.translateToLocal(getUnlocalizedName() + ".tooltip");//"Type: Tank";
         String defaultTooltip = StatCollector.translateToLocal("Press shift for more information");
         boolean isShiftPressed = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 
@@ -38,11 +37,11 @@ public class ItemBlockGeneratorTooltip extends ItemBlock {
 		String name = "";
 		switch(itemStack.getItemDamage()) {
 			case 0: {
-				name = "heatGenerator";
+				name = "liquidTank";
 				break;
 			}
 			case 1: {
-				name = "solarGenerator";
+				name = "gasTank";
 				break;
 			}
 			default: 

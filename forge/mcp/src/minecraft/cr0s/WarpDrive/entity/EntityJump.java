@@ -1,6 +1,7 @@
 package cr0s.WarpDrive.entity;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.Loader;
 import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.WarpDriveConfig;
 import cr0s.WarpDrive.jumpgate.JumpBlock;
@@ -10,6 +11,8 @@ import cr0s.WarpDrive.utils.LocalProfiler;
 import dan200.computer.api.IPeripheral;
 import dan200.turtle.api.ITurtleAccess;
 import dan200.turtle.api.TurtleSide;
+
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -93,8 +96,14 @@ public class EntityJump extends Entity
 
 	AxisAlignedBB axisalignedbb;
 
-	private boolean fromSpace, toSpace, betweenWorlds;
-	private boolean fromOverworld, toOverworld;
+	private boolean /*fromSpace,*/ toSpace, betweenWorlds;
+	private boolean toOverworld;
+	private boolean toVulcan;
+	private int vulcanID;
+	private boolean toHades;
+	private int hadesID;
+	private boolean to0011;
+	private int t0011ID;
 	public boolean toHyperSpace, fromHyperSpace;
 	private boolean isInHyperSpace;
 
@@ -311,29 +320,52 @@ public class EntityJump extends Entity
 					((EntityPlayer)me.entity).addChatMessage("[WarpCore] " + msg);
 	}
 
-	public void prepareToJump()
-	{
-		LocalProfiler.start("EntityJump.prepareToJump");
+	public void prepareToJump() {
+		if(Loader.isModLoaded("SpaceAgePlanets")) {
+			try {
+				Class c = Class.forName("spaceage.planets.SpaceAgePlanets");
+				
+				Field vulcan = c.getField("vulcanID");
+				Field hades = c.getField("hadesID");
+				Field t0011 = c.getField("T0011ID");
+				
+				vulcanID = Integer.valueOf(vulcan.toString());
+				hadesID = Integer.valueOf(hades.toString());
+				t0011ID = Integer.valueOf(t0011.toString());
+				
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			vulcanID = this.worldObj.provider.dimensionId;
+			hadesID = this.worldObj.provider.dimensionId;
+			t0011ID = this.worldObj.provider.dimensionId;
+		}
+		
+		LocalProfiler.start("EntityJump.prepareToJump"); //TODO shortcut
 		isInHyperSpace = (worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID);
 		toOverworld = (dir == (-2/*DOWN*/) && (minY - distance < 0) && /*(X IN SPACE) && (Z IN SPACE) && */worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
-		toSpace   = (dir == -1 && (maxY + distance > 255) && worldObj.provider.dimensionId == 0);
-		fromSpace = (dir == -2 && (minY - distance < 0) && worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
-		betweenWorlds = fromSpace || toSpace || toHyperSpace || fromHyperSpace;
+		toVulcan = (dir == (-2/*DOWN*/) && (minY - distance < 0) && /*(X IN SPACE) && (Z IN SPACE) && */worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
+		toHades = (dir == (-2/*DOWN*/) && (minY - distance < 0) && /*(X IN SPACE) && (Z IN SPACE) && */worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
+		to0011 = (dir == (-2/*DOWN*/) && (minY - distance < 0) && /*(X IN SPACE) && (Z IN SPACE) && */worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
+		//fromOverworld = (dir == (-1) && (maxY + distance > 255) && worldObj.provider.dimensionId == 0);
+		toSpace   = (dir == -1 && (maxY + distance > 255) && ((worldObj.provider.dimensionId != WarpDrive.instance.spaceDimID) || (worldObj.provider.dimensionId != WarpDrive.instance.hyperSpaceDimID)));
+		//fromSpace = (dir == -2 && (minY - distance < 0) && worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
+		betweenWorlds = /*fromSpace ||*/ toSpace || toHyperSpace || fromHyperSpace || toOverworld;
 
-		if (toSpace || fromHyperSpace)
-		{
+		if (toSpace || fromHyperSpace) {
 			targetWorld = DimensionManager.getWorld(WarpDrive.instance.spaceDimID);
-		}
-		else if (fromSpace)
-		{
+		} else if (toOverworld) {
 			targetWorld = DimensionManager.getWorld(0);
-		}
-		else if (toHyperSpace)
-		{
+		} else if (toHyperSpace) {
 			targetWorld = DimensionManager.getWorld(WarpDrive.instance.hyperSpaceDimID);
-		}
-		else
-		{
+		} else if (toVulcan) {
+			targetWorld = DimensionManager.getWorld(vulcanID);
+		} else if (toHades) {
+			targetWorld = DimensionManager.getWorld(hadesID);
+		} else if (to0011) {
+			targetWorld = DimensionManager.getWorld(t0011ID);
+		} else {
 			targetWorld = this.worldObj;
 		}
 
@@ -361,7 +393,7 @@ public class EntityJump extends Entity
 			{
 				moveX = moveY = 0;
 
-				if (fromSpace)
+				if (toOverworld)
 				{
 					moveY = 245 - maxY;
 				}
@@ -849,7 +881,7 @@ public class EntityJump extends Entity
 			return false;
 		}
 
-		if ((dir == -2 && minY - testDistance <= 8) && !fromSpace)
+		if ((dir == -2 && minY - testDistance <= 8) && !toOverworld)
 		{
 			blowY = minY - testDistance;
 			blowX = xCoord;

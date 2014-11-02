@@ -1,8 +1,16 @@
 tile.reinforcedGlass.name=Reinforced Glass
 #
 #Generators
-tile.metaGenerator.heatGen.name=Geothermal Turbine
-tile.metaGenerator.solarGen.name=Photovoltaic Panel
+tile.metaGenerator.heatGenerator.name=Geothermal Turbine
+tile.metaGenerator.heatGenerator.tooltip=Geothermal Turbine: Produces 400J/tick
+tile.metaGenerator.solarGenerator.name=Photovoltaic Panel
+tile.metaGenerator.solarGenerator.tooltip=Photovoltaic Panel: Produces 400J/tick
+#
+#Tanks
+tile.tank.liquidTank.name=Liquid Tank
+tile.tank.liquidTank.tooltip=Liquid Tank: Capacity: 4000mB
+tile.tank.gasTank.name=Gas Canister
+tile.tank.gasTank.tooltip=Gas Canister: Capacity: 4000mB
 #
 #Spaceship alloy
 tile.spaceshipAlloy.blackAlloy.name=Black Alloy

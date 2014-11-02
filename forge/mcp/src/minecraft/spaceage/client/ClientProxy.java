@@ -6,6 +6,7 @@ import net.minecraft.client.model.ModelBiped;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.client.FMLClientHandler;
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.TickRegistry;
@@ -14,7 +15,11 @@ import spaceage.client.model.ModelOrganicFemale;
 import spaceage.client.model.ModelStarboost;
 import spaceage.common.CommonProxy;
 import spaceage.common.PlayerTickHandler;
+import spaceage.common.tile.TileGasTank;
+import spaceage.common.tile.TileLiquidTank;
 import spaceage.common.tile.TileSolarPanel;
+import spaceage.common.tile.render.TileGasTankRenderer;
+import spaceage.common.tile.render.TileLiquidTankRenderer;
 import spaceage.planets.aliens.entity.EntityBinary;
 import spaceage.planets.aliens.entity.EntityBinaryFemale;
 import spaceage.planets.aliens.model.ModelBinaryFemaleTest;
@@ -67,6 +72,11 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(EntityBinary.class, new RenderBinary(new ModelBiped(), shadowSize));
 		
 		RenderingRegistry.registerEntityRenderingHandler(EntityBinaryFemale.class, new RenderBinaryFemale(new ModelBinaryFemaleTest(), shadowSize));
+		
+		
+		//tile entity rendering s***
+		ClientRegistry.bindTileEntitySpecialRenderer(TileGasTank.class, new TileGasTankRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileLiquidTank.class, new TileLiquidTankRenderer());
 	}
 	
 	@Override

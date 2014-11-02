@@ -15,17 +15,21 @@ import spaceage.common.block.BlockGenerator;
 import spaceage.common.block.BlockHades;
 import spaceage.common.block.BlockOres1;
 import spaceage.common.block.BlockSpaceshipAlloy;
+import spaceage.common.block.BlockTank;
 import spaceage.common.block.BlockVulcan;
 import spaceage.common.item.ItemBlock0011;
 import spaceage.common.item.ItemBlockGeneratorTooltip;
 import spaceage.common.item.ItemBlockHades;
 import spaceage.common.item.ItemBlockSpaceshipAlloy;
+import spaceage.common.item.ItemBlockTank;
 import spaceage.common.item.ItemBlockVulcan;
 import spaceage.common.item.ItemFireResistArmour;
 import spaceage.common.item.ItemMeta;
 import spaceage.common.item.ItemRepulsor;
 import spaceage.common.item.ItemStarboost;
+import spaceage.common.tile.TileGasTank;
 import spaceage.common.tile.TileHeatGenerator;
+import spaceage.common.tile.TileLiquidTank;
 import spaceage.common.tile.TileSolarPanel;
 import spaceage.planets.aliens.Aliens;
 import universalelectricity.api.UniversalElectricity;
@@ -116,12 +120,13 @@ public class SpaceAgeCore {
 	public static Item fireResistanceLeggings;
 	public static Item fireResistanceBoots;
 	
-	public static Item organicFemaleHelmet;
-	public static Item organicFemaleChestplate;
-	public static Item organicFemaleLeggings;
-	public static Item organicFemaleBoots;
+	public static Item organicHelmet;
+	public static Item organicChestplate;
+	public static Item organicLeggings;
+	public static Item organicBoots;
 	
 	public static Block metaGenerator;
+	public static Block tank;
 	
 	public static Block tintedGlass;
 	
@@ -153,12 +158,13 @@ public class SpaceAgeCore {
 	public static int fireResistanceLeggingsID;
 	public static int fireResistanceBootsID;
 	
-	public static int organicFemaleHelmetID;
-	public static int organicFemaleChestplateID;
-	public static int organicFemaleLeggingsID;
-	public static int organicFemaleBootsID;
+	public static int organicHelmetID;
+	public static int organicChestplateID;
+	public static int organicLeggingsID;
+	public static int organicBootsID;
 	
 	public static int metaGeneratorID;
+	public static int tankID;
 	
 	public static int tintedGlassID;
 	
@@ -204,10 +210,10 @@ public class SpaceAgeCore {
 		fireResistanceChestplateID = config.get("Items", "Value of the fire resistance chestplate - do not edit this to play on the server", 5007).getInt();
 		fireResistanceLeggingsID = config.get("Items", "Value of the fire resistance legs - do not edit this to play on the server", 5008).getInt();
 		fireResistanceBootsID = config.get("Items", "Value of the fire resistance boots - do not edit this to play on the server", 5009).getInt();
-		organicFemaleHelmetID = config.get("Items", "Value of the female's organic helmet - do not edit this to play on the server", 5010).getInt();
-		organicFemaleChestplateID = config.get("Items", "Value of the female's organic chestplate - do not edit this to play on the server", 5011).getInt();
-		organicFemaleLeggingsID = config.get("Items", "Value of the female's organic legs - do not edit this to play on the server", 5012).getInt();
-		organicFemaleBootsID = config.get("Items", "Value of the female's organic boots - do not edit this to play on the server", 5013).getInt();
+		organicHelmetID = config.get("Items", "Value of the organic helmet - do not edit this to play on the server", 5010).getInt();
+		organicChestplateID = config.get("Items", "Value of the organic chestplate - do not edit this to play on the server", 5011).getInt();
+		organicLeggingsID = config.get("Items", "Value of the organic legs - do not edit this to play on the server", 5012).getInt();
+		organicBootsID = config.get("Items", "Value of the organic boots - do not edit this to play on the server", 5013).getInt();
 		//SOLAR_ENERGY = config.get("Energy", "How much energy the solar panel generates - do not edit this to play on the server", 50).getInt();
 		//HEAT_ENERGY = config.get("Energy", "How much energy the geothermal turbine generates - do not edit this to play on the server", 50).getInt();
 		//SOLAR_CAPACITY = config.get("Energy", "How much energy the solar panel can store - do not edit this to play on the server", 250).getInt();
@@ -218,6 +224,7 @@ public class SpaceAgeCore {
 		hadesSurfaceID = config.get("Blocks", "Value of the majority of Hades related blocks - do not edit to play on the server", 254).getInt();
 		T0011SurfaceID = config.get("Blocks", "Value of the majority of 0011 related blocks - do not edit to play on the server", 253).getInt(); //TODO remember that worldgen blocks are below 256 and also change meta so surface is first
 		metaSaplingID = config.get("Saplings", "Value of the saplings - do not edit to play on the server", 504).getInt();
+		tankID = config.get("Blocks", "Value of the tank - do not edit this to play on the server", 505).getInt();
 		
 		config.save();
 	}	
@@ -234,7 +241,7 @@ public class SpaceAgeCore {
 	       metadata.logoFile = "assets/spaceage/logo_nathan_test-2.png";
 	       metadata.version = "Alpha";
 	       metadata.authorList = Arrays.asList(new String[] { 
-	    		   "SkylordJoel", "big_fat_bunny"/*, "Super_Jen_Bot"*/ 
+	    		   "SkylordJoel", "big_fat_bunny", "NathanPhillis"
 	    		   });
 	       metadata.credits = "Many, notable include Calclavia, cr0s, Reika";
 	       metadata.autogenerated = false;
@@ -274,15 +281,16 @@ public class SpaceAgeCore {
 		fireResistanceLeggings = new ItemFireResistArmour(this.fireResistanceLeggingsID, armourFIRERESISTANCE, 0, 2).setUnlocalizedName("fireLeggings");
 		fireResistanceBoots = new ItemFireResistArmour(this.fireResistanceBootsID, armourFIRERESISTANCE, 0, 3).setUnlocalizedName("fireBoots");
 		
-		//organicFemaleHelmet = new ItemOrganicFemale(this.organicFemaleHelmetID, armourBINARY, 0, 0).setUnlocalizedName("fOHelmet");
-		//organicFemaleChestplate = new ItemOrganicFemale(this.organicFemaleChestplateID, armourBINARY, 0, 1).setUnlocalizedName("fOChestplate");
-		//organicFemaleLeggings = new ItemOrganicFemale(this.organicFemaleLeggingsID, armourBINARY, 0, 2).setUnlocalizedName("fOLeggings");
-		//organicFemaleBoots = new ItemOrganicFemale(this.organicFemaleBootsID, armourBINARY, 0, 3).setUnlocalizedName("fOBoots");
+		//organicHelmet = new ItemOrganic(this.organicHelmetID, armourBINARY, 0, 0).setUnlocalizedName("oHelmet");
+		//organicChestplate = new ItemOrganic(this.organicChestplateID, armourBINARY, 0, 1).setUnlocalizedName("oChestplate");
+		//organicLeggings = new ItemOrganic(this.organicLeggingsID, armourBINARY, 0, 2).setUnlocalizedName("oLeggings");
+		//organicBoots = new ItemOrganic(this.organicBootsID, armourBINARY, 0, 3).setUnlocalizedName("oBoots");
 		
 		tintedGlass = new BlockConnectedGlasses(this.tintedGlassID, Material.glass).setUnlocalizedName("reinforcedGlass");
 		
 		//Machines
 		metaGenerator = new BlockGenerator(metaGeneratorID, UniversalElectricity.machine).setUnlocalizedName("metaGenerator").setCreativeTab(tabSA);
+		tank = new BlockTank(tankID, Material.iron).setUnlocalizedName("tank").setCreativeTab(tabSA);
 		
 		gameRegisters();
 		//languageRegisters(); Now has localizing
@@ -412,9 +420,9 @@ public class SpaceAgeCore {
 	private void blockHarvest() {
 		//MinecraftForge.setBlockHarvestLevel(block, toolClass, harvestLevel)
 		MinecraftForge.setBlockHarvestLevel(spaceshipAlloyMeta, "pickaxe", 2);
-		MinecraftForge.setBlockHarvestLevel(spaceshipAlloyMeta, "pickaxe", 3);
+		//MinecraftForge.setBlockHarvestLevel(spaceshipAlloyMeta, "pickaxe", 3);
 		MinecraftForge.setBlockHarvestLevel(metaGenerator, "pickaxe", 2);
-		MinecraftForge.setBlockHarvestLevel(metaGenerator, "pickaxe", 3);
+		//MinecraftForge.setBlockHarvestLevel(metaGenerator, "pickaxe", 3);
 	}
 
 	private void smeltingRecipes() {
@@ -493,10 +501,10 @@ public class SpaceAgeCore {
 		LanguageRegistry.addName(fireResistanceLeggings, "Flame Resistant Leggings");
 		LanguageRegistry.addName(fireResistanceBoots, "Flame Resistant Boots");
 		
-		//LanguageRegistry.addName(organicFemaleHelmet, "Exoskeleton Helmet");
-		//LanguageRegistry.addName(organicFemaleChestplate, "Exoskeleton Chestplate");
-		//LanguageRegistry.addName(organicFemaleLeggings, "Exoskeleton Leggings");
-		//LanguageRegistry.addName(organicFemaleBoots, "Exoskeleton Boots");
+		//LanguageRegistry.addName(organicHelmet, "Exoskeleton Helmet");
+		//LanguageRegistry.addName(organicChestplate, "Exoskeleton Chestplate");
+		//LanguageRegistry.addName(organicLeggings, "Exoskeleton Leggings");
+		//LanguageRegistry.addName(organicBoots, "Exoskeleton Boots");
 		
 		LanguageRegistry.addName(repulsor, "Laser Cannon");
 		
@@ -566,10 +574,10 @@ public class SpaceAgeCore {
 		GameRegistry.registerItem(fireResistanceLeggings, "Flame Resistant Leggings");
 		GameRegistry.registerItem(fireResistanceBoots, "Flame Resistant Boots");
 		
-		GameRegistry.registerItem(organicFemaleHelmet, "Exoskeleton Helmet");
-		GameRegistry.registerItem(organicFemaleChestplate, "Exoskeleton Chestplate");
-		GameRegistry.registerItem(organicFemaleLeggings, "Exoskeleton Leggings");
-		GameRegistry.registerItem(organicFemaleBoots, "Exoskeleton Boots");
+		GameRegistry.registerItem(organicHelmet, "Exoskeleton Helmet");
+		GameRegistry.registerItem(organicChestplate, "Exoskeleton Chestplate");
+		GameRegistry.registerItem(organicLeggings, "Exoskeleton Leggings");
+		GameRegistry.registerItem(organicBoots, "Exoskeleton Boots");
 		
 		GameRegistry.registerItem(repulsor, "Laser Cannon");
 		
@@ -577,6 +585,10 @@ public class SpaceAgeCore {
 		this.metaRegister(metaGenerator, ItemBlockGeneratorTooltip.class, metaGenerator.getUnlocalizedName());
 		GameRegistry.registerTileEntity(TileHeatGenerator.class, "heatGenerator");
 		GameRegistry.registerTileEntity(TileSolarPanel.class, "solarPanel");
+		
+		this.metaRegister(tank, ItemBlockTank.class, tank.getUnlocalizedName());
+		GameRegistry.registerTileEntity(TileLiquidTank.class, "liquidTank");
+		GameRegistry.registerTileEntity(TileGasTank.class, "gasTank");
 		
 		GameRegistry.registerBlock(tintedGlass, "Reinforced Glass");
 		

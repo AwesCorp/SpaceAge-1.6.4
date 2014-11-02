@@ -14,13 +14,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 import spaceage.common.SpaceAgeCore;
 import spaceage.common.block.BlockGenerator;
 import uedevkit.tile.TileElectricBase;
-import uedevkit.tile.TileGeneratorBase;
+import uedevkit.tile.TileElectricInventoryNetworked;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
-public class TileSolarPanel extends TileGeneratorBase {
+public class TileSolarPanel extends TileElectricInventoryNetworked {
 	
 	public TileSolarPanel() {
-		super(SpaceAgeCore.SOLAR_CAPACITY, 0, SpaceAgeCore.SOLAR_ENERGY);
+		super(SpaceAgeCore.SOLAR_CAPACITY, 100);
 		inventory = new ItemStack[1];
 	}
 	
@@ -63,23 +63,23 @@ public class TileSolarPanel extends TileGeneratorBase {
 
 	@Override
 	public void updateEntity() {
-		super.updateEntity();
-		
+		//super.updateEntity();
 		//this.produce();
-		
 		if (!this.worldObj.isRemote) {
 			if (this.worldObj.canBlockSeeTheSky(xCoord, yCoord + 1, zCoord) && !this.worldObj.provider.hasNoSky) {
 				if (this.worldObj.isDaytime()) {
 					if (!(this.worldObj.isThundering() || this.worldObj.isRaining())) {
-							if(!this.energy.isFull()) {
-							Long produced = Long.valueOf(SpaceAgeCore.SOLAR_ENERGY);
-							this.produceEnergy(produced);
-						}
+						this.energy.receiveEnergy(SpaceAgeCore.SOLAR_ENERGY, true);
+						markDistributionUpdate |= produceReturn() > 0;
+						
+						Long produced = Long.valueOf(SpaceAgeCore.SOLAR_ENERGY);
+						this.produceEnergy(produced);
 						this.produce();
 					}
 				}
 			}
 		}
+		super.updateEntity();
 	}
 
 	@Override
@@ -91,8 +91,9 @@ public class TileSolarPanel extends TileGeneratorBase {
 	@Override
 	public boolean canInsertItem(int slot, ItemStack itemstack, int side) {
 		ItemStack enrichedSilicon = new ItemStack(SpaceAgeCore.meta,1,12);
+		int enrichedSiliconDamage = 12;
 		
-		return itemstack.itemID == enrichedSilicon.itemID;
+		return ((itemstack.itemID == enrichedSilicon.itemID) || (itemstack.getItemDamage() == enrichedSiliconDamage));
 	}
 
 	@Override
@@ -162,11 +163,31 @@ public class TileSolarPanel extends TileGeneratorBase {
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
 		ItemStack enrichedSilicon = new ItemStack(SpaceAgeCore.meta,1,12);
+		int enrichedSiliconDamage = 12;
 		
-		return itemstack.itemID == enrichedSilicon.itemID;
+		return ((itemstack.itemID == enrichedSilicon.itemID) || (itemstack.getItemDamage() == enrichedSiliconDamage));
 	}
     
 	public int getType() {
 	    return BlockGenerator.Types.SOLAR.ordinal();
 	  }
+
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
+	}
+	
+	/** The electrical input direction.
+     * 
+     * @return The direction that electricity is entered into the tile. Return null for no input. By default you can accept power from all sides. */
+    public EnumSet<ForgeDirection> getInputDirections() {
+        return EnumSet.noneOf(ForgeDirection.class);
+    }
+
+    /** The electrical output direction.
+     * 
+     * @return The direction that electricity is output from the tile. Return null for no output. By default it will return an empty EnumSet. */
+    public EnumSet<ForgeDirection> getOutputDirections() {
+        return EnumSet.allOf(ForgeDirection.class);
+    }
 }

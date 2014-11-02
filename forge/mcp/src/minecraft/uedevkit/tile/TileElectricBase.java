@@ -22,7 +22,17 @@ import universalelectricity.api.vector.Vector3;
 public abstract class TileElectricBase extends TileEntity implements IEnergyInterface, IEnergyContainer {
     protected EnergyStorageHandler energy;
     
+    protected long ticks = 0;
+    
     protected EntityPlayer player;
+    
+    /** Called on the TileEntity's first tick. */
+    public void initiate() {
+    }
+    
+    public EnergyStorageHandler getEnergyHandler() {
+    	return energy;
+    }
 
     /**
      * Used for temporary constructors. Not recommended to be used. 
@@ -179,11 +189,33 @@ public abstract class TileElectricBase extends TileEntity implements IEnergyInte
     }
 
     /**
-     * Produces energy if is allowed. Call this or produceEnergy(long amount) in your updateEntity method. 
+     * Produces energy if is allowed. Call this or produceEnergy(long amount) in your updateEntity method. Note: LONG VERSION
+     * @author SkylordJoel
+     */
+    protected long produceReturn() {
+    	
+    	long totalUsed = 0;
+    	
+        for (ForgeDirection direction : this.getOutputDirections()) {
+            if (this.energy.getEnergy() > 0) {
+                TileEntity tileEntity = new Vector3(this).translate(direction).getTileEntity(this.worldObj);
+
+                if (tileEntity != null) {
+                    long used = CompatibilityModule.receiveEnergy(tileEntity, direction.getOpposite(), this.energy.extractEnergy(this.energy.getEnergy(), false), true);
+                    totalUsed += this.energy.extractEnergy(used, true);
+                }
+            }
+        }
+        
+        return totalUsed;
+    }
+    
+    /**
+     * Produces energy if is allowed. Call this or produceEnergy(long amount) in your updateEntity method. Note: VOID VERSION
      * @author SkylordJoel
      */
     protected void produce() {
-        for (ForgeDirection direction : ForgeDirection.VALID_DIRECTIONS) {
+        for (ForgeDirection direction : this.getOutputDirections()) {
             if (this.energy.getEnergy() > 0) {
                 TileEntity tileEntity = new Vector3(this).translate(direction).getTileEntity(this.worldObj);
 
@@ -235,11 +267,16 @@ public abstract class TileElectricBase extends TileEntity implements IEnergyInte
     @Override
     public void updateEntity() {
         super.updateEntity();
-
-        // Accept energy if we are allowed to do so.
-        if (this.energy.checkReceive()) {
-            this.consume();
+        
+        if(this.ticks == 0) {
+        	initiate();
         }
+        
+        if(ticks >= Long.MAX_VALUE) {
+        	ticks = 1;
+        }
+        
+        ticks++;
     }
 
     /** Saves the energy to NBT, so you don't have to specify it yourself.

@@ -18,7 +18,7 @@ public class AtmosphereHandler {
 	public void livingUpdate(LivingUpdateEvent event) {
 		EntityLivingBase entity = event.entityLiving;
 		
-		if (entity.worldObj.provider.dimensionId == SpaceAgePlanets.instance.vulcanID || entity.worldObj.provider.dimensionId == SpaceAgePlanets.instance.hadesID) { //TODO more planets w/ breathable atmosphere
+		if (entity.worldObj.provider.dimensionId == SpaceAgePlanets.instance.vulcanID || entity.worldObj.provider.dimensionId == SpaceAgePlanets.instance.hadesID || entity.worldObj.provider.dimensionId == SpaceAgePlanets.instance.T0011ID) { //TODO more planets w/ breathable atmosphere
 			boolean inVacuum = isEntityInVacuum(entity);
 
 			// Damage entity if in vacuum without protection

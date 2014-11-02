@@ -25,7 +25,7 @@ import spaceage.common.SpaceAgeCore;
 import spaceage.common.block.BlockGenerator;
 import spaceage.common.prefab.tile.FluidGuiHelper;
 import uedevkit.tile.TileElectricInventoryBase;
-import uedevkit.tile.TileGeneratorBase;
+import uedevkit.tile.TileElectricInventoryNetworked;
 import universalelectricity.api.energy.EnergyStorageHandler;
 
 /**
@@ -33,15 +33,15 @@ import universalelectricity.api.energy.EnergyStorageHandler;
  * @author SkylordJoel
  */
 
-public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandler, FluidGuiHelper {
+public class TileHeatGenerator extends TileElectricInventoryNetworked implements IFluidHandler, FluidGuiHelper {
 	
-	public int waterTankSize = 2000;
+	public int waterTankSize = 4000;
 	public FluidTank waterTank = new FluidTank(waterTankSize); 
 	
 	protected boolean creatingSteam = false; 
 	
 	public TileHeatGenerator() {
-		super(SpaceAgeCore.HEAT_CAPACITY, 0, SpaceAgeCore.HEAT_ENERGY);
+		super(SpaceAgeCore.HEAT_CAPACITY, 100);
 		inventory = new ItemStack[1];
 	}
     
@@ -71,16 +71,16 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
 }
 		
 		if(powered == true/* && creatingSteam == true*/) {
-			if(!this.energy.isFull()) {
-				Long produced = Long.valueOf(SpaceAgeCore.HEAT_ENERGY);
-				this.produceEnergy(produced);
-			}
+			this.energy.receiveEnergy(SpaceAgeCore.HEAT_ENERGY, true);
+			markDistributionUpdate |= produceReturn() > 0;
+			
+			Long produced = Long.valueOf(SpaceAgeCore.HEAT_ENERGY);
+			this.produceEnergy(produced);
 			this.produce();
 		}
 	}
 	
     private void updateTexture() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -262,12 +262,26 @@ public class TileHeatGenerator extends TileGeneratorBase implements IFluidHandle
         return result.intValue();
     }
 	
-	@Override
+	//@Override
 	public int getLightValue() {
 		return this.isFunctioning() ? 14 : 0;
 	}
 	
 	public int getType() {
 	    return BlockGenerator.Types.HEAT.ordinal();
-	  }
+	}
+	
+	/** The electrical input direction.
+     * 
+     * @return The direction that electricity is entered into the tile. Return null for no input. By default you can accept power from all sides. */
+    public EnumSet<ForgeDirection> getInputDirections() {
+        return EnumSet.noneOf(ForgeDirection.class);
+    }
+
+    /** The electrical output direction.
+     * 
+     * @return The direction that electricity is output from the tile. Return null for no output. By default it will return an empty EnumSet. */
+    public EnumSet<ForgeDirection> getOutputDirections() {
+        return EnumSet.allOf(ForgeDirection.class);
+    }
 }
