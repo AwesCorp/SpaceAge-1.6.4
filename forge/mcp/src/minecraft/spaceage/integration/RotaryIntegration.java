@@ -8,7 +8,7 @@ public class RotaryIntegration {
 	
 	public static FluidStack lubricant;
 	
-	public void getRotaryItem() {
+	public void getRotaryItems() {
 		if(Loader.isModLoaded("RotaryCraft")) {
 			lubricant = new FluidStack(FluidRegistry.getFluid("lubricant"), 1000);	
 		}

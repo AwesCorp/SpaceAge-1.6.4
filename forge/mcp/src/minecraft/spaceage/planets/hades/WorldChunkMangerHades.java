@@ -28,8 +28,7 @@ private List<BiomeGenBase> myBiomesToSpawnIn;
 protected WorldChunkMangerHades() {
 	this.myBiomeCache = new BiomeCache(this);
 	this.myBiomesToSpawnIn = new ArrayList<BiomeGenBase>();
-	this.myBiomesToSpawnIn.add(BiomeList.vulcanMain);
-	this.myBiomesToSpawnIn.add(BiomeList.vulcanVolcano);
+	this.myBiomesToSpawnIn.add(BiomeList.hadesMain);
 }
 
 public WorldChunkMangerHades(long seed, WorldType worldtype) {
@@ -56,7 +55,7 @@ public List<BiomeGenBase> getBiomesToSpawnIn() {
 public BiomeGenBase getBiomeGenAt(int x, int z) {
 	BiomeGenBase biome = this.myBiomeCache.getBiomeGenAt(x, z);
 	if (biome == null) {
-		return BiomeList.vulcanMain;
+		return BiomeList.hadesMain;
 	}
 
 	return biome;
@@ -102,7 +101,7 @@ if (aint[i] >= 0) {
 par1ArrayOfBiomeGenBase[i] = BiomeGenBase.biomeList[aint[i]];
 } else {
 //Change this to a biome
-par1ArrayOfBiomeGenBase[i] = BiomeList.vulcanMain;
+par1ArrayOfBiomeGenBase[i] = BiomeList.hadesMain;
 }
 }
 
@@ -142,7 +141,7 @@ if (aint[i] >= 0) {
 par1ArrayOfBiomeGenBase[i] = BiomeGenBase.biomeList[aint[i]];
 } else {
 //Change this to a biome
-par1ArrayOfBiomeGenBase[i] = BiomeList.vulcanMain;
+par1ArrayOfBiomeGenBase[i] = BiomeList.hadesMain;
 }
 }
 

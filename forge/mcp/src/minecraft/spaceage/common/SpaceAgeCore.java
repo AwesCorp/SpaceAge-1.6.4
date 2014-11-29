@@ -10,6 +10,7 @@ import org.lwjgl.input.Keyboard;
 import spaceage.client.gui.SPGUI;
 import spaceage.common.achievements.SpaceAgeAchievements;
 import spaceage.common.block.Block0011;
+import spaceage.common.block.BlockCable;
 import spaceage.common.block.BlockConnectedGlasses;
 import spaceage.common.block.BlockGenerator;
 import spaceage.common.block.BlockHades;
@@ -18,8 +19,10 @@ import spaceage.common.block.BlockSpaceshipAlloy;
 import spaceage.common.block.BlockTank;
 import spaceage.common.block.BlockVulcan;
 import spaceage.common.item.ItemBlock0011;
+import spaceage.common.item.ItemBlockCable;
 import spaceage.common.item.ItemBlockGeneratorTooltip;
 import spaceage.common.item.ItemBlockHades;
+import spaceage.common.item.ItemBlockOres1;
 import spaceage.common.item.ItemBlockSpaceshipAlloy;
 import spaceage.common.item.ItemBlockTank;
 import spaceage.common.item.ItemBlockVulcan;
@@ -27,10 +30,14 @@ import spaceage.common.item.ItemFireResistArmour;
 import spaceage.common.item.ItemMeta;
 import spaceage.common.item.ItemRepulsor;
 import spaceage.common.item.ItemStarboost;
+import spaceage.common.tile.TileAluminiumCable;
+import spaceage.common.tile.TileCopperCable;
 import spaceage.common.tile.TileGasTank;
 import spaceage.common.tile.TileHeatGenerator;
 import spaceage.common.tile.TileLiquidTank;
+import spaceage.common.tile.TileSilverCable;
 import spaceage.common.tile.TileSolarPanel;
+import spaceage.integration.IntegrationManager;
 import spaceage.planets.aliens.Aliens;
 import universalelectricity.api.UniversalElectricity;
 
@@ -43,6 +50,7 @@ import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
@@ -73,13 +81,15 @@ import cpw.mods.fml.relauncher.Side;
  * @author SkylordJoel, Reika (hooking into UniversalElectricity examples), Tihyo (armour flight), Colossali (armour HUD)
  */
 
-@Mod(modid=SpaceAgeCore.modid, name="SpaceAge/Project Cosmos: - bringing Minecraft to the Space Age", version="Alpha", dependencies="required-after:UniversalElectricity")
-@NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"SpaceAge"}, packetHandler = PacketHandler.class
+@Mod(modid=SpaceAgeCore.modid, name="SpaceAge/Project Cosmos: - bringing Minecraft to the Space Age", version="Alpha", dependencies="required-after:UniversalElectricity;after:RotaryCraft;after:AppliedEnergistics")
+@NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"SpaceAge", "SpaceAge_UpdateCables"}, packetHandler = PacketHandler.class
 
 		/*, serverPacketHandlerSpec=@NetworkMod.SidedPacketHandler(channels={"SpaceAge_C"}, packetHandler=ServerPacketHandler.class)*/)
 
 public class SpaceAgeCore {
 
+	public static SpaceAgeCore workAround;
+	
 	public static CreativeTabs tabSA = new CreativeTabs("tabSA") {
 		public ItemStack getIconItemstack() {
 			return new ItemStack(spaceshipAlloyMeta,1,0);
@@ -90,6 +100,8 @@ public class SpaceAgeCore {
 	public static CommonProxy proxy;
 	
 	public static Aliens aliens;
+	
+	public static IntegrationManager integration;
 	
 	public static final String modid = "SpaceAge";
 	//public String modid2 = modid.toLowerCase();
@@ -127,6 +139,7 @@ public class SpaceAgeCore {
 	
 	public static Block metaGenerator;
 	public static Block tank;
+	public static Block cable;
 	
 	public static Block tintedGlass;
 	
@@ -165,6 +178,7 @@ public class SpaceAgeCore {
 	
 	public static int metaGeneratorID;
 	public static int tankID;
+	public static int cableID;
 	
 	public static int tintedGlassID;
 	
@@ -190,6 +204,10 @@ public class SpaceAgeCore {
 	
 	//CELLS
 	public static int CELL_CAPACITY = 1000000; //TODO Temp values - 20 000 REDSTONE FLUX
+	
+	public int getBlockID(Block blockToUse) {
+		return blockToUse.blockID;
+	}
 	
 	public static final Configuration config = new Configuration(new File("config/AwesCorp/SpaceAgeCore.cfg"));
 	
@@ -225,6 +243,7 @@ public class SpaceAgeCore {
 		T0011SurfaceID = config.get("Blocks", "Value of the majority of 0011 related blocks - do not edit to play on the server", 253).getInt(); //TODO remember that worldgen blocks are below 256 and also change meta so surface is first
 		metaSaplingID = config.get("Saplings", "Value of the saplings - do not edit to play on the server", 504).getInt();
 		tankID = config.get("Blocks", "Value of the tank - do not edit this to play on the server", 505).getInt();
+		cableID = config.get("Blocks", "Value of the cables - do not edit this to play on the server", 506).getInt();
 		
 		config.save();
 	}	
@@ -291,6 +310,7 @@ public class SpaceAgeCore {
 		//Machines
 		metaGenerator = new BlockGenerator(metaGeneratorID, UniversalElectricity.machine).setUnlocalizedName("metaGenerator").setCreativeTab(tabSA);
 		tank = new BlockTank(tankID, Material.iron).setUnlocalizedName("tank").setCreativeTab(tabSA);
+		cable = new BlockCable(cableID, UniversalElectricity.machine).setUnlocalizedName("spaceAgeCable").setCreativeTab(tabSA);
 		
 		gameRegisters();
 		//languageRegisters(); Now has localizing
@@ -318,7 +338,8 @@ public class SpaceAgeCore {
 	    
 	    aliens.registerEntities();
 	    
-
+	    integration.init();
+	    
 	    //proxy.getArmorModel();
 		//TickRegistry.registerTickHandler(new SpaceAgeServerTickHandler(EnumSet.of(TickType.SERVER)), Side.SERVER);
 		
@@ -363,8 +384,8 @@ public class SpaceAgeCore {
 		OreDictionary.registerOre("titaniumAluminumVanadiumIngot", heavyIngot);
 		OreDictionary.registerOre("titaniumAluminiumVanadiumAlloyIngot", heavyIngot);
 		OreDictionary.registerOre("titaniumAluminumVanadiumAlloyIngot", heavyIngot);
-		OreDictionary.registerOre("wire", wire);
-		OreDictionary.registerOre("aluminiumWire", wire);
+		//OreDictionary.registerOre("wire", wire);
+		//OreDictionary.registerOre("aluminiumWire", wire);
 		OreDictionary.registerOre("advancedCircuit", advancedCircuits);
 		OreDictionary.registerOre("advancedCircuits", advancedCircuits);
 		OreDictionary.registerOre("basicCircuit", basicCircuits);
@@ -395,8 +416,8 @@ public class SpaceAgeCore {
 		OreDictionary.registerOre("ingotTitaniumAluminumVanadium", heavyIngot);
 		OreDictionary.registerOre("ingotTitaniumAluminiumVanadiumAlloy", heavyIngot);
 		OreDictionary.registerOre("ingotTitaniumAluminumVanadiumAlloy", heavyIngot);
-		OreDictionary.registerOre("wire", wire);
-		OreDictionary.registerOre("wireAluminium", wire);
+		//OreDictionary.registerOre("wire", wire);
+		//OreDictionary.registerOre("wireAluminium", wire);
 		OreDictionary.registerOre("circuitAdvanced", advancedCircuits);
 		OreDictionary.registerOre("circuitsAdvanced", advancedCircuits);
 		OreDictionary.registerOre("circuitBasic", basicCircuits);
@@ -415,6 +436,72 @@ public class SpaceAgeCore {
 		OreDictionary.registerOre("dustLithium", lithiumDust);
 		OreDictionary.registerOre("lithiumDust", lithiumDust);
 		
+		
+		
+		ItemStack titanium = new ItemStack(ores1, 1, 0);
+		ItemStack magnetite = new ItemStack(ores1, 1, 1);
+		ItemStack aluminium = new ItemStack(ores1, 1, 2);
+		ItemStack lithiumP = new ItemStack(ores1, 1, 3);
+		ItemStack silverOre = new ItemStack(ores1, 1, 4);
+		ItemStack copper = new ItemStack(ores1, 1, 5);
+		ItemStack gold = new ItemStack(ores1, 1, 6);
+		ItemStack coal = new ItemStack(ores1, 1, 7);
+		ItemStack diamond = new ItemStack(ores1, 1, 8);
+		ItemStack emerald = new ItemStack(ores1, 1, 9);
+		ItemStack lapis = new ItemStack(ores1, 1, 10);
+		ItemStack quartz = new ItemStack(ores1, 1, 11);
+		
+		OreDictionary.registerOre("oreTitanium", titanium);
+		OreDictionary.registerOre("oreIlmenite", titanium);
+		OreDictionary.registerOre("titaniumOre", titanium);
+		OreDictionary.registerOre("ilmeniteOre", titanium);
+		
+		OreDictionary.registerOre("oreMagnetite", magnetite);
+		OreDictionary.registerOre("oreIron", magnetite);
+		OreDictionary.registerOre("magnetiteOre", magnetite);
+		OreDictionary.registerOre("ironOre", magnetite);
+		
+		OreDictionary.registerOre("oreAluminium", aluminium);
+		OreDictionary.registerOre("oreBauxite", aluminium);
+		OreDictionary.registerOre("aluminiumOre", aluminium);
+		OreDictionary.registerOre("bauxiteOre", aluminium);
+		
+		OreDictionary.registerOre("pegmatiteLithium", lithiumP);
+		OreDictionary.registerOre("lithiumPegmatite", lithiumP);
+		
+		OreDictionary.registerOre("oreSilver", silverOre);
+		OreDictionary.registerOre("oreArgentite", silverOre);
+		OreDictionary.registerOre("silverOre", silverOre);
+		OreDictionary.registerOre("argentiteOre", silverOre);
+		
+		OreDictionary.registerOre("oreCopper", copper);
+		OreDictionary.registerOre("oreChalcopyrite", copper);
+		OreDictionary.registerOre("copperOre", copper);
+		OreDictionary.registerOre("chalcopyriteOre", copper);
+		
+		OreDictionary.registerOre("oreGold", gold);
+		OreDictionary.registerOre("oreSylvanite", gold);
+		OreDictionary.registerOre("goldOre", gold);
+		OreDictionary.registerOre("sylvaniteOre", gold);
+		
+		OreDictionary.registerOre("oreCoal", coal);
+		OreDictionary.registerOre("coalOre", coal);
+		
+		OreDictionary.registerOre("kimberliteDiamond", diamond);
+		OreDictionary.registerOre("diamondKimberlite", diamond);
+		
+		OreDictionary.registerOre("pegmatiteEmerald", emerald);
+		OreDictionary.registerOre("emeraldPegmatite", emerald);
+		
+		OreDictionary.registerOre("oreLazurite", lapis);
+		OreDictionary.registerOre("oreLapis", lapis);
+		OreDictionary.registerOre("lazuriteOre", lapis);
+		OreDictionary.registerOre("lapisOre", lapis);
+		
+		OreDictionary.registerOre("oreQuartzite", quartz);
+		OreDictionary.registerOre("oreQuartz", quartz);
+		OreDictionary.registerOre("quartziteOre", quartz);
+		OreDictionary.registerOre("quartzOre", quartz);
 	}
 
 	private void blockHarvest() {
@@ -590,6 +677,11 @@ public class SpaceAgeCore {
 		GameRegistry.registerTileEntity(TileLiquidTank.class, "liquidTank");
 		GameRegistry.registerTileEntity(TileGasTank.class, "gasTank");
 		
+		this.metaRegister(cable, ItemBlockCable.class, cable.getUnlocalizedName());
+		GameRegistry.registerTileEntity(TileCopperCable.class, "copperCable");
+		GameRegistry.registerTileEntity(TileSilverCable.class, "silverCable");
+		GameRegistry.registerTileEntity(TileAluminiumCable.class, "aluminiumCable");
+		
 		GameRegistry.registerBlock(tintedGlass, "Reinforced Glass");
 		
 		//GameRegistry.registerBlock(spaceshipAlloyMeta, ItemBlockSpaceshipAlloy.class, modid + (spaceshipAlloyMeta.getUnlocalizedName().substring(5)));
@@ -599,6 +691,8 @@ public class SpaceAgeCore {
 		this.metaRegister(vulcanSurface, ItemBlockVulcan.class, vulcanSurface.getUnlocalizedName());
 		this.metaRegister(hadesSurface, ItemBlockHades.class, hadesSurface.getUnlocalizedName());
 		this.metaRegister(T0011Surface, ItemBlock0011.class, T0011Surface.getUnlocalizedName());
+		
+		this.metaRegister(ores1, ItemBlockOres1.class, ores1.getUnlocalizedName());
 	}
 	public void metaRegister(Block block, Class<? extends ItemBlock> itemclass, String unlocalisedName) {
 		GameRegistry.registerBlock(block, itemclass, modid + (unlocalisedName.substring(5)));

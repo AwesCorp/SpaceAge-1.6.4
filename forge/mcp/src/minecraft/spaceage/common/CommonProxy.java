@@ -37,4 +37,8 @@ public class CommonProxy {
 	public ModelBiped getStarboostArmorModel(int id) {
 		return null;
 	}
+
+	public int getBlockRenderID(int blockID) {
+		return -1;
+	}
 }

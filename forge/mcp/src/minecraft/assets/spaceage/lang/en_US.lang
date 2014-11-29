@@ -6,6 +6,14 @@ tile.metaGenerator.heatGenerator.tooltip=Geothermal Turbine: Produces 400J/tick
 tile.metaGenerator.solarGenerator.name=Photovoltaic Panel
 tile.metaGenerator.solarGenerator.tooltip=Photovoltaic Panel: Produces 400J/tick
 #
+#Cables/Wires
+tile.spaceAgeCable.copperCable.name=Copper Cable
+tile.spaceAgeCable.copperCable.tooltip=Copper Cable: Resistance 1.68 Ohms Per Meter
+tile.spaceAgeCable.silverCable.name=Silver Cable
+tile.spaceAgeCable.silverCable.tooltip=Silver Cable: Resistance 1.59 Ohms Per Meter
+tile.spaceAgeCable.aluminiumCable.name=Aluminium Cable
+tile.spaceAgeCable.aluminiumCable.tooltip=Aluminium Cable: Resistance 2.6 Ohms Per Meter
+#
 #Tanks
 tile.tank.liquidTank.name=Liquid Tank
 tile.tank.liquidTank.tooltip=Liquid Tank: Capacity: 4000mB
@@ -44,6 +52,20 @@ tile.vulcanBlock.ash.name=Volcanic Ash
 tile.vulcanBlock.quartzWood.name=Quartz Encrusted Log
 tile.vulcanBlock.glowLeaves.name=Glowdust Leaves
 tile.vulcanBlock.fireEssence.name=Fire Essence
+#
+#Ores
+tile.spaceAgeOres1.oreTitanium.name=Ilmenite
+tile.spaceAgeOres1.oreSAIron.name=Magnetite
+tile.spaceAgeOres1.oreAluminium.name=Bauxite
+tile.spaceAgeOres1.oreLithium.name=Lithium-Rich Pegmatite
+tile.spaceAgeOres1.oreSilver.name=Argentite
+tile.spaceAgeOres1.oreCopper.name=Chalcopyrite
+tile.spaceAgeOres1.oreSAGold.name=Sylvanite
+tile.spaceAgeOres1.oreSACoal.name=Coal
+tile.spaceAgeOres1.oreSADiamond.name=Diamond-Rich Kimberlite
+tile.spaceAgeOres1.oreSAEmerald.name=Emerald-Rich Pegmatite
+tile.spaceAgeOres1.oreSALapis.name=Lazurite
+tile.spaceAgeOres1.oreSAQuartz.name=Quartzite
 
 item.basicItem.titaniumIngot.name=Titanium Ingot
 item.basicItem.aluminiumIngot.name=Aluminium Ingot

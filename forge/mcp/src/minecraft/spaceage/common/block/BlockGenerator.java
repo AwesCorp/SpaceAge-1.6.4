@@ -2,16 +2,20 @@ package spaceage.common.block;
 
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+import spaceage.common.LogHelper;
 import spaceage.common.SpaceAgeCore;
 import spaceage.common.tile.TileHeatGenerator;
 import spaceage.common.tile.TileSolarPanel;
+import spaceage.planets.LogHelperPlanet;
 import universalelectricity.api.UniversalElectricity;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +31,8 @@ import net.minecraft.world.World;
  */
 
 public class BlockGenerator extends Block {
+	
+	private Types type;
 	
 	@SideOnly(Side.CLIENT)
 	public static Icon heat_front, heat_bottom, heat_top, heat_side_idle, heat_side_active;
@@ -56,6 +62,39 @@ public class BlockGenerator extends Block {
 	}
 	
 	@Override
+	public int getRenderType() {
+		return -1;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false; 
+	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+	
+	public void registerIcons(IconRegister icon) {
+		this.blockIcon = icon.registerIcon(SpaceAgeCore.modid + ":model" + getBlockTextureFile());
+	}
+	
+	public String getBlockTextureFile() {
+		switch(type.ordinal()) {
+		case 0:
+			return "GeothermalTurbine";
+		case 1:
+			return "PhotovoltaicPanel";
+		default:
+			System.out.println("Mojang: Your Minecraft is totally fucked up.");
+			LogHelper.log(Level.SEVERE, "Cannot continue functioning. Minecraft uncreatable code error.");
+			LogHelperPlanet.log(Level.SEVERE, "Parent Mod 'SpaceAge' function inhibited.");
+			return "TOTALLY FUCKED UP";
+		}
+	}
+	
+	@Override
 	public int idDropped(int par1, Random random, int par3) {
 		return this.blockID;
 	}
@@ -79,7 +118,7 @@ public class BlockGenerator extends Block {
     		return true;
     	}else if(!player.isSneaking()) {
         	int GUIMetadata = tileEntity.getBlockMetadata();
-    			player.openGui(SpaceAgeCore.instance, GUIMetadata + 2/**/, world, x, y, z);
+    			player.openGui(SpaceAgeCore.instance, GUIMetadata/**/, world, x, y, z);
     		}
     	return false;
     }

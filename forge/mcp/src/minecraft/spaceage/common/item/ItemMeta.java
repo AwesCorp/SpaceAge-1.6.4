@@ -31,7 +31,7 @@ public class ItemMeta extends Item {
 		icons = new Icon[names.length];
 		
 		for(int i = 0; i < icons.length; i++) {
-			icons[i] = par1.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + names);
+			icons[i] = par1.registerIcon(SpaceAgeCore.modid + ":" + /*(this.getUnlocalizedName().substring(5)) + */names);
 		}
 		
 	}

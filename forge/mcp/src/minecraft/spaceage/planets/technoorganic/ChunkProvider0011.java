@@ -185,7 +185,7 @@ public class ChunkProvider0011 implements IChunkProvider {
 								if ((d16 += d15) > 0.0D) {
 									par3ArrayOfByte[x += short1] = (byte) SpaceAgeCore.T0011Surface.blockID;//Block.stone.blockID;
 								} else if (k1 * 8 + l1 < fillerBlock) {
-									par3ArrayOfByte[x += short1] = (byte) RotaryIntegration.lubricant.fluidID;
+									par3ArrayOfByte[x += short1] = (byte) RotaryIntegration.lubricant.fluidID; //TODO may not work 
 								} else {
 									par3ArrayOfByte[x += short1] = 0;
 								}
@@ -248,7 +248,7 @@ public class ChunkProvider0011 implements IChunkProvider {
 								}
 
 								if (k1 < b0 && topBlock == 0) {
-										topBlock = (byte) RotaryIntegration.lubricant.fluidID;
+										topBlock = (byte) RotaryIntegration.lubricant.fluidID; //TODO may not work
 								}
 
 								j1 = i1;
@@ -464,7 +464,7 @@ public class ChunkProvider0011 implements IChunkProvider {
 			k1 = k + this.rand.nextInt(16) + 8;
 			l1 = this.rand.nextInt(128);
 			i2 = l + this.rand.nextInt(16) + 8;
-			(new WorldGenLakes(RotaryIntegration.lubricant.fluidID)).generate(this.worldObj, this.rand, k1, l1, i2);
+			(new WorldGenLakes(RotaryIntegration.lubricant.fluidID)).generate(this.worldObj, this.rand, k1, l1, i2); //TODO may not work
 		}
 
 		if (TerrainGen.populate(par1IChunkProvider, worldObj, rand, par2, par3, flag, LAVA) && !flag && this.rand.nextInt(8) == 0) {
@@ -473,7 +473,7 @@ public class ChunkProvider0011 implements IChunkProvider {
 			i2 = l + this.rand.nextInt(16) + 8;
 
 			if (l1 < 63 || this.rand.nextInt(10) == 0) {
-				(new WorldGenLakes(RotaryIntegration.lubricant.fluidID)).generate(this.worldObj, this.rand, k1, l1, i2);
+				(new WorldGenLakes(RotaryIntegration.lubricant.fluidID)).generate(this.worldObj, this.rand, k1, l1, i2); //TODO may not work
 			}
 		}
 

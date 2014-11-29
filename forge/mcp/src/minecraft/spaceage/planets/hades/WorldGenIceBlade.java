@@ -22,12 +22,10 @@ public class WorldGenIceBlade extends WorldGenerator {
 
 	    int var6 = var1.getBlockId(var3, var4, var5);
 
-	    for (int var7 = -2; var7 <= 2; var7++)
-	    {
-	      for (int var8 = -2; var8 <= 2; var8++)
-	      {
+	    for (int var7 = -2; var7 <= 2; var7++) {
+	      for (int var8 = -2; var8 <= 2; var8++) {
 	        if ((var1.isAirBlock(var3 + var7, var4 - 1, var5 + var8)) && (var1.isAirBlock(var3 + var7, var4 - 2, var5 + var8))) {
-	          return false;
+	        	return false;
 	        }
 	      }
 	    }

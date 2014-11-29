@@ -20,6 +20,10 @@ public class BiomeList {
 	public static BiomeGenBase T0011Main;
 	public static BiomeGenBase T0011Clearing;
 	
+	public static BiomeGenBase edenMain;
+	
+	public static BiomeGenBase ontarineMain;
+	
 	public static void init() {
 		initialiseBiomes();
 		
@@ -36,6 +40,10 @@ public class BiomeList {
 		
 		BiomeDictionary.registerBiomeType(T0011Main, new BiomeDictionary.Type[] { BiomeDictionary.Type.JUNGLE });
 		BiomeDictionary.registerBiomeType(T0011Clearing, new BiomeDictionary.Type[] { BiomeDictionary.Type.PLAINS });
+		
+		BiomeDictionary.registerBiomeType(edenMain, new BiomeDictionary.Type[] { BiomeDictionary.Type.JUNGLE });
+		
+		BiomeDictionary.registerBiomeType(ontarineMain, new BiomeDictionary.Type[] { BiomeDictionary.Type.WATER });
 	}
 
 	public static void registerBiomes() {
@@ -49,6 +57,10 @@ public class BiomeList {
 		
 		T0011Main = new BiomeGen0011Main(SpaceAgePlanets.T0011BiomeID).setBiomeName("0011").setTemperatureRainfall(0.7F, 0.0F).setDisableRain().setMinMaxHeight(-0.2F, 0.4F);
 		T0011Clearing = new BiomeGen0011Clearing(SpaceAgePlanets.T0011ClearBiomeID).setBiomeName("0011 Clearing").setTemperatureRainfall(0.7F, 0.0F).setDisableRain().setMinMaxHeight(-0.2F, 0.4F);
+		
+		edenMain = new BiomeGenEdenMain(SpaceAgePlanets.edenBiomeID).setBiomeName("Eden");
+		
+		ontarineMain = new BiomeGenOntarineMain(SpaceAgePlanets.ontarineBiomeID).setBiomeName("Ontarine");
 	}
 
 }

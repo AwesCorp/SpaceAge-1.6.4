@@ -7,7 +7,9 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.DimensionManager;
 import spaceage.common.LogHelper;
 import spaceage.common.SpaceAgeCore;
+import spaceage.planets.eden.WorldProviderEden;
 import spaceage.planets.hades.WorldProviderHades;
+import spaceage.planets.ontarine.WorldProviderOntarine;
 import spaceage.planets.proxy.CommonProxy;
 import spaceage.planets.technoorganic.WorldProvider0011;
 import spaceage.planets.vulcan.WorldProviderVulcan;
@@ -24,7 +26,7 @@ import cpw.mods.fml.common.network.NetworkMod;
  *
  */
 
-@Mod(modid=SpaceAgePlanets.modid, name="SpaceAge Planets/Project Cosmos", version="Alpha", dependencies="required-after:SpaceAge;required-after:WarpDrive;required-after:RotaryCraft")
+@Mod(modid=SpaceAgePlanets.modid, name="SpaceAge Planets", version="Alpha", dependencies="required-after:SpaceAge;required-after:WarpDrive;after:RotaryCraft")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false/*, serverPacketHandlerSpec=@NetworkMod.SidedPacketHandler(channels={"SpaceAge_C"}, packetHandler=ServerPacketHandler.class)*/)
 
 public class SpaceAgePlanets {
@@ -43,6 +45,8 @@ public class SpaceAgePlanets {
 	public int vulcanID = DimensionManager.getNextFreeDimId();
 	public int hadesID = DimensionManager.getNextFreeDimId();
 	public int T0011ID = DimensionManager.getNextFreeDimId();
+	public int edenID = DimensionManager.getNextFreeDimId();
+	public int ontarineID = DimensionManager.getNextFreeDimId();
 	
 	//Biome ID Registry
 	public static int vulcanBiomeID = 255;
@@ -74,6 +78,8 @@ public class SpaceAgePlanets {
 		registerVulcan();
 		registerHades();
 		register0011();
+		registerEden();
+		registerOntarine();
 		
 		LogHelperPlanet.log(Level.FINEST, "Initialised successfully");
 	}
@@ -91,5 +97,15 @@ public class SpaceAgePlanets {
 	public void register0011() {
 		DimensionManager.registerProviderType(this.T0011ID, WorldProvider0011.class, true);
 		DimensionManager.registerDimension(T0011ID, T0011ID);
+	}
+	
+	public void registerEden() {
+		DimensionManager.registerProviderType(this.edenID, WorldProviderEden.class, true);
+		DimensionManager.registerDimension(edenID, edenID);
+	}
+	
+	public void registerOntarine() {
+		DimensionManager.registerProviderType(this.ontarineID, WorldProviderOntarine.class, true);
+		DimensionManager.registerDimension(ontarineID, ontarineID);
 	}
 }

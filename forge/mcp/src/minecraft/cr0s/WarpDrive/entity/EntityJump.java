@@ -79,7 +79,7 @@ public class EntityJump extends Entity
 	public int blowX, blowY, blowZ;
 	boolean needToExplode = false;
 	public boolean on = false;
-	public boolean bedrockOnShip = false;
+	public boolean forbiddenBlockOnShip = false;
 	public JumpBlock ship[];
 	public TileEntityReactor reactor;
 
@@ -474,10 +474,10 @@ public class EntityJump extends Entity
 			messageToAllPlayersOnShip("Warp Drive Engaged: Jumping to (" + destX + "; " + yCoord + "; " + destZ + ")...");
 		}
 
-		bedrockOnShip = false;
-		int shipSize = getRealShipSize(); // sets bedrockOnShip
+		forbiddenBlockOnShip = false;
+		int shipSize = getRealShipSize(); // sets forbiddenBlockOnShip
 
-		if (bedrockOnShip)
+		if (forbiddenBlockOnShip)
 		{
 			killEntity("Bedrock is on the ship. Aborting.");
 			messageToAllPlayersOnShip("Bedrock is on the ship. Aborting.");
@@ -714,9 +714,8 @@ public class EntityJump extends Entity
 
 					shipSize++;
 
-					if (blockID == Block.bedrock.blockID)
-					{
-						bedrockOnShip = true;
+					if (blockID == Block.bedrock.blockID) {
+						forbiddenBlockOnShip = true;
 						LocalProfiler.stop();
 						return shipSize;
 					}

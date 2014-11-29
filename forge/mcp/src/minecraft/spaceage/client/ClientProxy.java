@@ -15,10 +15,14 @@ import spaceage.client.model.ModelOrganicFemale;
 import spaceage.client.model.ModelStarboost;
 import spaceage.common.CommonProxy;
 import spaceage.common.PlayerTickHandler;
+import spaceage.common.SpaceAgeCore;
 import spaceage.common.tile.TileGasTank;
+import spaceage.common.tile.TileHeatGenerator;
 import spaceage.common.tile.TileLiquidTank;
 import spaceage.common.tile.TileSolarPanel;
+import spaceage.common.tile.render.TileCableRenderer;
 import spaceage.common.tile.render.TileGasTankRenderer;
+import spaceage.common.tile.render.TileHeatGeneratorRenderer;
 import spaceage.common.tile.render.TileLiquidTankRenderer;
 import spaceage.planets.aliens.entity.EntityBinary;
 import spaceage.planets.aliens.entity.EntityBinaryFemale;
@@ -32,6 +36,8 @@ import spaceage.planets.aliens.render.RenderBinaryFemale;
  */
 
 public class ClientProxy extends CommonProxy {
+	
+	private static int renderIDCable;
 	
 	private static final ModelStarboost advancedSpacesuitChestplate = new ModelStarboost(1.0F);
 	private static final ModelStarboost advancedSpacesuitLeggings = new ModelStarboost(0.5F);
@@ -77,6 +83,19 @@ public class ClientProxy extends CommonProxy {
 		//tile entity rendering s***
 		ClientRegistry.bindTileEntitySpecialRenderer(TileGasTank.class, new TileGasTankRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileLiquidTank.class, new TileLiquidTankRenderer());
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileHeatGenerator.class, new TileHeatGeneratorRenderer());
+		
+		this.renderIDCable = RenderingRegistry.getNextAvailableRenderId();
+		RenderingRegistry.registerBlockHandler(new TileCableRenderer(this.renderIDCable));
+	}
+	
+	@Override
+	public int getBlockRenderID(int blockID) {
+		if(blockID == SpaceAgeCore.cable.blockID) {
+			return this.renderIDCable;
+		}
+		return -1;
 	}
 	
 	@Override

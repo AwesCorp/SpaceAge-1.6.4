@@ -3,10 +3,10 @@ package cr0s.WarpDrive.tile;
 import java.util.EnumSet;
 import java.util.List;
 
+import spaceage.common.SpaceAgeCore;
 import uedevkit.tile.TileElectricBase;
-import uedevkit.tile.TileMachineBase;
-
 import net.minecraft.block.Block;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -56,7 +56,7 @@ public class TileEntityReactor extends TileElectricBase {
 		//this.energy.setMaxExtract(0);
 		this.energy.setMaxTransfer(maxReceive);
 	}
-
+	
     public boolean ready;
 
     public boolean invalidAssembly = false;
@@ -104,10 +104,11 @@ public class TileEntityReactor extends TileElectricBase {
     public TileEntityProtocol controller;
 
     private boolean soundPlayed = false;
+    
+    //String USERNAME = EntityPlayer.getEntityName();
 
     @Override
-    public void updateEntity()
-    {
+    public void updateEntity() {
         /*if (!FMLCommonHandler.instance().getEffectiveSide().isClient() && !addedToEnergyNet)
         {
             MinecraftForge.EVENT_BUS.post(new EnergyTileLoadEvent(this));
@@ -774,117 +775,126 @@ public class TileEntityReactor extends TileElectricBase {
         }
     }
 
-    public void doJump()
-    {
-    	System.out.println("[WC] doJump() called");
-        if (currentMode == this.MODE_GATE_JUMP)
-        {
-            if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-            {
+    public void doJump() {
+    	if(correctConfig()) {
+    		System.out.println("[WC] doJump() called");
+            if (currentMode == this.MODE_GATE_JUMP) {
+                if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+                    return;
+                }
+
+                System.out.println("[TE-WC] Performing gate jump...");
+                doGateJump();
                 return;
             }
 
-            System.out.println("[TE-WC] Performing gate jump...");
-            doGateJump();
-            return;
-        }
-
-        if (currentMode == this.MODE_BEACON_JUMP)
-        {
-            System.out.println("[TE-WC] Performing beacon jump...");
-            doBeaconJump();
-            return;
-        }
-
-        // Check ship size for hyperspace jump
-        if (currentMode == this.MODE_HYPERSPACE)
-        {
-            if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-            {
+            if (currentMode == this.MODE_BEACON_JUMP) {
+                System.out.println("[TE-WC] Performing beacon jump...");
+                doBeaconJump();
                 return;
             }
 
-            JumpGate t = WarpDrive.instance.jumpGates.findNearestGate(xCoord, yCoord, zCoord);
+            // Check ship size for hyperspace jump
+            if (currentMode == this.MODE_HYPERSPACE) {
+                if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
+                    return;
+                }
 
-            if (t != null && !isShipInJumpgate(t))
-            {
-                if (shipVolume < WarpDriveConfig.i.WC_MIN_SHIP_VOLUME_FOR_HYPERSPACE)
+                JumpGate t = WarpDrive.instance.jumpGates.findNearestGate(xCoord, yCoord, zCoord);
+
+                if (t != null && !isShipInJumpgate(t))
                 {
-                    this.messageToAllPlayersOnShip("Ship is too small (" + shipVolume + "/" + WarpDriveConfig.i.WC_MIN_SHIP_VOLUME_FOR_HYPERSPACE + "). Insufficient ship mass to open hyperspace portal.");
+                    if (shipVolume < WarpDriveConfig.i.WC_MIN_SHIP_VOLUME_FOR_HYPERSPACE)
+                    {
+                        this.messageToAllPlayersOnShip("Ship is too small (" + shipVolume + "/" + WarpDriveConfig.i.WC_MIN_SHIP_VOLUME_FOR_HYPERSPACE + "). Insufficient ship mass to open hyperspace portal.");
+                        this.controller.setJumpFlag(false);
+                        return;
+                    }
+                }
+            }
+
+            if (currentMode == this.MODE_BASIC_JUMP || currentMode == this.MODE_LONG_JUMP || currentMode == MODE_HYPERSPACE)
+            {
+                System.out.println("[WP-TE] Energy: " + currentEnergyValue + " Joules");
+                System.out.println("[WP-TE] Need to jump: " + calculateRequiredEnergy(shipVolume, distance) + " Joules");
+
+                if (this.currentEnergyValue - calculateRequiredEnergy(shipVolume, distance) < 0)
+                {
+                    System.out.println("[WP-TE] Insufficient energy to jump");
+                    messageToAllPlayersOnShip("Insufficient energy to jump!");
                     this.controller.setJumpFlag(false);
                     return;
                 }
-            }
-        }
 
-        if (currentMode == this.MODE_BASIC_JUMP || currentMode == this.MODE_LONG_JUMP || currentMode == MODE_HYPERSPACE)
-        {
-            System.out.println("[WP-TE] Energy: " + currentEnergyValue + " Joules");
-            System.out.println("[WP-TE] Need to jump: " + calculateRequiredEnergy(shipVolume, distance) + " Joules");
+                //this.currentEnergyValue -= calculateRequiredEnergy(shipVolume, distance);
+                this.energy.extractEnergy(calculateRequiredEnergy(shipVolume, distance), true);
+                
+                System.out.println((new StringBuilder()).append("Jump params: X ").append(minX).append(" -> ").append(maxX).append(" blocks").toString());
+                System.out.println((new StringBuilder()).append("Jump params: Y ").append(minY).append(" -> ").append(maxY).append(" blocks").toString());
+                System.out.println((new StringBuilder()).append("Jump params: Z ").append(minZ).append(" -> ").append(maxZ).append(" blocks").toString());
 
-            if (this.currentEnergyValue - calculateRequiredEnergy(shipVolume, distance) < 0)
-            {
-                System.out.println("[WP-TE] Insufficient energy to jump");
-                messageToAllPlayersOnShip("Insufficient energy to jump!");
-                this.controller.setJumpFlag(false);
-                return;
-            }
-
-            //this.currentEnergyValue -= calculateRequiredEnergy(shipVolume, distance);
-            this.energy.extractEnergy(calculateRequiredEnergy(shipVolume, distance), true);
-            
-            System.out.println((new StringBuilder()).append("Jump params: X ").append(minX).append(" -> ").append(maxX).append(" blocks").toString());
-            System.out.println((new StringBuilder()).append("Jump params: Y ").append(minY).append(" -> ").append(maxY).append(" blocks").toString());
-            System.out.println((new StringBuilder()).append("Jump params: Z ").append(minZ).append(" -> ").append(maxZ).append(" blocks").toString());
-
-            //System.out.println("[WC-TE] Distance: " + distance + "; shipSize: " + shipSize);
-            if (this.currentMode == this.MODE_BASIC_JUMP)
-            {
-                distance += shipSize;
-            }
-
-            if (currentMode == this.MODE_LONG_JUMP && (direction != -1 && direction != -2))
-            {
-                if (worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID)
+                //System.out.println("[WC-TE] Distance: " + distance + "; shipSize: " + shipSize);
+                if (this.currentMode == this.MODE_BASIC_JUMP)
                 {
-                    distance *= 100;
+                    distance += shipSize;
                 }
+
+                if (currentMode == this.MODE_LONG_JUMP && (direction != -1 && direction != -2))
+                {
+                    if (worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID)
+                    {
+                        distance *= 100;
+                    }
+                }
+
+                EntityJump jump = new EntityJump(worldObj, xCoord, yCoord, zCoord, distance, direction, dx, dz, this);
+                jump.maxX = maxX;
+                jump.minX = minX;
+                jump.maxZ = maxZ;
+                jump.minZ = minZ;
+                jump.maxY = maxY;
+                jump.minY = minY;
+                jump.shipFront = shipFront;
+                jump.shipBack = shipBack;
+                jump.shipLeft = shipLeft;
+                jump.shipRight = shipRight;
+                jump.shipUp = shipUp;
+                jump.shipDown = shipDown;
+                jump.shipLength = this.shipSize;
+                jump.isCoordJump = false;
+
+                if (currentMode == MODE_HYPERSPACE)
+                {
+                    jump.toHyperSpace = (worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
+                    jump.fromHyperSpace = (worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID);
+                    System.out.println("[JUMP] From HS: " + jump.fromHyperSpace + " | To HS: " + jump.fromHyperSpace);
+                }
+
+                jump.xCoord = xCoord;
+                jump.yCoord = yCoord;
+                jump.zCoord = zCoord;
+                jump.mode = currentMode;
+                jump.on = true;
+                worldObj.spawnEntityInWorld(jump);
+                coreState = "";
             }
-
-            EntityJump jump = new EntityJump(worldObj, xCoord, yCoord, zCoord, distance, direction, dx, dz, this);
-            jump.maxX = maxX;
-            jump.minX = minX;
-            jump.maxZ = maxZ;
-            jump.minZ = minZ;
-            jump.maxY = maxY;
-            jump.minY = minY;
-            jump.shipFront = shipFront;
-            jump.shipBack = shipBack;
-            jump.shipLeft = shipLeft;
-            jump.shipRight = shipRight;
-            jump.shipUp = shipUp;
-            jump.shipDown = shipDown;
-            jump.shipLength = this.shipSize;
-            jump.isCoordJump = false;
-
-            if (currentMode == MODE_HYPERSPACE)
-            {
-                jump.toHyperSpace = (worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
-                jump.fromHyperSpace = (worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID);
-                System.out.println("[JUMP] From HS: " + jump.fromHyperSpace + " | To HS: " + jump.fromHyperSpace);
-            }
-
-            jump.xCoord = xCoord;
-            jump.yCoord = yCoord;
-            jump.zCoord = zCoord;
-            jump.mode = currentMode;
-            jump.on = true;
-            worldObj.spawnEntityInWorld(jump);
-            coreState = "";
-        }
+    	} else {
+    		messageToAllPlayersOnShip("[HAL9000] I'm sorry " + controller.playersString + ", but I can't let you do that. You need to redesign your ship as to have at least 60% alloy structure for my guaranteed survival.");
+    	}
     }
 
-    public void teleportPlayersToSpace()
+    public boolean correctConfig() { //TODO checkpoint
+    	int totalVolume = getRealShipVolume();
+    	int alloyVolume = getShipVolumeID(SpaceAgeCore.spaceshipAlloyMetaID);
+    	
+    	if(((totalVolume - alloyVolume) < (alloyVolume / 2)) || ((totalVolume - alloyVolume) == (alloyVolume / 2))) {
+    		return true;
+    	}
+    	
+		return false;
+	}
+
+	public void teleportPlayersToSpace()
     {
         if (currentMode == MODE_TELEPORT && worldObj.provider.dimensionId != WarpDrive.instance.spaceDimID)
         {
@@ -1057,26 +1067,38 @@ public class TileEntityReactor extends TileElectricBase {
         return energyValue;
     }
 
-    public int getRealShipVolume()
-    {
+    public int getRealShipVolume() {//TODO 
         int shipVol = 0;
 
-        for (int x = minX; x <= maxX; x++)
-        {
-            for (int z = minZ; z <= maxZ; z++)
-            {
-                for (int y = minY; y <= maxY; y++)
-                {
+        for (int x = minX; x <= maxX; x++) {
+            for (int z = minZ; z <= maxZ; z++) {
+                for (int y = minY; y <= maxY; y++) {
                     int blockID = worldObj.getBlockId(x, y, z);
 
-                    if (blockID != 0)
-                    {
+                    if (blockID != 0) {
                         shipVol++;
                     }
                 }
             }
         }
 
+        return shipVol;
+    }
+    
+    public int getShipVolumeID(int blockIDForVolume) {//TODO 
+        int shipVol = 0;
+
+        for (int x = minX; x <= maxX; x++) {
+            for (int z = minZ; z <= maxZ; z++) {
+                for (int y = minY; y <= maxY; y++) {
+                    int blockID = worldObj.getBlockId(x, y, z);
+
+                    if (blockID == blockIDForVolume) {
+                        shipVol++;
+                    }
+                }
+            }
+        }
         return shipVol;
     }
 

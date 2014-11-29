@@ -4,13 +4,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import spaceage.common.SpaceAgeCore;
-import uedevkit.tile.TileMachineBase;
+import uedevkit.tile.TileElectricInventoryNetworked;
+import uedevkit.tile.TileElectricNetworked;
 import universalelectricity.api.CompatibilityModule;
 
-public class TileSeparator extends TileMachineBase {
+public class TileSeparator extends TileElectricInventoryNetworked {
 	
 	public TileSeparator() {
-		super(SpaceAgeCore.ELECTROLYSER_CAPACITY, SpaceAgeCore.ELECTROLYSER_ENERGY_USE, 0);
+		super(SpaceAgeCore.ELECTROLYSER_CAPACITY, SpaceAgeCore.ELECTROLYSER_ENERGY_USE);
 		inventory = new ItemStack[7/*TEMPORARY - 1 input, 1 battery, up to 5? output*/]; 
 	}
 
@@ -157,5 +158,10 @@ public class TileSeparator extends TileMachineBase {
 		
 		nbt.setTag("Items", items);
 		
+	}
+
+	@Override
+	public boolean isInvNameLocalized() {
+		return false;
 	}
 }
