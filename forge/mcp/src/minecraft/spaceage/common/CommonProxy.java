@@ -18,8 +18,12 @@ public class CommonProxy {
 		}
 	
 	public void registerRenderers() {
-		
+		this.setCustomRenderers();
 		}
+
+	public void setCustomRenderers() {
+		
+	}
 
 	public void registerServerTickHandler() {
 		TickRegistry.registerTickHandler(new ServerTickHandler(), Side.SERVER);

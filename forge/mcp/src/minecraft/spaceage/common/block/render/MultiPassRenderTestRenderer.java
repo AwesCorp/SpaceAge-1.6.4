@@ -1,7 +1,11 @@
 package spaceage.common.block.render;
 
+import spaceage.client.ClientProxy;
+import spaceage.common.SpaceAgeCore;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.src.ModLoader;
 import net.minecraft.world.IBlockAccess;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
@@ -18,18 +22,19 @@ public class MultiPassRenderTestRenderer implements ISimpleBlockRenderingHandler
             
             //which render pass are we doing?
             if(ClientProxy.renderPass == 0) {
+            	drawGlowingEpicBit(world, x, y, z, renderer);
                     //we are on the solid block render pass, lets render the solid diamond block
-                    drawDiamond(Block.blockDiamond,x,y,z);                                          
+                    //drawDiamond(Block.blockDiamond,x,y,z);                                          
             } else {
                     //we are on the alpha render pass, draw the ice around the diamond
-                    renderer.renderStandardBlock(Block.ice, x, y, z);
+                    renderer.renderStandardBlock(block, x, y, z);
             }
             
             return true;
     }
 
     //Our custom renderer for the diamond, draws a pair of crossed squares in the centre of the block
-    public void drawDiamond(Block par1Block, int x, int y, int z)
+    /*public void drawDiamond(Block par1Block, int x, int y, int z)
 {
             //change the passed integer coordinates into double precision floats, and set the height on the y axis
             double par3 = (double)x;
@@ -81,18 +86,25 @@ public class MultiPassRenderTestRenderer implements ISimpleBlockRenderingHandler
     var10.addVertexWithUV(var26, par5 + 0.0D, var28, var14, var20);
     var10.addVertexWithUV(var24, par5 + 0.0D, var30, var16, var20);
     var10.addVertexWithUV(var24, par5 + (double)par9, var30, var16, var18);
-}
+}*/
     
-    @Override
+    public void drawGlowingEpicBit(IBlockAccess world, int x, int y, int z, RenderBlocks renderer) {
+		int meta = world.getBlockMetadata(x, y, z);
+		int blockID = world.getBlockId(x, y, z);
+		
+		if((meta == 0/*TODO*/) && (blockID == 0/*TODO*/)) {
+			renderer.renderStandardBlock(SpaceAgeCore.dummyLight, x, y, z);
+		}
+	}
+
+	@Override
     public boolean shouldRender3DInInventory() {
-            
-            return false;
+		return false;
     }
 
     @Override
     public int getRenderId() {
-            
-            return DoubleRenderClientProxy.frozenDiamondRenderType;
+    	return ClientProxy.blockMultiRenderType;
     }
 
 }

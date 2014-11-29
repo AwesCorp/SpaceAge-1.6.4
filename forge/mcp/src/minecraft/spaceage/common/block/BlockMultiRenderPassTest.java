@@ -17,7 +17,7 @@ public class BlockMultiRenderPassTest extends Block {
 	
 	@Override
 	public int getRenderType() {
-		return ClientProxy.blockMultiRenderTestType;
+		return ClientProxy.blockMultiRenderType;
 	}
 	
 	@Override
