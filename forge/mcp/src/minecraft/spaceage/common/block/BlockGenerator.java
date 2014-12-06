@@ -34,11 +34,11 @@ public class BlockGenerator extends Block {
 	
 	private Types type;
 	
-	@SideOnly(Side.CLIENT)
+/*	@SideOnly(Side.CLIENT)
 	public static Icon heat_front, heat_bottom, heat_top, heat_side_idle, heat_side_active;
 	
 	@SideOnly(Side.CLIENT)
-	public static Icon solar_bottom_side, solar_top;	
+	public static Icon solar_bottom_side, solar_top;*/	
 
 	public BlockGenerator(int id, Material material) {
 		super(id, UniversalElectricity.machine);

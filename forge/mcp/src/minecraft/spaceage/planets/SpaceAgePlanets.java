@@ -48,14 +48,19 @@ public class SpaceAgePlanets {
 	public int edenID = DimensionManager.getNextFreeDimId();
 	public int ontarineID = DimensionManager.getNextFreeDimId();
 	
-	//Biome ID Registry
-	public static int vulcanBiomeID = 255;
-	public static int vulcanVolcanoBiomeID = 256;
+	//Biome ID Registry (CANNOT BE 23 - SPACE IS 23)
+	public static int vulcanBiomeID = 25; 
+	public static int vulcanVolcanoBiomeID = 26;
 	
-	public static int hadesBiomeID = 257;
+	public static int hadesBiomeID = 27;
 	
-	public static int T0011BiomeID = 258;
-	public static int T0011ClearBiomeID = 259;
+	public static int T0011BiomeID = 28;
+	public static int T0011ClearBiomeID = 29;
+
+	public static int edenBiomeID = 30;
+	
+	public static int ontarineBiomeID = 31;
+	public static int ontarineReefID = 32;
 	
 	public static final Configuration config = new Configuration(new File("config/AwesCorp/SpaceAgePlanets.cfg"));
 	

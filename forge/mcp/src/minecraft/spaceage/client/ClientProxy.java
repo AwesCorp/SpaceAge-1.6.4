@@ -16,7 +16,6 @@ import spaceage.client.model.ModelStarboost;
 import spaceage.common.CommonProxy;
 import spaceage.common.PlayerTickHandler;
 import spaceage.common.SpaceAgeCore;
-import spaceage.common.block.render.MultiPassRenderTestRenderer;
 import spaceage.common.tile.TileGasTank;
 import spaceage.common.tile.TileHeatGenerator;
 import spaceage.common.tile.TileLiquidTank;
@@ -40,8 +39,8 @@ public class ClientProxy extends CommonProxy {
 	
 	private static int renderIDCable;
 	
-	public static int blockMultiRenderType;
-	public static int renderPass;
+	//public static int blockMultiRenderType;
+	//public static int renderPass;
 	
 	private static final ModelStarboost advancedSpacesuitChestplate = new ModelStarboost(1.0F);
 	private static final ModelStarboost advancedSpacesuitLeggings = new ModelStarboost(0.5F);
@@ -94,11 +93,11 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerBlockHandler(new TileCableRenderer(this.renderIDCable));
 	}
 	
-	@Override
+	/*@Override
 	public void setCustomRenderers() {
-		this.blockMultiRenderType = RenderingRegistry.getNextAvailableRenderId();
-		RenderingRegistry.registerBlockHandler(new MultiPassRenderTestRenderer());
-	}
+		//this.blockMultiRenderType = RenderingRegistry.getNextAvailableRenderId();
+		//RenderingRegistry.registerBlockHandler(new MultiPassRenderTestRenderer());
+	}*/
 	
 	@Override
 	public int getBlockRenderID(int blockID) {

@@ -4,7 +4,10 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeDictionary;
 import spaceage.planets.SpaceAgePlanets;
+import spaceage.planets.eden.BiomeGenEdenMain;
 import spaceage.planets.hades.BiomeGenHadesMain;
+import spaceage.planets.ontarine.BiomeGenOntarineMain;
+import spaceage.planets.ontarine.BiomeGenOntarineReef;
 import spaceage.planets.technoorganic.BiomeGen0011Clearing;
 import spaceage.planets.technoorganic.BiomeGen0011Main;
 import spaceage.planets.vulcan.BiomeGenVulcanMain;
@@ -23,6 +26,7 @@ public class BiomeList {
 	public static BiomeGenBase edenMain;
 	
 	public static BiomeGenBase ontarineMain;
+	public static BiomeGenBase ontarineReef;
 	
 	public static void init() {
 		initialiseBiomes();
@@ -44,6 +48,7 @@ public class BiomeList {
 		BiomeDictionary.registerBiomeType(edenMain, new BiomeDictionary.Type[] { BiomeDictionary.Type.JUNGLE });
 		
 		BiomeDictionary.registerBiomeType(ontarineMain, new BiomeDictionary.Type[] { BiomeDictionary.Type.WATER });
+		BiomeDictionary.registerBiomeType(ontarineReef, new BiomeDictionary.Type[] { BiomeDictionary.Type.WATER, BiomeDictionary.Type.FOREST });
 	}
 
 	public static void registerBiomes() {
@@ -60,7 +65,8 @@ public class BiomeList {
 		
 		edenMain = new BiomeGenEdenMain(SpaceAgePlanets.edenBiomeID).setBiomeName("Eden");
 		
-		ontarineMain = new BiomeGenOntarineMain(SpaceAgePlanets.ontarineBiomeID).setBiomeName("Ontarine");
+		ontarineMain = new BiomeGenOntarineMain(SpaceAgePlanets.ontarineBiomeID).setBiomeName("Ontarine").setMinMaxHeight(-2.0F, 0.1F);
+		ontarineReef = new BiomeGenOntarineReef(SpaceAgePlanets.ontarineReefID).setBiomeName("Ontarine Reef").setMinMaxHeight(-1.0F, 0F);
 	}
 
 }

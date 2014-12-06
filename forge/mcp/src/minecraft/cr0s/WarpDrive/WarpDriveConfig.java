@@ -22,11 +22,14 @@ public class WarpDriveConfig
 	private Configuration config;
 	public int coreID, controllerID, radarID, isolationID, airID, airgenID, gasID, laserID, miningLaserID, particleBoosterID, liftID, laserCamID, camID, monitorID, /*iridiumID,*/ shipScannerID, cloakCoreID, cloakCoilID, photoSynthID;
 //
-	public boolean isASLoaded = false, isICBMLoaded = false, isMFFSLoaded = false;
+	public boolean isASLoaded = false, isICBMLoaded = false, isMFFSLoaded = false, isAELoaded = false;
 //
 	public int[] IC2_Air;
 	public int CC_Computer = 0, CC_peripheral = 0, CCT_Turtle = 0, CCT_Upgraded = 0, CCT_Advanced = 0, ASP = 0, AS_Turbine = 0, ICBM_Machine = 0, ICBM_Missile = 0, ICBM_Explosive = 0, MFFS_Field = 0;
 	public Set<Integer> SpaceHelmets, Jetpacks, MinerOres, scannerIgnoreBlocks;
+	private Class<?> AEBlocks;
+	private Class<?> AEMaterials;
+	private Class<?> AEItems;
 	public ArrayList<int[]> CommonWorldGenOres;
 
 	// Mod config
@@ -89,53 +92,40 @@ public class WarpDriveConfig
 		return Items.getItem(id);
 	}*/
 
-	/*public ItemStack getAEBlock(String id)
-	{
-		try
-		{
+	public ItemStack getAEBlock(String id) {
+		try {
 			Object ret = AEBlocks.getField(id).get(null);
 			if (ret instanceof ItemStack)
 				return (ItemStack)ret;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("WarpDriveConfig Call getAEBlock failed for " + id);
 		}
 		return null;
-	}*/
+	}
 
-	/*public ItemStack getAEMaterial(String id)
-	{
-		try
-		{
+	public ItemStack getAEMaterial(String id) {
+		try {
 			Object ret = AEMaterials.getField(id).get(null);
 			if (ret instanceof ItemStack)
 				return (ItemStack)ret;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("WarpDriveConfig Call getAEMaterial failed for " + id);
 		}
 		return null;
-	}*/
+	}
 
-	/*public ItemStack getAEItem(String id)
-	{
-		try
-		{
+	public ItemStack getAEItem(String id) {
+		try {
 			Object ret = AEItems.getField(id).get(null);
 			if (ret instanceof ItemStack)
 				return (ItemStack)ret;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("WarpDriveConfig Call getAEItem failed for " + id);
 		}
 		return null;
-	}*/
+	}
 
-	public static void Init(Configuration config)
-	{
+	public static void Init(Configuration config) {
 		if (i == null)
 			i = new WarpDriveConfig();
 		i.config = config;
@@ -239,9 +229,9 @@ public class WarpDriveConfig
 		LoadSpaceAgeIntegration();
 		LoadCC();
 		
-		/*isAELoaded = Loader.isModLoaded("AppliedEnergistics");
+		isAELoaded = Loader.isModLoaded("AppliedEnergistics");
 		if (isAELoaded)
-			LoadAE();*/
+			LoadAE();
 		
 		/*isAEExtraLoaded = Loader.isModLoaded("extracells");
 		if (isAEExtraLoaded)
@@ -289,8 +279,7 @@ public class WarpDriveConfig
 		config.save();
 	}
 
-	private void LoadSpaceAgeIntegration()
-	{
+	private void LoadSpaceAgeIntegration() {
 		//ASP = Items.getItem("solarPanel").itemID;
 		ASP = SpaceAgeCore.metaGenerator.blockID;
 		//SpaceHelmets.add(Items.getItem("hazmatHelmet").itemID);
@@ -320,10 +309,8 @@ public class WarpDriveConfig
 		//AEExtraFDI = Items.getItem("FluidCell").getItem();
 	}
 
-	private void LoadCC()
-	{
-		try
-		{
+	private void LoadCC() {
+		try {
 			Class<?> z = Class.forName("dan200.ComputerCraft");
 			CC_Computer = z.getField("computerBlockID").getInt(null);
 			CC_peripheral = z.getField("peripheralBlockID").getInt(null);
@@ -335,30 +322,24 @@ public class WarpDriveConfig
 			scannerIgnoreBlocks.add(CCT_Turtle);
 			scannerIgnoreBlocks.add(CCT_Upgraded);
 			scannerIgnoreBlocks.add(CCT_Advanced);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("WarpDriveConfig Error loading CC classes AWWW SHEEEEET NIGGA");
 			e.printStackTrace();
 		}
 	}
 
-	/*private void LoadAE()
-	{
-		try
-		{
+	private void LoadAE() {
+		try {
 			AEBlocks = Class.forName("appeng.api.Blocks");
 			AEMaterials = Class.forName("appeng.api.Materials");
 			AEItems = Class.forName("appeng.api.Items");
 			MinerOres.add(((ItemStack)AEBlocks.getField("blkQuartzOre").get(null)).itemID);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("WarpDriveConfig: Error loading AE classes");
 			e.printStackTrace();
 			isAELoaded = false;
 		}
-	}*/
+	}
 
 	/*private void LoadAEExtra()
 	{
@@ -376,25 +357,19 @@ public class WarpDriveConfig
 		}
 	}*/	
 
-	private void LoadAS()
-	{
-		try
-		{
+	private void LoadAS() {
+		try {
 			Class<?> z = Class.forName("atomicscience.AtomicScience");
 			CommonWorldGenOres.add(new int[] {((Block)z.getField("bHeOre").get(null)).blockID, 0});
 			AS_Turbine = ((Block)z.getField("bWoLun").get(null)).blockID;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("WarpDriveConfig Error loading AS classes");
 			isASLoaded = false;
 		}
 	}
 
-	private void LoadICBM()
-	{
-		try
-		{
+	private void LoadICBM() {
+		try {
 			Class<?> z = Class.forName("icbm.core.ICBMCore");
 			CommonWorldGenOres.add(new int[] {((Block)z.getField("blockSulfurOre").get(null)).blockID, 0});
 			z = Class.forName("icbm.explosion.ICBMExplosion");
@@ -402,24 +377,18 @@ public class WarpDriveConfig
 			ICBM_Missile = ((Item)z.getField("itemMissile").get(null)).itemID;
 			ICBM_Explosive = ((Block)z.getField("blockExplosive").get(null)).blockID;
 			scannerIgnoreBlocks.add(ICBM_Explosive);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("WarpDriveConfig Error loading ICBM classes");
 			e.printStackTrace();
 			isICBMLoaded = false;
 		}
 	}
 
-	private void LoadMFFS()
-	{
-		try
-		{
+	private void LoadMFFS() {
+		try {
 			Class<?> z = Class.forName("mffs.ModularForceFieldSystem");
 			MFFS_Field = ((Block)z.getField("blockForceField").get(null)).blockID;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			System.out.println("WarpDriveConfig Error loading MFFS classes");
 			e.printStackTrace();
 			isICBMLoaded = false;

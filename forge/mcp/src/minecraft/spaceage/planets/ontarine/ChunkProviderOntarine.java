@@ -485,17 +485,48 @@ public class ChunkProviderOntarine implements IChunkProvider {
 			}
 		}
 
-        //Forest Trees
-        for (int c = 60; c > 0; c--)
-        {
-                int j2 = k + rand.nextInt(16) + 8;
-                int l3 = rand.nextInt(120);
-                int j5 = l + rand.nextInt(16) + 8;
+        //Fringing Reefs TODO
+        for (int c = 61; c < 1; c--) {
+                int j2 = k + rand.nextInt(16);
+                int l3 = rand.nextInt(128);
+                int j5 = l + rand.nextInt(16);
+                
+                int size = rand.nextInt(26) + 15;
+                
                 if ((worldObj.getBlockId(j2, l3, j5) == 0) && ((worldObj.getBlockId(j2, l3 - 1, j5) == Block.dirt.blockID) || (worldObj.getBlockId(j2, l3 - 1, j5) == Block.sand.blockID)) && (worldObj.getBlockMetadata(j2, l3 - 1, j5) == 0)) {
-                        new WorldGenCoral(true).generate(worldObj, rand, j2, l3, j5);
+                	if((worldObj.getBlockId(j2, l3 + 4, j5) == 0) && (worldObj.getBlockId(j2, l3 + 1, j5) == Block.waterStill.blockID)) { //TODO has to be under 62 y
+                        new WorldGenFringingReef(true, size).generate(worldObj, rand, j2, l3, j5);
+                	}
                 }
         }
       
+        for (int c = 58; c < 1; c--) {
+        	int x = k + rand.nextInt(32);
+        	int y = rand.nextInt(128);
+        	int z = l + rand.nextInt(32);
+        	
+        	int size = rand.nextInt(26) + 15;
+        	
+        	if ((worldObj.getBlockId(x, y, z) == 0) && (worldObj.getBlockId(x, y - 1, z) == Block.dirt.blockID) || (worldObj.getBlockId(x, y - 1, z) == Block.sand.blockID)) {
+        		if((worldObj.getBlockId(x, y + 8, z) == 0) && (worldObj.getBlockId(x, y + 1, z) == Block.waterStill.blockID)) {
+        			new WorldGenBarrierReef(true, size);
+        		}
+        	}
+        }
+        
+        for (int c = 58; c < 1; c--) {
+        	int x = k + rand.nextInt(32);
+        	int y = rand.nextInt(128);
+        	int z = l + rand.nextInt(32);
+        	
+        	int size = rand.nextInt(26) + 15;
+        	
+        	if ((worldObj.getBlockId(x, y, z) == 0) && (worldObj.getBlockId(x, y - 1, z) == Block.dirt.blockID) || (worldObj.getBlockId(x, y - 1, z) == Block.sand.blockID)) {
+        		if((worldObj.getBlockId(x, y + 8, z) == 0) && (worldObj.getBlockId(x, y + 1, z) == Block.waterStill.blockID)) {
+        			new WorldGenBarrierReef(true, size * 2);
+        		}
+        	}
+        }
 
 		MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(par1IChunkProvider, worldObj, rand, par2, par3, flag));
 

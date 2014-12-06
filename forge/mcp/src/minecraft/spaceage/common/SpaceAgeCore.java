@@ -12,14 +12,19 @@ import spaceage.common.achievements.SpaceAgeAchievements;
 import spaceage.common.block.Block0011;
 import spaceage.common.block.BlockCable;
 import spaceage.common.block.BlockConnectedGlasses;
+import spaceage.common.block.BlockCoral;
+import spaceage.common.block.BlockEden;
 import spaceage.common.block.BlockGenerator;
 import spaceage.common.block.BlockHades;
 import spaceage.common.block.BlockOres1;
+import spaceage.common.block.BlockSASapling;
 import spaceage.common.block.BlockSpaceshipAlloy;
 import spaceage.common.block.BlockTank;
 import spaceage.common.block.BlockVulcan;
 import spaceage.common.item.ItemBlock0011;
 import spaceage.common.item.ItemBlockCable;
+import spaceage.common.item.ItemBlockCoral;
+import spaceage.common.item.ItemBlockEden;
 import spaceage.common.item.ItemBlockGeneratorTooltip;
 import spaceage.common.item.ItemBlockHades;
 import spaceage.common.item.ItemBlockOres1;
@@ -146,8 +151,11 @@ public class SpaceAgeCore {
 	public static Block vulcanSurface;
 	public static Block hadesSurface;
 	public static Block T0011Surface;
+	public static Block edenSurface;
 	
 	public static Block metaSapling;
+	
+	public static Block coral;
 	
 	//Custom ItemStacks (for crafting ease etc.)
 	//GameRegistry.registerCustomItemStack("ash", new ItemStack(vulcanSurface, 1, 2));
@@ -185,8 +193,11 @@ public class SpaceAgeCore {
 	public static int vulcanSurfaceID;
 	public static int hadesSurfaceID;
 	public static int T0011SurfaceID;
+	public static int edenSurfaceID;
 	
 	public static int metaSaplingID;
+	
+	public static int coralID;
 	
 	//ENERGY VALUES
 	//GENERATORS
@@ -244,6 +255,8 @@ public class SpaceAgeCore {
 		metaSaplingID = config.get("Saplings", "Value of the saplings - do not edit to play on the server", 504).getInt();
 		tankID = config.get("Blocks", "Value of the tank - do not edit this to play on the server", 505).getInt();
 		cableID = config.get("Blocks", "Value of the cables - do not edit this to play on the server", 506).getInt();
+		coralID = config.get("Blocks", "Value of the coral - do not edit this to play on the server", 507).getInt();
+		edenSurfaceID = config.get("Blocks", "Value of the majority of Eden related blocks - do not edit this on play on the server", 508).getInt();
 		
 		config.save();
 	}	
@@ -279,6 +292,8 @@ public class SpaceAgeCore {
 		
 		meta = new ItemMeta/*meta*/(this.metaID).setUnlocalizedName("basicItem");
 		
+		metaSapling = new BlockSASapling(this.metaSaplingID).setUnlocalizedName("saplingSA");
+		
 		spaceshipAlloyMeta = new BlockSpaceshipAlloy(this.spaceshipAlloyMetaID, Material.rock).setUnlocalizedName("spaceshipAlloy");
 		
 		vulcanSurface = new BlockVulcan(this.vulcanSurfaceID, Material.rock).setUnlocalizedName("vulcanBlock");
@@ -286,6 +301,8 @@ public class SpaceAgeCore {
 		hadesSurface = new BlockHades(this.hadesSurfaceID, Material.rock).setUnlocalizedName("hadesBlock");
 		
 		T0011Surface = new Block0011(this.T0011SurfaceID, Material.rock).setUnlocalizedName("0011Block");
+		
+		edenSurface = new BlockEden(this.edenSurfaceID, Material.rock).setUnlocalizedName("edenBlock");
 		
 		ores1 = new BlockOres1(this.ores1ID, Material.rock).setUnlocalizedName("spaceAgeOres1");
 		
@@ -306,6 +323,8 @@ public class SpaceAgeCore {
 		//organicBoots = new ItemOrganic(this.organicBootsID, armourBINARY, 0, 3).setUnlocalizedName("oBoots");
 		
 		tintedGlass = new BlockConnectedGlasses(this.tintedGlassID, Material.glass).setUnlocalizedName("reinforcedGlass");
+		
+		coral = new BlockCoral(this.coralID, Material.ground).setUnlocalizedName("coral");
 		
 		//Machines
 		metaGenerator = new BlockGenerator(metaGeneratorID, UniversalElectricity.machine).setUnlocalizedName("metaGenerator").setCreativeTab(tabSA);
@@ -691,8 +710,11 @@ public class SpaceAgeCore {
 		this.metaRegister(vulcanSurface, ItemBlockVulcan.class, vulcanSurface.getUnlocalizedName());
 		this.metaRegister(hadesSurface, ItemBlockHades.class, hadesSurface.getUnlocalizedName());
 		this.metaRegister(T0011Surface, ItemBlock0011.class, T0011Surface.getUnlocalizedName());
+		this.metaRegister(edenSurface, ItemBlockEden.class, edenSurface.getUnlocalizedName());
 		
 		this.metaRegister(ores1, ItemBlockOres1.class, ores1.getUnlocalizedName());
+		
+		this.metaRegister(coral, ItemBlockCoral.class, coral.getUnlocalizedName());
 	}
 	public void metaRegister(Block block, Class<? extends ItemBlock> itemclass, String unlocalisedName) {
 		GameRegistry.registerBlock(block, itemclass, modid + (unlocalisedName.substring(5)));

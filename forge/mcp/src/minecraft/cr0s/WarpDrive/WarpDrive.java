@@ -94,7 +94,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-@Mod(modid = WarpDrive.modid, name = "WarpDrive - Universal Electricity", version = "1.2.0_ZLO", dependencies = "required-after:UniversalElectricity; required-after:ComputerCraft@[1.58]; required-after:SpaceAge; after:CCTurtle; after:AtomicScience; after:ICBM|Explosion; after:MFFS")
+@Mod(modid = WarpDrive.modid, name = "WarpDrive - Universal Electricity", version = "1.2.0_ZLO", dependencies = "required-after:UniversalElectricity; required-after:ComputerCraft@[1.58]; required-after:SpaceAge; after:AppliedEnergistics; after:CCTurtle; after:AtomicScience; after:ICBM|Explosion; after:MFFS")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"WarpDriveBeam", 
 		"WarpDriveFreq", 

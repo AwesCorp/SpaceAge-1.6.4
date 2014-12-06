@@ -32,7 +32,7 @@ public static int[] textureRefByID = { 0, 0, 6, 6, 0, 0, 6, 6, 3, 3, 19, 15, 3, 
 public BlockConnectedGlasses(int id, Material material) {
 	 super(id, Material.glass, false);
 	 this.setHardness(100F);
-	 this.setLightValue(0.5F);
+	 this.setLightValue(1F);
 }
 
 @Override

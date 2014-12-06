@@ -7,6 +7,8 @@ import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
 import spaceage.common.block.BlockHades.Type;
+import spaceage.planets.SpaceAgePlanets;
+import spaceage.planets.eden.WorldGenEdenTrees;
 import spaceage.planets.technoorganic.WorldGen0011Tree;
 import spaceage.planets.vulcan.WorldGenGlowstoneTree;
 
@@ -15,6 +17,7 @@ import net.minecraft.block.BlockFlower;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
@@ -29,8 +32,8 @@ import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class BlockSASapling extends BlockFlower {
-    public static final String[] WOOD_TYPES = new String[] {"glowQuartz", "techOrganic"};
-    public static int amountOfSubBlocks = 2;
+    public static final String[] WOOD_TYPES = new String[] {"glowQuartz", "techOrganic", "edenTree"};
+    //public static int amountOfSubBlocks = 2;
     
 	private Type type;
 	
@@ -43,7 +46,7 @@ public class BlockSASapling extends BlockFlower {
     @SideOnly(Side.CLIENT)
     private Icon[] saplingIcon;
 
-    protected BlockSASapling(int par1) {
+    public BlockSASapling(int par1) {
         super(par1);
         float f = 0.4F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
@@ -63,6 +66,10 @@ public class BlockSASapling extends BlockFlower {
     			if((item.getItem() == SpaceAgeCore.meta) && (item.getItemDamage() == 15)) {
     				growTree(world, x, y, z, randomG);
     			}
+    		case 2:
+    			if((item.getItem() == Item.dyePowder) && (item.getItemDamage() == 15)) {
+    				growTree(world, x, y, z, randomG);
+    			}
     	}
     	
     	return false;
@@ -80,6 +87,10 @@ public class BlockSASapling extends BlockFlower {
     				//if(worldObj.getBlockM)
     				return true;
     			}
+    		case 2:
+    			if(blockID == Block.dirt.blockID || blockID == Block.grass.blockID) {
+    				return true;
+    			}
 			default:
 				return false;
     	}
@@ -93,9 +104,17 @@ public class BlockSASapling extends BlockFlower {
         
         switch(type.ordinal()) {
         	case 0:
-        		return (soil == Block.netherrack.blockID);
+        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y, z) == 15) {
+            		return (soil == Block.netherrack.blockID);
+        		}
         	case 1:
-        		return (soil == SpaceAgeCore.T0011SurfaceID && soilMeta == 0);
+        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y, z) == 15) {
+        			return (soil == SpaceAgeCore.T0011SurfaceID && soilMeta == 0);        			
+        		}
+        	case 2:
+        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y, z) == 15) {
+        			return (soil == Block.dirt.blockID || soil == Block.grass.blockID);     			
+        		}
     		default:
     			return false;
         }
@@ -156,6 +175,8 @@ public class BlockSASapling extends BlockFlower {
         		case 1:
         			object = new WorldGen0011Tree(false);
         			break;
+        		case 2:
+        			object = new WorldGenEdenTrees(false);
         	}
         }
         
@@ -241,7 +262,7 @@ public class BlockSASapling extends BlockFlower {
      * returns a list of blocks with the same ID, but different meta (eg: wood returns 4 blocks)
      */
     public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for(int i = 0; i < amountOfSubBlocks; i++) {
+		for(int i = 0; i < WOOD_TYPES.length; i++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
     }
@@ -261,6 +282,6 @@ public class BlockSASapling extends BlockFlower {
     }
     
 	public static enum Type {
-		GLOW_QUARTZ, TECH_ORGANIC;
+		GLOW_QUARTZ, TECH_ORGANIC, EDEN_TREE;
 	}
 }
