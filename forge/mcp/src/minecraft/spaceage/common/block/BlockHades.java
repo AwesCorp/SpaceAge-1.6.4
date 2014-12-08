@@ -21,10 +21,8 @@ public class BlockHades extends Block {
 		super(id, material);
 		this.setCreativeTab(SpaceAgeCore.tabSA);
 		
-		switch(type.ordinal()) {
-			case 0:
-				setHardness(1.0F).setStepSound(Block.soundGravelFootstep);
-		}
+		setHardness(1.0F);
+		setStepSound(Block.soundGravelFootstep);
 	}
 	
 	private Type type;

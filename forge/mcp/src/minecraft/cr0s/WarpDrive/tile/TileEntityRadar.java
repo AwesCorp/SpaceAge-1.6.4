@@ -440,7 +440,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	}
 	
 	public void drawPixelRed(int x, int y) {
-		sendPixelPacket("WarpDrive_Radar_Pixel", x, y, 176, 80);
+		sendPixelPacket("WarpDrive_RP", x, y, 176, 80);
 		//this.addPixelQuad(x, y, 176, 80);
 		//this.isDrawingRed = true;
 	}
@@ -467,13 +467,13 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	}
 
 	public void drawPixelYellow(int x, int y) {
-		sendPixelPacket("WarpDrive_Radar_Pixel", x, y, 177, 80);
+		sendPixelPacket("WarpDrive_RP", x, y, 177, 80);
 		//this.addPixelQuad(x, y, 177, 80);
 		//this.isDrawingYellow = true;
 	}
 	
 	public void drawPixelForeground(int x, int y) {
-		sendPixelPacket("WarpDrive_Radar_Pixel", x, y, 2, 1);
+		sendPixelPacket("WarpDrive_RP", x, y, 2, 1);
 		//this.addPixelQuad(x, y, 2, 1);
 		//this.isDrawingForeground = true;
 	}

@@ -107,8 +107,6 @@ public class WorldGenBarrierReef extends WorldGenerator {
 				world.setBlock(x, y, z, SpaceAgeCore.coralID, 1, flag);//STAGHORN
 			case 2:
 				world.setBlock(x, y, z, SpaceAgeCore.coralID, 2, flag);//PILLAR
-			case 3:
-				world.setBlock(x, y, z, SpaceAgeCore.coralID, 3, flag);//MAZE
 		}
 	}
 }

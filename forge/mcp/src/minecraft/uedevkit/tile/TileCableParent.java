@@ -115,7 +115,7 @@ public abstract class TileCableParent<C extends IConnector<N>, N extends INodeNe
 		}
 
 		final Packet250CustomPayload packet = new Packet250CustomPayload();
-		packet.channel = "SpaceAge_UpdateCables";
+		packet.channel = "SA_UpdateCables";
 		packet.data = bytes.toByteArray();
 		packet.length = packet.data.length;
 	}

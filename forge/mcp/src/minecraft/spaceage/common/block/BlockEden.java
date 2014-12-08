@@ -7,6 +7,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import spaceage.common.SpaceAgeCore;
+import spaceage.common.block.BlockGenerator.Types;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -64,7 +65,7 @@ public class BlockEden extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for(int i = 0; i < type.ordinal(); i++) {
+		for(int i = 0; i < Types.values().length; i++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 

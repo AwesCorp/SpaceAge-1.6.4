@@ -36,12 +36,15 @@ import spaceage.common.item.ItemMeta;
 import spaceage.common.item.ItemRepulsor;
 import spaceage.common.item.ItemStarboost;
 import spaceage.common.tile.TileAluminiumCable;
+import spaceage.common.tile.TileBrainCoral;
 import spaceage.common.tile.TileCopperCable;
 import spaceage.common.tile.TileGasTank;
 import spaceage.common.tile.TileHeatGenerator;
 import spaceage.common.tile.TileLiquidTank;
+import spaceage.common.tile.TilePillar;
 import spaceage.common.tile.TileSilverCable;
 import spaceage.common.tile.TileSolarPanel;
+import spaceage.common.tile.TileStaghorn;
 import spaceage.integration.IntegrationManager;
 import spaceage.planets.aliens.Aliens;
 import universalelectricity.api.UniversalElectricity;
@@ -87,7 +90,7 @@ import cpw.mods.fml.relauncher.Side;
  */
 
 @Mod(modid=SpaceAgeCore.modid, name="SpaceAge/Project Cosmos: - bringing Minecraft to the Space Age", version="Alpha", dependencies="required-after:UniversalElectricity;after:RotaryCraft;after:AppliedEnergistics")
-@NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"SpaceAge", "SpaceAge_UpdateCables"}, packetHandler = PacketHandler.class
+@NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"SpaceAge", "SA_UpdateCables"}, packetHandler = PacketHandler.class
 
 		/*, serverPacketHandlerSpec=@NetworkMod.SidedPacketHandler(channels={"SpaceAge_C"}, packetHandler=ServerPacketHandler.class)*/)
 
@@ -104,9 +107,9 @@ public class SpaceAgeCore {
 	@SidedProxy(clientSide = "spaceage.client.ClientProxy", serverSide = "spaceage.common.CommonProxy")
 	public static CommonProxy proxy;
 	
-	public static Aliens aliens;
+	public static Aliens aliens = new Aliens();
 	
-	public static IntegrationManager integration;
+	public static IntegrationManager integration = new IntegrationManager();
 	
 	public static final String modid = "SpaceAge";
 	//public String modid2 = modid.toLowerCase();
@@ -124,7 +127,7 @@ public class SpaceAgeCore {
 	public static Item meta;
 	
 	public static Block spaceshipAlloyMeta;
-	public static Block ores1;
+//	public static Block ores1;
 	
 	public static Item advancedSpacesuitHelmet;
 	public static Item advancedSpacesuitChestplate;
@@ -164,7 +167,7 @@ public class SpaceAgeCore {
 	//ID Registry
 	public static int metaID;
 	
-	public static int ores1ID;
+
 	
 	public static int spaceshipAlloyMetaID;
 	
@@ -228,7 +231,6 @@ public class SpaceAgeCore {
 		config.load();
 		
 		metaID = config.get("Items", "Value of the basic item - do not edit this to play on the server", 5000).getInt();
-		ores1ID = config.get("Blocks", "Value of ores, no 1 - do not edit this to play on the server", 501).getInt();
 		spaceshipAlloyMetaID = config.get("Blocks", "Value of the Spaceship Alloy - do not edit this to play on the server", 500).getInt();
 		advancedSpacesuitHelmetID = config.get("Items", "Value of the advanced spacesuit helmet- do not edit this to play on the server", 5001).getInt();
 		advancedSpacesuitChestplateID = config.get("Items", "Value of the advanced spacesuit chestplate - do not edit this to play on the server", 5002).getInt();
@@ -264,8 +266,6 @@ public class SpaceAgeCore {
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-	    SpaceAgeAchievements.init();
-		
 	       metadata.modId = this.modid;
 	       metadata.name = "SpaceAge/Project Cosmos";
 	       metadata.description = "SpaceAge/Project Cosmos: Bringing Minecraft to the Space Age";
@@ -304,7 +304,7 @@ public class SpaceAgeCore {
 		
 		edenSurface = new BlockEden(this.edenSurfaceID, Material.rock).setUnlocalizedName("edenBlock");
 		
-		ores1 = new BlockOres1(this.ores1ID, Material.rock).setUnlocalizedName("spaceAgeOres1");
+
 		
 		advancedSpacesuitHelmet = new ItemStarboost(this.advancedSpacesuitHelmetID, armourADVANCEDSPACESUIT, 0, 0).setUnlocalizedName("advHelmet");
 		advancedSpacesuitChestplate = new ItemStarboost(this.advancedSpacesuitChestplateID, armourADVANCEDSPACESUIT, 0, 1).setUnlocalizedName("advChestplate");
@@ -337,6 +337,9 @@ public class SpaceAgeCore {
 		smeltingRecipes();
 		blockHarvest();
 		registerOre();
+		//doCrapWithExternalItemStacks();
+		
+
 		
 		MinecraftForge.EVENT_BUS.register(new ServerTickHandler());
 	    TickRegistry.registerTickHandler(new ServerTickHandler(), Side.CLIENT);
@@ -362,12 +365,17 @@ public class SpaceAgeCore {
 	    //proxy.getArmorModel();
 		//TickRegistry.registerTickHandler(new SpaceAgeServerTickHandler(EnumSet.of(TickType.SERVER)), Side.SERVER);
 		
+	    SpaceAgeAchievements.init();
+	    
 		LogHelper.log(Level.FINEST, "Initialised successfully");
 	}
 	
 	/*public boolean isMFFSLoaded() {
 		return Loader.isModLoaded("MFFS");
 	}*/
+
+
+
 
 	public void registerOre() {
 		ItemStack titaniumIngot = new ItemStack(this.meta,1,0);
@@ -457,70 +465,7 @@ public class SpaceAgeCore {
 		
 		
 		
-		ItemStack titanium = new ItemStack(ores1, 1, 0);
-		ItemStack magnetite = new ItemStack(ores1, 1, 1);
-		ItemStack aluminium = new ItemStack(ores1, 1, 2);
-		ItemStack lithiumP = new ItemStack(ores1, 1, 3);
-		ItemStack silverOre = new ItemStack(ores1, 1, 4);
-		ItemStack copper = new ItemStack(ores1, 1, 5);
-		ItemStack gold = new ItemStack(ores1, 1, 6);
-		ItemStack coal = new ItemStack(ores1, 1, 7);
-		ItemStack diamond = new ItemStack(ores1, 1, 8);
-		ItemStack emerald = new ItemStack(ores1, 1, 9);
-		ItemStack lapis = new ItemStack(ores1, 1, 10);
-		ItemStack quartz = new ItemStack(ores1, 1, 11);
-		
-		OreDictionary.registerOre("oreTitanium", titanium);
-		OreDictionary.registerOre("oreIlmenite", titanium);
-		OreDictionary.registerOre("titaniumOre", titanium);
-		OreDictionary.registerOre("ilmeniteOre", titanium);
-		
-		OreDictionary.registerOre("oreMagnetite", magnetite);
-		OreDictionary.registerOre("oreIron", magnetite);
-		OreDictionary.registerOre("magnetiteOre", magnetite);
-		OreDictionary.registerOre("ironOre", magnetite);
-		
-		OreDictionary.registerOre("oreAluminium", aluminium);
-		OreDictionary.registerOre("oreBauxite", aluminium);
-		OreDictionary.registerOre("aluminiumOre", aluminium);
-		OreDictionary.registerOre("bauxiteOre", aluminium);
-		
-		OreDictionary.registerOre("pegmatiteLithium", lithiumP);
-		OreDictionary.registerOre("lithiumPegmatite", lithiumP);
-		
-		OreDictionary.registerOre("oreSilver", silverOre);
-		OreDictionary.registerOre("oreArgentite", silverOre);
-		OreDictionary.registerOre("silverOre", silverOre);
-		OreDictionary.registerOre("argentiteOre", silverOre);
-		
-		OreDictionary.registerOre("oreCopper", copper);
-		OreDictionary.registerOre("oreChalcopyrite", copper);
-		OreDictionary.registerOre("copperOre", copper);
-		OreDictionary.registerOre("chalcopyriteOre", copper);
-		
-		OreDictionary.registerOre("oreGold", gold);
-		OreDictionary.registerOre("oreSylvanite", gold);
-		OreDictionary.registerOre("goldOre", gold);
-		OreDictionary.registerOre("sylvaniteOre", gold);
-		
-		OreDictionary.registerOre("oreCoal", coal);
-		OreDictionary.registerOre("coalOre", coal);
-		
-		OreDictionary.registerOre("kimberliteDiamond", diamond);
-		OreDictionary.registerOre("diamondKimberlite", diamond);
-		
-		OreDictionary.registerOre("pegmatiteEmerald", emerald);
-		OreDictionary.registerOre("emeraldPegmatite", emerald);
-		
-		OreDictionary.registerOre("oreLazurite", lapis);
-		OreDictionary.registerOre("oreLapis", lapis);
-		OreDictionary.registerOre("lazuriteOre", lapis);
-		OreDictionary.registerOre("lapisOre", lapis);
-		
-		OreDictionary.registerOre("oreQuartzite", quartz);
-		OreDictionary.registerOre("oreQuartz", quartz);
-		OreDictionary.registerOre("quartziteOre", quartz);
-		OreDictionary.registerOre("quartzOre", quartz);
+
 	}
 
 	private void blockHarvest() {
@@ -680,10 +625,10 @@ public class SpaceAgeCore {
 		GameRegistry.registerItem(fireResistanceLeggings, "Flame Resistant Leggings");
 		GameRegistry.registerItem(fireResistanceBoots, "Flame Resistant Boots");
 		
-		GameRegistry.registerItem(organicHelmet, "Exoskeleton Helmet");
-		GameRegistry.registerItem(organicChestplate, "Exoskeleton Chestplate");
-		GameRegistry.registerItem(organicLeggings, "Exoskeleton Leggings");
-		GameRegistry.registerItem(organicBoots, "Exoskeleton Boots");
+//		GameRegistry.registerItem(organicHelmet, "Exoskeleton Helmet");
+	//	GameRegistry.registerItem(organicChestplate, "Exoskeleton Chestplate");
+		//GameRegistry.registerItem(organicLeggings, "Exoskeleton Leggings");
+	//	GameRegistry.registerItem(organicBoots, "Exoskeleton Boots");
 		
 		GameRegistry.registerItem(repulsor, "Laser Cannon");
 		
@@ -712,9 +657,10 @@ public class SpaceAgeCore {
 		this.metaRegister(T0011Surface, ItemBlock0011.class, T0011Surface.getUnlocalizedName());
 		this.metaRegister(edenSurface, ItemBlockEden.class, edenSurface.getUnlocalizedName());
 		
-		this.metaRegister(ores1, ItemBlockOres1.class, ores1.getUnlocalizedName());
-		
 		this.metaRegister(coral, ItemBlockCoral.class, coral.getUnlocalizedName());
+		GameRegistry.registerTileEntity(TileBrainCoral.class, "tileBrainCoral");
+		GameRegistry.registerTileEntity(TilePillar.class, "tilePillarCoral");
+		GameRegistry.registerTileEntity(TileStaghorn.class, "tileStaghornCoral");
 	}
 	public void metaRegister(Block block, Class<? extends ItemBlock> itemclass, String unlocalisedName) {
 		GameRegistry.registerBlock(block, itemclass, modid + (unlocalisedName.substring(5)));

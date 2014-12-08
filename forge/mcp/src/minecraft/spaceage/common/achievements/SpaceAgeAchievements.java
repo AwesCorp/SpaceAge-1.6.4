@@ -24,7 +24,7 @@ public class SpaceAgeAchievements { //Future possible achievements: Magical Ener
 	public static void init() {
 		space = new Achievement(3097, "spaceage.achSpace", 0, 0, new ItemStack(SpaceAgeCore.spaceshipAlloyMeta, 1, 15), null).registerAchievement();
 		
-		spaceDeath = new Achievement(3097, "spaceage.achSpaceDeath", 2, -1, new ItemStack(SpaceAgeCore.spaceshipAlloyMeta, 1, 0), space).registerAchievement();
+		spaceDeath = new Achievement(3098, "spaceage.achSpaceDeath", 2, -1, new ItemStack(SpaceAgeCore.spaceshipAlloyMeta, 1, 0), space).registerAchievement();
 		
 	    spaceAgeAchievementList = new Achievement[] { space, spaceDeath };
 
@@ -34,7 +34,7 @@ public class SpaceAgeAchievements { //Future possible achievements: Magical Ener
 	}
 	
 	@ForgeSubscribe
-	public static void chunkEntered(EntityEvent.EnteringChunk event) {
+	public void chunkEntered(EntityEvent.EnteringChunk event) {
 		if(event.entity != null) {
 			if((event.entity instanceof EntityPlayer)) {
 				EntityPlayer player = (EntityPlayer)event.entity;

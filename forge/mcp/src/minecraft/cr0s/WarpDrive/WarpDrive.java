@@ -94,25 +94,26 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-@Mod(modid = WarpDrive.modid, name = "WarpDrive - Universal Electricity", version = "1.2.0_ZLO", dependencies = "required-after:UniversalElectricity; required-after:ComputerCraft@[1.58]; required-after:SpaceAge; after:AppliedEnergistics; after:CCTurtle; after:AtomicScience; after:ICBM|Explosion; after:MFFS")
+@Mod(modid = WarpDrive.modid, name = "WarpDrive - Universal Electricity", version = "1.2.0_ZLO", dependencies = "required-after:UniversalElectricity; required-after:ComputerCraft@[1.58]; required-after:SpaceAge; after:SpaceAgePlanets; after:AppliedEnergistics; after:CCTurtle; after:AtomicScience; after:ICBM|Explosion; after:MFFS")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"WarpDriveBeam", 
 		"WarpDriveFreq", 
 		"WarpDriveLaserT",
 		"WarpDriveCloaks",
-		"WarpDrive_Protocol_Distance",
-		"WarpDrive_Protocol_Front",
-		"WarpDrive_Protocol_Back",
-		"WarpDrive_Protocol_Right",
-		"WarpDrive_Protocol_Left",
-		"WarpDrive_Protocol_Up",
-		"WarpDrive_Protocol_Down",
-		"WarpDrive_Protocol_Direction",
-		"WarpDrive_Protocol_Mode",
-		"WarpDrive_ShipName",
-		"WarpDrive_CD_Frequency",
-		"WarpDrive_CD_Tier",
-		"WarpDrive_Radar_Pixel"}, packetHandler = PacketHandler.class)
+		"WarpDrive_Dis",//DISTANCE
+		"WarpDrive_F",//FRONT
+		"WarpDrive_B",//BACK
+		"WarpDrive_R",//RIGHT
+		"WarpDrive_L",//Left
+		"WarpDrive_U",//UP
+		"WarpDrive_D",//DOWN
+		"WarpDrive_Dir",//DIRECTION
+		"WarpDrive_M",//MODE
+		"WarpDrive_SN",//SHIP NAME
+		"WarpDrive_Fr",//CD (CLOAK?) FREQUENCY
+		"WarpDrive_T",//CD (CLOAK?) TIER
+		"WarpDrive_RP"//RADAR PIXEL
+		}, packetHandler = PacketHandler.class)
 /**
  * @author Cr0s, SkylordJoel
  */
@@ -171,7 +172,7 @@ public class WarpDrive implements LoadingCallback {
     @Mod.Metadata(WarpDrive.modid)
     public static ModMetadata metadata;
 	
-	@SidedProxy(clientSide = "cr0s.WarpDrive.ClientProxy", serverSide = "cr0s.WarpDrive.CommonProxy")
+	@SidedProxy(clientSide = "cr0s.WarpDrive.client.ClientProxy", serverSide = "cr0s.WarpDrive.common.CommonProxy")
 	public static CommonProxy proxy;
 
 	public WarpCoresRegistry registry;

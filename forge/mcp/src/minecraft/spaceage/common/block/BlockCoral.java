@@ -8,7 +8,6 @@ import spaceage.common.LogHelper;
 import spaceage.common.SpaceAgeCore;
 import spaceage.common.block.BlockGenerator.Types;
 import spaceage.common.tile.TileBrainCoral;
-import spaceage.common.tile.TileMaze;
 import spaceage.common.tile.TilePillar;
 import spaceage.common.tile.TileStaghorn;
 import spaceage.planets.LogHelperPlanet;
@@ -40,8 +39,6 @@ public class BlockCoral extends Block {
 				return new TileStaghorn();
 			case 2:
 				return new TilePillar();
-			case 3:
-				return new TileMaze();
 		}
 		return null;
 	}
@@ -97,15 +94,13 @@ public class BlockCoral extends Block {
 	}*/
 	
 	public String getTextureFile() {
-		switch(type.ordinal()) {
+		switch(Types.values().length) {
 			case 0:
 				return "Brain";
 			case 1:
 				return "Staghorn";
 			case 2:
 				return "Pillar";
-			case 3:
-				return "Maze";
 			default:
 				System.out.println("Mojang: Your Minecraft is totally fucked up.");
 				LogHelper.log(Level.SEVERE, "Cannot continue functioning. Minecraft uncreatable code error.");
@@ -116,7 +111,7 @@ public class BlockCoral extends Block {
 
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < 3; i++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}
@@ -161,6 +156,6 @@ public class BlockCoral extends Block {
 	}
 
 	public static enum Types {
-    	BRAIN, STAGHORN, PILLAR, MAZE;
+    	BRAIN, STAGHORN, PILLAR;
     }
 }

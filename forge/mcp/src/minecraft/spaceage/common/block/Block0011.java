@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
+import spaceage.common.block.BlockGenerator.Types;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -23,16 +24,8 @@ public class Block0011 extends Block {
 		
 		
 		
-		switch(type.ordinal()) {
-			case 0:
-				setHardness(1.0F).setStepSound(Block.soundMetalFootstep);
-			case 1:
-				setHardness(1.0F).setStepSound(Block.soundMetalFootstep);
-			case 2:
-				setHardness(1.0F).setStepSound(Block.soundMetalFootstep);
-			case 3:
-				setHardness(100.0F).setStepSound(Block.soundGrassFootstep);
-		}
+		setHardness(1.0F);
+		setStepSound(Block.soundMetalFootstep);
 	}
 	
 	private Type type;
@@ -76,7 +69,7 @@ public class Block0011 extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for(int i = 0; i < type.ordinal(); i++) {
+		for(int i = 0; i < Types.values().length; i++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}

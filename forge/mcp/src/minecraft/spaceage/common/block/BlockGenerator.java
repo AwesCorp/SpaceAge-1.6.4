@@ -34,6 +34,10 @@ public class BlockGenerator extends Block {
 	
 	private Types type;
 	
+    public static enum Types {
+    	HEAT, SOLAR;
+    }
+	
 /*	@SideOnly(Side.CLIENT)
 	public static Icon heat_front, heat_bottom, heat_top, heat_side_idle, heat_side_active;
 	
@@ -81,16 +85,16 @@ public class BlockGenerator extends Block {
 	}
 	
 	public String getBlockTextureFile() {
-		switch(type.ordinal()) {
-		case 0:
-			return "GeothermalTurbine";
-		case 1:
-			return "PhotovoltaicPanel";
-		default:
-			System.out.println("Mojang: Your Minecraft is totally fucked up.");
-			LogHelper.log(Level.SEVERE, "Cannot continue functioning. Minecraft uncreatable code error.");
-			LogHelperPlanet.log(Level.SEVERE, "Parent Mod 'SpaceAge' function inhibited.");
-			return "TOTALLY FUCKED UP";
+		switch(Types.values().length) {
+			case 0:
+				return "GeothermalTurbine";
+			case 1:
+				return "PhotovoltaicPanel";
+			default:
+				System.out.println("Mojang: Your Minecraft is totally fucked up.");
+				LogHelper.log(Level.SEVERE, "Cannot continue functioning. Minecraft uncreatable code error.");
+				LogHelperPlanet.log(Level.SEVERE, "Parent Mod 'SpaceAge' function inhibited.");
+				return "TOTALLY FUCKED UP";
 		}
 	}
 	
@@ -116,7 +120,7 @@ public class BlockGenerator extends Block {
     	
     	if(world.isRemote) {
     		return true;
-    	}else if(!player.isSneaking()) {
+    	} else if(!player.isSneaking()) {
         	int GUIMetadata = tileEntity.getBlockMetadata();
     			player.openGui(SpaceAgeCore.instance, GUIMetadata/**/, world, x, y, z);
     		}
@@ -151,10 +155,6 @@ public class BlockGenerator extends Block {
     	}
     	
     	super.breakBlock(world, x, y, z, id, meta);
-    }
-    
-    public static enum Types {
-    	HEAT, SOLAR;
     }
     
     /*public int openedGUI(int metadata) {

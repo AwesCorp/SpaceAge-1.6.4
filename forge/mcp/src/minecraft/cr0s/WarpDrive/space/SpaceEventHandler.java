@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import spaceage.common.SpaceAgeCore;
+import spaceage.planets.SpaceAgePlanets;
 
 import cr0s.WarpDrive.CloakedArea;
 import cr0s.WarpDrive.WarpDrive;
@@ -60,7 +61,7 @@ public class SpaceEventHandler //COOL
 		}
 
 		// If player in vaccum, check and start consuming air cells
-		if (entity.worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID || entity.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) {
+		if (entity.worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID || entity.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID || entity.worldObj.provider.dimensionId == SpaceAgePlanets.instance.vulcanID || entity.worldObj.provider.dimensionId == SpaceAgePlanets.instance.hadesID || entity.worldObj.provider.dimensionId == SpaceAgePlanets.instance.T0011ID) {
 			boolean inVacuum = isEntityInVacuum(entity);
 
 			// Damage entity if in vacuum without protection
@@ -175,10 +176,10 @@ public class SpaceEventHandler //COOL
             int check = MathHelper.ceiling_float_int(distance - 3.0F);
 
             if (check > 0) {
-                if ((player.getCurrentArmor(0) != null && player.getCurrentArmor(2).itemID == SpaceAgeCore.advancedSpacesuitChestplateID) || //TODO Item for quantum, adv spacesuit
-                        ((player.getCurrentArmor(2) != null && player.getCurrentArmor(2).itemID == SpaceAgeCore.advancedSpacesuitChestplateID) && (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).itemID == SpaceAgeCore.advancedSpacesuitBootsID))) {
-                    event.setCanceled(true); // Don't damage player
-                }
+                //if ((player.getCurrentArmor(0) != null && player.getCurrentArmor(2).itemID == SpaceAgeCore.advancedSpacesuitChestplateID) || //TODO Item for quantum, adv spacesuit
+                  //      ((player.getCurrentArmor(2) != null && player.getCurrentArmor(2).itemID == SpaceAgeCore.advancedSpacesuitChestplateID) && (player.getCurrentArmor(0) != null && player.getCurrentArmor(0).itemID == SpaceAgeCore.advancedSpacesuitBootsID))) {
+                    //event.setCanceled(true); // Don't damage player
+                //} TODO CURRENTLY DORMANT
             }
         }
     }

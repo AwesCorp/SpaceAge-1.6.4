@@ -8,7 +8,9 @@ import java.util.Set;
 import java.util.Random;
 import java.lang.reflect.*;
 
+import spaceage.common.SAItemStack;
 import spaceage.common.SpaceAgeCore;
+import spaceage.planets.SpaceAgePlanets;
 
 import cpw.mods.fml.common.Loader;
 import net.minecraftforge.common.Configuration;
@@ -16,8 +18,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-public class WarpDriveConfig
-{
+public class WarpDriveConfig {
 	public static WarpDriveConfig i;
 	private Configuration config;
 	public int coreID, controllerID, radarID, isolationID, airID, airgenID, gasID, laserID, miningLaserID, particleBoosterID, liftID, laserCamID, camID, monitorID, /*iridiumID,*/ shipScannerID, cloakCoreID, cloakCoilID, photoSynthID;
@@ -30,6 +31,9 @@ public class WarpDriveConfig
 	private Class<?> AEBlocks;
 	private Class<?> AEMaterials;
 	private Class<?> AEItems;
+	
+	public SAItemStack saStack;
+	
 	public ArrayList<int[]> CommonWorldGenOres;
 
 	// Mod config
@@ -289,6 +293,23 @@ public class WarpDriveConfig
 		//Jetpacks.add(Items.getItem("electricJetpack").itemID);
 		Jetpacks.add(SpaceAgeCore.advancedSpacesuitChestplateID);
 		Jetpacks.add(SpaceAgeCore.advancedSpacesuitBootsID);
+		
+		/*MinerOres.add((saStack.titaniumOre.copy().itemID));
+		MinerOres.add(saStack.ironOre.copy().itemID);
+		MinerOres.add(saStack.aluminiumOre.copy().itemID);
+		MinerOres.add(saStack.lithiumP.copy().itemID);
+		MinerOres.add(saStack.silverOre.copy().itemID);
+		MinerOres.add(saStack.goldOre.copy().itemID);
+		MinerOres.add(saStack.copperOre.copy().itemID);
+		MinerOres.add(saStack.coalOre.copy().itemID);
+		MinerOres.add(saStack.diamondOre.copy().itemID);
+		MinerOres.add(saStack.emeraldOre.copy().itemID);
+		MinerOres.add(saStack.lapisOre.copy().itemID);
+		MinerOres.add(saStack.quartzOre.copy().itemID);*/
+		
+		for(int i = 0; i < 12; i++) {
+			CommonWorldGenOres.add(new int[] {SpaceAgePlanets.ores1ID, i});
+		}
 		//IC2_Air = new int[] {Items.getItem("airCell").itemID, Items.getItem("airCell").getItemDamage()}; //TODO Check if this does anything
 		
 		/*if (Items.getItem("uraniumOre") != null) { 
@@ -406,9 +427,7 @@ public class WarpDriveConfig
 				return new int[] {Block.netherrack.blockID, 0};
 			else if (random.nextInt(1000) == 1)
 				return new int[] {Block.whiteStone.blockID, 0};
-		}
-		else
-		{
+		} else {
 			if (random.nextInt(25) == 1)
 				if (random.nextBoolean())
 					return new int[] {Block.whiteStone.blockID, (corrupted && random.nextBoolean())?1:0};
@@ -418,19 +437,16 @@ public class WarpDriveConfig
 				return new int[] {Block.netherrack.blockID, 0};
 			else if (random.nextInt(150) == 1)
 				return new int[] {Block.whiteStone.blockID, 0};
-		}
-		if (corrupted && random.nextBoolean())
+		} if (corrupted && random.nextBoolean())
 			return new int[] {Block.cobblestone.blockID, 0};
 		return new int[] {Block.stone.blockID, 0};
 	}
 
-	public int[] getRandomSurfaceBlock(Random random, int blockID, int blockMeta, boolean bedrock)
-	{
+	public int[] getRandomSurfaceBlock(Random random, int blockID, int blockMeta, boolean bedrock) {
 		if (bedrock && random.nextInt(1000) == 1)
 			return new int[] {Block.bedrock.blockID, 0};
 		if (blockID == Block.whiteStone.blockID)
-			if (blockMeta == 0 || blockMeta == 1)
-			{
+			if (blockMeta == 0 || blockMeta == 1) {
 				int[] t;
 				t = getRandomOverworldBlock(random, blockID, blockMeta);
 				if (t[0] == blockID)
@@ -438,9 +454,7 @@ public class WarpDriveConfig
 				if (t[0] == blockID)
 					t = getRandomEndBlock(random, blockID, blockMeta);
 				return t;
-			}
-			else if (blockMeta == 8 || blockMeta == 9)
-			{
+			} else if (blockMeta == 8 || blockMeta == 9) {
 				int[] t;
 				t = getRandomOverworldBlock(random, blockID, blockMeta);
 				if (t[0] == blockID)
@@ -448,16 +462,14 @@ public class WarpDriveConfig
 				if (t[0] == blockID)
 					t = getRandomOverworldBlock(random, blockID, blockMeta);
 				return t;
-			}
-		else if (blockID == Block.whiteStone.blockID)
-			return getRandomEndBlock(random, blockID, blockMeta);
-		else if (blockID == Block.netherrack.blockID)
-			return getRandomNetherBlock(random, blockID, blockMeta);
+			} else if (blockID == Block.whiteStone.blockID)
+				return getRandomEndBlock(random, blockID, blockMeta);
+			else if (blockID == Block.netherrack.blockID)
+				return getRandomNetherBlock(random, blockID, blockMeta);
 		return getRandomOverworldBlock(random, blockID, blockMeta);
 	}
 
-	public int[] getRandomOverworldBlock(Random random, int blockID, int blockMeta)
-	{
+	public int[] getRandomOverworldBlock(Random random, int blockID, int blockMeta) {
 		if (random.nextInt(25) == 5)
 			return CommonWorldGenOres.get(random.nextInt(CommonWorldGenOres.size()));
 		else if (random.nextInt(250) == 1)

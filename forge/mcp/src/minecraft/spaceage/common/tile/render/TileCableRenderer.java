@@ -74,7 +74,7 @@ public class TileCableRenderer implements ISimpleBlockRenderingHandler {
 
 	@Override
 	public void renderInventoryBlock(Block block, int metadata, int modelID, RenderBlocks renderer) {
-		final float minSize = 0.4F;
+		/*final float minSize = 0.4F;
 		final float maxSize = 0.6F;
 
 		final Tessellator var3 = Tessellator.instance;
@@ -104,7 +104,7 @@ public class TileCableRenderer implements ISimpleBlockRenderingHandler {
 		var3.startDrawingQuads();
 		var3.setNormal(1.0F, 0.0F, 0.0F);
 		renderer.renderFaceZPos(block, 0.0D, 0.0D, 0.0D, block.getIcon(5, metadata));
-		var3.draw();
+		var3.draw();*/
 	}
 
 	@Override

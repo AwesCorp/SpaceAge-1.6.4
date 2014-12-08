@@ -286,25 +286,27 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 			if(isValidChar(par1)) {
 				//super.keyTyped(par1, par2);
 				if(front.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Front", this.front, 4);
+					simpleTextPacket("WarpDrive_F", this.front, 4);
 				} else if(back.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Back", this.back, 4);
+					simpleTextPacket("WarpDrive_B", this.back, 4);
 				} else if(left.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Left", this.left, 4);
+					simpleTextPacket("WarpDrive_L", this.left, 4);
 				} else if(right.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Right", this.right, 4);
+					simpleTextPacket("WarpDrive_R", this.right, 4);
 				} else if(up.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Up", this.up, 4);
+					simpleTextPacket("WarpDrive_U", this.up, 4);
 				} else if(down.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Down", this.down, 4);
+					simpleTextPacket("WarpDrive_D", this.down, 4);
 				} else if(distance.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Protocol_Distance", this.distance, 4);
+					simpleTextPacket("WarpDrive_Dis", this.distance, 4);
+				} else if(shipName.textboxKeyTyped(par1, par2)){
+					shipName();
 				} else if(isValidModeChar(par1)) {
 					if(mode.textboxKeyTyped(par1, par2)) {
-						modeTextPacket("WarpDrive_Protocol_Mode", this.mode, 4);
+						modeTextPacket("WarpDrive_M", this.mode, 4);
 				} else if(isValidDirectionChar(par1)) {
 					if(direction.textboxKeyTyped(par1, par2)) {
-						directionTextPacket("WarpDrive_Protocol_Direction", this.direction, 4);
+						directionTextPacket("WarpDrive_Dir", this.direction, 4);
 					}
 				}
 				//} else if(beaconInput.textboxKeyTyped(par1, par2)) {UNUSED
@@ -328,7 +330,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 			}
 			
 			Packet250CustomPayload packet = new Packet250CustomPayload();
-			packet.channel = "WarpDrive_ShipName";
+			packet.channel = "WarpDrive_SN";
 			packet.data = bos.toByteArray();
 			packet.length = bos.size();
 			
