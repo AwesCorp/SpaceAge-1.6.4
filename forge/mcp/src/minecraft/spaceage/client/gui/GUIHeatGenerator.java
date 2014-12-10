@@ -43,7 +43,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 	        this.fontRenderer.drawString(I18n.getString("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	        
 	     // Power level
-	        if (this.isPointInRegion(161, 3, 8, 80, mouseX, mouseY)) {
+	        if (this.isPointInRegion(161, 3, 8, 58, mouseX, mouseY)) {
 	            //String powerLevelLiteral = String.valueOf(this.ENTITY.getEnergy(ForgeDirection.UNKNOWN)) + "/" + String.valueOf(this.ENTITY.getEnergyCapacity(ForgeDirection.UNKNOWN));
 	            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Energy " + String.valueOf(this.furnaceInventory.getPowerRemainingScaled(100)) + " %");
 	        }
@@ -66,11 +66,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 	        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 	        int i1;
 	        
-	        int powerRemainingPercentage = this.furnaceInventory.getPowerRemainingScaled(80/*MAXWOLF = 32 - mine: 25 000 per pixel? So by 80?*/); //TODO CHECK IF WORKS!!!
+	        int powerRemainingPercentage = this.furnaceInventory.getPowerRemainingScaled(58/*MAXWOLF = 32 - mine: 25 000 per pixel? So by 80?*/); //TODO CHECK IF WORKS!!!
 	        // Screen Coords: 161x3 (161x3 if cursor is on (162x4 from absolute left and height))
 	        // Filler Coords: 176x0 (176x0 if cursor is on)
 	        // Image Size WH: 8x80 (8x80)
-	        this.drawTexturedModalRect(k/*screenX*/ + 161, l/*screenY*/ + 3, 176, 0, 8, 80 - powerRemainingPercentage); //TODO CHECK IF WORKS!!!
+	        this.drawTexturedModalRect(k/*screenX*/ + 160, l/*screenY*/ + 10, 176, 0, 8, 58 - powerRemainingPercentage); //TODO CHECK IF WORKS!!!
 	        
 	        int fluidRemainingPercentage = this.furnaceInventory.getFluidRemainingScaled(58/*mine: by 58?*/);
 	        // Screen Coords: 8x10

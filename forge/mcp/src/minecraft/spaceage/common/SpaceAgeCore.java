@@ -300,7 +300,7 @@ public class SpaceAgeCore {
 		
 		hadesSurface = new BlockHades(this.hadesSurfaceID, Material.rock).setUnlocalizedName("hadesBlock");
 		
-		T0011Surface = new Block0011(this.T0011SurfaceID, Material.rock).setUnlocalizedName("0011Block");
+		T0011Surface = new Block0011(this.T0011SurfaceID, Material.rock).setUnlocalizedName("0011Block").setCreativeTab(SpaceAgeCore.tabSA);;
 		
 		edenSurface = new BlockEden(this.edenSurfaceID, Material.rock).setUnlocalizedName("edenBlock");
 		

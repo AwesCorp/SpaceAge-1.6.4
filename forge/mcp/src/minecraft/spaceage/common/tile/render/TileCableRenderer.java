@@ -22,7 +22,7 @@ public class TileCableRenderer implements ISimpleBlockRenderingHandler {
 	}
 
 	public void renderPipe(RenderBlocks renderblocks, IBlockAccess iblockaccess, Block block, int x, int y, int z) {
-		final TileEntity tileEntity = iblockaccess.getBlockTileEntity(x, y, z);
+		TileEntity tileEntity = iblockaccess.getBlockTileEntity(x, y, z);
 
 		final float minX = 0.40F;
 		final float minY = 0.40F;
@@ -32,7 +32,7 @@ public class TileCableRenderer implements ISimpleBlockRenderingHandler {
 		final float maxZ = 0.60F;
 
 		if (tileEntity != null) {
-			final TileEntity[] connections = TileCableBase.workAround.getConnections();
+			final TileEntity[] connections = ((TileCableBase)tileEntity).getConnections();
 
 			for (TileEntity connection : connections) {
 				if (connection != null) {

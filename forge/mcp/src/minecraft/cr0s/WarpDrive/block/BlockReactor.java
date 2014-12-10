@@ -82,13 +82,17 @@ public class BlockReactor extends Block
     public TileEntity createTileEntity(World world, int metadata) {
         return new TileEntityReactor();
     }
+    
+    @Override
+    public boolean hasTileEntity(int metadata) {
+    	return true;
+    }
 
     /**
      * Returns the quantity of items to drop on block destruction.
      */
     @Override
-    public int quantityDropped(Random par1Random)
-    {
+    public int quantityDropped(Random par1Random) {
         return 1;
     }
 
@@ -96,8 +100,7 @@ public class BlockReactor extends Block
      * Returns the ID of the items to drop on destruction.
      */
     @Override
-    public int idDropped(int par1, Random par2Random, int par3)
-    {
+    public int idDropped(int par1, Random par2Random, int par3) {
         return this.blockID;
     }
 
@@ -105,30 +108,26 @@ public class BlockReactor extends Block
      * Called upon block activation (right click on the block.)
      */
     @Override
-    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9)
-    {
-        if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-        {
+    public boolean onBlockActivated(World par1World, int par2, int par3, int par4, EntityPlayer par5EntityPlayer, int par6, float par7, float par8, float par9) {
+        if (FMLCommonHandler.instance().getEffectiveSide().isClient()) {
             return false;
         }
 
         TileEntityReactor reactor = (TileEntityReactor)par1World.getBlockTileEntity(par2, par3, par4);
 
-        if (reactor != null)
-        {
+        //if (reactor != null) {
+        System.out.println("CORE: JUST ABOUT TO OPEN GUI");
             par5EntityPlayer.openGui(WarpDrive.instance, 1, par1World, par2, par3, par4);
-        }
-
+            System.out.println("CORE: JUST OPENED GUI");
+        //}
         return true;
     }
 
     @Override
-    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6)
-    {
+    public void breakBlock(World par1World, int par2, int par3, int par4, int par5, int par6) {
         TileEntity te = par1World.getBlockTileEntity(par2, par3, par4);
 
-        if (te != null && te instanceof TileEntityReactor)
-        {
+        if (te != null && te instanceof TileEntityReactor) {
             WarpDrive.instance.registry.removeFromRegistry((TileEntityReactor)te);
             te.invalidate();
         }

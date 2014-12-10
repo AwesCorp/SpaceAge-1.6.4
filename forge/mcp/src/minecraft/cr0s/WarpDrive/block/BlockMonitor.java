@@ -144,4 +144,9 @@ public class BlockMonitor extends Block {
     {
         return new TileEntityMonitor();
     }
+    
+    @Override
+    public boolean hasTileEntity(int meta) {
+    	return true;
+    }
 }

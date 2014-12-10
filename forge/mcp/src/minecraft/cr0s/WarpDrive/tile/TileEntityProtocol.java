@@ -33,8 +33,12 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     private String targetJumpgateName = "";
 
     // Gabarits
-    private int front, right, up;
-    private int back, left, down;
+    private int front = 0;
+    private int right = 0;
+    private int up = 0;
+    private int back = 0;
+    private int left = 0;
+    private int down = 0;
 
     // Player attaching
     public ArrayList<String> players = new ArrayList();
@@ -244,8 +248,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     /**
      * @return the front
      */
-    public int getFront()
-    {
+    public int getFront() {
         return front;
     }
 
@@ -493,6 +496,27 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
             list = "";
         }
         return list;
+    }
+    
+    public int getCoreX() {
+    	if(core != null && core instanceof TileEntityReactor) {
+    		return (int)(((TileEntityReactor)core).xCoord);
+    	}
+    	return 0;
+    }
+    
+    public int getCoreY() {
+    	if(core != null && core instanceof TileEntityReactor) {
+    		return (int)(((TileEntityReactor)core).yCoord);
+    	}
+    	return 0;
+    }
+    
+    public int getCoreZ() {
+    	if(core != null && core instanceof TileEntityReactor) {
+    		return (int)(((TileEntityReactor)core).zCoord);
+    	}
+    	return 0;
     }
     
     public int getDestX() {

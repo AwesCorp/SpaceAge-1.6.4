@@ -188,7 +188,7 @@ public class BlockCable extends Block {
 		TileEntity[] connectable = new TileEntity[6];
 
 		if (tileEntity != null) {
-			connectable = TileCableBase.workAround.getConnections();
+			connectable = ((TileCableBase)tileEntity).getConnections();
 
 			float minX = (float) this.minVector.x;
 			float minY = (float) this.minVector.y;
@@ -235,7 +235,7 @@ public class BlockCable extends Block {
 		if (tileEntity != null) {
 			TileEntity[] connectable;
 			
-			connectable = TileCableBase.workAround.getConnections();
+			connectable = ((TileCableBase)tileEntity).getConnections();
 	
 			
 			

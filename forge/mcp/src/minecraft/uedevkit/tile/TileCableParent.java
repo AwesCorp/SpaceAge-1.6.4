@@ -28,7 +28,7 @@ public abstract class TileCableParent<C extends IConnector<N>, N extends INodeNe
 
 	@Override
 	public boolean canConnect(ForgeDirection from, Object source) {
-		return CompatibilityModule.canConnect(source, from.getOpposite(), this);
+		return true;//CompatibilityModule.canConnect(source, from.getOpposite(), this);
 	}
 
 	@Override

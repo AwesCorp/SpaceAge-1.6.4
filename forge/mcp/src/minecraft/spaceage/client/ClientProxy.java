@@ -30,6 +30,7 @@ import spaceage.common.tile.render.TileCableRenderer;
 import spaceage.common.tile.render.TileGasTankRenderer;
 import spaceage.common.tile.render.TileHeatGeneratorRenderer;
 import spaceage.common.tile.render.TileLiquidTankRenderer;
+import spaceage.common.tile.render.TileSolarRenderer;
 import spaceage.planets.aliens.entity.EntityBinary;
 import spaceage.planets.aliens.entity.EntityBinaryFemale;
 import spaceage.planets.aliens.entity.EntityFish;
@@ -99,6 +100,7 @@ public class ClientProxy extends CommonProxy {
 		ClientRegistry.bindTileEntitySpecialRenderer(TileLiquidTank.class, new TileLiquidTankRenderer());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileHeatGenerator.class, new TileHeatGeneratorRenderer());
+		ClientRegistry.bindTileEntitySpecialRenderer(TileSolarPanel.class, new TileSolarRenderer());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileStaghorn.class, new StaghornCoralRenderer());
 		ClientRegistry.bindTileEntitySpecialRenderer(TileBrainCoral.class, new BrainCoralRenderer());

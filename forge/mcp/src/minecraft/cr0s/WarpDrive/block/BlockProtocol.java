@@ -22,23 +22,20 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
-public class BlockProtocol extends Block
-{
+public class BlockProtocol extends Block {
     private Icon[] iconBuffer;
 
     private final int ICON_INACTIVE_SIDE = 0, ICON_BOTTOM = 1, ICON_TOP = 2, ICON_SIDE_ACTIVATED = 3;
     //private final int ANIMATION_
     //private int currentTexture;
 
-    public BlockProtocol(int id, int texture, Material material)
-    {
+    public BlockProtocol(int id, int texture, Material material) {
         super(id, material);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IconRegister par1IconRegister)
-    {
+    public void registerIcons(IconRegister par1IconRegister) {
         iconBuffer = new Icon[9];
         // Solid textures
         iconBuffer[ICON_INACTIVE_SIDE] = par1IconRegister.registerIcon("warpdrive:contSideInactive");
@@ -103,17 +100,20 @@ public class BlockProtocol extends Block
     }
 
     @Override
-    public TileEntity createTileEntity(World var1, int meta)
-    {
+    public TileEntity createTileEntity(World var1, int meta) {
         return new TileEntityProtocol();
     }
+    
+	@Override
+	public boolean hasTileEntity(int meta) {
+		return true;
+	}
 
     /**
      * Returns the quantity of items to drop on block destruction.
      */
     @Override
-    public int quantityDropped(Random par1Random)
-    {
+    public int quantityDropped(Random par1Random) {
         return 1;
     }
 
@@ -121,8 +121,7 @@ public class BlockProtocol extends Block
      * Returns the ID of the items to drop on destruction.
      */
     @Override
-    public int idDropped(int par1, Random par2Random, int par3)
-    {
+    public int idDropped(int par1, Random par2Random, int par3) {
         return this.blockID;
     }
     /**
@@ -130,33 +129,19 @@ public class BlockProtocol extends Block
      */
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
-        /*if (FMLCommonHandler.instance().getEffectiveSide().isClient())
-        {
-            return false;
-        }
-
-        TileEntityProtocol controller = (TileEntityProtocol)world.getBlockTileEntity(par2, par3, par4);
-
-        if (controller != null)
-        {
-            controller.attachPlayer(player);
-            player.addChatMessage("[WarpCtrlr] Attached players: " + controller.getAttachedPlayersList());
-        }
-
-        return true;
-    }*/
     	TileEntityProtocol controller = (TileEntityProtocol)world.getBlockTileEntity(x, y, z);
     	
     	if(world.isRemote) {
     		return true;
-    	} else if(controller != null) { 
-    		if(!player.isSneaking()) {
-    			player.openGui(WarpDrive.instance, 0, world, x, y, z);
-    		} else if(player.isSneaking()) {
-    			controller.attachPlayer(player);
-    			player.addChatMessage("Currently Attached: " + controller.getAttachedPlayersList());
-    		}
-    	}
+    	} else if(!player.isSneaking()) {
+    		System.out.println("About to open GUI");
+			player.openGui(WarpDrive.instance, 0, world, x, y, z);
+			System.out.println("Just opened GUI");
+		} else if(player.isSneaking()) {
+			controller.attachPlayer(player);
+			player.addChatMessage("Currently Attached: " + controller.getAttachedPlayersList());
+			System.out.println("DEBUGGER: Did that attachment thing");
+		}
     	return false;
     }
     

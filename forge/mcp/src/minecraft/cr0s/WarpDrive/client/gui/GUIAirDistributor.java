@@ -30,7 +30,7 @@ import cr0s.WarpDrive.tile.TileEntityAirDistributor;
 	        this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
 	        this.fontRenderer.drawString(I18n.getString("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	        
-	        if (this.isPointInRegion(161, 3, 8, 80, mouseX, mouseY)) {
+	        if (this.isPointInRegion(161, 3, 8, 58, mouseX, mouseY)) {
 	            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Energy " + String.valueOf(this.furnaceInventory.getPowerRemainingScaled(100)) + " %");
 	        }
 		}
@@ -45,7 +45,7 @@ import cr0s.WarpDrive.tile.TileEntityAirDistributor;
 	        
 	        int i1;
 	        
-	        int powerRemainingPercentage = this.furnaceInventory.getPowerRemainingScaled(80);
-	        this.drawTexturedModalRect(k + 161, l + 3, 176, 0, 8, 80 - powerRemainingPercentage);
+	        int powerRemainingPercentage = this.furnaceInventory.getPowerRemainingScaled(58);
+	        this.drawTexturedModalRect(k + 160, l + 10, 176, 0, 8, 58 - powerRemainingPercentage);
 		}
 	}

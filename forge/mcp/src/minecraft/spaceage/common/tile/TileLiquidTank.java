@@ -31,19 +31,19 @@ public class TileLiquidTank extends TileEntity implements ISidedInventory, IFlui
 	@Override
 	public void updateEntity() {
 		if(!worldObj.isRemote) {
-			if(this.inventory[1].stackSize != 0) {
-				ItemStack stack1 = inventory[1].copy();
+			if(this.inventory[0] != null && this.inventory[0].stackSize != 0) {
+				ItemStack stack1 = inventory[0].copy();
 				ItemStack stack2 = null;
 				
-				if(inventory[2] != null) {
-					stack2 = inventory[2].copy();
+				if(inventory[1] != null) {
+					stack2 = inventory[1].copy();
 				}
 				
 				boolean iFluid = ((stack1.getItem() instanceof IFluidContainerItem) && (stack2 != null) && (stack2.getItem() instanceof IFluidContainerItem));
 				boolean fluid = ((stack1.getItem() instanceof ItemFluidContainer) && (stack2 != null) && (stack2.getItem() instanceof ItemFluidContainer));
 				boolean registry = ((FluidContainerRegistry.isContainer(stack1)) && (stack2 != null) && (FluidContainerRegistry.isContainer(stack2)));
 
-				if((inventory[2] == null) || (inventory[2].stackSize == 0) || (iFluid == true) || (fluid == true) || (registry == true)) {
+				if((inventory[1] == null) || (inventory[1].stackSize == 0) || (iFluid == true) || (fluid == true) || (registry == true)) {
 					Item container = stack2.getItem();
 					Item container2 = stack1.getItem();
 					
@@ -58,8 +58,8 @@ public class TileLiquidTank extends TileEntity implements ISidedInventory, IFlui
 						this.tank.fill(FluidContainerRegistry.getFluidForFilledItem(containerStack), true);
 					}
 					
-					inventory[2] = containerStack;
-					inventory[1] = containerStack2;
+					inventory[1] = containerStack;
+					inventory[0] = containerStack2;
 				}
 			}
 		} else if(worldObj.isRemote) {

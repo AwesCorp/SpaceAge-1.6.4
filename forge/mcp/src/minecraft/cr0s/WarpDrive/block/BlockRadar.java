@@ -92,6 +92,11 @@ public class BlockRadar extends Block
     {
         return new TileEntityRadar();
     }
+    
+    @Override
+    public boolean hasTileEntity(int meta) {
+    	return true;
+    }
 
     /**
      * Returns the quantity of items to drop on block destruction.

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
-import spaceage.common.block.BlockGenerator.Types;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -20,9 +19,6 @@ public class Block0011 extends Block {
 
 	public Block0011(int id, Material material) {
 		super(id, material);
-		this.setCreativeTab(SpaceAgeCore.tabSA);
-		
-		
 		
 		setHardness(1.0F);
 		setStepSound(Block.soundMetalFootstep);
@@ -38,7 +34,7 @@ public class Block0011 extends Block {
 		icons = new Icon[5];
 		
 		for(int i = 0; i < icons.length; i++) {
-			icons[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + i);
+			icons[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":techOrg/" + (this.getUnlocalizedName().substring(5)) + i);
 		}
 	}
 	
@@ -69,7 +65,7 @@ public class Block0011 extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for(int i = 0; i < Types.values().length; i++) {
+		for(int i = 0; i < Type.values().length; i++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}
@@ -99,5 +95,4 @@ public class Block0011 extends Block {
 	public static enum Type {
 		TECH_DIRT, SOLAR_LEAVES, HEAVY_ALLOY_WOOD, ORGANIC_BUILDING_BLOCK;
 	}
-	
 }

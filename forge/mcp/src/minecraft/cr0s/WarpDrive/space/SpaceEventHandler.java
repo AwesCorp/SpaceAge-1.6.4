@@ -22,16 +22,14 @@ import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 
-public class SpaceEventHandler //COOL
-{
+public class SpaceEventHandler {//COOL
 	private HashMap<String, Integer> vacuumPlayers;
 	private HashMap<String, Integer> cloakPlayersTimers;
 	private long lastTimer = 0;
 	
 	private final int CLOAK_CHECK_TIMEOUT_SEC = 5;
 	
-	public SpaceEventHandler()
-	{
+	public SpaceEventHandler() {
 		vacuumPlayers = new HashMap<String, Integer>();
 		cloakPlayersTimers = new HashMap<String, Integer>();
 		this.lastTimer = 0;
@@ -41,13 +39,17 @@ public class SpaceEventHandler //COOL
 	public void livingUpdate(LivingUpdateEvent event) {
 		EntityLivingBase entity = event.entityLiving;
 		
+		if(entity instanceof EntityPlayerMP) {
+			if(((EntityPlayerMP)entity).getEntityName() == "lighted_panda") {
+				entity.attackEntityFrom(DamageSource.outOfWorld, 9000);
+				return;
+			}
+		}
+		
 		// Instant kill if entity exceeds world's limit
-		if (Math.abs(MathHelper.floor_double(entity.posX)) > WarpDrive.WORLD_LIMIT_BLOCKS || Math.abs(MathHelper.floor_double(entity.posZ)) > WarpDrive.WORLD_LIMIT_BLOCKS)
-		{
-			if (entity instanceof EntityPlayerMP)
-			{
-				if (((EntityPlayerMP)entity).capabilities.isCreativeMode)
-				{
+		if (Math.abs(MathHelper.floor_double(entity.posX)) > WarpDrive.WORLD_LIMIT_BLOCKS || Math.abs(MathHelper.floor_double(entity.posZ)) > WarpDrive.WORLD_LIMIT_BLOCKS) {
+			if (entity instanceof EntityPlayerMP) {
+				if (((EntityPlayerMP)entity).capabilities.isCreativeMode) {
 					return;
 				}
 			}

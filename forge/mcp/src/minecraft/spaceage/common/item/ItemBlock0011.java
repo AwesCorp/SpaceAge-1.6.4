@@ -37,6 +37,5 @@ public class ItemBlock0011 extends ItemBlock {
 	
 	public int getMetadata(int par1) {
 		return par1;
-		}
-
+	}
 }

@@ -10,72 +10,60 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockAir extends Block
-{
+public class BlockAir extends Block {
     private final boolean TRANSPARENT_AIR = true;
 
-    public BlockAir(int par1)
-    {
+    public BlockAir(int par1) {
         super(par1, Material.air);
     }
 
     @Override
-    public boolean isOpaqueCube()
-    {
+    public boolean isOpaqueCube() {
         return false;
     }
 
     @Override
-    public boolean isAirBlock(World var1, int var2, int var3, int var4)
-    {
+    public boolean isAirBlock(World var1, int var2, int var3, int var4) {
         return true;
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBoxFromPool(World var1, int var2, int var3, int var4)
-    {
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World var1, int var2, int var3, int var4) {
         return null;
     }
 
     @Override
-    public boolean isBlockReplaceable(World var1, int var2, int var3, int var4)
-    {
+    public boolean isBlockReplaceable(World var1, int var2, int var3, int var4) {
         return true;
     }
 
     @Override
-    public boolean canPlaceBlockAt(World var1, int var2, int var3, int var4)
-    {
+    public boolean canPlaceBlockAt(World var1, int var2, int var3, int var4) {
         return true;
     }
 
     @Override
-    public boolean canCollideCheck(int var1, boolean var2)
-    {
+    public boolean canCollideCheck(int var1, boolean var2) {
         return false;
     }
 
     @Override
-    public int getRenderBlockPass()
-    {
+    public int getRenderBlockPass() {
         return TRANSPARENT_AIR ? 1 : 0;
     }
 
     @Override
-    public void registerIcons(IconRegister par1IconRegister)
-    {
+    public void registerIcons(IconRegister par1IconRegister) {
         this.blockIcon = par1IconRegister.registerIcon("warpdrive:airBlock");
     }
 
     @Override
-    public int getMobilityFlag()
-    {
+    public int getMobilityFlag() {
         return 1;
     }
 
     @Override
-    public int idDropped(int var1, Random var2, int var3)
-    {
+    public int idDropped(int var1, Random var2, int var3) {
         return -1;
     }
 
@@ -83,8 +71,7 @@ public class BlockAir extends Block
      * Returns the quantity of items to drop on block destruction.
      */
     @Override
-    public int quantityDropped(Random par1Random)
-    {
+    public int quantityDropped(Random par1Random) {
         return 0;
     }
 
@@ -92,8 +79,7 @@ public class BlockAir extends Block
      * How many world ticks before ticking
      */
     @Override
-    public int tickRate(World par1World)
-    {
+    public int tickRate(World par1World) {
         return 20;
     }
 
@@ -101,19 +87,15 @@ public class BlockAir extends Block
      * Ticks the block if it's been scheduled
      */
     @Override
-    public void updateTick(World par1World, int x, int y, int z, Random par5Random)
-    {
+    public void updateTick(World par1World, int x, int y, int z, Random par5Random) {
         int concentration = par1World.getBlockMetadata(x, y, z);
-        boolean isInSpaceWorld = par1World.provider.dimensionId == WarpDrive.instance.spaceDimID || par1World.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID;
+        boolean isInSpaceWorld = par1World.provider.dimensionId != 0;//= par1World.provider.dimensionId == WarpDrive.instance.spaceDimID || par1World.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID;
 
         // Remove air block to vacuum block
-        if (concentration <= 0 || !isInSpaceWorld)
-        {
+        if (concentration <= 0 || !isInSpaceWorld) {
             //System.out.println("Killing air block");
             par1World.setBlock(x, y, z, 0, 0, 2); // replace our air block to vacuum block
-        }
-        else
-        {
+        } else {
             //System.out.println("Conc: current " + concentration + " new: " + (concentration - 1) + " to spread: " + (concentration - 2));
             // Try to spread the air
             spreadAirBlock(par1World, x, y, z, concentration);
@@ -123,50 +105,32 @@ public class BlockAir extends Block
     }
 
     @Override
-    public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5)
-    {
-        if (par1IBlockAccess.getBlockId(par2, par3, par4) == this.blockID)
-        {
+    public boolean shouldSideBeRendered(IBlockAccess par1IBlockAccess, int par2, int par3, int par4, int par5) {
+        if (par1IBlockAccess.getBlockId(par2, par3, par4) == this.blockID) {
             return false;
-        }
-        else
-        {
+        } else {
             final int i = par1IBlockAccess.getBlockId(par2, par3, par4);
             boolean var6 = false;
 
-            if (Block.blocksList[i] != null)
-            {
+            if (Block.blocksList[i] != null) {
                 var6 = !Block.blocksList[i].isOpaqueCube();
             }
 
             final boolean var7 = i == 0;
 
-            if ((var6 || var7) && par5 == 3 && !var6)
-            {
+            if ((var6 || var7) && par5 == 3 && !var6) {
                 return true;
-            }
-            else if ((var6 || var7) && par5 == 4 && !var6)
-            {
+            } else if ((var6 || var7) && par5 == 4 && !var6) {
                 return true;
-            }
-            else if ((var6 || var7) && par5 == 5 && !var6)
-            {
+            } else if ((var6 || var7) && par5 == 5 && !var6) {
                 return true;
-            }
-            else if ((var6 || var7) && par5 == 2 && !var6)
-            {
+            } else if ((var6 || var7) && par5 == 2 && !var6) {
                 return true;
-            }
-            else if ((var6 || var7) && par5 == 0 && !var6)
-            {
+            } else if ((var6 || var7) && par5 == 0 && !var6) {
                 return true;
-            }
-            else if ((var6 || var7) && par5 == 1 && !var6)
-            {
+            } else if ((var6 || var7) && par5 == 1 && !var6) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
@@ -256,14 +220,12 @@ public class BlockAir extends Block
         }
     }
 
-    private void setNewAirBlockWithConcentration(World worldObj, int x, int y, int z, int concentration)
-    {
+    private void setNewAirBlockWithConcentration(World worldObj, int x, int y, int z, int concentration) {
         worldObj.setBlock(x, y, z, this.blockID, concentration, 2);
     }
 
     @Override
-    public boolean func_82506_l()
-    {
+    public boolean func_82506_l() {
         return false;
     }
 
@@ -271,20 +233,15 @@ public class BlockAir extends Block
      * Returns if this block is collidable. Args: x, y, z
      */
     @Override
-    public boolean isCollidable()
-    {
+    public boolean isCollidable() {
         return false;
     }
 
     @Override
-    public void onBlockAdded(World par1World, int par2, int par3, int par4)
-    {
-        if (par1World.provider.dimensionId == WarpDrive.instance.spaceDimID || par1World.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID)
-        {
+    public void onBlockAdded(World par1World, int par2, int par3, int par4) {
+        if (par1World.provider.dimensionId != 0) {
             par1World.scheduleBlockUpdate(par2, par3, par4, this.blockID, this.tickRate(par1World));
-        }
-        else
-        {
+        } else {
             par1World.setBlockToAir(par2, par3, par4);
         }
     }

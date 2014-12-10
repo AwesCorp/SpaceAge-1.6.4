@@ -59,24 +59,33 @@ public class ItemMeta extends Item {
 		switch(itemStack.getItemDamage()) {
 			case 0:
 				dataList.add("Ti");
+				break;
 			case 1:
 				dataList.add("Al");
+				break;
 			case 2:
 				dataList.add("V");
+				break;
 			case 3:
 				dataList.add("Ti6Al4V"); //6% aluminium, 4% vanadium, 90% titanium
+				break;
 			//case 4:
 				//dataList.add("");
 			case 5:
 				dataList.add("Ti6Al4V");
+				break;
 			case 11:
 				dataList.add("Si");
+				break;
 			case 12:
 				dataList.add("Si2H");
+				break;
 			case 13:
 				dataList.add("Li");
+				break;
 			case 14:
 				dataList.add("W15Re5C");
+				break;
 		}
 		
 		//dataList.add("Precious Gemstone");

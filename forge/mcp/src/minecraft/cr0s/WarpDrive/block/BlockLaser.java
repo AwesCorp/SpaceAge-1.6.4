@@ -46,6 +46,11 @@ public class BlockLaser extends Block
     {
         return new TileEntityLaser();
     }
+    
+    @Override
+    public boolean hasTileEntity(int meta) {
+    	return true;
+    }
 
     /**
      * Returns the quantity of items to drop on block destruction.

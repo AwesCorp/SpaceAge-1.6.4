@@ -37,7 +37,9 @@ public BlockConnectedGlasses(int id, Material material) {
 
 @Override
 public void registerIcons(IconRegister iconRegistry){
-	 for (int i = 0; i < 47; i++) textures[i] = iconRegistry.registerIcon(SpaceAgeCore.modid + ":" + "reinforcedGlass_" + (i+1));
+	 for (int i = 0; i < 47; i++) {
+		 textures[i] = iconRegistry.registerIcon(SpaceAgeCore.modid + ":glass/reinforcedGlass_" + (i+1));
+		 }
 }
 
 @Override

@@ -28,7 +28,7 @@ import cr0s.WarpDrive.tile.TileEntityReactor;
 	@SideOnly(Side.CLIENT)
 	public class GUIReactor extends GuiElectricBase {
 	   
-		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":" + "textures/gui/" + ClientProxy.guiReactor/*"textures/gui/container/furnace.png"*/);
+		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":" + "textures/gui/" + "guiCore_alternate.png");//ClientProxy.guiReactor/*"textures/gui/container/furnace.png"*/);
 	    private TileEntityReactor furnaceInventory;
 
 	    public GUIReactor(InventoryPlayer par1InventoryPlayer, TileEntityReactor tile_entity) {
@@ -45,7 +45,7 @@ import cr0s.WarpDrive.tile.TileEntityReactor;
 	        this.fontRenderer.drawString(I18n.getString("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	        
 	        // Power level
-	        if (this.isPointInRegion(161, 3, 8, 80, mouseX, mouseY)) {
+	        if (this.isPointInRegion(161, 3, 8, 58, mouseX, mouseY)) {
 	            //String powerLevelLiteral = String.valueOf(this.ENTITY.getEnergy(ForgeDirection.UNKNOWN)) + "/" + String.valueOf(this.ENTITY.getEnergyCapacity(ForgeDirection.UNKNOWN));
 	            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Energy " + String.valueOf(this.furnaceInventory.getPowerRemainingScaled(100)) + " %");
 	        }
@@ -63,11 +63,11 @@ import cr0s.WarpDrive.tile.TileEntityReactor;
 	        
 	        int i1;
 	        
-	        int powerRemainingPercentage = this.furnaceInventory.getPowerRemainingScaled(80/*MAXWOLF = 32 - mine: 25 000 per pixel? So by 80?*/); //TODO CHECK IF WORKS!!!
+	        int powerRemainingPercentage = this.furnaceInventory.getPowerRemainingScaled(58/*MAXWOLF = 32 - mine: 25 000 per pixel? So by 80?*/); //TODO CHECK IF WORKS!!!
 	        // Screen Coords: 112x17 (161x3 if cursor is on (162x4 from absolute left and height))
 	        // Filler Coords: 176x56 (176x0 if cursor is on)
 	        // Image Size WH: 18x32 (8x80)
-	        this.drawTexturedModalRect(k/*screenX*/ + 161, l/*screenY*/ + 3, 176, 0, 8, 80 - powerRemainingPercentage);
+	        this.drawTexturedModalRect(k/*screenX*/ + 160, l/*screenY*/ + 10, 176, 0, 8, 58 - powerRemainingPercentage);
 	        
 	        //FLAME - DON'T NEED
 	        /*if (this.furnaceInventory.isBurning())

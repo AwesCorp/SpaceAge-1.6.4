@@ -45,6 +45,11 @@ public class BlockCloakingDeviceCore extends Block
     {
         return new TileEntityCloakingDeviceCore();
     }
+    
+    @Override
+    public boolean hasTileEntity(int meta) {
+    	return true;
+    }
 
     /**
      * Returns the quantity of items to drop on block destruction.

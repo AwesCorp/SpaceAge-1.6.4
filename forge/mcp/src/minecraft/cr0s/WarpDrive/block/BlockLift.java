@@ -77,6 +77,11 @@ public class BlockLift extends Block
     {
         return new TileEntityLift();
     }
+    
+    @Override
+    public boolean hasTileEntity(int meta) {
+    	return true;
+    }
 
     /**
      * Returns the quantity of items to drop on block destruction.

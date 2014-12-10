@@ -49,7 +49,7 @@ public class TileHeatGenerator extends TileElectricInventoryNetworked implements
 	public void updateEntity() {
 		super.updateEntity();
 		
-		boolean powered = (worldObj.getBlockId(xCoord, yCoord - 1, zCoord) == Block.lavaStill.blockID) && (creatingSteam == true);
+		boolean powered = ((worldObj.getBlockId(xCoord, yCoord - 1, zCoord) == Block.lavaStill.blockID) || (worldObj.getBlockId(xCoord, yCoord - 1, zCoord) == Block.fire.blockID)) && (creatingSteam == true);
 		
         this.creatingSteam = false;
         

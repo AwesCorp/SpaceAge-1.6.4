@@ -85,6 +85,11 @@ public class BlockPhotosynthesiser extends Block {
     public TileEntity createTileEntity(World world, int metadata) {
         return new TilePhotosynthesiser();
     }
+    
+    @Override
+    public boolean hasTileEntity(int meta) {
+    	return true;
+    }
 
     /**
      * Returns the quantity of items to drop on block destruction.

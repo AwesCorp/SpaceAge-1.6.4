@@ -33,7 +33,7 @@ public class BlockVulcan extends Block {
 		icons = new Icon[5];
 		
 		for(int i = 0; i < icons.length; i++) {
-			icons[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + i);
+			icons[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":vulcan/" + (this.getUnlocalizedName().substring(5)) + i);
 		}
 	}
 	

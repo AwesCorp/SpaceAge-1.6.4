@@ -61,7 +61,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		int xSize = 256;
 		int ySize = 256;
 	   
-		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":" + "textures/gui/" + ClientProxy.warpInterfaceGui/*"textures/gui/container/furnace.png"*/);
+		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":textures/gui/" + "guiWarpInterface_alternate.png");//ClientProxy.warpInterfaceGui/*"textures/gui/container/furnace.png"*/);
 	    private TileEntityProtocol furnaceInventory;
 	    
 	    private GuiTextField front;
@@ -106,22 +106,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    int pixelsPerWord = 10;
 	    
 	    String size0 = "Amount of blocks from Core to be moved: ";
-	    String size1 = furnaceInventory.getFront() + ", Right: " + furnaceInventory.getRight() + ", Up: " + furnaceInventory.getUp();
-	    String size2 = "Back: " + furnaceInventory.getBack() + ", Left: " + furnaceInventory.getLeft() + ", Down: " + furnaceInventory.getDown();
-
-	    String dimension = furnaceInventory.currentDimension();
 	    
-	    String blocks = "Ship Size: " + String.valueOf(furnaceInventory.getShipSize());
-	    
-	    String coord0 = "Coordinates: ";
-	    String coord1 = "X: " + String.valueOf(furnaceInventory.core.xCoord);
-	    String coord2 = "Y: " + String.valueOf(furnaceInventory.core.yCoord);
-	    String coord3 = "Z: " + String.valueOf(furnaceInventory.core.zCoord);
-	    
-	    String coord4 = "Destination Coordinates: ";
-	    String coord5 = "X: " + String.valueOf(furnaceInventory.getDestX());
-	    //String coord6 = "Y: " + String.valueOf(furnaceInventory.getDestY());
-	    String coord7 = "Z: " + String.valueOf(furnaceInventory.getDestZ());
 	    
 	    /**
 	     * Draw the foreground layer for the GuiContainer (everything in front of the items)
@@ -130,6 +115,23 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	        String s = this.furnaceInventory.isInvNameLocalized() ? this.furnaceInventory.getInvName() : I18n.getString(this.furnaceInventory.getInvName());
 	        this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
 	        this.fontRenderer.drawString(I18n.getString("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
+	        
+	        String size1 = furnaceInventory.getFront() + ", Right: " + furnaceInventory.getRight() + ", Up: " + furnaceInventory.getUp();
+		    String size2 = "Back: " + furnaceInventory.getBack() + ", Left: " + furnaceInventory.getLeft() + ", Down: " + furnaceInventory.getDown();
+
+		    String dimension = furnaceInventory.currentDimension();
+		    
+		    String blocks = "Ship Size: " + String.valueOf(furnaceInventory.getShipSize());
+		    
+		    String coord0 = "Coordinates: ";
+		    String coord1 = "X: " + String.valueOf(furnaceInventory.getCoreX());
+		    String coord2 = "Y: " + String.valueOf(furnaceInventory.getCoreY());
+		    String coord3 = "Z: " + String.valueOf(furnaceInventory.getCoreZ());
+		    
+		    String coord4 = "Destination Coordinates: ";
+		    String coord5 = "X: " + String.valueOf(furnaceInventory.getDestX());
+		    //String coord6 = "Y: " + String.valueOf(furnaceInventory.getDestY());
+		    String coord7 = "Z: " + String.valueOf(furnaceInventory.getDestZ());
 	        
 	        write(size0, sizex, sizey, grey); //Title
 	        write(size1, sizex + pixelsPerWord, sizey, grey); //setP
@@ -273,48 +275,50 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    }
 	    
 	    public void applyBasicAttributes(GuiTextField field) {
-	    	field.setEnableBackgroundDrawing(true);
-	    	field.setFocused(false);
-	    	field.setCanLoseFocus(true);
+	    	if(field != null) {
+		    	field.setEnableBackgroundDrawing(true);
+		    	field.setFocused(false);
+		    	field.setCanLoseFocus(true);
+	    	}
 		}
 
 		@Override
 	    protected void keyTyped(char par1, int par2) {
-			if(shipName.textboxKeyTyped(par1, par2)) {
-				shipName();
-			}
-			if(isValidChar(par1)) {
-				//super.keyTyped(par1, par2);
-				if(front.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_F", this.front, 4);
-				} else if(back.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_B", this.back, 4);
-				} else if(left.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_L", this.left, 4);
-				} else if(right.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_R", this.right, 4);
-				} else if(up.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_U", this.up, 4);
-				} else if(down.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_D", this.down, 4);
-				} else if(distance.textboxKeyTyped(par1, par2)) {
-					simpleTextPacket("WarpDrive_Dis", this.distance, 4);
-				} else if(shipName.textboxKeyTyped(par1, par2)){
+			if(par1 != 27) {
+				if(shipName.textboxKeyTyped(par1, par2)) {
 					shipName();
-				} else if(isValidModeChar(par1)) {
-					if(mode.textboxKeyTyped(par1, par2)) {
-						modeTextPacket("WarpDrive_M", this.mode, 4);
-				} else if(isValidDirectionChar(par1)) {
-					if(direction.textboxKeyTyped(par1, par2)) {
-						directionTextPacket("WarpDrive_Dir", this.direction, 4);
-					}
 				}
+				if(isValidChar(par1)) {
+				//super.keyTyped(par1, par2);
+					if(front.textboxKeyTyped(par1, par2)) {
+						simpleTextPacket("WarpDrive_F", this.front, 4);
+					} else if(back.textboxKeyTyped(par1, par2)) {
+						simpleTextPacket("WarpDrive_B", this.back, 4);
+					} else if(left.textboxKeyTyped(par1, par2)) {
+						simpleTextPacket("WarpDrive_L", this.left, 4);
+					} else if(right.textboxKeyTyped(par1, par2)) {
+						simpleTextPacket("WarpDrive_R", this.right, 4);
+					} else if(up.textboxKeyTyped(par1, par2)) {
+						simpleTextPacket("WarpDrive_U", this.up, 4);
+					} else if(down.textboxKeyTyped(par1, par2)) {
+						simpleTextPacket("WarpDrive_D", this.down, 4);
+					} else if(distance.textboxKeyTyped(par1, par2)) {
+						simpleTextPacket("WarpDrive_Dis", this.distance, 4);
+					} else if(isValidModeChar(par1)) {
+						if(mode.textboxKeyTyped(par1, par2)) {
+							modeTextPacket("WarpDrive_M", this.mode, 4);
+						} else if(isValidDirectionChar(par1)) {
+							if(direction.textboxKeyTyped(par1, par2)) {
+								directionTextPacket("WarpDrive_Dir", this.direction, 4);
+							}
+						}
 				//} else if(beaconInput.textboxKeyTyped(par1, par2)) {UNUSED
 					//simpleTextPacket("WarpDrive_Protocol", this.beaconInput.getText().getBytes())); UNUSED
+					}
+				}/*etc*/ else {
+					super.keyTyped(par1, par2);
 				}
-    		}/*etc*/ else {
-    			super.keyTyped(par1, par2);
-    		}
+			}
 	    }
 		
 	    public void shipName() {
@@ -474,7 +478,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	switch(button.id) {
 	    		case 0:
 	    			furnaceInventory.doJump();
-	    			System.out.println("Ship jumped from coordinates" + coord1 + ", " + coord2 + ", " + coord3);
+	    			System.out.println("Ship jumped from coordinates" + String.valueOf(furnaceInventory.core.xCoord) + ", " + String.valueOf(furnaceInventory.core.yCoord) + ", " + String.valueOf(furnaceInventory.core.zCoord));
 	    		case 1:
 	    			furnaceInventory.setSummonAllFlag(true);
 	    			//System.out.println("Clicked!");//ACTION PERFORMED ON BUTTON CLICK
@@ -508,4 +512,3 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	this.shipName.drawTextBox();
 	    }
 	}
-

@@ -31,7 +31,7 @@ public class ContainerProtocol extends Container {
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
-		return this.tileEntity.isUseableByPlayer(entityplayer);
+		return true;
 	}
 	
 	@Override
