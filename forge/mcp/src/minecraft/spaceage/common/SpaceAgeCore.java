@@ -28,6 +28,7 @@ import spaceage.common.item.ItemBlockEden;
 import spaceage.common.item.ItemBlockGeneratorTooltip;
 import spaceage.common.item.ItemBlockHades;
 import spaceage.common.item.ItemBlockOres1;
+import spaceage.common.item.ItemBlockSASapling;
 import spaceage.common.item.ItemBlockSpaceshipAlloy;
 import spaceage.common.item.ItemBlockTank;
 import spaceage.common.item.ItemBlockVulcan;
@@ -155,6 +156,7 @@ public class SpaceAgeCore {
 	public static Block hadesSurface;
 	public static Block T0011Surface;
 	public static Block edenSurface;
+	public static Block ontarineSurface;
 	
 	public static Block metaSapling;
 	
@@ -197,6 +199,7 @@ public class SpaceAgeCore {
 	public static int hadesSurfaceID;
 	public static int T0011SurfaceID;
 	public static int edenSurfaceID;
+	public static int ontarineSurfaceID;
 	
 	public static int metaSaplingID;
 	
@@ -259,6 +262,7 @@ public class SpaceAgeCore {
 		cableID = config.get("Blocks", "Value of the cables - do not edit this to play on the server", 506).getInt();
 		coralID = config.get("Blocks", "Value of the coral - do not edit this to play on the server", 507).getInt();
 		edenSurfaceID = config.get("Blocks", "Value of the majority of Eden related blocks - do not edit this on play on the server", 508).getInt();
+		ontarineSurfaceID = config.get("Blocks", "Value of the majority of Ontarine related blocks - do not edit to play on the server", 509).getInt();
 		
 		config.save();
 	}	
@@ -292,7 +296,7 @@ public class SpaceAgeCore {
 		
 		meta = new ItemMeta/*meta*/(this.metaID).setUnlocalizedName("basicItem");
 		
-		metaSapling = new BlockSASapling(this.metaSaplingID).setUnlocalizedName("saplingSA");
+		metaSapling = new BlockSASapling(this.metaSaplingID).setUnlocalizedName("saplingSA").setCreativeTab(tabSA);
 		
 		spaceshipAlloyMeta = new BlockSpaceshipAlloy(this.spaceshipAlloyMetaID, Material.rock).setUnlocalizedName("spaceshipAlloy");
 		
@@ -300,7 +304,7 @@ public class SpaceAgeCore {
 		
 		hadesSurface = new BlockHades(this.hadesSurfaceID, Material.rock).setUnlocalizedName("hadesBlock");
 		
-		T0011Surface = new Block0011(this.T0011SurfaceID, Material.rock).setUnlocalizedName("0011Block").setCreativeTab(SpaceAgeCore.tabSA);;
+		T0011Surface = new Block0011(this.T0011SurfaceID, Material.rock).setUnlocalizedName("0011Block").setCreativeTab(SpaceAgeCore.tabSA);
 		
 		edenSurface = new BlockEden(this.edenSurfaceID, Material.rock).setUnlocalizedName("edenBlock");
 		
@@ -322,9 +326,9 @@ public class SpaceAgeCore {
 		//organicLeggings = new ItemOrganic(this.organicLeggingsID, armourBINARY, 0, 2).setUnlocalizedName("oLeggings");
 		//organicBoots = new ItemOrganic(this.organicBootsID, armourBINARY, 0, 3).setUnlocalizedName("oBoots");
 		
-		tintedGlass = new BlockConnectedGlasses(this.tintedGlassID, Material.glass).setUnlocalizedName("reinforcedGlass");
+		tintedGlass = new BlockConnectedGlasses(this.tintedGlassID, Material.glass).setUnlocalizedName("reinforcedGlass").setCreativeTab(tabSA);
 		
-		coral = new BlockCoral(this.coralID, Material.ground).setUnlocalizedName("coral");
+		coral = new BlockCoral(this.coralID, Material.ground).setUnlocalizedName("coral").setCreativeTab(tabSA);
 		
 		//Machines
 		metaGenerator = new BlockGenerator(metaGeneratorID, UniversalElectricity.machine).setUnlocalizedName("metaGenerator").setCreativeTab(tabSA);
@@ -661,6 +665,8 @@ public class SpaceAgeCore {
 		GameRegistry.registerTileEntity(TileBrainCoral.class, "tileBrainCoral");
 		GameRegistry.registerTileEntity(TilePillar.class, "tilePillarCoral");
 		GameRegistry.registerTileEntity(TileStaghorn.class, "tileStaghornCoral");
+		
+		this.metaRegister(metaSapling, ItemBlockSASapling.class, metaSapling.getUnlocalizedName());
 	}
 	public void metaRegister(Block block, Class<? extends ItemBlock> itemclass, String unlocalisedName) {
 		GameRegistry.registerBlock(block, itemclass, modid + (unlocalisedName.substring(5)));

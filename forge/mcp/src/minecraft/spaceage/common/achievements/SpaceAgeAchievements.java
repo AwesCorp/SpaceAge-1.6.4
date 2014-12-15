@@ -51,6 +51,9 @@ public class SpaceAgeAchievements { //Future possible achievements: Magical Ener
 					if(biomeID == WarpDrive.spaceBiome.biomeID) {
 						player.addStat(space, 1);
 						
+						if(player.getHealth() <= 0.0D) {
+							player.addStat(spaceDeath, 1);
+						}
 						//player.onDeath(DamageSource.drown); {
 							//player.addStat(spaceDeath, 1);
 						//}

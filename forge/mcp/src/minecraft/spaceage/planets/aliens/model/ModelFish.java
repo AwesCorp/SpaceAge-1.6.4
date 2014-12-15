@@ -17,6 +17,14 @@ public class ModelFish extends ModelBase {
     ModelRenderer finLeft;
     ModelRenderer finRight;
     ModelRenderer finTop;
+    
+    public float[] tailMovement = new float[] {0F, 3.14F, 0F, -3.14F};
+    protected int cycleIndex = 0;
+    
+    // create an animation cycle
+    // for movement based animations you need to measure distance moved
+    // and perform number of cycles per block distance moved.
+    protected double distanceMovedTotal = 0.0D;
   
     public ModelFish() {
     	textureWidth = 64;
@@ -121,8 +129,25 @@ public class ModelFish extends ModelBase {
     	model.rotateAngleY = y;
     	model.rotateAngleZ = z;
     }
+    
+    protected double getDistanceMovedTotal(Entity parEntity)  {
+        return (distanceMovedTotal);
+    }
+    
+    protected void updateDistanceMovedTotal(Entity parEntity)  {
+        distanceMovedTotal += parEntity.getDistance(parEntity.prevPosX, parEntity.prevPosY, 
+              parEntity.prevPosZ);
+    }
   
-    public void setRotationAngles(float f, float f1, float f2, float f3, float f4, float f5, Entity entity) {
-    	super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+    public void setRotationAngles(float time, float f1, float f2, float f3, float f4, float f5, Entity entity) {
+    	updateDistanceMovedTotal(entity);
+    	cycleIndex = (int) ((getDistanceMovedTotal(entity))%tailMovement.length);
+    	
+    	TAILMOVEMIDDLE.rotateAngleY = tailMovement[cycleIndex];
+    	TAILMOVETOP.rotateAngleY = tailMovement[cycleIndex];
+    	TAILMOVEBOTTOM.rotateAngleY = tailMovement[cycleIndex];
+    	
+    	//super.setRotationAngles(f, f1, f2, f3, f4, f5, entity);
+    	
     }
 }

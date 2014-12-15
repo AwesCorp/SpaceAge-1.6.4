@@ -16,9 +16,9 @@ public class EntityFish extends EntityWaterMob {
 	public EntityFish(World par1World) {
 		super(par1World);
 		
-		this.tasks.addTask(0, new EntityAISwimming(this));
-		this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityPlayer.class, 2F, 1.0D, 1.0D));
-		this.tasks.addTask(2, new EntityAIWander(this, 0.5D));
+		//this.tasks.addTask(0, new EntityAISwimming(this));
+		this.tasks.addTask(0, new EntityAIAvoidEntity(this, EntityPlayer.class, 2F, 1.0D, 1.0D));
+		this.tasks.addTask(1, new EntityAIWander(this, 0.5D));
 	}
 	
     @Override

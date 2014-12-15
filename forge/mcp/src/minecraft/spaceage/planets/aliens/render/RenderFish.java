@@ -20,10 +20,10 @@ public class RenderFish extends RenderLiving {
 
 	protected ModelFish modelFish;
 	
-	public Random random;
+	public Random random = new Random();
 	
-	private static final ResourceLocation fishTextures1 = new ResourceLocation(SpaceAgeCore.modid, "textures/entities/fish_1.png");
-	private static final ResourceLocation fishTextures2 = new ResourceLocation(SpaceAgeCore.modid, "textures/entities/fish_2.png");
+	private static final ResourceLocation fishTextures1 = new ResourceLocation("spaceage", "textures/entities/fish_1.png");
+	private static final ResourceLocation fishTextures2 = new ResourceLocation("spaceage", "textures/entities/fish_2.png");
 	//private static final ResourceLocation fishTextures3 = new ResourceLocation(SpaceAgeCore.modid, "textures/entities/fish_3.png");
 	
 	public RenderFish(ModelFish modelFish, float par2) {
@@ -35,8 +35,8 @@ public class RenderFish extends RenderLiving {
 		switch(this.random.nextInt(2)) {
 			case 0:
 				return fishTextures1;
-			case 1:
-				return fishTextures2;
+			//case 1:
+				//return fishTextures2;
 			/*case 2:
 				return fishTextures3;*/
 		}

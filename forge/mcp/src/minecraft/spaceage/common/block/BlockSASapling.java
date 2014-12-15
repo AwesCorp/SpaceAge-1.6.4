@@ -6,7 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
-import spaceage.common.block.BlockHades.Type;
+//import spaceage.common.block.BlockGenerator.Types;
+//import spaceage.common.block.BlockHades.Type;
 import spaceage.planets.SpaceAgePlanets;
 import spaceage.planets.eden.WorldGenEdenTrees;
 import spaceage.planets.technoorganic.WorldGen0011Tree;
@@ -14,11 +15,13 @@ import spaceage.planets.vulcan.WorldGenGlowstoneTree;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFlower;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenBigTree;
@@ -31,7 +34,7 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
-public class BlockSASapling extends BlockFlower {
+public class BlockSASapling extends Block {
     public static final String[] WOOD_TYPES = new String[] {"glowQuartz", "techOrganic", "edenTree"};
     //public static int amountOfSubBlocks = 2;
     
@@ -47,7 +50,7 @@ public class BlockSASapling extends BlockFlower {
     private Icon[] saplingIcon;
 
     public BlockSASapling(int par1) {
-        super(par1);
+        super(par1, Material.plants);
         float f = 0.4F;
         this.setBlockBounds(0.5F - f, 0.0F, 0.5F - f, 0.5F + f, f * 2.0F, 0.5F + f);
         this.setCreativeTab(SpaceAgeCore.tabSA);
@@ -57,7 +60,7 @@ public class BlockSASapling extends BlockFlower {
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
     	ItemStack item = player.getHeldItem();
     	
-    	switch(type.ordinal()) {
+    	switch(Type.values().length) {
     		case 0:
     	    	if((item.getItem() == SpaceAgeCore.meta) && (item.getItemDamage() == 14)) {
     	    		growTree(world, x, y, z, randomG);
@@ -75,9 +78,8 @@ public class BlockSASapling extends BlockFlower {
     	return false;
     }
     
-    @Override
     public boolean canThisPlantGrowOnThisBlockID(int blockID) {
-    	switch(type.ordinal()) {
+    	switch(Type.values().length) {
     		case 0:
     			if(blockID == Block.netherrack.blockID) {
     				return true;
@@ -102,17 +104,17 @@ public class BlockSASapling extends BlockFlower {
         int soil = par1World.getBlockId(x, y - 1, z);
         int soilMeta = par1World.getBlockMetadata(x, y - 1, z);
         
-        switch(type.ordinal()) {
+        switch(Type.values().length) {
         	case 0:
-        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y, z) == 15) {
+        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)); {
             		return (soil == Block.netherrack.blockID);
         		}
         	case 1:
-        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y, z) == 15) {
+        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)) {
         			return (soil == SpaceAgeCore.T0011SurfaceID && soilMeta == 0);        			
         		}
         	case 2:
-        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y, z) == 15) {
+        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)) {
         			return (soil == Block.dirt.blockID || soil == Block.grass.blockID);     			
         		}
     		default:
@@ -162,6 +164,7 @@ public class BlockSASapling extends BlockFlower {
         	//return; //TODO - unneeded code?
 
         int meta = par1World.getBlockMetadata(par2, par3, par4) & 3;
+        
         Object object = null;
         int i1 = 0;
         int j1 = 0;
@@ -170,13 +173,13 @@ public class BlockSASapling extends BlockFlower {
         if(object == null) {
         	switch(meta) {
         		case 0:
-        			object = new WorldGenGlowstoneTree(false);
+        			object = new WorldGenGlowstoneTree(true);
         			break;
         		case 1:
-        			object = new WorldGen0011Tree(false);
+        			object = new WorldGen0011Tree(true);
         			break;
         		case 2:
-        			object = new WorldGenEdenTrees(false);
+        			object = new WorldGenEdenTrees(true);
         	}
         }
         
@@ -277,10 +280,67 @@ public class BlockSASapling extends BlockFlower {
         this.saplingIcon = new Icon[WOOD_TYPES.length];
 
         for (int i = 0; i < this.saplingIcon.length; ++i) {
-            this.saplingIcon[i] = par1IconRegister.registerIcon(this.getTextureName() + "_" + WOOD_TYPES[i]);
+            this.saplingIcon[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":sapling/" + WOOD_TYPES[i]);
         }
     }
     
+    /**
+     * Lets the block know when one of its neighbor changes. Doesn't know which neighbor changed (coordinates passed are
+     * their own) Args: x, y, z, neighbor blockID
+     */
+    public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, int par5) {
+        super.onNeighborBlockChange(par1World, par2, par3, par4, par5);
+        
+        this.checkChange(par1World, par2, par3, par4);
+    }
+    
+	public void checkChange(World world, int x, int y, int z) {
+		if(!this.canBlockStay(world, x, y, z)) {
+			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
+			
+            world.setBlock(x, y, z, 0, 0, 2);
+		}
+	}
+	
+	@Override
+	public void onBlockAdded(World world, int x, int y, int z) {
+		checkChange(world, x, y, z);
+	}
+	
+    /**
+     * Returns a bounding box from the pool of bounding boxes (this means this box can change after the pool has been
+     * cleared to be reused)
+     */
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
+        return null;
+    }
+
+    /**
+     * Is this block (a) opaque and (b) a full 1m cube?  This determines whether or not to render the shared face of two
+     * adjacent blocks and also whether the player can attach torches, redstone wire, etc to this block.
+     */
+    public boolean isOpaqueCube() {
+        return false;
+    }
+
+    /**
+     * If this block doesn't render as an ordinary block it will return False (examples: signs, buttons, stairs, etc)
+     */
+    public boolean renderAsNormalBlock() {
+        return false;
+    }
+
+    /**
+     * The type of render function that is called for this block
+     */
+    public int getRenderType() {
+        return 1;
+    }
+    
+    public boolean canPlaceBlockAt(World par1World, int par2, int par3, int par4) {
+        return super.canPlaceBlockAt(par1World, par2, par3, par4) && canBlockStay(par1World, par2, par3, par4);
+    }
+
 	public static enum Type {
 		GLOW_QUARTZ, TECH_ORGANIC, EDEN_TREE;
 	}

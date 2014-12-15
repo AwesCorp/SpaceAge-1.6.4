@@ -14,7 +14,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 
-public class BlockOntarine extends Block {
+public class BlockOntarine extends Block { //NEEDS A LOOK AT
 
 	public BlockOntarine(int id, Material material) {
 		super(id, material);
@@ -25,7 +25,7 @@ public class BlockOntarine extends Block {
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;
 	
-	public static final String[] names = new String[] {"brainCoral", ""};
+	public static final String[] names = new String[] {"", ""};
 	
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister par1IconRegister) {
@@ -91,6 +91,6 @@ public class BlockOntarine extends Block {
 	}
 
 	public static enum Type {
-		BRAIN_CORAL, ;
+		, ;
 	}
 }

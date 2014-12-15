@@ -16,6 +16,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockEden extends Block {
@@ -37,7 +38,7 @@ public class BlockEden extends Block {
 		icons = new Icon[3];
 		
 		for(int i = 0; i < icons.length; i++) {
-			icons[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + i);
+			icons[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":eden/" + (this.getUnlocalizedName().substring(5)) + i);
 		}
 	}
 	
@@ -45,31 +46,30 @@ public class BlockEden extends Block {
 	@Override
 	public Icon getIcon(int side, int metadata) {
 		switch(metadata) {
-		case 0:
-			return icons[0];
-		case 1:
-			switch(side) {
-				case 0: 
-					return icons[1];
-				case 1:
-					return icons[1];
-				default: 
-					return icons[2];
-			}
-		default: {
-			System.out.println("Invalid metadata for " + this.getUnlocalizedName());
-			return icons[0];
+			case 0:
+				return icons[0];
+			case 1:
+				switch(side) {
+					case 0: 
+						return icons[1];
+						//getAllPossibleConnections();
+					case 1:
+						return icons[1];
+					default: 
+						return icons[2];
+				}
+			default: {
+				System.out.println("Invalid metadata for " + this.getUnlocalizedName());
+				return icons[0];
 			}
 		}
 	}
-	
+
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
 		for(int i = 0; i < Types.values().length; i++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
-
-		
 	}
 	
 	public int damageDropped(int meta) {

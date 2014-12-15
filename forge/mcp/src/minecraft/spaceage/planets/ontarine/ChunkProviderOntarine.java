@@ -131,51 +131,52 @@ public class ChunkProviderOntarine implements IChunkProvider {
 	 * Generates the shape of the terrain for the chunk though its all stone
 	 * though the water is frozen if the temperature is low enough
 	 */
-	public void generateTerrain(int par1, int par2, byte[] par3ArrayOfByte) {
-		byte b0 = 4;
-		byte b1 = 16;
+	public void generateTerrain(int par1, int par2, byte[] byteArray) {
+		byte b4 = 4;
+		byte b16 = 16;
 		byte b2 = 63;
-		int k = b0 + 1;
+		int k = b4 + 1;
 		byte b3 = 17;
-		int l = b0 + 1;
+		int l = b4 + 1;
+		
 		this.biomesForGeneration = this.worldObj.getWorldChunkManager().getBiomesForGeneration(this.biomesForGeneration, par1 * 4 - 2, par2 * 4 - 2, k + 5, l + 5);
-		this.noiseArray = this.initializeNoiseField(this.noiseArray, par1 * b0, 0, par2 * b0, k, b3, l);
+		this.noiseArray = this.initializeNoiseField(this.noiseArray, par1 * b4, 0, par2 * b4, k, b3, l);
 
-		for (int i1 = 0; i1 < b0; ++i1) {
-			for (int j1 = 0; j1 < b0; ++j1) {
-				for (int k1 = 0; k1 < b1; ++k1) {
+		for (int x1 = 0; x1 < b4; ++x1) {
+			for (int z1 = 0; z1 < b4; ++z1) {
+				for (int y1 = 0; y1 < b16; ++y1) {
 					double d0 = 0.125D;
-					double d1 = this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 0];
-					double d2 = this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 0];
-					double d3 = this.noiseArray[((i1 + 1) * l + j1 + 0) * b3 + k1 + 0];
-					double d4 = this.noiseArray[((i1 + 1) * l + j1 + 1) * b3 + k1 + 0];
-					double d5 = (this.noiseArray[((i1 + 0) * l + j1 + 0) * b3 + k1 + 1] - d1) * d0;
-					double d6 = (this.noiseArray[((i1 + 0) * l + j1 + 1) * b3 + k1 + 1] - d2) * d0;
-					double d7 = (this.noiseArray[((i1 + 1) * l + j1 + 0) * b3 + k1 + 1] - d3) * d0;
-					double d8 = (this.noiseArray[((i1 + 1) * l + j1 + 1) * b3 + k1 + 1] - d4) * d0;
+					double d1 = this.noiseArray[((x1 + 0) * l + z1 + 0) * b3 + y1 + 0];
+					double d2 = this.noiseArray[((x1 + 0) * l + z1 + 1) * b3 + y1 + 0];
+					double d3 = this.noiseArray[((x1 + 1) * l + z1 + 0) * b3 + y1 + 0];
+					double d4 = this.noiseArray[((x1 + 1) * l + z1 + 1) * b3 + y1 + 0];
+					double d5 = (this.noiseArray[((x1 + 0) * l + z1 + 0) * b3 + y1 + 1] - d1) * d0;
+					double d6 = (this.noiseArray[((x1 + 0) * l + z1 + 1) * b3 + y1 + 1] - d2) * d0;
+					double d7 = (this.noiseArray[((x1 + 1) * l + z1 + 0) * b3 + y1 + 1] - d3) * d0;
+					double d8 = (this.noiseArray[((x1 + 1) * l + z1 + 1) * b3 + y1 + 1] - d4) * d0;
 
-					for (int l1 = 0; l1 < 8; ++l1) {
+					for (int y2 = 0; y2 < 8; ++y2) {
 						double d9 = 0.25D;
 						double d10 = d1;
 						double d11 = d2;
 						double d12 = (d3 - d1) * d9;
 						double d13 = (d4 - d2) * d9;
 
-						for (int i2 = 0; i2 < 4; ++i2) {
-							int j2 = i2 + i1 * 4 << 11 | 0 + j1 * 4 << 7 | k1 * 8 + l1;
+						for (int x2 = 0; x2 < 4; ++x2) {
+							int j2 = x2 + x1 * 4 << 11 | 0 + z1 * 4 << 7 | y1 * 8 + y2;
 							short short1 = 128;
 							j2 -= short1;
 							double d14 = 0.25D;
 							double d15 = (d11 - d10) * d14;
 							double d16 = d10 - d15;
 
-							for (int k2 = 0; k2 < 4; ++k2) {
+							for (int z2 = 0; z2 < 4; ++z2) {
 								if ((d16 += d15) > 0.0D) {
-									par3ArrayOfByte[j2 += short1] = (byte) Block.stone.blockID;//Block.stone.blockID;
-								} else if (k1 * 8 + l1 < b2) {
-									par3ArrayOfByte[j2 += short1] = (byte) Block.waterStill.blockID;
+									byteArray[j2 += short1] = (byte) Block.stone.blockID;//main filler
+								} else if (y1 * 8 + y2 < b2) {
+									byteArray[j2 += short1] = (byte) Block.waterStill.blockID;
 								} else {
-									par3ArrayOfByte[j2 += short1] = 0;
+									byteArray[j2 += short1] = 0;
 								}
 							}
 
@@ -196,60 +197,65 @@ public class ChunkProviderOntarine implements IChunkProvider {
 	/**
 	 * Replaces the stone that was placed in with blocks that match the biome
 	 */
-	public void replaceBlocksForBiome(int par1, int par2, byte[] par3ArrayOfByte, BiomeGenBase[] par4ArrayOfBiomeGenBase) {
-		ChunkProviderEvent.ReplaceBiomeBlocks event = new ChunkProviderEvent.ReplaceBiomeBlocks(this, par1, par2, par3ArrayOfByte, par4ArrayOfBiomeGenBase);
+	public void replaceBlocksForBiome(int par1, int par2, byte[] byteArray, BiomeGenBase[] biomeArray) {
+		ChunkProviderEvent.ReplaceBiomeBlocks event = new ChunkProviderEvent.ReplaceBiomeBlocks(this, par1, par2, byteArray, biomeArray);
 		MinecraftForge.EVENT_BUS.post(event);
 		
 		if (event.getResult() == Result.DENY)
 			return;
 
-		byte b0 = 63;
+		byte b63 = 63;
 		double d0 = 0.03125D;
 		this.stoneNoise = this.noiseGen4.generateNoiseOctaves(this.stoneNoise, par1 * 16, par2 * 16, 0, 16, 16, 1, d0 * 2.0D, d0 * 2.0D, d0 * 2.0D);
 
-		for (int k = 0; k < 16; ++k) {
-			for (int l = 0; l < 16; ++l) {
-				BiomeGenBase biomegenbase = par4ArrayOfBiomeGenBase[l + k * 16];
-				float f = biomegenbase.getFloatTemperature();
-				int i1 = (int) (this.stoneNoise[k + l * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
+		for (int x = 0; x < 16; ++x) {
+			for (int z = 0; z < 16; ++z) {
+				BiomeGenBase biomegenbase = biomeArray[z + x * 16];
+				float temperature = biomegenbase.getFloatTemperature();
+				
+				int i1 = (int) (this.stoneNoise[x + z * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
 				int j1 = -1;
-				byte b1 = biomegenbase.topBlock;
-				byte b2 = biomegenbase.fillerBlock;
+				byte biomeTopBlockID = biomegenbase.topBlock;
+				byte biomeFillerBlockID = biomegenbase.fillerBlock;
 
-				for (int k1 = 127; k1 >= 0; --k1) {
-					int l1 = (l * 16 + k) * 128 + k1;
+				for (int y = 127; y >= 0; --y) {
+					int l1 = (z * 16 + x) * 128 + y;
 
-					if (k1 <= 0 + this.rand.nextInt(5)) {
-						par3ArrayOfByte[l1] = (byte) Block.bedrock.blockID;
+					if (y <= 1) { 
+						byteArray[l1] = (byte) Block.bedrock.blockID;
 					} else {
-						byte b3 = par3ArrayOfByte[l1];
+						byte blockSelectedAtMoment = byteArray[l1]; 
 
-						if (b3 == 0) {
-							j1 = -1;
-						} else if (b3 == Block.stone.blockID) {
-							if (j1 == -1) {
+						if (blockSelectedAtMoment == 0) {
+							j1 = -1; //unchanging...
+						} else if (blockSelectedAtMoment == Block.stone.blockID) { //this block shalt be replaced!!!
+							if (j1 == -1) {//it always seems to
 								if (i1 <= 0) {
-									b1 = 0;
-									b2 = (byte) Block.stone.blockID;//was dirt
-								} else if (k1 >= b0 - 4 && k1 <= b0 + 1) {
-									b1 = biomegenbase.topBlock;
-									b2 = biomegenbase.fillerBlock;
-								}
+									biomeTopBlockID = 0;
+									biomeFillerBlockID = (byte) Block.sand.blockID;//CHANGE TO CUSTOM DIRT - LAKES?
+								} else if (y >= /*b63*/92 && y <= /*b63*/151) { //within normal world coords
+									biomeTopBlockID = biomegenbase.topBlock;
+									biomeFillerBlockID = biomegenbase.fillerBlock;
+								} 
+								
+								//if (y <= 100 && y >= 93 + rand.nextInt(5)) {
+									//biome
+								//}
 
-								if (k1 < b0 && b1 == 0) {
-										b1 = (byte) Block.waterStill.blockID;
+								if (y < 150 && biomeTopBlockID == 0) { //gen oceans apparently
+									biomeTopBlockID = (byte) Block.waterStill.blockID;
 								}
 
 								j1 = i1;
 
-								if (k1 >= b0 - 1) {
-									par3ArrayOfByte[l1] = b1;
+								if (y >= b63 - 1) {
+									byteArray[l1] = biomeTopBlockID;
 								} else {
-									par3ArrayOfByte[l1] = b2;
+									byteArray[l1] = biomeFillerBlockID;
 								}
 							} else if (j1 > 0) {
 								--j1;
-								par3ArrayOfByte[l1] = b2;
+								byteArray[l1] = biomeFillerBlockID;
 
 							}
 						}
@@ -440,10 +446,10 @@ public class ChunkProviderOntarine implements IChunkProvider {
 	/**
 	 * Populates chunk with ores etc etc
 	 */
-	public void populate(IChunkProvider par1IChunkProvider, int par2, int par3) {
+	public void populate(IChunkProvider par1IChunkProvider, int par2/*chunkX*/, int par3/*chunkZ*/) {
 		BlockSand.fallInstantly = true;
-		int k = par2 * 16;
-		int l = par3 * 16;
+		int k = par2 * 16; //chunk_x
+		int l = par3 * 16;//chunk_z
 		BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(k + 16, l + 16);
 		this.rand.setSeed(this.worldObj.getSeed());
 		long i1 = this.rand.nextLong() / 2L * 2L + 1L;
@@ -458,9 +464,9 @@ public class ChunkProviderOntarine implements IChunkProvider {
 		int i2;
 
 		if (TerrainGen.populate(par1IChunkProvider, worldObj, rand, par2, par3, flag, LAKE) && !flag && this.rand.nextInt(4) == 0) {
-			k1 = k + this.rand.nextInt(16) + 8;
-			l1 = this.rand.nextInt(128);
-			i2 = l + this.rand.nextInt(16) + 8;
+			k1 = k + this.rand.nextInt(16) + 8;//x
+			l1 = this.rand.nextInt(128);//y
+			i2 = l + this.rand.nextInt(16) + 8;//z
 			(new WorldGenLakes(Block.waterStill.blockID)).generate(this.worldObj, this.rand, k1, l1, i2);
 		}
 
@@ -487,17 +493,17 @@ public class ChunkProviderOntarine implements IChunkProvider {
 
         //Fringing Reefs TODO
         for (int c = 61; c < 1; c--) {
-                int j2 = k + rand.nextInt(16);
-                int l3 = rand.nextInt(128);
-                int j5 = l + rand.nextInt(16);
+        	int j2 = k + rand.nextInt(16);
+            int l3 = rand.nextInt(128);
+            int j5 = l + rand.nextInt(16);
                 
-                int size = rand.nextInt(26) + 15;
-                
-                if ((worldObj.getBlockId(j2, l3, j5) == 0) && ((worldObj.getBlockId(j2, l3 - 1, j5) == Block.dirt.blockID) || (worldObj.getBlockId(j2, l3 - 1, j5) == Block.sand.blockID)) && (worldObj.getBlockMetadata(j2, l3 - 1, j5) == 0)) {
-                	if((worldObj.getBlockId(j2, l3 + 4, j5) == 0) && (worldObj.getBlockId(j2, l3 + 1, j5) == Block.waterStill.blockID)) { //TODO has to be under 62 y
-                        new WorldGenFringingReef(true, size).generate(worldObj, rand, j2, l3, j5);
-                	}
-                }
+            int size = rand.nextInt(26) + 15;
+            
+            if ((worldObj.getBlockId(j2, l3, j5) == 0) && ((worldObj.getBlockId(j2, l3 - 1, j5) == Block.dirt.blockID) || (worldObj.getBlockId(j2, l3 - 1, j5) == Block.sand.blockID)) && (worldObj.getBlockMetadata(j2, l3 - 1, j5) == 0)) {
+            	if((worldObj.getBlockId(j2, l3 + 4, j5) == 0) && (worldObj.getBlockId(j2, l3 + 1, j5) == Block.waterStill.blockID)) { //TODO has to be under 62 y
+                    new WorldGenFringingReef(true, size).generate(worldObj, rand, j2, l3, j5);
+            	}
+            }
         }
       
         for (int c = 58; c < 1; c--) {
@@ -509,7 +515,7 @@ public class ChunkProviderOntarine implements IChunkProvider {
         	
         	if ((worldObj.getBlockId(x, y, z) == 0) && (worldObj.getBlockId(x, y - 1, z) == Block.dirt.blockID) || (worldObj.getBlockId(x, y - 1, z) == Block.sand.blockID)) {
         		if((worldObj.getBlockId(x, y + 8, z) == 0) && (worldObj.getBlockId(x, y + 1, z) == Block.waterStill.blockID)) {
-        			new WorldGenBarrierReef(true, size);
+        			new WorldGenBarrierReef(true, size).generate(worldObj, rand, x, y, size);
         		}
         	}
         }
@@ -523,8 +529,22 @@ public class ChunkProviderOntarine implements IChunkProvider {
         	
         	if ((worldObj.getBlockId(x, y, z) == 0) && (worldObj.getBlockId(x, y - 1, z) == Block.dirt.blockID) || (worldObj.getBlockId(x, y - 1, z) == Block.sand.blockID)) {
         		if((worldObj.getBlockId(x, y + 8, z) == 0) && (worldObj.getBlockId(x, y + 1, z) == Block.waterStill.blockID)) {
-        			new WorldGenBarrierReef(true, size * 2);
+        			new WorldGenBarrierReef(true, size * 2).generate(worldObj, rand, x, y, size);
         		}
+        	}
+        }
+        
+        for (int y = 93 + rand.nextInt(4); y < 100; y++) {
+        	for (int x = 0; x < 16; x++) {
+        		for (int z = 0; z < 16; z++) {
+        			worldObj.setBlock(x, y, z, Block.sand.blockID);
+        		}
+        	}
+        }
+        
+        for (int x = 0; x < 16; x++) {
+        	for (int z = 0; z < 16; z++) {
+        		worldObj.setBlock(x, 92 + rand.nextInt(2), z, Block.sandStone.blockID);
         	}
         }
 

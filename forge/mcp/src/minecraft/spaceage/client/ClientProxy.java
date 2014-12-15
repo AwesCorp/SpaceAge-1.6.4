@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 
 import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -16,6 +17,7 @@ import spaceage.client.model.ModelStarboost;
 import spaceage.common.CommonProxy;
 import spaceage.common.PlayerTickHandler;
 import spaceage.common.SpaceAgeCore;
+import spaceage.common.audio.SpaceAgeAudio;
 import spaceage.common.tile.TileBrainCoral;
 import spaceage.common.tile.TileGasTank;
 import spaceage.common.tile.TileHeatGenerator;
@@ -108,6 +110,8 @@ public class ClientProxy extends CommonProxy {
 		
 		this.renderIDCable = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(new TileCableRenderer(this.renderIDCable));
+		
+		registerSounds();
 	}
 	
 	/*@Override
@@ -116,6 +120,10 @@ public class ClientProxy extends CommonProxy {
 		//RenderingRegistry.registerBlockHandler(new MultiPassRenderTestRenderer());
 	}*/
 	
+	public void registerSounds() {
+	    MinecraftForge.EVENT_BUS.register(new SpaceAgeAudio());
+	}
+
 	@Override
 	public int getBlockRenderID(int blockID) {
 		if(blockID == SpaceAgeCore.cable.blockID) {

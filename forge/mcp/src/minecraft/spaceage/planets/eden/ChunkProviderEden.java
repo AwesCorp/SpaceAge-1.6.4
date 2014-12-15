@@ -230,14 +230,14 @@ public class ChunkProviderEden implements IChunkProvider {
 							if (j1 == -1) {
 								if (i1 <= 0) {
 									b1 = 0;
-									b2 = (byte) Block.stone.blockID;//was dirt
+									b2 = (byte) Block.dirt.blockID;//was dirt
 								} else if (k1 >= b0 - 4 && k1 <= b0 + 1) {
 									b1 = biomegenbase.topBlock;
 									b2 = biomegenbase.fillerBlock;
 								}
 
 								if (k1 < b0 && b1 == 0) {
-										b1 = (byte) Block.waterStill.blockID;
+										b1 = (byte) Block.dirt.blockID;//ignore surface water
 								}
 
 								j1 = i1;
