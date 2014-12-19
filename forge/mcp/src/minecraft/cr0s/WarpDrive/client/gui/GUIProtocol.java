@@ -57,9 +57,6 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		 * isInSpace - done
 		 * isInHyperspace - done
 		 * setTargetJumpgate*/
-		
-		int xSize = 256;
-		int ySize = 256;
 	   
 		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":textures/gui/" + "guiWarpInterface_alternate.png");//ClientProxy.warpInterfaceGui/*"textures/gui/container/furnace.png"*/);
 	    private TileEntityProtocol furnaceInventory;
@@ -84,24 +81,36 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    private char[] modeChars = { '0'/*jump/long jump*/, '1'/*To hyperspace*/, '2'/*jumpgate*//*, '3'/*jump to different dimensions*/ };
 	    private char[] directionChars = { '0'/*up*/, '1'/*down*/, '2'/*left*/, '3'/*right*/, '4'/*forward*/, '5'/*back*/ };
 
+	    //TEST
+	    public static final GuiRectangle frontSlider = new GuiRectangle(0, 0, 0, 0);
+	    private boolean isDragging;
+	    
 	    public GUIProtocol(InventoryPlayer par1InventoryPlayer, TileEntityProtocol tile_entity) {
 	        super(new ContainerProtocol(par1InventoryPlayer, tile_entity));
 	        this.furnaceInventory = tile_entity;
+	        
+	        this.xSize = 256;
+	        this.ySize = 256;
+	    }
+	    
+	    @Override
+	    public void mouseClick(GUIProtocol gui, int x, int y, int button) {
+	    	
 	    }
 	    
 	    int grey = 4210752;
 	    
-	    int sizex;
-	    int sizey;
+	    int sizex = 26;//10-24
+	    int sizey = 33;
 	    
-	    int dimensionx;
-	    int dimensiony;
+	    int dimensionx = 15;
+	    int dimensiony = 177;
 	    
-	    int blocksx;
-	    int blocksy;
+	    int blocksx = 26;
+	    int blocksy = 64;
 	    
-	    int coord0x;
-	    int coord0y;
+	    int coord0x = 26;
+	    int coord0y = 75;
 	    
 	    int pixelsPerWord = 10;
 	    
@@ -134,19 +143,19 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		    String coord7 = "Z: " + String.valueOf(furnaceInventory.getDestZ());
 	        
 	        write(size0, sizex, sizey, grey); //Title
-	        write(size1, sizex + pixelsPerWord, sizey, grey); //setP
-	        write(size2, sizex + (2 * pixelsPerWord), sizey, grey); //setN
+	        write(size1, sizex, sizey + pixelsPerWord, grey); //setP
+	        write(size2, sizex, sizey + (2 * pixelsPerWord), grey); //setN
 	        
 	        write(dimension, dimensionx, dimensiony, grey);
 	        
 	        write(coord0, coord0x, coord0y, grey);
-	        write(coord1, coord0x + pixelsPerWord, coord0y, grey);
-	        write(coord2, coord0x + 2 * (pixelsPerWord), coord0y, grey);
-	        write(coord3, coord0x + 3 * (pixelsPerWord), coord0y, grey);
+	        write(coord1, coord0x, coord0y + pixelsPerWord, grey);
+	        write(coord2, coord0x, coord0y + 2 * (pixelsPerWord), grey);
+	        write(coord3, coord0x, coord0y + 3 * (pixelsPerWord), grey);
 	        
-	        write(coord4, coord0x + 5 * (pixelsPerWord), coord0y, grey);
-	        write(coord5, coord0x + 6 * (pixelsPerWord), coord0y, grey);
-	        write(coord7, coord0x + 7 * (pixelsPerWord), coord0y, grey);
+	        write(coord4, coord0x, coord0y + 5 * (pixelsPerWord), grey);
+	        write(coord5, coord0x, coord0y + 6 * (pixelsPerWord), grey);
+	        write(coord7, coord0x, coord0y + 7 * (pixelsPerWord), grey);
 	        
 	        write(blocks, blocksx, blocksy, grey);
 	        
@@ -179,6 +188,8 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 	        
 	        int i1;
+	        
+	        frontSlider.draw(this, 0, 0);
 	        
 	        //FLAME - DON'T NEED
 	        /*if (this.furnaceInventory.isBurning())
@@ -214,29 +225,15 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 		    int moX = 0;
 		    int moY = 0;
 		    
-		    int sNX = 0;
-		    int sNY = 0;
+		    int sNX = 98;
+		    int sNY = 12;
 		    
-		    int inputLength = 16;
-		    int inputWidth = 16;
+		    int inputLength = 30;
+		    int inputWidth = 20;
 		    
-		    applyBasicAttributes(front);
-		    applyBasicAttributes(back);
-		    applyBasicAttributes(right);
-		    applyBasicAttributes(left);
-		    applyBasicAttributes(up);
-		    applyBasicAttributes(down);
-		    
-		    applyBasicAttributes(distance);
-		    
-		    applyBasicAttributes(mode);
-		    
-		    applyBasicAttributes(direction);
-		    
-		    applyBasicAttributes(shipName);
 		    //applyBasicAttributes(beaconInput); UNUSED
 		    
-		    shipName = new GuiTextField(this.fontRenderer, sNX, sNY, inputLength, inputWidth);
+		    shipName = new GuiTextField(this.fontRenderer, sNX, sNY, inputLength * 2, inputWidth);
 		    shipName.setMaxStringLength(10);
 		    
 		    direction = new GuiTextField(this.fontRenderer, dirX, dirY, inputLength, inputWidth);
@@ -266,62 +263,86 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	down = new GuiTextField(this.fontRenderer, frontX, frontY + (5 * pixelsPerWord), inputLength, inputWidth);
 	    	down.setMaxStringLength(3);
 	    	
+		    applyBasicAttributes(front);
+		    applyBasicAttributes(back);
+		    applyBasicAttributes(right);
+		    applyBasicAttributes(left);
+		    applyBasicAttributes(up);
+		    applyBasicAttributes(down);
+		    
+		    applyBasicAttributes(distance);
+		    
+		    applyBasicAttributes(mode);
+		    
+		    applyBasicAttributes(direction);
+		    
+		    applyBasicAttributes(shipName);
+	    	
 	    	//beaconInput = new GuiTextField(this.fontRenderer, biX, biY, inputLength, inputWidth); UNUSED
 	    	//beaconInput.setMaxStringLength(2); UNUSED
 	    	
-	    	/**/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Jump"/*Text on button*/));
-	    	/**/buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 100/*Location in relation to left in pixels*/, guiTop + 14/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Summon All"/*Text on button*/));
-	    	buttonList.add(new GuiButton(2, guiLeft + 100, guiTop + 14, 60, 20, "Wiki"));
+	    	/**/buttonList.add(new GuiButton(0/*button number, maybe for mod, else gui*/, guiLeft + 14/*Location in relation to left in pixels*/, guiTop + 222/*Location in relation to top in pixels*/, 30/*Length in pixels*/, 20/*Height in pixels*/, "Jump"/*Text on button*/));
+	    	/**/buttonList.add(new GuiButton(1/*button number, maybe for mod, else gui*/, guiLeft + 14/*Location in relation to left in pixels*/, guiTop + 202/*Location in relation to top in pixels*/, 60/*Length in pixels*/, 20/*Height in pixels*/, "Summon All"/*Text on button*/));
+	    	buttonList.add(new GuiButton(2, guiLeft + 44/*217: -40*/, guiTop + 222/*227: -45*/, 30, 20, "Wiki"));
 	    }
 	    
 	    public void applyBasicAttributes(GuiTextField field) {
-	    	if(field != null) {
+	    	//if(field != null) {
 		    	field.setEnableBackgroundDrawing(true);
 		    	field.setFocused(false);
 		    	field.setCanLoseFocus(true);
-	    	}
+	    	//}
 		}
 
 		@Override
 	    protected void keyTyped(char par1, int par2) {
-			if(par1 != 27) {
-				if(shipName.textboxKeyTyped(par1, par2)) {
-					shipName();
-				}
-				if(isValidChar(par1)) {
+			if(anyTextBoxFocused()) {
+				if(par1 != 27) {
+					if(shipName.textboxKeyTyped(par1, par2)) {
+						shipName();
+					}
+				
+					if(isValidChar(par1)) {
 				//super.keyTyped(par1, par2);
-					if(front.textboxKeyTyped(par1, par2)) {
-						simpleTextPacket("WarpDrive_F", this.front, 4);
-					} else if(back.textboxKeyTyped(par1, par2)) {
-						simpleTextPacket("WarpDrive_B", this.back, 4);
-					} else if(left.textboxKeyTyped(par1, par2)) {
-						simpleTextPacket("WarpDrive_L", this.left, 4);
-					} else if(right.textboxKeyTyped(par1, par2)) {
-						simpleTextPacket("WarpDrive_R", this.right, 4);
-					} else if(up.textboxKeyTyped(par1, par2)) {
-						simpleTextPacket("WarpDrive_U", this.up, 4);
-					} else if(down.textboxKeyTyped(par1, par2)) {
-						simpleTextPacket("WarpDrive_D", this.down, 4);
-					} else if(distance.textboxKeyTyped(par1, par2)) {
-						simpleTextPacket("WarpDrive_Dis", this.distance, 4);
-					} else if(isValidModeChar(par1)) {
-						if(mode.textboxKeyTyped(par1, par2)) {
-							modeTextPacket("WarpDrive_M", this.mode, 4);
-						} else if(isValidDirectionChar(par1)) {
-							if(direction.textboxKeyTyped(par1, par2)) {
-								directionTextPacket("WarpDrive_Dir", this.direction, 4);
+						if(front.textboxKeyTyped(par1, par2)) {
+							simpleTextPacket("WarpDrive_F", this.front, 4);
+						} else if(back.textboxKeyTyped(par1, par2)) {
+							simpleTextPacket("WarpDrive_B", this.back, 4);
+						} else if(left.textboxKeyTyped(par1, par2)) {
+							simpleTextPacket("WarpDrive_L", this.left, 4);
+						} else if(right.textboxKeyTyped(par1, par2)) {
+							simpleTextPacket("WarpDrive_R", this.right, 4);
+						} else if(up.textboxKeyTyped(par1, par2)) {
+							simpleTextPacket("WarpDrive_U", this.up, 4);
+						} else if(down.textboxKeyTyped(par1, par2)) {
+							simpleTextPacket("WarpDrive_D", this.down, 4);
+						} else if(distance.textboxKeyTyped(par1, par2)) {
+							simpleTextPacket("WarpDrive_Dis", this.distance, 4);
+						} else if(isValidModeChar(par1)) {
+							if(mode.textboxKeyTyped(par1, par2)) {
+								modeTextPacket("WarpDrive_M", this.mode, 4);
+							} else if(isValidDirectionChar(par1)) {
+								if(direction.textboxKeyTyped(par1, par2)) {
+									directionTextPacket("WarpDrive_Dir", this.direction, 4);
+								}
 							}
-						}
 				//} else if(beaconInput.textboxKeyTyped(par1, par2)) {UNUSED
 					//simpleTextPacket("WarpDrive_Protocol", this.beaconInput.getText().getBytes())); UNUSED
+						}
+					} else {
+						super.keyTyped(par1, par2);
 					}
-				}/*etc*/ else {
-					super.keyTyped(par1, par2);
 				}
+			} else if (par1 == 27) {
+				mc.thePlayer.closeScreen();
 			}
-	    }
+		}
 		
-	    public void shipName() {
+	    public boolean anyTextBoxFocused() {
+			return front.isFocused() || back.isFocused() || left.isFocused() || right.isFocused() || up.isFocused() || down.isFocused() || distance.isFocused() || mode.isFocused() || direction.isFocused() || shipName.isFocused();
+		}
+
+		public void shipName() {
 			ByteArrayOutputStream bos = new ByteArrayOutputStream(shipName.getText().length());
 			DataOutputStream output = new DataOutputStream(bos);
 			
@@ -478,9 +499,11 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	switch(button.id) {
 	    		case 0:
 	    			furnaceInventory.doJump();
-	    			System.out.println("Ship jumped from coordinates" + String.valueOf(furnaceInventory.core.xCoord) + ", " + String.valueOf(furnaceInventory.core.yCoord) + ", " + String.valueOf(furnaceInventory.core.zCoord));
+	    			System.out.println(furnaceInventory.getCoreFrequency() + " jumped from coordinates " + String.valueOf(furnaceInventory.getCoreX()) + ", " + String.valueOf(furnaceInventory.getCoreY()) + ", " + String.valueOf(furnaceInventory.getCoreZ()));
+	    			break;
 	    		case 1:
 	    			furnaceInventory.setSummonAllFlag(true);
+	    			break;
 	    			//System.out.println("Clicked!");//ACTION PERFORMED ON BUTTON CLICK
 	    		case 2:
 	    			openURL("https://sites.google.com/site/spaceageminecraft/wiki/blocks/warp-interface");
@@ -511,4 +534,12 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	
 	    	this.shipName.drawTextBox();
 	    }
+
+		public int getLeft() {
+			return guiLeft;
+		}
+		
+		public int getTop() {
+			return guiTop;
+		}
 	}

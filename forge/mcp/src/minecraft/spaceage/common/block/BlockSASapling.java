@@ -142,7 +142,7 @@ public class BlockSASapling extends Block {
      */
     @Override
     public Icon getIcon(int par1, int par2) {
-        par2 &= 3;
+        par2 &= 3;//par2 = par2 & 3;
         return this.saplingIcon[par2];
     }
 

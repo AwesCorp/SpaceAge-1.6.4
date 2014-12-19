@@ -124,7 +124,7 @@ public abstract class GuiSimpleBase extends GuiContainer {
 				return "Unable to open browser from IOException";
 			} catch(URISyntaxException e) {
 				e.printStackTrace();
-				return "Invalid URL: Mod-related bug";
+				return "Invalid URL: Mod-related bug... PS: This should not happen: Alert SkylordJoel immediately";
 			}
 		} else {
 			return "Can't open browser for unknown reason";

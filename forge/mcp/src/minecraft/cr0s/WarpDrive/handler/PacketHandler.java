@@ -47,31 +47,31 @@ public class PacketHandler implements IPacketHandler {
             handleLaserTargeting(packet, (EntityPlayer)player);
         } else if (packet.channel.equals("WarpDriveCloaks")) {
         	handleCloak(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_Protocol_Distance")) {
+        } else if (packet.channel.equals("WarpDrive_Dis")) {
         	handleProtocolDistance(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_Protocol_Front")) {
+        } else if (packet.channel.equals("WarpDrive_F")) {
         	handleProtocolFront(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_Protocol_Back")) {
+        } else if (packet.channel.equals("WarpDrive_B")) {
         	handleProtocolBack(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_Protocol_Right")) {
+        } else if (packet.channel.equals("WarpDrive_R")) {
         	handleProtocolRight(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_Protocol_Left")) {
+        } else if (packet.channel.equals("WarpDrive_L")) {
         	handleProtocolLeft(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_Protocol_Up")) {
+        } else if (packet.channel.equals("WarpDrive_U")) {
         	handleProtocolUp(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_Protocol_Down")) {
+        } else if (packet.channel.equals("WarpDrive_D")) {
         	handleProtocolDown(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_Protocol_Mode")) {
+        } else if (packet.channel.equals("WarpDrive_M")) {
         	handleMode(packet, (EntityPlayer)player);
-        } else if(packet.channel.equals("WarpDrive_Protocol_Direction")) {
+        } else if(packet.channel.equals("WarpDrive_Dir")) {
         	handleDirection(packet, (EntityPlayer)player);
-        } else if(packet.channel.equals("WarpDrive_ShipName")) {
+        } else if(packet.channel.equals("WarpDrive_SN")) {
         	handleShipName(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_CD_Frequency")) {
+        } else if (packet.channel.equals("WarpDrive_Fr")) {
         	handleFrequency(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_CD_Tier")) {
+        } else if (packet.channel.equals("WarpDrive_T")) {
         	handleTier(packet, (EntityPlayer)player);
-        } else if (packet.channel.equals("WarpDrive_Radar_Pixel")) {
+        } else if (packet.channel.equals("WarpDrive_RP")) {
         	handlePixel(packet, (EntityPlayer)player);
         }
     }

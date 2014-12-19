@@ -19,18 +19,18 @@ public class ContainerSolarPanel extends Container {
 		
 		//Boost slot
 		this.addSlotToContainer(new SlotEnrichedSilicon(tileEntity, 0, 56, 17));
-		int var3;
+		int across;
 		
 		//Main inventory area
-		for (var3 = 0; var3 < 3; ++var3) {
-            for (int var4 = 0; var4 < 9; ++var4) {
-                this.addSlotToContainer(new Slot(player, var4 + var3 * 9 + 9, 8 + var4 * 18, 84 + var3 * 18));
+		for (across = 0; across < 3; ++across) {
+            for (int vertical = 0; vertical < 9; ++vertical) {
+                this.addSlotToContainer(new Slot(player, vertical + across * 9 + 9, 8 + vertical * 18, 84 + across * 18));
             }
         }
 		
 		//Hotbar area
-        for (var3 = 0; var3 < 9; ++var3) {
-            this.addSlotToContainer(new Slot(player, var3, 8 + var3 * 18, 142));
+        for (across = 0; across < 9; ++across) {
+            this.addSlotToContainer(new Slot(player, across, 8 + across * 18, 142));
         }
 
     }
@@ -47,47 +47,47 @@ public class ContainerSolarPanel extends Container {
 		ItemStack enrichedSilicon = new ItemStack(SpaceAgeCore.meta,1,12);
 		
         ItemStack var2 = null;
-        Slot var3 = (Slot) this.inventorySlots.get(par1);
+        Slot across = (Slot) this.inventorySlots.get(par1);
 
-        if (var3 != null && var3.getHasStack())
+        if (across != null && across.getHasStack())
         {
-            ItemStack var4 = var3.getStack();
-            var2 = var4.copy();
+            ItemStack vertical = across.getStack();
+            var2 = vertical.copy();
 
             if (par1 != 0)
             {
-                if (var4.itemID == enrichedSilicon.itemID)
+                if (vertical.itemID == enrichedSilicon.itemID)
                 {
-                    if (!this.mergeItemStack(var4, 0, 1, false))
+                    if (!this.mergeItemStack(vertical, 0, 1, false))
                     {
                         return null;
                     }
                 }
-                else if (par1 >= 30 && par1 < 37 && !this.mergeItemStack(var4, 3, 30, false))
+                else if (par1 >= 30 && par1 < 37 && !this.mergeItemStack(vertical, 3, 30, false))
                 {
                     return null;
                 }
             }
-            else if (!this.mergeItemStack(var4, 3, 37, false))
+            else if (!this.mergeItemStack(vertical, 3, 37, false))
             {
                 return null;
             }
 
-            if (var4.stackSize == 0)
+            if (vertical.stackSize == 0)
             {
-                var3.putStack((ItemStack) null);
+                across.putStack((ItemStack) null);
             }
             else
             {
-                var3.onSlotChanged();
+                across.onSlotChanged();
             }
 
-            if (var4.stackSize == var2.stackSize)
+            if (vertical.stackSize == var2.stackSize)
             {
                 return null;
             }
 
-            var3.onPickupFromSlot(par1EntityPlayer, var4);
+            across.onPickupFromSlot(par1EntityPlayer, vertical);
         }
 
         return var2;

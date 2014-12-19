@@ -208,29 +208,29 @@ public class ChunkProviderOntarine implements IChunkProvider {
 		double d0 = 0.03125D;
 		this.stoneNoise = this.noiseGen4.generateNoiseOctaves(this.stoneNoise, par1 * 16, par2 * 16, 0, 16, 16, 1, d0 * 2.0D, d0 * 2.0D, d0 * 2.0D);
 
-		for (int x = 0; x < 16; ++x) {
-			for (int z = 0; z < 16; ++z) {
+		for (int x = 0; x < 16; ++x) { //x chunk?
+			for (int z = 0; z < 16; ++z) {//z chunk?
 				BiomeGenBase biomegenbase = biomeArray[z + x * 16];
-				float temperature = biomegenbase.getFloatTemperature();
+				//float temperature = biomegenbase.getFloatTemperature();
 				
-				int i1 = (int) (this.stoneNoise[x + z * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
-				int j1 = -1;
+				int stoneNoise1 = (int) (this.stoneNoise[x + z * 16] / 3.0D + 3.0D + this.rand.nextDouble() * 0.25D);
+				int minusOneInitially = -1;
 				byte biomeTopBlockID = biomegenbase.topBlock;
 				byte biomeFillerBlockID = biomegenbase.fillerBlock;
 
 				for (int y = 127; y >= 0; --y) {
-					int l1 = (z * 16 + x) * 128 + y;
+					int everyBlockPossibly = (z * 16 + x) * 128 + y;
 
 					if (y <= 1) { 
-						byteArray[l1] = (byte) Block.bedrock.blockID;
+						byteArray[everyBlockPossibly] = (byte) Block.bedrock.blockID;
 					} else {
-						byte blockSelectedAtMoment = byteArray[l1]; 
+						byte blockSelectedAtMoment = byteArray[everyBlockPossibly]; 
 
 						if (blockSelectedAtMoment == 0) {
-							j1 = -1; //unchanging...
+							minusOneInitially = -1; //unchanging...
 						} else if (blockSelectedAtMoment == Block.stone.blockID) { //this block shalt be replaced!!!
-							if (j1 == -1) {//it always seems to
-								if (i1 <= 0) {
+							if (minusOneInitially == -1) {//it always seems to
+								if (stoneNoise1 <= 0) {
 									biomeTopBlockID = 0;
 									biomeFillerBlockID = (byte) Block.sand.blockID;//CHANGE TO CUSTOM DIRT - LAKES?
 								} else if (y >= /*b63*/92 && y <= /*b63*/151) { //within normal world coords
@@ -246,16 +246,16 @@ public class ChunkProviderOntarine implements IChunkProvider {
 									biomeTopBlockID = (byte) Block.waterStill.blockID;
 								}
 
-								j1 = i1;
+								minusOneInitially = stoneNoise1;
 
-								if (y >= b63 - 1) {
-									byteArray[l1] = biomeTopBlockID;
+								if (y >= 92) {
+									byteArray[everyBlockPossibly] = biomeTopBlockID;
 								} else {
-									byteArray[l1] = biomeFillerBlockID;
+									byteArray[everyBlockPossibly] = biomeFillerBlockID;
 								}
-							} else if (j1 > 0) {
-								--j1;
-								byteArray[l1] = biomeFillerBlockID;
+							} else if (minusOneInitially > 0) {
+								--minusOneInitially;
+								byteArray[everyBlockPossibly] = biomeFillerBlockID;
 
 							}
 						}
@@ -534,7 +534,7 @@ public class ChunkProviderOntarine implements IChunkProvider {
         	}
         }
         
-        for (int y = 93 + rand.nextInt(4); y < 100; y++) {
+        for (int y = 93 + rand.nextInt(4); y < 100 + rand.nextInt(4); y++) {
         	for (int x = 0; x < 16; x++) {
         		for (int z = 0; z < 16; z++) {
         			worldObj.setBlock(x, y, z, Block.sand.blockID);
@@ -544,8 +544,25 @@ public class ChunkProviderOntarine implements IChunkProvider {
         
         for (int x = 0; x < 16; x++) {
         	for (int z = 0; z < 16; z++) {
-        		worldObj.setBlock(x, 92 + rand.nextInt(2), z, Block.sandStone.blockID);
+        		for (int y = 92; y < y + rand.nextInt(2) + 1; y++) {
+        			worldObj.setBlock(x, y, z, Block.sandStone.blockID);
+        		}
         	}
+        }
+        
+        for (int y = 63 + rand.nextInt(7); y < 92; y++) {
+        	for (int x = 0; x < 16; x++) {
+        		for (int z = 0; z < 16; z++) {
+        			worldObj.setBlock(x, y, z, 0);
+        		}
+        	}
+        }
+        
+		for (int y = 92; y < 100; y++) {
+			int x = rand.nextInt(16);
+			int z = rand.nextInt(16);
+			
+			worldObj.setBlock(x, y, z, 0);
         }
 
 		MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(par1IChunkProvider, worldObj, rand, par2, par3, flag));

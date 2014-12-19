@@ -28,7 +28,7 @@ public class BlockEden extends Block {
 	
 	private Type type;
 	
-	public Random random;
+	public Random random = new Random();
 	
 	@SideOnly(Side.CLIENT)
 	private Icon[] icons;

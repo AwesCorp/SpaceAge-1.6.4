@@ -22,9 +22,9 @@ public class SpaceAgeAchievements { //Future possible achievements: Magical Ener
 	static Achievement[] spaceAgeAchievementList;
 	
 	public static void init() {
-		space = new Achievement(3097, "spaceage.achSpace", 0, 0, new ItemStack(SpaceAgeCore.spaceshipAlloyMeta, 1, 15), null).registerAchievement();
+		space = new Achievement(3099, "spaceage.achSpace", 0, 0, new ItemStack(SpaceAgeCore.spaceshipAlloyMeta, 1, 15), null).registerAchievement();
 		
-		spaceDeath = new Achievement(3098, "spaceage.achSpaceDeath", 2, -1, new ItemStack(SpaceAgeCore.spaceshipAlloyMeta, 1, 0), space).registerAchievement();
+		spaceDeath = new Achievement(3100, "spaceage.achSpaceDeath", 2, -1, new ItemStack(SpaceAgeCore.spaceshipAlloyMeta, 1, 0), space).registerAchievement();
 		
 	    spaceAgeAchievementList = new Achievement[] { space, spaceDeath };
 

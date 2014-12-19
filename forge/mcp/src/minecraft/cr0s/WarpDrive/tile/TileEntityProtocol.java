@@ -477,10 +477,11 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     }
     
     public int getShipSize() {
-    if (core != null) {
-        ((TileEntityReactor)core).calculateSpatialShipParameters();
-        return ((TileEntityReactor)core).getRealShipVolume();
-    	}
+    	if (core != null) {
+    		((TileEntityReactor)core).calculateSpatialShipParameters();
+    		return ((TileEntityReactor)core).getRealShipVolume();
+		}
+    	
     	return 0;
     }
     
@@ -537,6 +538,13 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     	if(core != null && core instanceof TileEntityReactor) {
     		((TileEntityReactor)core).coreFrequency = frequency.replace("/", "").replace(".", "").replace("\\", ".");
     	}
+    }
+    
+    public String getCoreFrequency() {
+    	if(core != null && core instanceof TileEntityReactor) {
+    		return ((TileEntityReactor)core).coreFrequency;
+    	}
+    	return "UNAMED";
     }
 
     @Override
@@ -787,6 +795,10 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
 				return "Vulcan";
 			} else if(id == SpaceAgePlanets.i.hadesID) {
 				return "Hades";
+			} else if(id == SpaceAgePlanets.i.edenID) {
+				return "Eden";
+			} else if(id == SpaceAgePlanets.i.ontarineID) {
+				return "Ontarine";
 			}
 			
 			return "BROKEN";

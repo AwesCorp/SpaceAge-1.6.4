@@ -34,84 +34,82 @@ import net.minecraftforge.event.terraingen.OreGenEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 public class BiomeDecoratorSA extends BiomeDecorator {
-  public World currentWorlds;
-  public Random random;
-  public int chunk_xs;
-  public int chunk_zs;
-  public BiomeGenBase genBase;
+	public World currentWorlds;
+	public Random random;
+	public int chunk_xs;
+	public int chunk_zs;
+	public BiomeGenBase genBase;
   
   //VULCAN
-  public WorldGenerator vulcanSoulSandGen;
+	public WorldGenerator vulcanSoulSandGen;
   //public WorldGenerator glowstoneTreeGen;
-  public WorldGenerator vulcanVolcanoGen;
-  public WorldGenerator fireEssenceGen;
+	public WorldGenerator vulcanVolcanoGen;
+	public WorldGenerator fireEssenceGen;
   
   //VULCAN
-  public int vulcanSoulSandGenPerChunk;
+	public int vulcanSoulSandGenPerChunk;
   //public int glowstoneTreeGenPerChunk;
-  public int vulcanVolcanoesPerChunk;
-  public int lavaLakesPerChunk;
-  public int fireEssencePerChunk;
+	public int vulcanVolcanoesPerChunk;
+	public int lavaLakesPerChunk;
+	public int fireEssencePerChunk;
   
   //HADES
-  public WorldGenerator hadesIceGen;
+	public WorldGenerator hadesIceGen;
   
   //HADES
-  public int hadesIcePerChunk;
+	public int hadesIcePerChunk;
   
   //0011
-  public WorldGenerator organicMatterGen;
+	//public WorldGenerator organicMatterGen;
   
   //0011
-  public int organicMatterPerChunk;
+	public int organicMatterPerChunk;
   
   //VANILLA
-  private int coalGenPerChunk;
-  private int ironGenPerChunk;
-  private int goldGenPerChunk;
-  private int redstoneGenPerChunk;
-  private int diamondGenPerChunk;
-  private int lapisGenPerChunk;
+	private int coalGenPerChunk;
+	private int ironGenPerChunk;
+  	private int goldGenPerChunk;
+  	private int redstoneGenPerChunk;
+  	private int diamondGenPerChunk;
+  	private int lapisGenPerChunk;
 
-  public BiomeDecoratorSA(BiomeGenBase par1BiomeGenBase) {
-    super(par1BiomeGenBase);
+  	public BiomeDecoratorSA(BiomeGenBase par1BiomeGenBase) {
+  		super(par1BiomeGenBase);
     
     //MISC
-    this.vulcanSoulSandGen = new WorldGenSoulSand(Block.slowSand.blockID, 48, Block.netherrack.blockID);
+  		this.vulcanSoulSandGen = new WorldGenSoulSand(Block.slowSand.blockID, 48, Block.netherrack.blockID);
     //this.glowstoneTreeGen = new WorldGenGlowstoneTree();
-    this.vulcanVolcanoGen = new WorldGenVulcanVolcano();
+  		this.vulcanVolcanoGen = new WorldGenVulcanVolcano();
     
-    this.hadesIceGen = new WorldGenMetaOres(Block.ice.blockID, (hadesIcePerChunk * 48), 0, SpaceAgeCore.hadesSurface.blockID, 0);
+  		this.hadesIceGen = new WorldGenMetaOres(Block.ice.blockID, (hadesIcePerChunk * 48), 0, SpaceAgeCore.hadesSurface.blockID, 0);
     
-    this.vulcanSoulSandGenPerChunk = 0;
+  		this.vulcanSoulSandGenPerChunk = 0;
     //this.glowstoneTreeGenPerChunk = 0;
-    this.vulcanVolcanoesPerChunk = 0;
+  		this.vulcanVolcanoesPerChunk = 0;
     
-    this.hadesIcePerChunk = 0;
+  		this.hadesIcePerChunk = 0;
     /*this.canyonGen = new WorldGenCanyon(((Block)Blocks.redRock.get()).blockID, 48);
     this.driedDirtInSandGen = new WorldGenDriedDirt(((Block)Blocks.driedDirt.get()).blockID, 32);
     this.cloudGen = new WorldGenCloud();*/
     //VANILLA ORES
-    this.coalGen = new WorldGenMinable(Block.oreCoal.blockID, (coalGenPerChunk/*Original number - 16*/));
-    this.ironGen = new WorldGenMinable(Block.oreIron.blockID, (ironGenPerChunk/*Original number - 8*/));
-    this.goldGen = new WorldGenMinable(Block.oreGold.blockID, (goldGenPerChunk/*Original number - 8*/));
-    this.redstoneGen = new WorldGenMinable(Block.oreRedstone.blockID, (redstoneGenPerChunk/*Original number - 7*/));
-    this.diamondGen = new WorldGenMinable(Block.oreDiamond.blockID, (diamondGenPerChunk/*Original number - 7*/));
-    this.lapisGen = new WorldGenMinable(Block.oreLapis.blockID, (lapisGenPerChunk/*Original number - 6*/));
+  		this.coalGen = new WorldGenMinable(Block.oreCoal.blockID, (coalGenPerChunk/*Original number - 16*/));
+  		this.ironGen = new WorldGenMinable(Block.oreIron.blockID, (ironGenPerChunk/*Original number - 8*/));
+  		this.goldGen = new WorldGenMinable(Block.oreGold.blockID, (goldGenPerChunk/*Original number - 8*/));
+  		this.redstoneGen = new WorldGenMinable(Block.oreRedstone.blockID, (redstoneGenPerChunk/*Original number - 7*/));
+  		this.diamondGen = new WorldGenMinable(Block.oreDiamond.blockID, (diamondGenPerChunk/*Original number - 7*/));
+  		this.lapisGen = new WorldGenMinable(Block.oreLapis.blockID, (lapisGenPerChunk/*Original number - 6*/));
     
-    this.coalGenPerChunk = 0;
-    this.ironGenPerChunk = 0;
-    this.goldGenPerChunk = 0;
-    this.redstoneGenPerChunk = 0;
-    this.diamondGenPerChunk = 0;
-    this.lapisGenPerChunk = 0;
+  		this.coalGenPerChunk = 0;
+  		this.ironGenPerChunk = 0;
+	  	this.goldGenPerChunk = 0;
+	  	this.redstoneGenPerChunk = 0;
+	  	this.diamondGenPerChunk = 0;
+	  	this.lapisGenPerChunk = 0;
     
     //OWN ORES
-    this.fireEssenceGen = new WorldGenMetaOres(SpaceAgeCore.vulcanSurface.blockID, (fireEssencePerChunk * 8), 3, Block.netherrack.blockID, 0);
-    this.fireEssencePerChunk = 0;
-    
-    this.organicMatterGen = new WorldGenMetaOres(SpaceAgeCore.T0011Surface.blockID, (fireEssencePerChunk * 8), 3, SpaceAgeCore.T0011Surface.blockID, 0);
-    
+	  	this.fireEssenceGen = new WorldGenMetaOres(SpaceAgeCore.vulcanSurface.blockID, (fireEssencePerChunk * 8), 3, Block.netherrack.blockID, 0);
+	  	this.fireEssencePerChunk = 0;
+	  
     /*this.field_76830_q = new WorldGenBOPFlowers(Block.plantYellow.blockID, 0);
     this.cobwebGen = new WorldGenCobwebs(Block.web.blockID, 0);
     this.dandelionGen = new WorldGenBOPFlowers(((Block)Blocks.flowers.get()).blockID, 15);
@@ -318,46 +316,45 @@ public class BiomeDecoratorSA extends BiomeDecorator {
     this.generateSponge = false;
     this.generateMossySkystone = false;
     this.generateUndergroundLakes = true;*/
-    this.genBase = par1BiomeGenBase;
+	  	this.genBase = par1BiomeGenBase;
   }
 
-  public void decorate(World par1World, Random par2Random, int par3, int par4)
-  {
-    if (this.currentWorlds != null) {
-      return;
-    }
+  	public void decorate(World par1World, Random par2Random, int par3, int par4) {
+  		if (this.currentWorlds != null) {
+  			return;
+  		}
 
-    this.currentWorlds = par1World;
-    this.random = par2Random;
-    this.chunk_xs = par3;
-    this.chunk_zs = par4;
-    decorate();
-    this.currentWorlds = null;
-    this.random = null;
+  		this.currentWorlds = par1World;
+  		this.random = par2Random;
+  		this.chunk_xs = par3;
+  		this.chunk_zs = par4;
+  		decorate();
+  		this.currentWorlds = null;
+  		this.random = null;
   }
 
-  @Override
-  protected void decorate() {
-    MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Pre(currentWorlds, this.random, chunk_xs, chunk_zs));
+  	@Override
+  	protected void decorate() {
+  		MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Pre(currentWorlds, this.random, chunk_xs, chunk_zs));
 
-    boolean doGen = TerrainGen.decorate(currentWorlds, this.random, chunk_xs, chunk_zs, DecorateBiomeEvent.Decorate.EventType.SAND);
+  		boolean doGen = TerrainGen.decorate(currentWorlds, this.random, chunk_xs, chunk_zs, DecorateBiomeEvent.Decorate.EventType.SAND);
 
-    generateOres();
+  		generateOres();
     
-    for (int var2 = 0; var2 < this.vulcanSoulSandGenPerChunk; var2++) {
-      int var3 = chunk_xs + this.random.nextInt(16) + 8;
-      int var4 = this.random.nextInt(256);
-      int var5 = chunk_zs + this.random.nextInt(16) + 8;
-      this.vulcanSoulSandGen.generate(currentWorlds, this.random, var3, var4, var5);
-    }
+  		for (int var2 = 0; var2 < this.vulcanSoulSandGenPerChunk; var2++) {
+  			int var3 = chunk_xs + this.random.nextInt(16) + 8;
+  			int var4 = this.random.nextInt(256);
+  			int var5 = chunk_zs + this.random.nextInt(16) + 8;
+  			this.vulcanSoulSandGen.generate(currentWorlds, this.random, var3, var4, var5);
+  		}
     
-    doGen = TerrainGen.decorate(currentWorlds, random, chunk_xs, chunk_zs, DecorateBiomeEvent.Decorate.EventType.TREE);
-    for (int j = 0; doGen && j < this.treesPerChunk; ++j) {
-        int k = this.chunk_xs + this.random.nextInt(16) + 8;
-        int l = this.chunk_zs + this.random.nextInt(16) + 8;
-        WorldGenerator worldgenerator = this.biome.getRandomWorldGenForTrees(this.random);
+  		doGen = TerrainGen.decorate(currentWorlds, random, chunk_xs, chunk_zs, DecorateBiomeEvent.Decorate.EventType.TREE);
+  		for (int j = 0; doGen && j < this.treesPerChunk; ++j) {
+  			int k = this.chunk_xs + this.random.nextInt(16) + 8;
+  			int l = this.chunk_zs + this.random.nextInt(16) + 8;
+  			WorldGenerator worldgenerator = this.biome.getRandomWorldGenForTrees(this.random);
         //worldgenerator.setScale(1.0D, 1.0D, 1.0D);
-        worldgenerator.generate(this.currentWorld, this.random, k, this.currentWorld.getHeightValue(k, l), l);
+  			worldgenerator.generate(this.currentWorld, this.random, k, this.currentWorld.getHeightValue(k, l), l);
     }
     
     /*for (int var2 = 0; var2 < this.glowstoneTreeGenPerChunk; var2++) {
@@ -1468,63 +1465,63 @@ public class BiomeDecoratorSA extends BiomeDecorator {
       this.field_76834_x.generate(currentWorlds, this.random, var3, var5, var4);
     }*/
 
-    MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Post(currentWorlds, this.random, chunk_xs, chunk_zs));
-  }
+  		MinecraftForge.EVENT_BUS.post(new DecorateBiomeEvent.Post(currentWorlds, this.random, chunk_xs, chunk_zs));
+  	}
 
-  protected void genStandardOre1(int par1, WorldGenerator par2WorldGenerator, int par3, int par4) {
-    for (int var5 = 0; var5 < par1; var5++) {
-      int var6 = chunk_xs + this.random.nextInt(16);
-      int var7 = this.random.nextInt(par4 - par3) + par3;
-      int var8 = chunk_zs + this.random.nextInt(16);
-      par2WorldGenerator.generate(currentWorlds, this.random, var6, var7, var8);
-    }
-  }
+  	protected void genStandardOre1(int par1, WorldGenerator par2WorldGenerator, int par3, int par4) {
+  		for (int var5 = 0; var5 < par1; var5++) {
+  			int var6 = chunk_xs + this.random.nextInt(16);
+  			int var7 = this.random.nextInt(par4 - par3) + par3;
+  			int var8 = chunk_zs + this.random.nextInt(16);
+  			par2WorldGenerator.generate(currentWorlds, this.random, var6, var7, var8);
+  		}
+  	}
 
-  protected void genStandardOre2(int par1, WorldGenerator par2WorldGenerator, int par3, int par4) {
-    for (int var5 = 0; var5 < par1; var5++) {
-      int var6 = chunk_xs + this.random.nextInt(16);
-      int var7 = this.random.nextInt(par4) + this.random.nextInt(par4) + (par3 - par4);
-      int var8 = chunk_zs + this.random.nextInt(16);
-      par2WorldGenerator.generate(currentWorlds, this.random, var6, var7, var8);
-    }
-  }
+  	protected void genStandardOre2(int par1, WorldGenerator par2WorldGenerator, int par3, int par4) {
+  		for (int var5 = 0; var5 < par1; var5++) {
+  			int var6 = chunk_xs + this.random.nextInt(16);
+  			int var7 = this.random.nextInt(par4) + this.random.nextInt(par4) + (par3 - par4);
+  			int var8 = chunk_zs + this.random.nextInt(16);
+  			par2WorldGenerator.generate(currentWorlds, this.random, var6, var7, var8);
+  		}
+  	}
 
-  @Override
-  protected void generateOres() {
-    MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Pre(currentWorlds, this.random, chunk_xs, chunk_zs));
+  	@Override
+  	protected void generateOres() {
+  		MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Pre(currentWorlds, this.random, chunk_xs, chunk_zs));
 
-    if (TerrainGen.generateOre(currentWorlds, this.random, this.dirtGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.DIRT)) {
-      genStandardOre1(20, this.dirtGen, 0, 256);
-    }
+  		if (TerrainGen.generateOre(currentWorlds, this.random, this.dirtGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.DIRT)) {
+  			genStandardOre1(20, this.dirtGen, 0, 256);
+  		}
 
-    if (TerrainGen.generateOre(currentWorlds, this.random, this.gravelGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.GRAVEL)) {
-      genStandardOre1(10, this.gravelGen, 0, 256);
-    }
+  		if (TerrainGen.generateOre(currentWorlds, this.random, this.gravelGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.GRAVEL)) {
+  			genStandardOre1(10, this.gravelGen, 0, 256);
+  		}
 
-    if (TerrainGen.generateOre(currentWorlds, this.random, this.coalGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.COAL)) {
-      genStandardOre1(20, this.coalGen, 0, 128);
-    }
+  		if (TerrainGen.generateOre(currentWorlds, this.random, this.coalGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.COAL)) {
+  			genStandardOre1(20, this.coalGen, 0, 128);
+  		}
 
-    if (TerrainGen.generateOre(currentWorlds, this.random, this.ironGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.IRON)) {
-      genStandardOre1(20, this.ironGen, 0, 64);
-    }
+  		if (TerrainGen.generateOre(currentWorlds, this.random, this.ironGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.IRON)) {
+  			genStandardOre1(20, this.ironGen, 0, 64);
+  		}
 
-    if (TerrainGen.generateOre(currentWorlds, this.random, this.goldGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.GOLD)) {
-      genStandardOre1(2, this.goldGen, 0, 32);
-    }
+  		if (TerrainGen.generateOre(currentWorlds, this.random, this.goldGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.GOLD)) {
+  			genStandardOre1(2, this.goldGen, 0, 32);
+  		}
 
-    if (TerrainGen.generateOre(currentWorlds, this.random, this.redstoneGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.REDSTONE)) {
-      genStandardOre1(8, this.redstoneGen, 0, 16);
-    }
+  		if (TerrainGen.generateOre(currentWorlds, this.random, this.redstoneGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.REDSTONE)) {
+  			genStandardOre1(8, this.redstoneGen, 0, 16);
+  		}
 
-    if (TerrainGen.generateOre(currentWorlds, this.random, this.diamondGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.DIAMOND)) {
-      genStandardOre1(1, this.diamondGen, 0, 16);
-    }
+  		if (TerrainGen.generateOre(currentWorlds, this.random, this.diamondGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.DIAMOND)) {
+  			genStandardOre1(1, this.diamondGen, 0, 16);
+  		}
 
-    if (TerrainGen.generateOre(currentWorlds, this.random, this.lapisGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.LAPIS)) {
-      genStandardOre2(1, this.lapisGen, 16, 16);
-    }
+  		if (TerrainGen.generateOre(currentWorlds, this.random, this.lapisGen, chunk_xs, chunk_zs, OreGenEvent.GenerateMinable.EventType.LAPIS)) {
+  			genStandardOre2(1, this.lapisGen, 16, 16);
+  		}
 
-    MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(currentWorlds, this.random, chunk_xs, chunk_zs));
-  }
+  		MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(currentWorlds, this.random, chunk_xs, chunk_zs));
+  	}
 }

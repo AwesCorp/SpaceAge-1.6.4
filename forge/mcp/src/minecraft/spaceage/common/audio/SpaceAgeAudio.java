@@ -8,7 +8,7 @@ public class SpaceAgeAudio {
 	
 	@ForgeSubscribe
 	public void onSound(SoundLoadEvent event) {
-		event.manager.addSound(SpaceAgeCore.modid + ":"/* + "hit.ogg"*/);
+		//event.manager.addSound(SpaceAgeCore.modid + ":"/* + "hit.ogg"*/);
 	}
 
 }

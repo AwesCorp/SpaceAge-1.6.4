@@ -14,18 +14,18 @@ public class ContainerProtocol extends Container {
 	public ContainerProtocol(InventoryPlayer player, TileEntityProtocol tileEntity) {
 		this.tileEntity = tileEntity;
 		
-		int var3;
+		int across;
 		
 		//Main inventory area
-		for (var3 = 0; var3 < 3; ++var3) {
-            for (int var4 = 0; var4 < 9; ++var4) { //inventory, slot number, x position, y position 
-                this.addSlotToContainer(new Slot(player, var4 + var3 * 9 + 9, /*8*/48 + var4 * 18, /*84*/174 + var3 * 18));
+		for (across = 0; across < 3; ++across) {
+            for (int vertical = 0; vertical < 9; ++vertical) { //inventory, slot number, x position, y position 
+                this.addSlotToContainer(new Slot(player, vertical + across * 9 + 9, 88/*48*/ + vertical * 18, /*84, 174*/174 + across * 18));
             }
         }
 		
 		//Hotbar area
-        for (var3 = 0; var3 < 9; ++var3) { //inventory, slot number, vertical position, horizontal position 
-            this.addSlotToContainer(new Slot(player, var3, /*8*/48 + var3 * 18, /*142*/232));
+        for (across = 0; across < 9; ++across) { //inventory, slot number, vertical position, horizontal position 
+            this.addSlotToContainer(new Slot(player, across, /*48*/88 + across * 18, /*142, 232,187*/232));
         }
 	}
 

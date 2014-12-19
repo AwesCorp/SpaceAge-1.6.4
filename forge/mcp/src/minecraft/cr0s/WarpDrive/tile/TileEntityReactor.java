@@ -502,7 +502,7 @@ public class TileEntityReactor extends TileElectricBase {
         // Ship size is too big
         if (sizeFrontBack > WarpDriveConfig.i.WC_MAX_SHIP_SIDE || sizeRightLeft > WarpDriveConfig.i.WC_MAX_SHIP_SIDE || sizeUpDown > WarpDriveConfig.i.WC_MAX_SHIP_SIDE)
         {
-        	messageToAllPlayersOnShip("The ship is too long. The warp core cannot handle this much mass while warping.");
+        	messageToAllPlayersOnShip("The ship is too large. The warp singularity cannot engulf a ship of this size.");
             this.controller.setJumpFlag(false);
             return false;
         }
