@@ -55,6 +55,7 @@ public class ContainerProtocol extends Container {
 		player.sendProgressBarUpdate(this, 5, tileEntity.getDown());
 		player.sendProgressBarUpdate(this, 6, tileEntity.getUseableMode());
 		player.sendProgressBarUpdate(this, 7, tileEntity.getDistance());
+		player.sendProgressBarUpdate(this, 8, tileEntity.antiTransposedDirection());
 	}
 	
 	@SideOnly(Side.CLIENT)
@@ -85,6 +86,9 @@ public class ContainerProtocol extends Container {
 			case 7:
 				tileEntity.setJumpDistance(data);
 				break;
+			case 8:
+				tileEntity.setDirection(tileEntity.transposedDirection(data));
+				break;
 		}
 	}
 	
@@ -96,6 +100,7 @@ public class ContainerProtocol extends Container {
 	private int oldBottomHeight;
 	private int oldMode;
 	private int oldDistance;
+	private int oldDir;
 	
 	@Override
 	public void detectAndSendChanges() {
@@ -126,6 +131,9 @@ public class ContainerProtocol extends Container {
 			if(tileEntity.getDistance() != oldDistance) {
 				((ICrafting)player).sendProgressBarUpdate(this, 7, tileEntity.getDistance());
 			}
+			if(tileEntity.antiTransposedDirection() != oldDir) {
+				((ICrafting)player).sendProgressBarUpdate(this, 8, tileEntity.antiTransposedDirection());
+			}
 		}
 		
 		oldFrontHeight = tileEntity.getFront();
@@ -136,5 +144,6 @@ public class ContainerProtocol extends Container {
 		oldBottomHeight = tileEntity.getDown();
 		oldMode = tileEntity.getUseableMode();
 		oldDistance = tileEntity.getDistance();
+		oldDir = tileEntity.antiTransposedDirection();
 	}
 }

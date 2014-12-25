@@ -140,10 +140,32 @@ public class PacketHandler implements IPacketHandler {
 					}
 					
 					protocol.setMode(transcribedMode);
+					break;
 				case 7:
 					int distance = inputStream.readInt();
 					protocol.setJumpDistance(distance);
 					WarpDrive.instance.registry.removeDeadCores();
+					break;
+				case 8:
+					int dir = inputStream.readInt();
+					int transDir = 1;
+					
+					switch(dir) {
+						case 0://up
+							transDir = 1;
+						case 1://down
+							transDir = 2;
+						case 2://left
+							transDir = 90;
+						case 3://right
+							transDir = 255;
+						case 4://forward
+							transDir = 0;
+						case 5://back
+							transDir = 180;
+					}
+					
+					protocol.setDirection(transDir);
 				}
 		} catch (IOException e) {
 			e.printStackTrace();

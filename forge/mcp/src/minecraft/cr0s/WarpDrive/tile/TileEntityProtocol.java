@@ -844,4 +844,40 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
 				return 1;
 		}
 	}
+	
+    public int antiTransposedDirection() {
+    	switch(this.getDirection()) {
+    		case 0://forward
+    			return 4;
+    		case 1://up
+    			return 0;
+    		case 2://down
+    			return 1;
+    		case 90://left
+    			return 2;
+    		case 180://back
+    			return 5;
+    		case 255://right
+    			return 3;
+    	}
+    	return 0;
+    }
+    
+    public int transposedDirection(int tempDirectionSetting) {
+    	switch(tempDirectionSetting) {
+    		case 0://up
+    			return 1;
+    		case 1://down
+    			return 2;
+    		case 2://left
+    			return 90;
+    		case 3://right
+    			return 255;
+    		case 4://forward
+    			return 0;
+    		case 5://back
+    			return 180;
+    	}
+		return 1;
+    }
 }

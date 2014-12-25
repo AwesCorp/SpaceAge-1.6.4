@@ -90,11 +90,11 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    public static final GuiRectangle upSlider = new GuiRectangle(116, 142, 4, 6);
 	    public static final GuiRectangle bottomSlider = new GuiRectangle(116, 136, 4, 6);
 	    
-	    public static final GuiRectangle modeSlider = new GuiRectangle(161, 12, 4, 6);
+	    public static final GuiRectangle modeSlider = new GuiRectangle(161, 10, 4, 6);
 	    
-	    public static final GuiRectangle distanceSlider = new GuiRectangle(116, 120, 4, 6);
+	    public static final GuiRectangle distanceSlider = new GuiRectangle(116, 118, 4, 6);
 	    
-	    public static final GuiRectangle directionSlider = new GuiRectangle(161, 18, 4, 6);
+	    public static final GuiRectangle directionSlider = new GuiRectangle(161, 16, 4, 6);
 	    
 	    //public static final GuiRectangle frontBehindSlider = new GuiRectangle(120, 168, 160, 2);
 	    private boolean frontIsDragging;
@@ -118,11 +118,11 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    private int tempUpSetting = 25;
 	    private int tempBottomSetting = 25;
 	    
-	    private int tempModeSetting = 25;
+	    private int tempModeSetting = 1;
 	    
 	    private int tempDistanceSetting = 25;
 	    
-	    private int tempDirectionSetting = 25;
+	    private int tempDirectionSetting = 1;
 	    
 	    public GUIProtocol(InventoryPlayer par1InventoryPlayer, TileEntityProtocol tile_entity) {
 	        super(new ContainerProtocol(par1InventoryPlayer, tile_entity));
@@ -183,7 +183,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    		} else if (tempLeftSetting > 128) {
 	    			tempLeftSetting = 128;
 	    		}
-	    		System.out.println("left is dragging!");
+	    		//System.out.println("left is dragging!");
 	    	} 
 	    	if (rightIsDragging) {
 	    		tempRightSetting = x - guiLeft - 116;
@@ -213,7 +213,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    		}
 	    	}
 	    	if (modeIsDragging) {
-	    		tempModeSetting = x - guiLeft - 116;
+	    		tempModeSetting = x - guiLeft - 161;
 	    		
 	    		if (tempModeSetting < 0) {
 	    			tempModeSetting = 0;
@@ -231,7 +231,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    		}
 	    	}
 	    	if (directionIsDragging) {
-	    		tempDirectionSetting = x - guiLeft - 116;
+	    		tempDirectionSetting = x - guiLeft - 161;
 	    		
 	    		if (tempDirectionSetting < 0) {
 	    			tempDirectionSetting = 0;
@@ -379,7 +379,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    }
 	    
 	    private void updateModeSliderPosition() {
-	    	modeSlider.setX(116 + getCurrentModeHeight());
+	    	modeSlider.setX(161 + getCurrentModeHeight());
 	    }
 	    
 	    private void updateDistanceSliderPosition() {
@@ -387,7 +387,7 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    }
 	    
 	    private void updateDirectionSliderPosition() {
-	    	directionSlider.setX(116 + getCurrentDirection());
+	    	directionSlider.setX(161 + getCurrentDirection());
 	    }
 	    
 	    public int getCurrentFrontHeight() {
