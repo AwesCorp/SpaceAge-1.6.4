@@ -1,9 +1,12 @@
 package cr0s.WarpDrive.common.container;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import cr0s.WarpDrive.tile.TileEntityProtocol;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
@@ -37,5 +40,101 @@ public class ContainerProtocol extends Container {
 	@Override
 	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
 		return null;
+	}
+	
+	@Override
+	public void addCraftingToCrafters(ICrafting player) {
+		super.addCraftingToCrafters(player);
+		
+		player.sendProgressBarUpdate(this, 0, tileEntity.getFront());
+		player.sendProgressBarUpdate(this, 1, tileEntity.getBack());
+		player.sendProgressBarUpdate(this, 2, tileEntity.getLeft());
+		//System.out.println("LEFT CONTAINER ADDCRAFTINGTOCRAFTERS REGISTERED");
+		player.sendProgressBarUpdate(this, 3, tileEntity.getRight());
+		player.sendProgressBarUpdate(this, 4, tileEntity.getUp());
+		player.sendProgressBarUpdate(this, 5, tileEntity.getDown());
+		player.sendProgressBarUpdate(this, 6, tileEntity.getUseableMode());
+		player.sendProgressBarUpdate(this, 7, tileEntity.getDistance());
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public void updateProgressBar(int id, int data) {
+		switch(id) {
+			case 0:
+				tileEntity.setFront(data);
+				break;
+			case 1:
+				tileEntity.setBack(data);
+				break;
+			case 2:
+				tileEntity.setLeft(data);
+				break;
+			case 3:
+				tileEntity.setRight(data);
+				break;
+			case 4:
+				tileEntity.setUp(data);
+				break;
+			case 5:
+				tileEntity.setDown(data);
+				break;
+			case 6:
+				tileEntity.setMode(tileEntity.getTranscribedMode(data));
+				break;
+			case 7:
+				tileEntity.setJumpDistance(data);
+				break;
+		}
+	}
+	
+	private int oldFrontHeight;
+	private int oldBackHeight;
+	private int oldLeftHeight;
+	private int oldRightHeight;
+	private int oldUpHeight;
+	private int oldBottomHeight;
+	private int oldMode;
+	private int oldDistance;
+	
+	@Override
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+		
+		for(Object player : crafters) {
+			if(tileEntity.getFront() != oldFrontHeight) {
+				((ICrafting)player).sendProgressBarUpdate(this, 0, tileEntity.getFront());
+			} 
+			if(tileEntity.getBack() != oldBackHeight) {
+				((ICrafting)player).sendProgressBarUpdate(this, 1, tileEntity.getBack());
+			} 
+			if(tileEntity.getLeft() != oldLeftHeight) {
+				((ICrafting)player).sendProgressBarUpdate(this, 2, tileEntity.getLeft());
+			} 
+			if(tileEntity.getRight() != oldRightHeight) {
+				((ICrafting)player).sendProgressBarUpdate(this, 3, tileEntity.getRight());
+			}
+			if(tileEntity.getUp() != oldUpHeight) {
+				((ICrafting)player).sendProgressBarUpdate(this, 4, tileEntity.getUp());
+			} 
+			if(tileEntity.getDown() != oldBottomHeight) {
+				((ICrafting)player).sendProgressBarUpdate(this, 5, tileEntity.getDown());
+			}
+			if(tileEntity.getUseableMode() != oldMode) {
+				((ICrafting)player).sendProgressBarUpdate(this, 6, tileEntity.getUseableMode());
+			}
+			if(tileEntity.getDistance() != oldDistance) {
+				((ICrafting)player).sendProgressBarUpdate(this, 7, tileEntity.getDistance());
+			}
+		}
+		
+		oldFrontHeight = tileEntity.getFront();
+		oldBackHeight = tileEntity.getBack();
+		oldLeftHeight = tileEntity.getLeft();
+		oldRightHeight = tileEntity.getRight();
+		oldUpHeight = tileEntity.getUp();
+		oldBottomHeight = tileEntity.getDown();
+		oldMode = tileEntity.getUseableMode();
+		oldDistance = tileEntity.getDistance();
 	}
 }

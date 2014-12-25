@@ -21,6 +21,9 @@ import net.minecraft.util.DamageSource;
  */
 public class TileEntityProtocol extends TileEntity implements IPeripheral {
 	
+	//public int frontHeightSetting;
+	
+	
 	// Variables
     private int distance = 0;
     private int direction = 0;
@@ -131,9 +134,9 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound tag)
-    {
+    public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
+        
         setMode(tag.getInteger("mode"));
         setFront(tag.getInteger("front"));
         setRight(tag.getInteger("right"));
@@ -145,12 +148,14 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         playersString = tag.getString("players");
         updatePlayersList();
         setBeaconFrequency(tag.getString("bfreq"));
+        
+        //frontHeightSetting = tag.getByte("Height");
     }
 
     @Override
-    public void writeToNBT(NBTTagCompound tag)
-    {
+    public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
+        
         updatePlayersString();
         tag.setString("players", playersString);
         tag.setInteger("mode", this.mode);
@@ -162,6 +167,8 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         tag.setInteger("down", this.down);
         tag.setInteger("distance", this.distance);
         tag.setString("bfreq", getBeaconFrequency());
+        
+        //tag.setByte("Height", (byte)frontHeightSetting);
     }
 
     public void attachPlayer(EntityPlayer ep)
@@ -211,8 +218,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         }
     }
 
-    public String getAttachedPlayersList()
-    {
+    public String getAttachedPlayersList() {
         String list = "";
 
         for (int i = 0; i < this.players.size(); i++)
@@ -544,7 +550,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     	if(core != null && core instanceof TileEntityReactor) {
     		return ((TileEntityReactor)core).coreFrequency;
     	}
-    	return "UNAMED";
+    	return "UNNAMED";
     }
 
     @Override
@@ -806,5 +812,36 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
 		}
 		
 		return "BROKEN";
+	}
+	
+	public int getUseableMode() {
+		switch(mode) {
+			case 1:
+				return 0;
+			case 2:
+				return 0;
+			case 5:
+				return 1;
+			case 6:
+				return 2;
+		}
+		return 0;
+	}
+	
+	public int getTranscribedMode(int data) {
+		switch(data) {
+			case 0:
+				if(worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) {
+					return 2;
+				} else {
+					return 1;
+				}
+			case 1:
+				return 5;
+			case 2:
+				return 6;
+			default:
+				return 1;
+		}
 	}
 }

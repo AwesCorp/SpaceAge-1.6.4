@@ -112,7 +112,8 @@ import net.minecraftforge.fluids.FluidStack;
 		"WarpDrive_SN",//SHIP NAME
 		"WarpDrive_Fr",//CD (CLOAK?) FREQUENCY
 		"WarpDrive_T",//CD (CLOAK?) TIER
-		"WarpDrive_RP"//RADAR PIXEL
+		"WarpDrive_RP",//RADAR PIXEL
+		"WarpDriveGui"
 		}, packetHandler = PacketHandler.class)
 /**
  * @author Cr0s, SkylordJoel

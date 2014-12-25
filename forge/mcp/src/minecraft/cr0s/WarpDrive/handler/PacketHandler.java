@@ -31,11 +31,12 @@ import net.minecraft.client.multiplayer.WorldClient;
 
 public class PacketHandler implements IPacketHandler {
 	
-	TileEntityProtocol protocol;
+	TileEntityProtocol protocol = new TileEntityProtocol();
 	TileEntityCloakingDeviceCore cloak;
 	GUIRadar radarGUI;
+	//World worldObj = new World();
 	
-	public World worldObj;
+	//public World worldObj;
 	
     @Override
     public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
@@ -73,10 +74,84 @@ public class PacketHandler implements IPacketHandler {
         	handleTier(packet, (EntityPlayer)player);
         } else if (packet.channel.equals("WarpDrive_RP")) {
         	handlePixel(packet, (EntityPlayer)player);
+        } else if (packet.channel.equals("WarpDriveGui")) {
+        	handleGeneric(packet, (EntityPlayer)player);
         }
     }
 
-    public void handlePixel(Packet250CustomPayload packet, EntityPlayer player) {
+    public void handleGeneric(Packet250CustomPayload packet, EntityPlayer player) {
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		
+		int identifier;
+		
+		try {
+	        World worldObj = player.worldObj;
+			identifier = inputStream.readInt();
+			
+			switch(identifier) {
+				case 0:
+					int front = inputStream.readInt();
+					
+					protocol.setFront(front);
+					break;
+				case 1:
+					int back = inputStream.readInt();
+					
+					protocol.setBack(back);
+					break;
+				case 2:
+					int left = inputStream.readInt();
+					
+					protocol.setLeft(left);
+					System.out.println("Received packet for left");
+					break;
+				case 3:
+					int right = inputStream.readInt();
+					
+					protocol.setRight(right);
+					break;
+				case 4:
+					int up = inputStream.readInt();
+					
+					protocol.setUp(up);
+					break;
+				case 5:
+					int down = inputStream.readInt();
+					
+					protocol.setDown(down);
+					break;
+				case 6:
+					int mode = inputStream.readInt();
+					int transcribedMode = 1;
+					
+					switch(mode) {
+						case 0:
+							if(worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) {
+								transcribedMode = 2;
+							} else {
+								transcribedMode = 1;
+							}
+						case 1:
+							transcribedMode = 5;
+						case 2:
+							transcribedMode = 6;
+						default:
+							transcribedMode = 1;
+					}
+					
+					protocol.setMode(transcribedMode);
+				case 7:
+					int distance = inputStream.readInt();
+					protocol.setJumpDistance(distance);
+					WarpDrive.instance.registry.removeDeadCores();
+				}
+		} catch (IOException e) {
+			e.printStackTrace();
+			return;
+		}
+	}
+
+	public void handlePixel(Packet250CustomPayload packet, EntityPlayer player) {
 		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 		
 		int x;
@@ -183,7 +258,7 @@ public class PacketHandler implements IPacketHandler {
 			
 			switch(mode) {
 				case 0:
-					if(this.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) {
+					if(this.protocol.worldObj.provider.dimensionId == WarpDrive.instance.hyperSpaceDimID) {
 						protocol.setMode(2);
 					} else {
 						protocol.setMode(1);
