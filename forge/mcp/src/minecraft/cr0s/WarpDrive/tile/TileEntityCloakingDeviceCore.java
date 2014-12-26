@@ -8,9 +8,6 @@ import cr0s.WarpDrive.Vector3;
 import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.WarpDriveConfig;
 import cr0s.WarpDrive.manager.CloakManager;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
 import net.minecraftforge.common.ForgeDirection;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -44,8 +41,8 @@ import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraft.entity.player.EntityPlayerMP;
 
-public class TileEntityCloakingDeviceCore extends TileElectricBase implements//TODO GUI, add consume energy
-		IPeripheral {
+public class TileEntityCloakingDeviceCore extends TileElectricBase //TODO GUI, add consume energy
+		/*IPeripheral*/ {
 	
 	public TileEntityCloakingDeviceCore() {
 		super(MAX_ENERGY_VALUE, MAX_RECEIVE_VALUE, 0);
@@ -57,13 +54,13 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase implements//T
 	private final static int MAX_RECEIVE_VALUE = 100000000 * 250;
 	int currentEnergyValue = this.getPowerInt();
 	
-	private String[] methodsArray = { "setFieldTier", // 0 setFieldTier(1 or 2)
+	/*private String[] methodsArray = { "setFieldTier", // 0 setFieldTier(1 or 2)
 			"isAssemblyValid", // 1 - returns true or false
 			"getEnergyLevel", // 2 
 			"enableCloakingField", // 3 enables field if assembled right
 			"disableCloakingField", // 4 disables cloaking field
 			"setFieldFrequency" // 5 setFieldFrequency(int)
-	};
+	};*/
 	
 	public boolean isEnabled = false;
 	public byte tier = 1; // cloaking field tier, 1 or 2
@@ -370,7 +367,7 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase implements//T
 	
 	// CC
 	// IPeripheral methods implementation
-	@Override
+/*	@Override
 	public String getType() {
 		return "cloakingdevicecore";
 	}
@@ -378,7 +375,7 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase implements//T
 	@Override
 	public String[] getMethodNames() {
 		return methodsArray;
-	}
+	}*/
 	
 	public void cloak() {
 		if(!isEnabled) {
@@ -390,7 +387,7 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase implements//T
 		}
 	}
 
-	@Override //TODO
+/*	@Override //TODO
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context,
 			int method, Object[] arguments) throws Exception {
 		switch (method) {
@@ -430,7 +427,7 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase implements//T
 		}
 		
 		return null;
-	}
+	}*/
 	
 	public boolean setFieldFrequency(int frequency) {
 		if(isEnabled) {
@@ -445,7 +442,7 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase implements//T
 		return true;
 	}
 
-	@Override
+/*	@Override
 	public boolean canAttachToSide(int side) {
 		return true;
 	}
@@ -456,7 +453,7 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase implements//T
 
 	@Override
 	public void detach(IComputerAccess computer) {
-	}
+	}*/
 
 	// IEnergySink methods implementation
 	/*@Override TODO

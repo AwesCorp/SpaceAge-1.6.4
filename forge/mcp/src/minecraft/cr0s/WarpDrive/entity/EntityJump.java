@@ -8,10 +8,6 @@ import cr0s.WarpDrive.jumpgate.JumpBlock;
 import cr0s.WarpDrive.space.SpaceTeleporter;
 import cr0s.WarpDrive.tile.TileEntityReactor;
 import cr0s.WarpDrive.utils.LocalProfiler;
-import dan200.computer.api.IPeripheral;
-import dan200.turtle.api.ITurtleAccess;
-import dan200.turtle.api.TurtleSide;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -938,7 +934,7 @@ public class EntityJump extends Entity
 		return x >= minX && x <= maxX && y >= minY && y <= maxY && z >= minZ && z <= maxZ;
 	}
 
-	private void turnOffModem(IPeripheral p)
+/*	private void turnOffModem(/*IPeripheral p)
 	{
 		// FIXME
 		/*if (p.getType() == "modem") {
@@ -953,8 +949,8 @@ public class EntityJump extends Entity
 					return;
 				}
 			}
-		}*/
-	}
+		}
+	}*/
 
 	private void turnOffModems()
 	{
@@ -1023,13 +1019,13 @@ public class EntityJump extends Entity
 				oldnbt.setInteger("y", newY);
 				oldnbt.setInteger("z", newZ);
 				TileEntity newTileEntity = null;
-				if (blockID == WarpDriveConfig.i.CC_Computer || blockID == WarpDriveConfig.i.CC_peripheral || blockID == WarpDriveConfig.i.CCT_Turtle || blockID == WarpDriveConfig.i.CCT_Upgraded || blockID == WarpDriveConfig.i.CCT_Advanced)
+				/*if (blockID == WarpDriveConfig.i.CC_Computer || blockID == WarpDriveConfig.i.CC_peripheral || blockID == WarpDriveConfig.i.CCT_Turtle || blockID == WarpDriveConfig.i.CCT_Upgraded || blockID == WarpDriveConfig.i.CCT_Advanced)
 				{
 					newTileEntity = TileEntity.createAndLoadEntity(oldnbt);
 					newTileEntity.invalidate();
-				}
+				}*/
 				
-				else if (blockID == WarpDriveConfig.i.AS_Turbine)
+				if (blockID == WarpDriveConfig.i.AS_Turbine)
 				{
 					if (oldnbt.hasKey("zhuYao"))
 					{

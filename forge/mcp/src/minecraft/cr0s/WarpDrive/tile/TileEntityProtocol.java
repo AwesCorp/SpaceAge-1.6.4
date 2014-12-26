@@ -4,9 +4,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.WarpDriveConfig;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
 import java.util.ArrayList;
 
 import spaceage.planets.SpaceAgePlanets;
@@ -19,7 +16,7 @@ import net.minecraft.util.DamageSource;
  * Protocol block (Warp Interface) tile entity.
  * @author Cr0s, SkylordJoel
  */
-public class TileEntityProtocol extends TileEntity implements IPeripheral {
+public class TileEntityProtocol extends TileEntity/* implements IPeripheral*/ {
 	
 	//public int frontHeightSetting;
 	
@@ -51,7 +48,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
 
     boolean ready = false;                // Ready to operate (valid assembly)
 
-    public String[] methodsArray =
+    /*public String[] methodsArray =
     {
         "dim_getp", "dim_setp",                                        // 0, 1
         "dim_getn", "dim_setn",                                        // 2, 3
@@ -62,7 +59,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         "set_beacon_frequency", "get_dx", "get_dz",                    // 16, 17, 18
         "set_core_frequency", "is_in_space", "is_in_hyperspace",       // 19, 20, 21
         "set_target_jumpgate",                                         // 22
-    };
+    };*/
 
     private int ticks = 0;
     private final int BLOCK_UPDATE_INTERVAL = 20 * 3; // 3 seconds
@@ -388,7 +385,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         this.summonFlag = summonFlag;
     }
 
-    @Override
+/*    @Override
     public String getType()
     {
         return "warpcore";
@@ -414,7 +411,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     @Override
     public void detach(IComputerAccess computer)
     {
-    }
+    }*/
 
     /**
      * @return the toSummon
@@ -553,7 +550,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
     	return "UNNAMED";
     }
 
-    @Override
+/*    @Override
     public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
     {
         //System.out.println("[ProtoBlock] Method " + method + " " + methodsArray[method] + " called!");
@@ -753,7 +750,7 @@ public class TileEntityProtocol extends TileEntity implements IPeripheral {
         }
 
         return new Integer[] { 0 };
-    }
+    }*/
 
     /**
      * @return the targetJumpgateName

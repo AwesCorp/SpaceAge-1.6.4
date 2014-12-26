@@ -18,6 +18,8 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import cr0s.WarpDrive.block.BlockAir;
 import cr0s.WarpDrive.block.BlockAirDistributor;
 import cr0s.WarpDrive.block.BlockCamera;
@@ -94,7 +96,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
 
-@Mod(modid = WarpDrive.modid, name = "WarpDrive - Universal Electricity", version = "1.2.0_ZLO", dependencies = "required-after:UniversalElectricity; required-after:ComputerCraft@[1.58]; required-after:SpaceAge; after:SpaceAgePlanets; after:AppliedEnergistics; after:CCTurtle; after:AtomicScience; after:ICBM|Explosion; after:MFFS")
+@Mod(modid = WarpDrive.modid, name = "WarpDrive - Universal Electricity", version = "1.2.0_ZLO", dependencies = "required-after:UniversalElectricity; required-after:SpaceAge; after:SpaceAgePlanets; after:AppliedEnergistics; after:CCTurtle; after:AtomicScience; after:ICBM|Explosion; after:MFFS")
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, channels = {
 		"WarpDriveBeam", 
 		"WarpDriveFreq", 
@@ -120,11 +122,23 @@ import net.minecraftforge.fluids.FluidStack;
  */
 public class WarpDrive implements LoadingCallback {
 	
-	public static CreativeTabs tabWD = new CreativeTabs("tabWD") {
+	//required-after:ComputerCraft@[1.58]; - NOTANYMORE
+	
+/*	public static CreativeTabs tabWD = new CreativeTabs("tabWD") {
 		public ItemStack getIconItemstack() {
-			return new ItemStack(warpCore);
+			return new ItemStack(warpCore, 1, 0);
 		}
 	};
+	
+	public static CreativeTabs tabWD2 = new CreativeTabs("tabWDTwo") {
+		@Override
+		@SideOnly(Side.CLIENT)
+		public Item getTabIconItem() {
+			return warpCore;
+		}
+	};*/
+	
+	public static CreativeTabs tabWD = new WarpDriveTab(CreativeTabs.getNextID(), "tabWD");
 	
 	// World limits
 	public final static int WORLD_LIMIT_BLOCKS = 100000;

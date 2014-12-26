@@ -99,11 +99,7 @@ public class SpaceAgeCore {
 
 	public static SpaceAgeCore workAround;
 	
-	public static CreativeTabs tabSA = new CreativeTabs("tabSA") {
-		public ItemStack getIconItemstack() {
-			return new ItemStack(spaceshipAlloyMeta,1,0);
-		}
-	};
+	public static CreativeTabs tabSA = new CreativeTabSA(CreativeTabs.getNextID(), "tabSA");
 	
 	@SidedProxy(clientSide = "spaceage.client.ClientProxy", serverSide = "spaceage.common.CommonProxy")
 	public static CommonProxy proxy;

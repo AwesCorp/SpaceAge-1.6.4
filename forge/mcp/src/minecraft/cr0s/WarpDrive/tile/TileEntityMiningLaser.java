@@ -5,10 +5,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cr0s.WarpDrive.Vector3;
 import cr0s.WarpDrive.WarpDriveConfig;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.ArrayList;
@@ -35,7 +31,7 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidRegistry;
-/*import appeng.api.WorldCoord;
+import appeng.api.WorldCoord;
 import appeng.api.IAEItemStack;
 import appeng.api.Util;
 import appeng.api.events.GridTileLoadEvent;
@@ -43,13 +39,12 @@ import appeng.api.events.GridTileUnloadEvent;
 import appeng.api.me.tiles.IGridMachine;
 import appeng.api.me.tiles.ITileCable;
 import appeng.api.me.util.IGridInterface;
-import appeng.api.me.util.IMEInventoryHandler;*/
+import appeng.api.me.util.IMEInventoryHandler;
 
-
-public class TileEntityMiningLaser extends TileEntity implements IPeripheral/*, IGridMachine, ITileCable*/ { //TODO receive energy, gui
+public class TileEntityMiningLaser extends TileEntity implements /*IPeripheral,*/ IGridMachine, ITileCable { //TODO receive energy, gui
 	
 	boolean powerStatus = false;
-	//private IGridInterface grid;
+	private IGridInterface grid;
 
 	//private final int MAX_BOOSTERS_NUMBER = 1;
 
@@ -57,16 +52,16 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral/*, 
 	public boolean isMining = false;
 	public boolean isQuarry = false;
 	//private boolean useDeiterium = false;
-	//private boolean AENetworkReady = false;
+	private boolean AENetworkReady = false;
 
-	private String[] methodsArray = {
+	/*private String[] methodsArray = {
 		"mine",		//0
 		"stop",		//1
 		"isMining",	//2
 		"quarry",	//3
 		"state",	//4
 		"offset"	//5
-	};
+	};*/
 
 	private int delayTicksScan = 0;
 	private int delayTicksMine = 0;
@@ -480,7 +475,7 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral/*, 
 	}
 	//CC
 	// IPeripheral methods implementation
-	@Override
+/*	@Override
 	public String getType()
 	{
 		return "mininglaser";
@@ -490,7 +485,7 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral/*, 
 	public String[] getMethodNames()
 	{
 		return methodsArray;
-	}
+	}*/
 	
 	public void mine() {
 		if (isMining) {
@@ -525,7 +520,7 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral/*, 
 	}
 }
 
-	@Override
+/*	@Override
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception
 	{
 		switch (method)
@@ -605,63 +600,63 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral/*, 
 	@Override
 	public void detach(IComputerAccess computer)
 	{
-	}
+	}*/
 	//AE
-	/*@Override
+	@Override
 	public float getPowerDrainPerTick()
 	{
 		return 1;
-	}*/
+	}
 
-	/*@Override //TODO is this needed?
+	@Override //TODO is this needed?
 	public void validate()
 	{
 		super.validate();
-		//MinecraftForge.EVENT_BUS.post(new GridTileLoadEvent(this, worldObj, getLocation()));
-	}*/
+		MinecraftForge.EVENT_BUS.post(new GridTileLoadEvent(this, worldObj, getLocation()));
+	}
 
-/*	@Override //TODO is this needed?
+	@Override //TODO is this needed?
 	public void invalidate()
 	{
 		super.invalidate();
-		//MinecraftForge.EVENT_BUS.post(new GridTileUnloadEvent(this, worldObj, getLocation()));
-	}*/
+		MinecraftForge.EVENT_BUS.post(new GridTileUnloadEvent(this, worldObj, getLocation()));
+	}
 
-/*	@Override //TODO is this needed?
+	@Override //TODO is this needed?
 	public WorldCoord getLocation()
 	{
 		return new WorldCoord(xCoord, yCoord, zCoord);
-	}*/
+	}
 
-	/*@Override
+	@Override
 	public boolean isValid()
 	{
 		return true;
-	}*/
+	}
 
-	/*@Override //TODO is this needed?
+	@Override //TODO is this needed?
 	public void setPowerStatus(boolean hasPower)
 	{
 		powerStatus = hasPower;
-	}*/
+	}
 
-	/*@Override //TODO is this needed?
+	@Override //TODO is this needed?
 	public boolean isPowered()
 	{
 		return powerStatus;
-	}*/
+	}
 
-	/*@Override 
+	@Override 
 	public IGridInterface getGrid()
 	{
 		return grid;
-	}*/
+	}
 
-	/*@Override
+	@Override
 	public void setGrid(IGridInterface gi)
 	{
 		grid = gi;
-	}*/
+	}
 
 	public World getWorld()
 	{
@@ -683,21 +678,21 @@ public class TileEntityMiningLaser extends TileEntity implements IPeripheral/*, 
 		return true;
 	}
 
-	/*@Override //TODO is this needed?
+	@Override //TODO is this needed?
 	public boolean coveredConnections()
 	{
 		return true;
-	}*/
+	}
 
-	/*public void setNetworkReady( boolean isReady )
+	public void setNetworkReady( boolean isReady )
 	{
 		AENetworkReady = isReady;
-	}*/
+	}
 
-	/*public boolean isMachineActive() //TODO
+	public boolean isMachineActive() //TODO
 	{
 		return true;
-	}*/
+	}
 	
 	public int getBoosterEnergy() {
 		int energy;

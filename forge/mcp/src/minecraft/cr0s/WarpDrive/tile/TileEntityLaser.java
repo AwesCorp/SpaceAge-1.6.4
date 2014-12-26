@@ -7,10 +7,6 @@ import cr0s.WarpDrive.Vector3;
 import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.WarpDriveConfig;
 import cr0s.WarpDrive.registry.CamRegistryItem;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.ArrayList;
@@ -36,7 +32,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityLaser extends TileEntity implements IPeripheral
+public class TileEntityLaser extends TileEntity //implements IPeripheral TODO TODO TODO
 {
 	private int dx, dz, dy;
 	public float yaw, pitch; // laser direction
@@ -47,7 +43,7 @@ public class TileEntityLaser extends TileEntity implements IPeripheral
 
 	public boolean isEmitting = false;
 
-	private String[] methodsArray =
+	/*private String[] methodsArray = TODO
 	{
 		"emitBeam",		// 0
 		"pos",			// 1
@@ -55,7 +51,7 @@ public class TileEntityLaser extends TileEntity implements IPeripheral
 		"getFirstHit",		// 3
 		"getBoosterDXDZ",	// 4
 		"camFreq"		// 5
-	};
+	};*/
 
 	public int delayTicks = 0;
 	private int energyFromOtherBeams = 0;
@@ -591,7 +587,7 @@ public class TileEntityLaser extends TileEntity implements IPeripheral
 	}
 
 	// IPeripheral methods implementation
-	@Override
+/*	@Override
 	public String getType()
 	{
 		return "laser";
@@ -671,7 +667,7 @@ public class TileEntityLaser extends TileEntity implements IPeripheral
 				break;
 		}
 		return null;
-	}
+	}*/
 
 	// Camera frequency refresh to clients packet
 	public void sendFreqPacket()
@@ -704,7 +700,7 @@ public class TileEntityLaser extends TileEntity implements IPeripheral
 		}
 	}
 
-	@Override
+	/*@Override
 	public boolean canAttachToSide(int side)
 	{
 		return true;
@@ -718,5 +714,5 @@ public class TileEntityLaser extends TileEntity implements IPeripheral
 	@Override
 	public void detach(IComputerAccess computer)
 	{
-	}
+	}*/
 }

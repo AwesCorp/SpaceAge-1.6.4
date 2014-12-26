@@ -8,9 +8,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.WarpDriveConfig;
 import cr0s.WarpDrive.client.gui.GUIRadar;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
 import net.minecraftforge.common.ForgeDirection;
 
 import java.io.ByteArrayOutputStream;
@@ -31,7 +28,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityRadar extends TileElectricBase implements IPeripheral {
+public class TileEntityRadar extends TileElectricBase/* implements IPeripheral*/ {
 	
 	public TileEntityRadar() {
 		super(capacity, maxReceive, 0);
@@ -46,7 +43,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 
 	int currentEnergyValue = this.getPowerInt();
 
-	private String[] methodsArray =
+	/*private String[] methodsArray =
 	{
 		"scanRay",		// 0
 		"scanRadius",		// 1
@@ -54,7 +51,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 		"getResult",		// 3
 		"getEnergyLevel",	// 4
 		"pos"			// 5
-	};
+	};*/
 
 	private ArrayList<TileEntityReactor> results;
 
@@ -112,7 +109,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	}
 
 	// IPeripheral methods implementation
-	@Override
+/*	@Override
 	public String getType()
 	{
 		return "radar";
@@ -122,7 +119,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 	public String[] getMethodNames()
 	{
 		return methodsArray;
-	}
+	}*/
 	
 	public boolean scanRadius(int radius) {
 		if (radius <= 0 || radius > 10000) {
@@ -213,7 +210,7 @@ public class TileEntityRadar extends TileElectricBase implements IPeripheral {
 		return "0";//new Object[] { (String)"FAIL", 0, 0, 0 };
 	}
 
-	@Override
+/*	@Override
 	public Object[] callMethod(IComputerAccess computer, ILuaContext context, int method, Object[] arguments) throws Exception {
 		switch (method) {
 			case 0: // scanRay (toX, toY, toZ)

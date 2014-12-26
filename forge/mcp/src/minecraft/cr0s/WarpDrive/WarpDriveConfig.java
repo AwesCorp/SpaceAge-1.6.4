@@ -26,7 +26,7 @@ public class WarpDriveConfig {
 	public boolean isASLoaded = false, isICBMLoaded = false, isMFFSLoaded = false, isAELoaded = false;
 //
 	public int[] IC2_Air;
-	public int CC_Computer = 0, CC_peripheral = 0, CCT_Turtle = 0, CCT_Upgraded = 0, CCT_Advanced = 0, ASP = 0, AS_Turbine = 0, ICBM_Machine = 0, ICBM_Missile = 0, ICBM_Explosive = 0, MFFS_Field = 0;
+	public int /*CC_Computer = 0, CC_peripheral = 0, CCT_Turtle = 0, CCT_Upgraded = 0, CCT_Advanced = 0,*/ ASP = 0, AS_Turbine = 0, ICBM_Machine = 0, ICBM_Missile = 0, ICBM_Explosive = 0, MFFS_Field = 0;
 	public Set<Integer> SpaceHelmets, Jetpacks, MinerOres, scannerIgnoreBlocks;
 	private Class<?> AEBlocks;
 	private Class<?> AEMaterials;
@@ -231,7 +231,7 @@ public class WarpDriveConfig {
 		photoSynthID = config.getBlock("photoSynth", 519).getInt();
 		
 		LoadSpaceAgeIntegration();
-		LoadCC();
+		//LoadCC();
 		
 		isAELoaded = Loader.isModLoaded("AppliedEnergistics");
 		if (isAELoaded)
@@ -330,7 +330,7 @@ public class WarpDriveConfig {
 		//AEExtraFDI = Items.getItem("FluidCell").getItem();
 	}
 
-	private void LoadCC() {
+/*	private void LoadCC() {
 		try {
 			Class<?> z = Class.forName("dan200.ComputerCraft");
 			CC_Computer = z.getField("computerBlockID").getInt(null);
@@ -347,7 +347,7 @@ public class WarpDriveConfig {
 			System.out.println("WarpDriveConfig Error loading CC classes AWWW SHEEEEET NIGGA");
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	private void LoadAE() {
 		try {

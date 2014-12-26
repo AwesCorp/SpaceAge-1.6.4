@@ -6,9 +6,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import cr0s.WarpDrive.Vector3;
 import cr0s.WarpDrive.WarpDriveConfig;
 import cr0s.WarpDrive.jumpgate.JumpBlock;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
 import net.minecraftforge.common.ForgeDirection;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -40,8 +37,8 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityShipScanner extends TileElectricBase implements //TODO gui, power, receive energy
-		IPeripheral {
+public class TileEntityShipScanner extends TileElectricBase/* implements //TODO gui, power, receive energy
+		IPeripheral*/ {
 	//public boolean addedToEnergyNet = false;
 	
 	public TileEntityShipScanner() {
@@ -74,11 +71,11 @@ public class TileEntityShipScanner extends TileElectricBase implements //TODO gu
 	private final int BLOCK_TO_DEPLOY_PER_TICK = 3000;
 	private final int ALLOWED_DEPLOY_RADIUS = 50; // blocks
 	
-	private String[] methodsArray = { "scan", // 0
+	/*private String[] methodsArray = { "scan", // 0
 			"fileName", // 1
 			"energy", // 2
 			"deploy" // 3 deploy(file, offsetX, offsetY, offsetZ)
-	};
+	};*/
 
 	private String schematicFileName;
 	
@@ -636,7 +633,7 @@ public class TileEntityShipScanner extends TileElectricBase implements //TODO gu
 
 	// CC
 	// IPeripheral methods implementation
-	@Override
+/*	@Override
 	public String getType() {
 		return "shipscanner";
 	}

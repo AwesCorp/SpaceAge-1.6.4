@@ -5,10 +5,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import cr0s.WarpDrive.WarpDrive;
 import cr0s.WarpDrive.registry.CamRegistryItem;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.ArrayList;
@@ -34,7 +30,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityCamera extends TileEntity implements IPeripheral
+public class TileEntityCamera extends TileEntity// implements IPeripheral
 {
 	private int dx, dz, dy;
 	private float yaw, pitch; // laser direction
@@ -44,10 +40,10 @@ public class TileEntityCamera extends TileEntity implements IPeripheral
 
 	private boolean isEmitting = false;
 
-	private String[] methodsArray =
+	/*private String[] methodsArray =
 	{
 		"freq"
-	};
+	};*/
 
 	private final int REGISTRY_UPDATE_INTERVAL_SEC = 10;
 	private int ticks = 0;
@@ -131,7 +127,7 @@ public class TileEntityCamera extends TileEntity implements IPeripheral
 	}
 
 	// IPeripheral methods implementation
-	@Override
+	/*@Override
 	public String getType()
 	{
 		return "camera";
@@ -165,5 +161,5 @@ public class TileEntityCamera extends TileEntity implements IPeripheral
 	@Override
 	public void detach(IComputerAccess computer)
 	{
-	}
+	}*/
 }

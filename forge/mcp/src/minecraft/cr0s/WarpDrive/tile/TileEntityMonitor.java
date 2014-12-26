@@ -3,10 +3,6 @@ package cr0s.WarpDrive.tile;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import dan200.computer.api.IComputerAccess;
-import dan200.computer.api.ILuaContext;
-import dan200.computer.api.IPeripheral;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.ArrayList;
@@ -32,14 +28,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 
-public class TileEntityMonitor extends TileEntity implements IPeripheral
+public class TileEntityMonitor extends TileEntity// implements IPeripheral
 {
 	private int frequency;
 
-	private String[] methodsArray =
+	/*private String[] methodsArray =
 	{
 		"freq"
-	};
+	};*/
 
 	private int packetSendTicks = 20;
 
@@ -83,7 +79,7 @@ public class TileEntityMonitor extends TileEntity implements IPeripheral
 	}
 
 	// IPeripheral methods implementation
-	@Override
+	/*@Override
 	public String getType()
 	{
 		return "monitor";
@@ -101,7 +97,7 @@ public class TileEntityMonitor extends TileEntity implements IPeripheral
 		if (arguments.length == 1)
 			frequency = ((Double)arguments[0]).intValue();
 		return new Integer[] { frequency };
-	}
+	}*/
 
 	public void sendFreqPacket()
 	{
@@ -133,7 +129,7 @@ public class TileEntityMonitor extends TileEntity implements IPeripheral
 		}
 	}
 
-	@Override
+	/*@Override
 	public boolean canAttachToSide(int side)
 	{
 		return true;
@@ -147,5 +143,5 @@ public class TileEntityMonitor extends TileEntity implements IPeripheral
 	@Override
 	public void detach(IComputerAccess computer)
 	{
-	}
+	}*/
 }
