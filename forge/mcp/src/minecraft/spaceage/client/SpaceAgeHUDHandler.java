@@ -28,87 +28,85 @@ import spaceage.common.stuff.Resources;
  */
 
 public class SpaceAgeHUDHandler implements ITickHandler {
-  public void tickStart(EnumSet<TickType> type, Object... tickData) {
-  }
+	public void tickStart(EnumSet<TickType> type, Object... tickData) {
+	}
 
-  public void tickEnd(EnumSet<TickType> type, Object... tickData) {
-    if (type.equals(EnumSet.of(TickType.RENDER))) {
-      onRenderTick();
-    }
-    else if (type.equals(EnumSet.of(TickType.CLIENT))) {
-      GuiScreen curScreen = Minecraft.getMinecraft().currentScreen;
-      if (curScreen != null) {
-        onTickInGui(FMLClientHandler.instance().getClient(), curScreen);
-      }else {
-        onTickInGame(FMLClientHandler.instance().getClient());
-      }
-    }
-  }
+	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
+		if (type.equals(EnumSet.of(TickType.RENDER))) {
+			onRenderTick();
+		} else if (type.equals(EnumSet.of(TickType.CLIENT))) {
+			GuiScreen curScreen = Minecraft.getMinecraft().currentScreen;
+			if (curScreen != null) {
+				onTickInGui(FMLClientHandler.instance().getClient(), curScreen);
+			}else {
+				onTickInGame(FMLClientHandler.instance().getClient());
+			}
+		}
+	}
 
-  private void onTickInGame(Minecraft mc) {
-  }
+	private void onTickInGame(Minecraft mc) {
+	}
 
-  private void onTickInGui(Minecraft mc, GuiScreen gui) {
-  }
+	private void onTickInGui(Minecraft mc, GuiScreen gui) {
+	}
 
-  private void onRenderTick() {
-    Minecraft mc = FMLClientHandler.instance().getClient();
+	private void onRenderTick() {
+		Minecraft mc = FMLClientHandler.instance().getClient();
 
-    if ((Minecraft.getMinecraft().thePlayer != null) && 
-      (Minecraft.getMinecraft().thePlayer.inventory.armorItemInSlot(3) != null) && 
-      (mc.currentScreen == null) && (
-      (Minecraft.getMinecraft().thePlayer.inventory.armorItemInSlot(3).itemID == SpaceAgeCore.advancedSpacesuitHelmet.itemID)))
-    {
-      GL11.glPushAttrib(1048575);
+		if ((Minecraft.getMinecraft().thePlayer != null) && 
+				(Minecraft.getMinecraft().thePlayer.inventory.armorItemInSlot(3) != null) && 
+				(mc.currentScreen == null) && (
+						(Minecraft.getMinecraft().thePlayer.inventory.armorItemInSlot(3).itemID == SpaceAgeCore.advancedSpacesuitHelmet.itemID))) {
+			GL11.glPushAttrib(1048575);
 
-      Tessellator t = Tessellator.instance;
+			Tessellator t = Tessellator.instance;
 
-      ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft().gameSettings, Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
+			ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft().gameSettings, Minecraft.getMinecraft().displayWidth, Minecraft.getMinecraft().displayHeight);
 
-      FontRenderer fontRender = Minecraft.getMinecraft().fontRenderer;
-      int width = res.getScaledWidth();
-      int height = res.getScaledHeight();
-      Minecraft.getMinecraft().entityRenderer.setupOverlayRendering();
+			FontRenderer fontRender = Minecraft.getMinecraft().fontRenderer;
+			int width = res.getScaledWidth();
+			int height = res.getScaledHeight();
+			Minecraft.getMinecraft().entityRenderer.setupOverlayRendering();
 
-      GL11.glEnable(3553);
+			GL11.glEnable(3553);
 
-      String fuel = "Energy Levels: " + ServerTickHandler.timer;
-      int fuelX = 25;
-      int fuelY = 80;
-      int fuelColor = 16777215;
-      fontRender.drawStringWithShadow(fuel, fuelX, fuelY, fuelColor);
+			String fuel = "Energy Levels: " + ServerTickHandler.timer;
+			int fuelX = 25;
+			int fuelY = 80;
+			int fuelColor = 16777215;
+			fontRender.drawStringWithShadow(fuel, fuelX, fuelY, fuelColor);
 
-      Minecraft.getMinecraft().renderEngine.bindTexture(Resources.fuelIcon);
+			Minecraft.getMinecraft().renderEngine.bindTexture(Resources.fuelIcon);
 
-      t.startDrawingQuads();
-      t.addVertexWithUV(0.0D, 95.0D, 90.0D, 0.0D, 1.0D);
-      t.addVertexWithUV(25.0D, 95.0D, 90.0D, 1.0D, 1.0D);
-      t.addVertexWithUV(25.0D, 70.0D, 90.0D, 1.0D, 0.0D);
-      t.addVertexWithUV(0.0D, 70.0D, 90.0D, 0.0D, 0.0D);
-      t.draw();
+			t.startDrawingQuads();
+			t.addVertexWithUV(0.0D, 95.0D, 90.0D, 0.0D, 1.0D);
+			t.addVertexWithUV(25.0D, 95.0D, 90.0D, 1.0D, 1.0D);
+			t.addVertexWithUV(25.0D, 70.0D, 90.0D, 1.0D, 0.0D);
+			t.addVertexWithUV(0.0D, 70.0D, 90.0D, 0.0D, 0.0D);
+			t.draw();
 
-      GL11.glPopAttrib();
-    }
-  }
+			GL11.glPopAttrib();
+		}
+	}
 
-  public int getItemCount(EntityPlayer player, Item item) {
-    int count = 0;
+	public int getItemCount(EntityPlayer player, Item item) {
+		int count = 0;
 
-    for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-      ItemStack thisStack = player.inventory.getStackInSlot(i);
-      if ((thisStack != null) && (thisStack.itemID == item.itemID)) {
-        count += thisStack.stackSize;
-      }
-    }
+		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+			ItemStack thisStack = player.inventory.getStackInSlot(i);
+			if ((thisStack != null) && (thisStack.itemID == item.itemID)) {
+				count += thisStack.stackSize;
+			}
+		}
 
-    return count;
-  }
+		return count;
+	}
 
-  public EnumSet<TickType> ticks() {
-    return EnumSet.of(TickType.RENDER);
-  }
+	public EnumSet<TickType> ticks() {
+		return EnumSet.of(TickType.RENDER);
+	}
 
-  public String getLabel() {
-    return "Space_Age_HUD_Handler";
-  }
+	public String getLabel() {
+		return "Space_Age_HUD_Handler";
+	}
 }

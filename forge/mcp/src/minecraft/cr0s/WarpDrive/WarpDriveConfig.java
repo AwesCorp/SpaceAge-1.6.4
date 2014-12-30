@@ -25,7 +25,7 @@ public class WarpDriveConfig {
 //
 	public boolean isASLoaded = false, isICBMLoaded = false, isMFFSLoaded = false, isAELoaded = false;
 //
-	public int[] IC2_Air;
+	//public int[] IC2_Air;
 	public int /*CC_Computer = 0, CC_peripheral = 0, CCT_Turtle = 0, CCT_Upgraded = 0, CCT_Advanced = 0,*/ ASP = 0, AS_Turbine = 0, ICBM_Machine = 0, ICBM_Missile = 0, ICBM_Explosive = 0, MFFS_Field = 0;
 	public Set<Integer> SpaceHelmets, Jetpacks, MinerOres, scannerIgnoreBlocks;
 	private Class<?> AEBlocks;

@@ -14,6 +14,7 @@ import spaceage.common.container.ContainerHeatGenerator;
 import spaceage.common.tile.TileHeatGenerator;
 import spaceage.common.tile.TileSolarPanel;
 import uedevkit.gui.GuiElectricBase;
+import uedevkit.util.MathHelper;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -26,7 +27,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 	@SideOnly(Side.CLIENT)
 	public class GUIHeatGenerator extends GuiElectricBase {
 	   
-		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(SpaceAgeCore.modid + ":" + "textures/gui/guiGeothermalTurbine.png"/*"textures/gui/container/furnace.png"*/);
+		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(SpaceAgeCore.modid + ":" + "textures/gui/guiGeothermalTurbine_alternate.png"/*"textures/gui/container/furnace.png"*/);
 	    private TileHeatGenerator furnaceInventory;
 
 	    public GUIHeatGenerator(InventoryPlayer par1InventoryPlayer, TileHeatGenerator par2TileHeatGenerator) {
@@ -66,11 +67,16 @@ import cpw.mods.fml.relauncher.SideOnly;
 	        this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
 	        int i1;
 	        
-	        int powerRemainingPercentage = this.furnaceInventory.getPowerRemainingScaled(58/*MAXWOLF = 32 - mine: 25 000 per pixel? So by 80?*/); //TODO CHECK IF WORKS!!!
+	        //int powerRemainingPercentage = this.furnaceInventory.getPowerRemainingScaled(58/*MAXWOLF = 32 - mine: 25 000 per pixel? So by 80?*/); //TODO CHECK IF WORKS!!!
 	        // Screen Coords: 161x3 (161x3 if cursor is on (162x4 from absolute left and height))
 	        // Filler Coords: 176x0 (176x0 if cursor is on)
 	        // Image Size WH: 8x80 (8x80)
-	        this.drawTexturedModalRect(k/*screenX*/ + 160, l/*screenY*/ + 10, 176, 0, 8, 58 - powerRemainingPercentage); //TODO CHECK IF WORKS!!!
+	        //this.drawTexturedModalRect(k/*screenX*/ + 160, l/*screenY*/ + 10, 176, 0, 8, 58 - powerRemainingPercentage); //TODO CHECK IF WORKS!!!
+	        
+	        drawTexturedModalRect(k + 160, l + 10, 184, 0, 8, 58);
+	        
+	        int qty = getEnergyScaled();
+	        drawTexturedModalRect(k + 160, l + 68 - qty, 176, 58 - qty, 8, qty);
 	        
 	        int fluidRemainingPercentage = this.furnaceInventory.getFluidRemainingScaled(58/*mine: by 58?*/);
 	        // Screen Coords: 8x10
@@ -89,6 +95,12 @@ import cpw.mods.fml.relauncher.SideOnly;
 	        /*i1 = this.furnaceInventory.getCookProgressScaled(24);
 	        this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);*/
 	    }
-	  
+	 
+		public int getEnergyScaled() {
+		    if (this.furnaceInventory.getEnergyHandler().getEnergyCapacity() < 0) {
+		    	return 58;
+		    }
+		    
+		    return MathHelper.round(this.furnaceInventory.getEnergyHandler().getEnergy() * 58 / this.furnaceInventory.getEnergyHandler().getEnergyCapacity());
+		}
 	}
-

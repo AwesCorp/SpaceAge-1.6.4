@@ -1,5 +1,6 @@
 package spaceage.common.block;
 
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import java.util.List;
@@ -104,17 +105,34 @@ public class BlockSASapling extends Block {
         int soil = par1World.getBlockId(x, y - 1, z);
         int soilMeta = par1World.getBlockMetadata(x, y - 1, z);
         
-        switch(Type.values().length) {
+        int meta = par1World.getBlockMetadata(x, y, z) & 3;
+        
+        switch(/*Type.values().length*/meta) {
         	case 0:
-        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)); {
+        		if(par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)); {
+        			if(Loader.isModLoaded("SpaceAgePlanets")) {
+        				if((par1World.provider.dimensionId != SpaceAgePlanets.instance.hadesID)) {
+                    		return (soil == Block.netherrack.blockID);
+        				}
+        			}
             		return (soil == Block.netherrack.blockID);
         		}
         	case 1:
-        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)) {
+        		if(par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)); {
+        			if(Loader.isModLoaded("SpaceAgePlanets")) {
+        				if((par1World.provider.dimensionId != SpaceAgePlanets.instance.hadesID)) {
+        					return (soil == SpaceAgeCore.T0011SurfaceID && soilMeta == 0);   
+        				}
+        			}
         			return (soil == SpaceAgeCore.T0011SurfaceID && soilMeta == 0);        			
         		}
         	case 2:
-        		if((par1World.provider.dimensionId != SpaceAgePlanets.i.hadesID) || par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)) {
+        		if(par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)); {
+        			if(Loader.isModLoaded("SpaceAgePlanets")) {
+        				if((par1World.provider.dimensionId != SpaceAgePlanets.instance.hadesID)) {
+        					return (soil == Block.dirt.blockID || soil == Block.grass.blockID);  
+        				}
+        			}
         			return (soil == Block.dirt.blockID || soil == Block.grass.blockID);     			
         		}
     		default:

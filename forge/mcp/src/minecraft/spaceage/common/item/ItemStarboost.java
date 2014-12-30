@@ -33,13 +33,13 @@ public class ItemStarboost extends ItemArmor {
 	@Override
 	public String getArmorTexture(ItemStack itemstack, Entity entity, int slot,
 	String type) {
-	switch(slot){
-		case 2:
-			return this.texturePath + "adv_spacesuit_2.png";
+		switch(slot) {
+			case 2:
+				return this.texturePath + "adv_spacesuit_2.png";
 	//2 should be the slot for legs
-		default:
-			return this.texturePath + "adv_spacesuit_1.png";
-		}
+			default:
+				return this.texturePath + "adv_spacesuit_1.png";
+			}
 	}
 
 	@Override
@@ -82,35 +82,35 @@ public class ItemStarboost extends ItemArmor {
 	}
 	
 	public void onArmorTickUpdate(World world, EntityPlayer player, ItemStack itemStack) {
-		   if ((player.getCurrentItemOrArmor(3) != null) && 
-				      (player.getCurrentItemOrArmor(4) != null) && 
-				      (player.getCurrentItemOrArmor(2) != null) && 
-				      (player.getCurrentItemOrArmor(1) != null))
-				    {
-				      ItemStack chest = player.getCurrentItemOrArmor(3);
-				      ItemStack Helmet = player.getCurrentItemOrArmor(4);
-				      ItemStack Leggings = player.getCurrentItemOrArmor(2);
-				      ItemStack Boots = player.getCurrentItemOrArmor(1);
+		if ((player.getCurrentItemOrArmor(3) != null) && 
+				(player.getCurrentItemOrArmor(4) != null) && 
+				(player.getCurrentItemOrArmor(2) != null) && 
+				(player.getCurrentItemOrArmor(1) != null)) {
+			ItemStack chest = player.getCurrentItemOrArmor(3);
+	      	ItemStack Helmet = player.getCurrentItemOrArmor(4);
+	      	ItemStack Leggings = player.getCurrentItemOrArmor(2);
+	      	ItemStack Boots = player.getCurrentItemOrArmor(1);
 
-				      if ((chest.getItem() == SpaceAgeCore.advancedSpacesuitChestplate) && 
-				        (Helmet.getItem() == SpaceAgeCore.advancedSpacesuitHelmet) && 
-				        (Leggings.getItem() == SpaceAgeCore.advancedSpacesuitLeggings) && 
-				        (Boots.getItem() == SpaceAgeCore.advancedSpacesuitBoots))
-				      {
-				        player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 14, 1));
-				        player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 14, 1));
-				      }
-
-				    }
-
-				    if (player.getCurrentItemOrArmor(3) != null) {
-				      ItemStack chest = player.getCurrentItemOrArmor(3);
-				      if ((chest.getItem() == SpaceAgeCore.advancedSpacesuitChestplate) && 
-				        (!player.isCollidedVertically)) {
-				        world.spawnParticle("flame", player.posX, player.posY - 1.03D, player.posZ, 0.0D, 0.1D, 0.0D);
-				        world.spawnParticle("flame", player.posX, player.posY - 1.3D, player.posZ, 0.0D, 0.1D, 0.0D);
-				        world.spawnParticle("flame", player.posX, player.posY - 1.3D, player.posZ, 0.0D, 0.1D, 0.0D);
-				      }
-				    }
-				  }
+	      	if ((chest.getItem() == SpaceAgeCore.advancedSpacesuitChestplate) && 
+	      			(Helmet.getItem() == SpaceAgeCore.advancedSpacesuitHelmet) && 
+	      			(Leggings.getItem() == SpaceAgeCore.advancedSpacesuitLeggings) && 
+	      			(Boots.getItem() == SpaceAgeCore.advancedSpacesuitBoots)) {
+	      		//player.addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 20, 0));
+	      		//player.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 20, 0));
+	      		}
+	      	}
+		if (player.getCurrentItemOrArmor(3) != null) {
+			ItemStack chest = player.getCurrentItemOrArmor(3);
+			if ((chest.getItem() == SpaceAgeCore.advancedSpacesuitChestplate) && 
+					(!player.isCollidedVertically)) {
+				//world.spawnParticle("flame", player.posX, player.posY - 1.03D, player.posZ, 0.0D, 0.1D, 0.0D);
+		        //world.spawnParticle("flame", player.posX, player.posY - 1.3D, player.posZ, 0.0D, 0.1D, 0.0D);
+		        //world.spawnParticle("flame", player.posX, player.posY - 1.3D, player.posZ, 0.0D, 0.1D, 0.0D);
+		        world.spawnParticle("flame", player.posX - 0.25D, player.posY - 1.5D, player.posZ, 0.0D, -0.1D, 0.0D);
+		        world.spawnParticle("smoke", player.posX - 0.25D, player.posY - 1.5D, player.posZ, 0.0D, -0.1D, 0.0D);
+		        world.spawnParticle("flame", player.posX + 0.25D, player.posY - 1.5D, player.posZ, 0.0D, -0.1D, 0.0D);
+		        world.spawnParticle("smoke", player.posX + 0.25D, player.posY - 1.5D, player.posZ, 0.0D, -0.1D, 0.0D);
+	        }
+		}
+	}
 }

@@ -225,6 +225,7 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase //TODO GUI, a
 		
 		worldObj.setBlockMetadataWithNotify(xCoord, yCoord, zCoord, 0, 2);
 	}
+	
 	public void countBlocksAndConsumeEnergy() {
 		int blocksCount = 0;
 		for (int y = minY; y <= maxY; y++)
@@ -309,6 +310,7 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase //TODO GUI, a
 		
 		return 0;
 	}
+	
 	public boolean validateAssembly() {
 		final int START_LENGTH = 2; // Step length from core block to main coils
 		
@@ -347,15 +349,13 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase //TODO GUI, a
 
         if (x1 < x2) {
         	this.minX = x1;this. maxX = x2;
-        }
-        else {
+        } else {
         	this.minX = x2; this.maxX = x1;
         }
 
         if (z1 < z2) {
         	this.minZ = z1; this.maxZ = z2;
-        }
-        else {
+        } else {
         	this.minZ = z2; this.maxZ = z1;
         }		
 		
@@ -441,6 +441,17 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase //TODO GUI, a
 		this.frequency = frequency;
 		return true;
 	}
+	
+	public void setFieldTier(int tier) {
+		switch(tier) {
+			case 0:
+				this.tier = 1;
+			case 1:
+				this.tier = 2;
+			default:
+				this.tier = 1;
+		}
+	}
 
 /*	@Override
 	public boolean canAttachToSide(int side) {
@@ -485,8 +496,7 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase //TODO GUI, a
 		return true;
 	}*/
 	
-    public EnumSet<ForgeDirection> getInputDirections()
-    {
+    public EnumSet<ForgeDirection> getInputDirections() {
         return EnumSet.allOf(ForgeDirection.class);
     }
 
@@ -517,6 +527,14 @@ public class TileEntityCloakingDeviceCore extends TileElectricBase //TODO GUI, a
 
 	public String getInvName() {
 		return "cloakingDeviceCore.name";
+	}
+
+	public int getTier() {
+		return tier;
+	}
+
+	public int getFreq() {
+		return frequency;
 	}
 
 	/*@Override

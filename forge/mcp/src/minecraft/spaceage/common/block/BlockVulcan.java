@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
+import spaceage.common.block.Block0011.Type;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -65,15 +66,13 @@ public class BlockVulcan extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for(int i = 0; i < 4; i++) {
+		for(int i = 0; i < Type.values().length; i++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
-
-		
 	}
 	
 	public int damageDropped(int meta) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			case 2:
 				return 0;
 			case 3: 
@@ -84,7 +83,7 @@ public class BlockVulcan extends Block {
 	}
 	
 	public int idDropped(int par1, Random par2Random, int par3) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			case 2: 
 				return Item.glowstone.itemID;
 			case 3:
@@ -96,7 +95,7 @@ public class BlockVulcan extends Block {
 	
 	@Override
 	public int quantityDropped(Random random) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			case 2:
 				return 2 + random.nextInt(3);
 			case 3:

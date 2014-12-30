@@ -1,6 +1,7 @@
 //Credit to Superheroes Unlimited Mod
 package spaceage.common;
 
+import java.lang.reflect.Field;
 import java.util.EnumSet;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,12 +16,11 @@ import cpw.mods.fml.common.TickType;
 public class ServerTickHandler implements ITickHandler {
 	private EnumSet<TickType> ticksToGet;
 	
-	  public void PlayerTickHandler(EnumSet<TickType> ticksToGet)
-	  {
-	    this.ticksToGet = ticksToGet;
-	  }
-	  
-	  public static int timer = 2000;
+	public void PlayerTickHandler(EnumSet<TickType> ticksToGet) {
+		this.ticksToGet = ticksToGet;
+	}
+  
+	public static int timer = 2000;//EntityLiving entity;
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
@@ -75,14 +75,13 @@ public class ServerTickHandler implements ITickHandler {
 			}
 		}
 		
-	    if (player.getCurrentItemOrArmor(3) != null)
-	    {
+	    if (player.getCurrentItemOrArmor(3) != null) {
 	      ItemStack plate = player.getCurrentItemOrArmor(3);
 
 	      if ((plate.getItem() == SpaceAgeCore.advancedSpacesuitChestplate ? 1 : 0) != 0) {
-	    	  System.out.println("SPACEAGE: ABOUT TO RUN POTION WITH 0");
-	        player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 20, 0));
-	        System.out.println("SPACEAGE: SUCCESSFULLY RAN POTION WITH 0");
+	    	  //System.out.println("SPACEAGE: ABOUT TO RUN POTION WITH 0");
+	        //player.addPotionEffect(new PotionEffect(Potion.damageBoost.getId(), 20, 0));
+	        //System.out.println("SPACEAGE: SUCCESSFULLY RAN POTION WITH 0");
 	        player.fallDistance = 0.0F;
 	      }
 	    }
@@ -93,9 +92,11 @@ public class ServerTickHandler implements ITickHandler {
 	      ItemStack plate = player.getCurrentItemOrArmor(3);
 
 	      if (((plate.getItem() == SpaceAgeCore.advancedSpacesuitChestplate ? 1 : 0) | (helmet.getItem() == SpaceAgeCore.advancedSpacesuitHelmet ? 1 : 0)) != 0) {
-	     	  System.out.println("SPACEAGE: ABOUT TO RUN POTION WITH 0");
-	        player.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 20, 0));
-	        System.out.println("SPACEAGE: SUCCESSFULLY RAN POTION WITH 0");
+	     	 // System.out.println("SPACEAGE: ABOUT TO RUN POTION WITH 0");
+	        //player.addPotionEffect(new PotionEffect(Potion.waterBreathing.getId(), 20, 0));
+	    	  player.setAir(250);
+	    	  
+	        //System.out.println("SPACEAGE: SUCCESSFULLY RAN POTION WITH 0");
 	        player.fallDistance = 0.0F;
 	      }
 
@@ -106,8 +107,19 @@ public class ServerTickHandler implements ITickHandler {
 	      ItemStack plate = player.getCurrentItemOrArmor(3);
 
 	      if (((plate.getItem() == SpaceAgeCore.fireResistanceChestplate ? 1 : 0) | (helmet.getItem() == SpaceAgeCore.fireResistanceHelmet ? 1 : 0)) != 0) {
-	        player.addPotionEffect(new PotionEffect(Potion.fireResistance.getId(), 20, 0));
-	        player.fallDistance = 0.0F;
+	        //player.addPotionEffect(new PotionEffect(Potion.fireResistance.getId(), 20, 0));
+	    	  
+	    	  try {
+	    		  Class entity = Class.forName("net.minecraft.entity.Entity");
+	    		  
+	    		  Field isImmuneToFire = entity.getField("isImmuneToFire");
+	    		  
+	    		  System.out.println("Type returns " + isImmuneToFire.getType());
+	    	  } catch(Exception e) {
+	    		  e.printStackTrace();
+	    	  }
+	    	  
+	    	  player.fallDistance = 0.0F;
 	      }
 
 	    }
@@ -127,6 +139,5 @@ public class ServerTickHandler implements ITickHandler {
 	    else if (!player.capabilities.isCreativeMode) {
 	      player.capabilities.allowFlying = false;
 	    }
-		
 	}
 }

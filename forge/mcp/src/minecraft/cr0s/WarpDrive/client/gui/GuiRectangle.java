@@ -1,5 +1,7 @@
 package cr0s.WarpDrive.client.gui;
 
+import uedevkit.gui.GuiSimpleBase;
+
 public class GuiRectangle {
 
 	private int x;
@@ -14,14 +16,14 @@ public class GuiRectangle {
 		this.height = h;
 	}
 	
-	public boolean isInRect(GUIProtocol gui, int mouseX, int mouseY) {
+	public boolean isInRect(GuiSimpleBase gui, int mouseX, int mouseY) {
 		mouseX -= gui.getLeft();
 		mouseY -= gui.getTop();
 		
 		return x <= mouseX && mouseX <= x + width && y <= mouseY && mouseY <= y + height;
 	}
 	
-	public void draw(GUIProtocol gui, int srcX, int srcY) {
+	public void draw(GuiSimpleBase gui, int srcX, int srcY) {
 		gui.drawTexturedModalRect(gui.getLeft() + x, gui.getTop() + y, srcX, srcY, width, height);
 	}
 	

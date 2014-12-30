@@ -7,6 +7,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import spaceage.common.SpaceAgeCore;
+import spaceage.common.block.Block0011.Type;
 import spaceage.common.block.BlockGenerator.Types;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -73,7 +74,7 @@ public class BlockEden extends Block {
 	}
 	
 	public int damageDropped(int meta) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			case 0:
 				return 0;
 			default:
@@ -82,7 +83,7 @@ public class BlockEden extends Block {
 	}
 	
 	public int idDropped(int par1, Random par2Random, int par3) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			case 0: 
 				return Item.glowstone.itemID;
 			default:
@@ -92,7 +93,7 @@ public class BlockEden extends Block {
 	
 	@Override
 	public int quantityDropped(Random random) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			case 0:
 				return 2 + random.nextInt(3);
 			default:

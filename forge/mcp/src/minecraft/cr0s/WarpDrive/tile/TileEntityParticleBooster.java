@@ -119,21 +119,19 @@ public class TileEntityParticleBooster extends TileElectricBase {
     /**
      * @return the currentEnergyValue
      */
-    public int getCurrentEnergyValue()
-    {
+    public int getCurrentEnergyValue() {
         return currentEnergyValue;
     }
 
-    /*public boolean consumeEnergy(int amount)
-    {
-        if (currentEnergyValue - amount < 0)
-        {
+    public boolean consumeEnergyWithBoolean(int amount) {
+        if (currentEnergyValue - amount < 0) {
             return false;
         }
 
-        currentEnergyValue -= amount;
+        //currentEnergyValue -= amount;
+        this.energy.setEnergy(currentEnergyValue - amount);
         return true;
-    }*/
+    }
 
 	public int collectAllEnergy() { //TODO change to UE
 		//int energy = currentEnergyValue;

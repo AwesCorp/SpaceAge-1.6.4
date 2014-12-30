@@ -21,7 +21,7 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	@SideOnly(Side.CLIENT)
 	public class GUIMiningLaser extends GuiElectricBase { //TODO gui testing, string coords, button coords
 	   
-		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":" + "textures/gui/" + ClientProxy.guiMiningLaser/*"textures/gui/container/furnace.png"*/);
+		private static final ResourceLocation furnaceGuiTextures = new ResourceLocation(WarpDrive.modid + ":" + "textures/gui/" + "guiMiningLaser_alternate.png");//ClientProxy.guiMiningLaser/*"textures/gui/container/furnace.png"*/);
 	    private TileEntityMiningLaser furnaceInventory;
 	    //private TileEntityParticleBooster particle;
 
@@ -61,13 +61,13 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	        String energyS = energyI;
 	        this.fontRenderer.drawString(energy, eCoord0, eCoord1, 4210752);*/
 	        
-	        String layer = String.valueOf(this.furnaceInventory.currentLayer); //TODO
+	        String layer = String.valueOf(this.furnaceInventory.getCurrentLayer()); //TODO
 	        this.fontRenderer.drawString(layer, lCoord0, lCoord1, 4210752);
 	        
 	        if(furnaceInventory.isMining) { //TODO
 				int valuablesInLayer, valuablesMined;
-				valuablesInLayer = furnaceInventory.valuablesInLayer.size();
-				valuablesMined = furnaceInventory.valuableIndex;
+				valuablesInLayer = furnaceInventory.getValuablesInLayer().size();
+				valuablesMined = furnaceInventory.getValuableIndex();
 	        
 	        String oresMined = String.valueOf(valuablesMined); //TODO
 	        this.fontRenderer.drawString(oresMined, omCoord0, omCoord1, 4210752);
@@ -162,4 +162,3 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    	}
 	    }
 	}
-

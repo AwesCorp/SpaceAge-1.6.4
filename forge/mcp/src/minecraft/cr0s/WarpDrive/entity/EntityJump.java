@@ -100,6 +100,10 @@ public class EntityJump extends Entity
 	private int hadesID;
 	private boolean to0011;
 	private int t0011ID;
+	private boolean toEden;
+	private int edenID;
+	private boolean toOntarine;
+	private int ontarineID;
 	public boolean toHyperSpace, fromHyperSpace;
 	private boolean isInHyperSpace;
 
@@ -324,10 +328,14 @@ public class EntityJump extends Entity
 				Field vulcan = c.getField("vulcanID");
 				Field hades = c.getField("hadesID");
 				Field t0011 = c.getField("T0011ID");
+				Field eden = c.getField("edenID");
+				Field ontarine = c.getField("ontarineID");
 				
 				vulcanID = Integer.valueOf(vulcan.toString());
 				hadesID = Integer.valueOf(hades.toString());
 				t0011ID = Integer.valueOf(t0011.toString());
+				edenID = Integer.valueOf(eden.toString());
+				ontarineID = Integer.valueOf(ontarine.toString());
 				
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -336,6 +344,8 @@ public class EntityJump extends Entity
 			vulcanID = this.worldObj.provider.dimensionId;
 			hadesID = this.worldObj.provider.dimensionId;
 			t0011ID = this.worldObj.provider.dimensionId;
+			edenID = this.worldObj.provider.dimensionId;
+			ontarineID = this.worldObj.provider.dimensionId;
 		}
 		
 		LocalProfiler.start("EntityJump.prepareToJump"); //TODO shortcut
@@ -344,6 +354,8 @@ public class EntityJump extends Entity
 		toVulcan = (dir == (-2/*DOWN*/) && (minY - distance < 0) && /*(X IN SPACE) && (Z IN SPACE) && */worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
 		toHades = (dir == (-2/*DOWN*/) && (minY - distance < 0) && /*(X IN SPACE) && (Z IN SPACE) && */worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
 		to0011 = (dir == (-2/*DOWN*/) && (minY - distance < 0) && /*(X IN SPACE) && (Z IN SPACE) && */worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
+		toEden = (dir == (-2) && (minY - distance < 0) && worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
+		toOntarine = (dir == (-2) && (minY - distance < 0) && worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
 		//fromOverworld = (dir == (-1) && (maxY + distance > 255) && worldObj.provider.dimensionId == 0);
 		toSpace   = (dir == -1 && (maxY + distance > 255) && ((worldObj.provider.dimensionId != WarpDrive.instance.spaceDimID) || (worldObj.provider.dimensionId != WarpDrive.instance.hyperSpaceDimID)));
 		//fromSpace = (dir == -2 && (minY - distance < 0) && worldObj.provider.dimensionId == WarpDrive.instance.spaceDimID);
@@ -361,6 +373,10 @@ public class EntityJump extends Entity
 			targetWorld = DimensionManager.getWorld(hadesID);
 		} else if (to0011) {
 			targetWorld = DimensionManager.getWorld(t0011ID);
+		} else if (toEden) {
+			targetWorld = DimensionManager.getWorld(edenID);
+		} else if (toOntarine) {
+			targetWorld = DimensionManager.getWorld(ontarineID);
 		} else {
 			targetWorld = this.worldObj;
 		}

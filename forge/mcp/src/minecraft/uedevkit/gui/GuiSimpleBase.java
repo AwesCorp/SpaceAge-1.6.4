@@ -131,6 +131,22 @@ public abstract class GuiSimpleBase extends GuiContainer {
 		}
 		return null;
 	}
+	
+	/**
+	 * Backdoor for guiLeft
+	 * @return guiLeft of gui
+	 */
+	public int getLeft() {
+		return guiLeft;
+	}
+
+	/**
+	 * Backdoor for guiTop
+	 * @return guiTop of gui
+	 */
+	public int getTop() {
+		return guiTop;
+	}
 
 	/**Needs to have a t.startDrawingQuads in the calling function - basically just enables code for a larger function
 	 * @author SkylordJoel

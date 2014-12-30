@@ -32,7 +32,7 @@ import net.minecraft.client.multiplayer.WorldClient;
 public class PacketHandler implements IPacketHandler {
 	
 	TileEntityProtocol protocol = new TileEntityProtocol();
-	TileEntityCloakingDeviceCore cloak;
+	TileEntityCloakingDeviceCore cloak = new TileEntityCloakingDeviceCore();
 	GUIRadar radarGUI;
 	//World worldObj = new World();
 	
@@ -166,6 +166,14 @@ public class PacketHandler implements IPacketHandler {
 					}
 					
 					protocol.setDirection(transDir);
+				case 9:
+					int tier = inputStream.readInt();
+					
+					cloak.setFieldTier(tier);
+				case 10:
+					int frequency = inputStream.readInt();
+					
+					cloak.setFieldFrequency(frequency);
 				}
 		} catch (IOException e) {
 			e.printStackTrace();

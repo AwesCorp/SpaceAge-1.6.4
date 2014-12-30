@@ -57,7 +57,6 @@ public class Block0011 extends Block {
 			}
 			case 3:
 				return icons[4];
-				
 			default:
 				return icons[0];
 		}
@@ -71,14 +70,14 @@ public class Block0011 extends Block {
 	}
 	
 	public int damageDropped(int meta) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			default:
 				return meta;
 		}
 	}
 	
 	public int idDropped(int par1, Random par2Random, int par3) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			default:
 				return this.blockID;
 		}
@@ -86,7 +85,7 @@ public class Block0011 extends Block {
 	
 	@Override
 	public int quantityDropped(Random random) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			default:
 				return 1;
 		}

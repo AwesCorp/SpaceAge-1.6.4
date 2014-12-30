@@ -67,10 +67,10 @@ public class TileEntityMiningLaser extends TileEntity implements /*IPeripheral,*
 	private int delayTicksMine = 0;
 	private int currentMode = 0; // 0 - scan next layer, 1 - collect valuables
 
-	public int currentLayer;
+	private int currentLayer;
 
-	public ArrayList<Vector3> valuablesInLayer = new ArrayList<Vector3>();
-	public int valuableIndex = 0;
+	private ArrayList<Vector3> valuablesInLayer = new ArrayList<Vector3>();
+	private int valuableIndex = 0;
 
 	private int layerOffset = 1;
 
@@ -161,9 +161,9 @@ public class TileEntityMiningLaser extends TileEntity implements /*IPeripheral,*
 			List<ItemStack> stacks = getItemStackFromBlock(valuable.intX(), valuable.intY(), valuable.intZ(), blockID, blockMeta);
 			if (stacks != null)
 				for (ItemStack stack : stacks) {
-					/*if (grid != null && AENetworkReady)
+					if (grid != null && AENetworkReady)
 						putInGrid(stack);
-					else*/
+					else
 						putInChest(findChest(), stack);
 				}
 			worldObj.playAuxSFXAtEntity(null, 2001, valuable.intX(), valuable.intY(), valuable.intZ(), blockID + (blockMeta << 12));
@@ -232,18 +232,16 @@ public class TileEntityMiningLaser extends TileEntity implements /*IPeripheral,*
 		return block.getBlockDropped(worldObj, i, j, k, blockMeta, 0);
 	}
 
-	/*public int putInGrid(ItemStack itemStackSource)
-	{
+	public int putInGrid(ItemStack itemStackSource) {
 		int transferred = itemStackSource.stackSize;
 		IMEInventoryHandler cellArray = grid.getCellArray();
-		if (cellArray != null)
-		{
+		if (cellArray != null) {
 			IAEItemStack ret = cellArray.addItems(Util.createItemStack(itemStackSource));
 			if (ret != null)
 				transferred -= ret.getStackSize();
 		}
 		return transferred;
-	}*/
+	}
 
 	public int putInChest(IInventory inventory, ItemStack itemStackSource)
 	{
@@ -359,8 +357,8 @@ public class TileEntityMiningLaser extends TileEntity implements /*IPeripheral,*
 		if (booster != null)
 			if (test)
 				return packet <= booster.getCurrentEnergyValue();
-			//else
-				//return booster.consumeEnergy(packet); TODO
+			else
+				return booster.consumeEnergyWithBoolean(packet);
 		return false;
 	}
 
@@ -679,31 +677,44 @@ public class TileEntityMiningLaser extends TileEntity implements /*IPeripheral,*
 	}
 
 	@Override //TODO is this needed?
-	public boolean coveredConnections()
-	{
+	public boolean coveredConnections() {
 		return true;
 	}
 
-	public void setNetworkReady( boolean isReady )
-	{
+	public void setNetworkReady(boolean isReady) {
 		AENetworkReady = isReady;
 	}
 
-	public boolean isMachineActive() //TODO
-	{
+	public boolean isMachineActive() {
 		return true;
 	}
 	
 	public int getBoosterEnergy() {
 		int energy;
+		
 		if (booster != null) {
 			return energy = booster.getCurrentEnergyValue();
-	}
-	return 0;
+		}
+		return 0;
 	}
 	
     public int getBoosterPowerRemainingScaled(int prgPixels) {
-        Double result = Long.valueOf(booster.getEnergy(ForgeDirection.UNKNOWN)).doubleValue() * Long.valueOf(prgPixels).doubleValue() / Long.valueOf(booster.getEnergyCapacity(ForgeDirection.UNKNOWN)).doubleValue();
-        return result.intValue();
+    	if (booster != null) {
+    		Double result = Long.valueOf(booster.getEnergy(ForgeDirection.UNKNOWN)).doubleValue() * Long.valueOf(prgPixels).doubleValue() / Long.valueOf(booster.getEnergyCapacity(ForgeDirection.UNKNOWN)).doubleValue();
+            return result.intValue();
+    	}
+        return 0;
     }
+
+	public int getCurrentLayer() {
+		return this.currentLayer;
+	}
+
+	public List getValuablesInLayer() {
+		return this.getValuablesInLayer();
+	}
+
+	public int getValuableIndex() {
+		return this.valuableIndex;
+	}
 }

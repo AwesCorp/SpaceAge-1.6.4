@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Random;
 
 import spaceage.common.SpaceAgeCore;
+import spaceage.common.block.Block0011.Type;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -52,20 +53,20 @@ public class BlockHades extends Block {
 	
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int par1, CreativeTabs par2CreativeTabs, List par3List) {
-		for(int i = 0; i < 1; i++) {
+		for(int i = 0; i < Type.values().length; i++) {
 			par3List.add(new ItemStack(par1, 1, i));
 		}
 	}
 	
 	public int damageDropped(int meta) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			default:
 				return meta;
 		}
 	}
 	
 	public int idDropped(int par1, Random par2Random, int par3) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			default:
 				return this.blockID;
 		}
@@ -73,7 +74,7 @@ public class BlockHades extends Block {
 	
 	@Override
 	public int quantityDropped(Random random) {
-		switch(type.ordinal()) {
+		switch(Type.values().length) {
 			default:
 				return 1;
 		}
@@ -82,5 +83,4 @@ public class BlockHades extends Block {
 	public static enum Type {
 		FAKE_DIRT;
 	}
-	
 }

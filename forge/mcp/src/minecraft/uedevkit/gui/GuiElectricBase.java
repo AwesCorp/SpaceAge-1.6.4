@@ -25,9 +25,7 @@ public abstract class GuiElectricBase extends GuiSimpleBase {
 	 * @author SkylordJoel
 	 *
 	 */
-	
 	public GuiElectricBase(Container par1Container) {
 		super(par1Container);
 	}
-
 }

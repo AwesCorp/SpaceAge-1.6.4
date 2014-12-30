@@ -4,6 +4,7 @@ import java.util.EnumSet;
 
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.world.World;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
 
 import cpw.mods.fml.client.FMLClientHandler;
@@ -50,6 +51,8 @@ import spaceage.planets.aliens.render.RenderFish;
 public class ClientProxy extends CommonProxy {
 	
 	private static int renderIDCable;
+
+	//public static int fakeID;
 	
 	//public static int blockMultiRenderType;
 	//public static int renderPass;
@@ -110,6 +113,9 @@ public class ClientProxy extends CommonProxy {
 		
 		this.renderIDCable = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(new TileCableRenderer(this.renderIDCable));
+		
+		//this.fakeID = RenderingRegistry.getNextAvailableRenderId();//TODO
+		//RenderingRegistry.registerBlockHandler(new RenderFake(this.fakeID));
 		
 		registerSounds();
 	}

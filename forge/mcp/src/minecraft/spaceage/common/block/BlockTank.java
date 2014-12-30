@@ -3,6 +3,9 @@ package spaceage.common.block;
 import java.util.List;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
 import spaceage.common.SpaceAgeCore;
 import spaceage.common.block.BlockGenerator.Types;
 import spaceage.common.tile.TileGasTank;
@@ -14,6 +17,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
 
 public class BlockTank extends Block {
@@ -22,12 +26,33 @@ public class BlockTank extends Block {
 		super(id, material);
 	}
 	
-	public static final String[] textureNames = new String[] {"liquid", "gas"};
+	public static final String[] textureNames = new String[] {"Liquid", "Gas"};
+	
+	@SideOnly(Side.CLIENT)
+	private Icon[] icons;
 	
 	@Override
     public void registerIcons(IconRegister icon) {
-        this.blockIcon = icon.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + "." + textureNames);
+		icons = new Icon[2];
+		
+		for(int i = 0; i < icons.length; i++) {
+			icons[i] = icon.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + textureNames[i]);
+		}
+        //this.blockIcon = icon.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + "." + textureNames[i]);
     }
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public Icon getIcon(int side, int metadata) {
+		switch(metadata) {
+			case 0:
+				return icons[0];
+			case 1:
+				return icons[1];
+			default:
+				return icons[0];
+		}
+	}
 	
 	@Override
 	public int getRenderType() {

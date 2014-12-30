@@ -973,12 +973,4 @@ import cr0s.WarpDrive.tile.TileEntityProtocol;
 	    	
 	    	this.shipName.drawTextBox();
 	    }
-
-		public int getLeft() {
-			return guiLeft;
-		}
-		
-		public int getTop() {
-			return guiTop;
-		}
 	}
