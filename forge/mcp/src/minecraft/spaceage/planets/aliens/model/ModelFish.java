@@ -18,7 +18,7 @@ public class ModelFish extends ModelBase {
     ModelRenderer finRight;
     ModelRenderer finTop;
     
-    public float[] tailMovement = new float[] {0F, 3.14F, 0F, -3.14F};
+    public float[] tailMovement = new float[] {0F, 0.52F, 0F, -0.52F};
     protected int cycleIndex = 0;
     
     // create an animation cycle

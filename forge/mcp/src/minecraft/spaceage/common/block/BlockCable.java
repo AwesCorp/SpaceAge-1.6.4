@@ -146,8 +146,26 @@ public class BlockCable extends Block {
 	public void registerIcons(IconRegister par1IconRegister) {
 		this.icons = new Icon[3];
 
-		for (int i = 0; i < icons.length; i++) {
+		/*for (int i = 0; i < icons.length; i++) {
 			this.icons[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + i);
+		}*/
+		this.icons[0] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":cable/" + "copperCable");
+		this.icons[1] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":cable/" + "aluminiumCable");
+		this.icons[2] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":cable/" + "silverCable");
+	}
+	
+	@SideOnly(Side.CLIENT)
+	@Override
+	public Icon getIcon(int side, int metadata) {
+		switch(metadata) {
+			case 0:
+				return icons[0];
+			case 1:
+				return icons[1];
+			case 2:
+				return icons[2];
+			default:
+				return icons[0];
 		}
 	}
 

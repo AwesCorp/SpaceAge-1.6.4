@@ -17,23 +17,7 @@ public class ItemBlockGeneratorTooltip extends ItemBlock {
 		super(id);
 		setHasSubtypes(true);
 	}
-	
-    @Override
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List info, boolean par4) {
-        // Only displays tooltip information when SHIFT key is pressed.
-        String tooltip = StatCollector.translateToLocal(getUnlocalizedName() + ".tooltip");//"Type: Electrical Generator";
-        String defaultTooltip = StatCollector.translateToLocal("Press shift for more information");
-        boolean isShiftPressed = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
 
-        // Use LWJGL to detect what key is being pressed.
-        if (tooltip != null && tooltip.length() > 0 && isShiftPressed) {
-            info.addAll(Utils.splitStringPerWord(tooltip, 5));
-        }
-        else if (defaultTooltip != null && defaultTooltip.length() > 0 && !isShiftPressed) {
-            info.addAll(Utils.splitStringPerWord(String.valueOf(defaultTooltip), 10));
-        }
-    }
-    
 	public String getUnlocalizedName(ItemStack itemStack) {
 		String name = "";
 		switch(itemStack.getItemDamage()) {
@@ -48,10 +32,27 @@ public class ItemBlockGeneratorTooltip extends ItemBlock {
 			default: 
 				name = "broken";
 			}
-			return getUnlocalizedName() + "." + name;
-		}
+		//System.out.println("did unlocalizedName code");
+		return getUnlocalizedName() + "." + name;
+	}
 	
 	public int getMetadata(int par1) {
 		return par1;
-		}
+	}
+	
+    @Override
+    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List info, boolean par4) {
+        // Only displays tooltip information when SHIFT key is pressed.
+        String tooltip = StatCollector.translateToLocal(getUnlocalizedName(par1ItemStack) + ".tooltip");//"Type: Electrical Generator";
+        String defaultTooltip = StatCollector.translateToLocal("Press shift for more information");
+        boolean isShiftPressed = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
+
+        // Use LWJGL to detect what key is being pressed.
+        if (tooltip != null && tooltip.length() > 0 && isShiftPressed) {
+            info.addAll(Utils.splitStringPerWord(tooltip, 5));
+        } else if (defaultTooltip != null && defaultTooltip.length() > 0 && !isShiftPressed) {
+            info.addAll(Utils.splitStringPerWord(String.valueOf(defaultTooltip), 10));
+        }
+        //System.out.println("did addInfo code");
+    }
 }

@@ -182,8 +182,8 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	        //this.drawTexturedModalRect(k/*screenX*/ + 160, l/*screenY*/ + 10, 176, 0, 8, 58 - powerRemainingPercentage);
 	        drawTexturedModalRect(k + 160, l + 10, 184, 0, 8, 58);
 	        
-	        int qty = getScaled();
-	        drawTexturedModalRect(k + 160, l + 10 - qty, 176, 10 - qty, 8, qty);
+	        int qty = getEnergyScaled();
+	        drawTexturedModalRect(k + 160, l + 68 - qty, 176, 58 - qty, 8, qty);
 	        
 	        //FLAME - DON'T NEED
 	        /*if (this.furnaceInventory.isBurning())
@@ -247,7 +247,7 @@ import cr0s.WarpDrive.tile.TileEntityParticleBooster;
 	    	}
 		}
 		
-		public int getScaled() {
+		public int getEnergyScaled() {
 		    if (this.furnaceInventory.getEnergyHandler().getEnergyCapacity() < 0) {
 		    	return 58;
 		    }

@@ -46,13 +46,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 	     // Power level
 	        if (this.isPointInRegion(161, 3, 8, 58, mouseX, mouseY)) {
 	            //String powerLevelLiteral = String.valueOf(this.ENTITY.getEnergy(ForgeDirection.UNKNOWN)) + "/" + String.valueOf(this.ENTITY.getEnergyCapacity(ForgeDirection.UNKNOWN));
-	            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Energy " + String.valueOf(this.furnaceInventory.getPowerRemainingScaled(100)) + " %");
+	            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, furnaceInventory.getEnergyHandler().getEnergy() + "/" + furnaceInventory.getEnergyHandler().getEnergyCapacity() + " J");
 	        }
 	        
 		 // Water level
 	        if (this.isPointInRegion(8, 10, 16, 58, mouseX, mouseY)) {
 	            //String powerLevelLiteral = String.valueOf(this.ENTITY.getEnergy(ForgeDirection.UNKNOWN)) + "/" + String.valueOf(this.ENTITY.getEnergyCapacity(ForgeDirection.UNKNOWN));
-	            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Fluid " + String.valueOf(this.furnaceInventory.getFluidRemainingScaled(100)) + " %");
+	        	this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, furnaceInventory.waterTank.getFluidAmount() + "/" + furnaceInventory.waterTank.getCapacity() + " mB");
 	        }
 	    }
 
@@ -78,11 +78,14 @@ import cpw.mods.fml.relauncher.SideOnly;
 	        int qty = getEnergyScaled();
 	        drawTexturedModalRect(k + 160, l + 68 - qty, 176, 58 - qty, 8, qty);
 	        
-	        int fluidRemainingPercentage = this.furnaceInventory.getFluidRemainingScaled(58/*mine: by 58?*/);
+	        int fluid = getFluidScaled();
+	        drawTexturedModalRect(k + 8, l + 68 - fluid, 176, 137 - fluid, 16, fluid);
+	        
+	        //int fluidRemainingPercentage = this.furnaceInventory.getFluidRemainingScaled(58/*mine: by 58?*/);
 	        // Screen Coords: 8x10
 	        // Filler Coords: 176x79
 	        // Image Size WH: 16x58
-	        this.drawTexturedModalRect(k + 8, l + 10, 176, 79, 16, 58 - fluidRemainingPercentage);
+	        //this.drawTexturedModalRect(k + 8, l + 10, 176, 79, 16, 58 - fluidRemainingPercentage);
 	        
 	        //FLAME - DON'T NEED
 	        /*if (this.furnaceInventory.isBurning())
@@ -102,5 +105,13 @@ import cpw.mods.fml.relauncher.SideOnly;
 		    }
 		    
 		    return MathHelper.round(this.furnaceInventory.getEnergyHandler().getEnergy() * 58 / this.furnaceInventory.getEnergyHandler().getEnergyCapacity());
+		}
+		
+		public int getFluidScaled() {
+		    if (this.furnaceInventory.waterTank.getCapacity() < 0) {
+		    	return 58;
+		    }
+		    
+		    return MathHelper.round(this.furnaceInventory.waterTank.getFluidAmount() * 58 / this.furnaceInventory.waterTank.getCapacity());
 		}
 	}

@@ -2,10 +2,13 @@ package spaceage.common.item;
 
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 import spaceage.common.SpaceAgeCore;
+import spaceage.common.stuff.Utils;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,6 +17,7 @@ import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 
 public class ItemRepulsor extends Item {
@@ -54,7 +58,17 @@ public class ItemRepulsor extends Item {
 	
 	@Override
 	public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-		par3List.add("An energy weapon for use with the advanced spacesuit. Requires the chestplate for energy and the helmet for control.");
+		//par3List.add("An energy weapon for use with the advanced spacesuit. Requires the chestplate for energy and the helmet for control.");
+		// Only displays tooltip information when SHIFT key is pressed.
+        String defaultTooltip = StatCollector.translateToLocal("Press shift for more information");
+        boolean isShiftPressed = Keyboard.isKeyDown(Keyboard.KEY_LSHIFT);
+
+        // Use LWJGL to detect what key is being pressed.
+        if (isShiftPressed) {
+            par3List.addAll(Utils.splitStringPerWord("An energy weapon for use with the advanced spacesuit. Requires the chestplate for energy and the helmet for control.", 5));
+        } else if (defaultTooltip != null && defaultTooltip.length() > 0 && !isShiftPressed) {
+            par3List.addAll(Utils.splitStringPerWord(String.valueOf(defaultTooltip), 10));
+        }
 	}
 	
 	@SideOnly(Side.CLIENT)

@@ -17,6 +17,7 @@ import spaceage.common.container.ContainerSolarPanel;
 import spaceage.common.tile.TileHeatGenerator;
 import spaceage.common.tile.TileSolarPanel;
 import uedevkit.gui.GuiElectricBase;
+import uedevkit.util.MathHelper;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -45,10 +46,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 	        this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
 	        this.fontRenderer.drawString(I18n.getString("container.inventory"), 8, this.ySize - 96 + 2, 4210752);
 	        
-	        // Power level
 	        if (this.isPointInRegion(161, 3, 8, 58, mouseX, mouseY)) {
 	            //String powerLevelLiteral = String.valueOf(this.ENTITY.getEnergy(ForgeDirection.UNKNOWN)) + "/" + String.valueOf(this.ENTITY.getEnergyCapacity(ForgeDirection.UNKNOWN));
-	            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, "Energy " + String.valueOf(this.furnaceInventory.getPowerRemainingScaled(100)) + " %");
+	            this.drawTooltip(mouseX - this.guiLeft, mouseY - this.guiTop + 10, furnaceInventory.getEnergyHandler().getEnergy() + "/" + furnaceInventory.getEnergyHandler().getEnergyCapacity() + " J");
 	        }
 	    }
 
@@ -64,11 +64,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 	        
 	        int i1;
 	        
-	        int powerRemainingPercentage = this.furnaceInventory.getPowerRemainingScaled(58/*MAXWOLF = 32 - mine: 25 000 per pixel? So by 80?*/); //TODO CHECK IF WORKS!!!
+	        //int powerRemainingPercentage = this.furnaceInventory.getPowerRemainingScaled(58/*MAXWOLF = 32 - mine: 25 000 per pixel? So by 80?*/); //TODO CHECK IF WORKS!!!
 	        // Screen Coords: 112x17 (161x3 if cursor is on (162x4 from absolute left and height))
 	        // Filler Coords: 176x56 (176x0 if cursor is on)
 	        // Image Size WH: 18x32 (8x80)
-	        this.drawTexturedModalRect(k/*screenX*/ + 160, l/*screenY*/ + 10, 176, 0, 8, 58 - powerRemainingPercentage);
+	        //this.drawTexturedModalRect(k/*screenX*/ + 160, l/*screenY*/ + 10, 176, 0, 8, 58 - powerRemainingPercentage);
 	        
 	        //FLAME - DON'T NEED
 	        /*if (this.furnaceInventory.isBurning())
@@ -80,6 +80,18 @@ import cpw.mods.fml.relauncher.SideOnly;
 	        //GIANT ARROW - DON'T NEED
 	        /*i1 = this.furnaceInventory.getCookProgressScaled(24);
 	        this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);*/
+	        
+	        drawTexturedModalRect(k + 160, l + 10, 184, 0, 8, 58);
+	        
+	        int qty = getEnergyScaled();
+	        drawTexturedModalRect(k + 160, l + 68 - qty, 176, 58 - qty, 8, qty);
 	    }
+	    
+		public int getEnergyScaled() {
+		    if (this.furnaceInventory.getEnergyHandler().getEnergyCapacity() < 0) {
+		    	return 58;
+		    }
+		    
+		    return MathHelper.round(this.furnaceInventory.getEnergyHandler().getEnergy() * 58 / this.furnaceInventory.getEnergyHandler().getEnergyCapacity());
+		}
 	}
-
