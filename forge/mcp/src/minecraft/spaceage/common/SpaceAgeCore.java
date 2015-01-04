@@ -165,9 +165,7 @@ public class SpaceAgeCore {
 	
 	//ID Registry
 	public static int metaID;
-	
 
-	
 	public static int spaceshipAlloyMetaID;
 	
 	public static int advancedSpacesuitHelmetID;
@@ -465,18 +463,12 @@ public class SpaceAgeCore {
 		OreDictionary.registerOre("plateTitaniumAluminumVanadiumAlloy", heavyPlate);
 		OreDictionary.registerOre("dustLithium", lithiumDust);
 		OreDictionary.registerOre("lithiumDust", lithiumDust);
-		
-		
-		
-
 	}
 
 	private void blockHarvest() {
 		//MinecraftForge.setBlockHarvestLevel(block, toolClass, harvestLevel)
 		MinecraftForge.setBlockHarvestLevel(spaceshipAlloyMeta, "pickaxe", 2);
-		//MinecraftForge.setBlockHarvestLevel(spaceshipAlloyMeta, "pickaxe", 3);
 		MinecraftForge.setBlockHarvestLevel(metaGenerator, "pickaxe", 2);
-		//MinecraftForge.setBlockHarvestLevel(metaGenerator, "pickaxe", 3);
 	}
 
 	private void smeltingRecipes() {
@@ -485,7 +477,6 @@ public class SpaceAgeCore {
 	}
 
 	private void craftingRecipes() {
-		
 		ItemStack titaniumIngot = new ItemStack(this.meta,1,0); //FROM TITANIUM ORE TODO
 		ItemStack aluminiumIngot = new ItemStack(this.meta,1,1); //FROM BAUXITE - COMPLEX PROPER REFINING METHOD
 		ItemStack vanadiumIngot = new ItemStack(this.meta,1,2); //FROM VANADIUM ORE

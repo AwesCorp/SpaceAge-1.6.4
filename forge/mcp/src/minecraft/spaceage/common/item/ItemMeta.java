@@ -109,5 +109,4 @@ public class ItemMeta extends Item {
 			par3.add(new ItemStack(par1, 1, i));
 		}
 	}
-
 }
