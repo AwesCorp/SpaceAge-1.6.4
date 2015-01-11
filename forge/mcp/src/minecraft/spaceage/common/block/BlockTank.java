@@ -35,12 +35,25 @@ public class BlockTank extends Block {
     public void registerIcons(IconRegister icon) {
 		icons = new Icon[2];
 		
-		for(int i = 0; i < icons.length; i++) {
-			icons[i] = icon.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + textureNames[i]);
-		}
+		//for(int i = 0; i < icons.length; i++) {
+			//icons[i] = icon.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + textureNames[i]);
+		//}
+		icons[0] = icon.registerIcon(SpaceAgeCore.modid + ":" + getProperTextureName(0));
+		icons[1] = icon.registerIcon(SpaceAgeCore.modid + ":" + getProperTextureName(1));
         //this.blockIcon = icon.registerIcon(SpaceAgeCore.modid + ":" + (this.getUnlocalizedName().substring(5)) + "." + textureNames[i]);
     }
 	
+	public String getProperTextureName(int iconArrayPoint) {
+		switch(iconArrayPoint) {
+			case 0:
+				return (this.getUnlocalizedName().substring(5)) + textureNames[0];
+			case 1:
+				return (this.getUnlocalizedName().substring(5)) + textureNames[1];
+			default:
+				return "You totally fucked up your minecraft";
+		}
+	}
+
 	@SideOnly(Side.CLIENT)
 	@Override
 	public Icon getIcon(int side, int metadata) {
@@ -95,7 +108,7 @@ public class BlockTank extends Block {
 		return par1;
 	}
 	
-	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int itemId, CreativeTabs tab, List list) {
 	    for (int i = 0; i < Types.values().length; i++)
 	        list.add(new ItemStack(itemId, 1, i));

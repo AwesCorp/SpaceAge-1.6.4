@@ -9,7 +9,7 @@ import universalelectricity.api.energy.IEnergyNetwork;
 
 public abstract class TileCableBase extends TileCableParent<IConductor, IEnergyNetwork> implements IConductor {
 
-	public static TileCableBase workAround;
+	//public static TileCableBase workAround;
 	
 	public void copyFrom(TileCableBase otherCable) {
 	    this.connections = otherCable.connections;

@@ -89,5 +89,4 @@ public abstract class TileElectricInventoryNetworked extends TileElectricNetwork
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
     }
-	
 }

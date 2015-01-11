@@ -7,7 +7,7 @@ import net.minecraft.world.gen.layer.IntCache;
 
 public class GenLayerBiomesOntarine extends GenLayer {
 
-	protected BiomeGenBase[] allowedBiomes = {BiomeList.ontarineMain};
+	protected BiomeGenBase[] allowedBiomes = { BiomeList.ontarineMain, BiomeList.ontarineReef };
 
 	public GenLayerBiomesOntarine(long seed, GenLayer genlayer) {
 		super(seed);
@@ -22,10 +22,10 @@ public class GenLayerBiomesOntarine extends GenLayer {
 	public int[] getInts(int x, int z, int width, int depth) {
 		int[] dest = IntCache.getIntCache(width*depth);
 
-		for (int dz=0; dz<depth; dz++) {
-			for (int dx=0; dx<width; dx++) {
-				this.initChunkSeed(dx+x, dz+z);
-				dest[(dx+dz*width)] = this.allowedBiomes[nextInt(this.allowedBiomes.length)].biomeID;
+		for (int dz = 0; dz < depth; dz++) {
+			for (int dx = 0; dx < width; dx++) {
+				this.initChunkSeed(dx + x, dz + z);
+				dest[(dx + dz * width)] = this.allowedBiomes[nextInt(this.allowedBiomes.length)].biomeID;
 			}
 		}
 		return dest;

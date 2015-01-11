@@ -16,7 +16,8 @@ import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.Player;
 
 public class PacketHandler implements IPacketHandler {
-
+	//TileCableParent parent = new TileCableParent();
+	
 	@Override
 	public void onPacketData(INetworkManager manager,
 			Packet250CustomPayload packet, Player player) {
@@ -37,8 +38,9 @@ public class PacketHandler implements IPacketHandler {
 			currentWireConnections = inputStream.readByte();
 			currentAcceptorConnections = inputStream.readByte();
 			
-			TileCableParent.workAround.currentWireConnections = currentWireConnections;
-			TileCableParent.workAround.currentAcceptorConnections = currentAcceptorConnections;
+			//TileCableParent.workAround.currentWireConnections = currentWireConnections;
+			//TileCableParent.setCurrentWireConnections(currentWireConnections);
+			//TileCableParent.workAround.currentAcceptorConnections = currentAcceptorConnections;
 			
 		} catch (IOException e) {
 			e.printStackTrace();

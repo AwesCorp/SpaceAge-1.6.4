@@ -523,9 +523,6 @@ public class ChunkProvider0011 implements IChunkProvider {
 		return true;
 	}
 
-	public void func_104112_b() {
-	}
-
 	/**
 	 * Unloads chunks that are marked to be unloaded. This is not guaranteed to
 	 * unload every such chunk.

@@ -15,11 +15,15 @@ import universalelectricity.api.vector.VectorHelper;
 
 public abstract class TileCableParent<C extends IConnector<N>, N extends INodeNetwork> extends TileEntity implements IConnector<N> {
 
-	public static TileCableParent workAround;
+	//public static TileCableParent workAround;
 	
 	protected N network;
 	
 	protected Object[] connections = new Object[6];
+	
+	public TileCableParent() {
+		
+	}
 	
 	@Override
 	public void setNetwork(N network) {

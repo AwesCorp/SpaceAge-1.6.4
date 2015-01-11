@@ -41,9 +41,9 @@ public class BlockSASapling extends Block {
     
 	private Type type;
 	
-	public Random randomG;
+	public Random randomG = new Random();
 	
-	public World worldObj;
+	//public World worldObj;
 	
 	//private int netherrackID = Block.netherrack.blockID;
     
@@ -61,7 +61,7 @@ public class BlockSASapling extends Block {
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int par6, float par7, float par8, float par9) {
     	ItemStack item = player.getHeldItem();
     	
-    	switch(Type.values().length) {
+    	switch(world.getBlockMetadata(x, y, z)) {
     		case 0:
     	    	if((item.getItem() == SpaceAgeCore.meta) && (item.getItemDamage() == 14)) {
     	    		growTree(world, x, y, z, randomG);
@@ -79,7 +79,7 @@ public class BlockSASapling extends Block {
     	return false;
     }
     
-    public boolean canThisPlantGrowOnThisBlockID(int blockID) {
+/*    public boolean canThisPlantGrowOnThisBlockID(int blockID) {
     	switch(Type.values().length) {
     		case 0:
     			if(blockID == Block.netherrack.blockID) {
@@ -97,7 +97,7 @@ public class BlockSASapling extends Block {
 			default:
 				return false;
     	}
-    }
+    }*/
     
     @Override
     public boolean canBlockStay(World par1World, int x, int y, int z) {
@@ -105,34 +105,34 @@ public class BlockSASapling extends Block {
         int soil = par1World.getBlockId(x, y - 1, z);
         int soilMeta = par1World.getBlockMetadata(x, y - 1, z);
         
-        int meta = par1World.getBlockMetadata(x, y, z) & 3;
+        int meta = par1World.getBlockMetadata(x, y, z);
         
         switch(/*Type.values().length*/meta) {
         	case 0:
-        		if(par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)); {
-        			if(Loader.isModLoaded("SpaceAgePlanets")) {
+        		if(par1World.getBlockLightValue(x, y + 1, z) >= 8 || par1World.canBlockSeeTheSky(x, y, z)); {
+        			/*if(Loader.isModLoaded("SpaceAgePlanets")) {
         				if((par1World.provider.dimensionId != SpaceAgePlanets.instance.hadesID)) {
                     		return (soil == Block.netherrack.blockID);
         				}
-        			}
+        			}*/
             		return (soil == Block.netherrack.blockID);
         		}
         	case 1:
-        		if(par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)); {
-        			if(Loader.isModLoaded("SpaceAgePlanets")) {
+        		if(par1World.getBlockLightValue(x, y + 1, z) >= 8 || par1World.canBlockSeeTheSky(x, y, z)); {
+        			/*if(Loader.isModLoaded("SpaceAgePlanets")) {
         				if((par1World.provider.dimensionId != SpaceAgePlanets.instance.hadesID)) {
         					return (soil == SpaceAgeCore.T0011SurfaceID && soilMeta == 0);   
         				}
-        			}
+        			}*/
         			return (soil == SpaceAgeCore.T0011SurfaceID && soilMeta == 0);        			
         		}
         	case 2:
-        		if(par1World.getBlockLightValue(x, y + 1, z) >= 9 || par1World.canBlockSeeTheSky(x, y, z)); {
-        			if(Loader.isModLoaded("SpaceAgePlanets")) {
+        		if(par1World.getBlockLightValue(x, y + 1, z) >= 8 || par1World.canBlockSeeTheSky(x, y, z)); {
+        			/*if(Loader.isModLoaded("SpaceAgePlanets")) {
         				if((par1World.provider.dimensionId != SpaceAgePlanets.instance.hadesID)) {
         					return (soil == Block.dirt.blockID || soil == Block.grass.blockID);  
         				}
-        			}
+        			}*/
         			return (soil == Block.dirt.blockID || soil == Block.grass.blockID);     			
         		}
     		default:
@@ -150,7 +150,7 @@ public class BlockSASapling extends Block {
         if (!par1World.isRemote) {
             super.updateTick(par1World, par2, par3, par4, par5Random);
 
-                this.markOrGrowMarked(par1World, par2, par3, par4, par5Random);
+            this.markOrGrowMarked(par1World, par2, par3, par4, par5Random);
         }
     }
 
@@ -160,18 +160,23 @@ public class BlockSASapling extends Block {
      */
     @Override
     public Icon getIcon(int par1, int par2) {
-        par2 &= 3;//par2 = par2 & 3;
-        return this.saplingIcon[par2];
+        //par2 &= 3;//par2 = par2 & 3;
+        //return this.saplingIcon[par2];
+    	switch(par2) {
+    		case 0:
+    			return saplingIcon[0];
+    		case 1:
+    			return saplingIcon[1];
+    		case 2:
+    			return saplingIcon[2];
+			default:
+				return saplingIcon[0];
+    	}
     }
 
     public void markOrGrowMarked(World par1World, int par2, int par3, int par4, Random par5Random) {
-        int l = par1World.getBlockMetadata(par2, par3, par4);
-
-        if ((l & 8) == 0) {
-            par1World.setBlockMetadataWithNotify(par2, par3, par4, l | 8, 4);
-        } else {
-            this.growTree(par1World, par2, par3, par4, par5Random);
-        }
+        //int l = par1World.getBlockMetadata(par2, par3, par4);
+        this.growTree(par1World, par2, par3, par4, par5Random);
     }
 
     /**
@@ -181,7 +186,7 @@ public class BlockSASapling extends Block {
         //if (!TerrainGen.saplingGrowTree(par1World, par5Random, par2, par3, par4)) 
         	//return; //TODO - unneeded code?
 
-        int meta = par1World.getBlockMetadata(par2, par3, par4) & 3;
+        int meta = par1World.getBlockMetadata(par2, par3, par4);
         
         Object object = null;
         int i1 = 0;
@@ -198,6 +203,7 @@ public class BlockSASapling extends Block {
         			break;
         		case 2:
         			object = new WorldGenEdenTrees(true);
+        			break;
         	}
         }
         
@@ -266,7 +272,7 @@ public class BlockSASapling extends Block {
      * Determines if the same sapling is present at the given location.
      */
     public boolean isSameSapling(World par1World, int par2, int par3, int par4, int par5) {
-        return par1World.getBlockId(par2, par3, par4) == this.blockID && (par1World.getBlockMetadata(par2, par3, par4) & 3) == par5;
+        return par1World.getBlockId(par2, par3, par4) == this.blockID && (par1World.getBlockMetadata(par2, par3, par4)) == par5;
     }
 
     /**
@@ -274,7 +280,7 @@ public class BlockSASapling extends Block {
      */
     @Override
     public int damageDropped(int par1) {
-        return par1 & 3;
+        return par1;
     }
 
     @SideOnly(Side.CLIENT)
@@ -316,7 +322,7 @@ public class BlockSASapling extends Block {
 		if(!this.canBlockStay(world, x, y, z)) {
 			this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
 			
-            world.setBlock(x, y, z, 0, 0, 2);
+            world.setBlock(x, y, z, 0, 0, 3);
 		}
 	}
 	

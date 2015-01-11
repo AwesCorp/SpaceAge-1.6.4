@@ -22,6 +22,7 @@ import spaceage.planets.proxy.CommonProxy;
 import spaceage.planets.technoorganic.WorldProvider0011;
 import spaceage.planets.vulcan.WorldProviderVulcan;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -54,11 +55,11 @@ public class SpaceAgePlanets {
 	public static SpaceAgePlanets instance;
 	
 	//Dimension ID Registry
-	public int vulcanID = DimensionManager.getNextFreeDimId();
-	public int hadesID = DimensionManager.getNextFreeDimId();
-	public int T0011ID = DimensionManager.getNextFreeDimId();
-	public int edenID = DimensionManager.getNextFreeDimId();
-	public int ontarineID = DimensionManager.getNextFreeDimId();
+	public int vulcanID;
+	public int hadesID;
+	public int T0011ID;
+	public int edenID;
+	public int ontarineID;
 	
 	//Biome ID Registry (CANNOT BE 23 - SPACE IS 23)
 	public static int vulcanBiomeID = 25; 
@@ -76,7 +77,7 @@ public class SpaceAgePlanets {
 	
 	public static final Configuration config = new Configuration(new File("config/AwesCorp/SpaceAgePlanets.cfg"));
 	
-	public void initConfiguration(FMLInitializationEvent event) {
+	public void initConfiguration(FMLPreInitializationEvent event) {
 		config.load();
 		
 		ores1ID = config.get("Blocks", "Value of ores, no 1 - do not edit this to play on the server", 501).getInt();
@@ -84,12 +85,17 @@ public class SpaceAgePlanets {
 		config.save();
 	}
 	
+	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		ores1 = new BlockOres1(this.ores1ID, Material.rock).setUnlocalizedName("spaceAgeOres1");
+		
+		metaRegister(ores1, ItemBlockOres1.class, ores1.getUnlocalizedName());
 		//VOID
 		LogHelperPlanet.log(Level.FINEST, "Preinitialised successfully");
 	}
 	
-	public void Init(FMLInitializationEvent event) {
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
 		//BLOCKS AND ITEMS ARE REGISTERED IN MAIN SPACEAGE
 		
 		proxy.registerRenderers();
@@ -100,12 +106,8 @@ public class SpaceAgePlanets {
 		registerEden();
 		registerOntarine();
 		
-		ores1 = new BlockOres1(this.ores1ID, Material.rock).setUnlocalizedName("spaceAgeOres1");
-		
 		doCrapWithExternalItemStacks();
 		registerOres();
-		
-		metaRegister(ores1, ItemBlockOres1.class, ores1.getUnlocalizedName());
 		
 		LogHelperPlanet.log(Level.FINEST, "Initialised successfully");
 	}
@@ -197,26 +199,36 @@ public class SpaceAgePlanets {
 	}
 
 	public void registerVulcan() {
+		vulcanID = DimensionManager.getNextFreeDimId();
+		
 		DimensionManager.registerProviderType(this.vulcanID, WorldProviderVulcan.class, true);
 		DimensionManager.registerDimension(vulcanID, vulcanID);
 	}
 	
 	public void registerHades() {
+		hadesID = DimensionManager.getNextFreeDimId();
+		
 		DimensionManager.registerProviderType(this.hadesID, WorldProviderHades.class, true);
 		DimensionManager.registerDimension(hadesID, hadesID);
 	}
 	
 	public void register0011() {
+		T0011ID = DimensionManager.getNextFreeDimId();
+		
 		DimensionManager.registerProviderType(this.T0011ID, WorldProvider0011.class, true);
 		DimensionManager.registerDimension(T0011ID, T0011ID);
 	}
 	
 	public void registerEden() {
+		edenID = DimensionManager.getNextFreeDimId();
+		
 		DimensionManager.registerProviderType(this.edenID, WorldProviderEden.class, true);
 		DimensionManager.registerDimension(edenID, edenID);
 	}
 	
 	public void registerOntarine() {
+		ontarineID = DimensionManager.getNextFreeDimId();
+		
 		DimensionManager.registerProviderType(this.ontarineID, WorldProviderOntarine.class, true);
 		DimensionManager.registerDimension(ontarineID, ontarineID);
 	}

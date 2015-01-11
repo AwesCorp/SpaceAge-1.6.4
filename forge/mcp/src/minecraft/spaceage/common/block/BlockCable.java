@@ -64,7 +64,7 @@ public class BlockCable extends Block {
 		return par1;
 	}
 	
-	@Override
+	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(int itemId, CreativeTabs tab, List list) {
 	    for (int i = 0; i < Types.values().length; i++)
 	        list.add(new ItemStack(itemId, 1, i));
