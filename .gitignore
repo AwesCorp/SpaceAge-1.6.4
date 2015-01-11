@@ -41,7 +41,7 @@ forge/mcp/src/minecraft/paulscode/*
 forge/mcp/src/minecraft/ibxm/*
 forge/mcp/src/minecraft/assets/forge/*
 
-forge/mcp/src/minecraft/Start.java
+Start.java
 forge/mcp/src/minecraft/forge_at.cfg
 forge/mcp/src/minecraft/forge_at.cfg~
 forge/mcp/src/minecraft/deobfuscation_data-1.6.4.lzma
