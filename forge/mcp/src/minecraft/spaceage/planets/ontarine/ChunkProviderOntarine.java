@@ -534,7 +534,7 @@ public class ChunkProviderOntarine implements IChunkProvider {
         	}
         }
         
-        for (int y = 93 + rand.nextInt(4); y < 100 + rand.nextInt(4); y++) {
+/*        for (int y = 93 + rand.nextInt(4); y < 100 + rand.nextInt(4); y++) {
         	for (int x = 0; x < 16; x++) {
         		for (int z = 0; z < 16; z++) {
         			worldObj.setBlock(x, y, z, Block.sand.blockID);
@@ -564,7 +564,7 @@ public class ChunkProviderOntarine implements IChunkProvider {
 			
 			worldObj.setBlock(x, y, z, 0);
         }
-
+*/
 		MinecraftForge.EVENT_BUS.post(new PopulateChunkEvent.Post(par1IChunkProvider, worldObj, rand, par2, par3, flag));
 
 		BlockSand.fallInstantly = false;

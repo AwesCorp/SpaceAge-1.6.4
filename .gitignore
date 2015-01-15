@@ -47,6 +47,7 @@ forge/mcp/src/minecraft/forge_at.cfg~
 forge/mcp/src/minecraft/deobfuscation_data-1.6.4.lzma
 
 forge/mcp/src/minecraft/mcpmod.info
+
 forge/mcp/src/minecraft/mcp.png
 forge/mcp/src/minecraft/forge_logo.png
 forge/mcp/src/minecraft/forge_at.cfg
@@ -54,3 +55,6 @@ forge/mcp/src/minecraft/fmlversion.properties
 forge/mcp/src/minecraft/fml_marker.cfg
 forge/mcp/src/minecraft/fml_at.cfg
 forge/mcp/CHANGELOG
+
+forge/mcp/src/minecraft/com/jadarstudios/developercapes/*
+forge/mcp/src/minecraft/skylordjoelcore/*

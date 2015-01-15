@@ -483,7 +483,7 @@ public class EntityJump extends Entity
 		}
 		else if (isCoordJump)
 		{
-			messageToAllPlayersOnShip("Warp Drive Engaged: Jumping to (" + destX + "; " + yCoord + "; " + destZ + ")...");
+			messageToAllPlayersOnShip("<Nav Computer> Jumping to " + destX + ", " + yCoord + ", " + destZ + "...");
 		}
 
 		forbiddenBlockOnShip = false;

@@ -93,7 +93,7 @@ import cpw.mods.fml.relauncher.Side;
  * @author SkylordJoel, Reika (hooking into UniversalElectricity examples), Tihyo (armour flight), Colossali (armour HUD)
  */
 
-@Mod(modid=SpaceAgeCore.modid, name="SpaceAge/Project Cosmos: - bringing Minecraft to the Space Age", version="Alpha", dependencies="required-after:UniversalElectricity;after:RotaryCraft;after:AppliedEnergistics")
+@Mod(modid=SpaceAgeCore.modid, name="SpaceAge/Project Cosmos: - bringing Minecraft to the Space Age", version="Alpha", dependencies="required-after:UniversalElectricity;required-after:SLJCore;after:RotaryCraft;after:AppliedEnergistics")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false, channels={"SpaceAge", "SA_UpdateCables"}, packetHandler = PacketHandler.class
 
 		/*, serverPacketHandlerSpec=@NetworkMod.SidedPacketHandler(channels={"SpaceAge_C"}, packetHandler=ServerPacketHandler.class)*/)
@@ -252,9 +252,12 @@ public class SpaceAgeCore {
 		//HEAT_CAPACITY = config.get("Energy", "How much energy the geothermal turbime can store - do not edit this to play on the server", 250).getInt();
 		metaGeneratorID = config.get("Blocks", "Value of the generator - do not edit this to play on the server", 502).getInt();
 		tintedGlassID = config.get("Blocks", "Value of the reinforced glass - do not edit to play on the server", 503).getInt();
-		vulcanSurfaceID = config.get("Blocks", "Value of the majority of Vulcan related blocks - do not edit this to play on the server", 255).getInt();
-		hadesSurfaceID = config.get("Blocks", "Value of the majority of Hades related blocks - do not edit to play on the server", 254).getInt();
-		T0011SurfaceID = config.get("Blocks", "Value of the majority of 0011 related blocks - do not edit to play on the server", 253).getInt(); //TODO remember that worldgen blocks are below 256 and also change meta so surface is first
+		//vulcanSurfaceID = config.get("Blocks", "Value of the majority of Vulcan related blocks - do not edit this to play on the server", 255).getInt();
+		//hadesSurfaceID = config.get("Blocks", "Value of the majority of Hades related blocks - do not edit to play on the server", 254).getInt();
+		//T0011SurfaceID = config.get("Blocks", "Value of the majority of 0011 related blocks - do not edit to play on the server", 253).getInt(); //TODO remember that worldgen blocks are below 256 and also change meta so surface is first
+		vulcanSurfaceID = config.getTerrainBlock("Blocks", "Value of the majority of Vulcan related blocks - do not edit to play on the server", 255, "???").getInt();
+		hadesSurfaceID = config.getTerrainBlock("Blocks", "Value of the majority of Hades related blocks - do not edit to play on the server", 254, "???").getInt();
+		T0011SurfaceID = config.getTerrainBlock("Blocks", "Value of the majority of 0011 related blocks - do not edit to play on the server", 253, "???").getInt();
 		metaSaplingID = config.get("Saplings", "Value of the saplings - do not edit to play on the server", 504).getInt();
 		tankID = config.get("Blocks", "Value of the tank - do not edit this to play on the server", 505).getInt();
 		cableID = config.get("Blocks", "Value of the cables - do not edit this to play on the server", 506).getInt();

@@ -95,7 +95,7 @@ public class BlockOres1 extends Block {
 		icons = new Icon[15];
 		
 		for(int i = 0; i < icons.length; i++) {
-			icons[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":ores/" + iconNames);
+			icons[i] = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":ores/" + iconNames[i]);
 		}
 		
 		/*iconTitaniumOverlay = par1IconRegister.registerIcon(SpaceAgeCore.modid + ":titaniumOverlay");

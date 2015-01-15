@@ -168,14 +168,11 @@ public class TileEntityProtocol extends TileEntity/* implements IPeripheral*/ {
         //tag.setByte("Height", (byte)frontHeightSetting);
     }
 
-    public void attachPlayer(EntityPlayer ep)
-    {
-        for (int i = 0; i < players.size(); i++)
-        {
+    public void attachPlayer(EntityPlayer ep) {
+        for (int i = 0; i < players.size(); i++) {
             String nick = players.get(i);
 
-            if (ep.username.equals(nick))
-            {
+            if (ep.username.equals(nick)) {
                 ep.addChatMessage("[WarpCtrlr] Detached.");
                 players.remove(i);
                 return;
@@ -188,28 +185,23 @@ public class TileEntityProtocol extends TileEntity/* implements IPeripheral*/ {
         updatePlayersString();
     }
 
-    public void updatePlayersString()
-    {
+    public void updatePlayersString() {
         String nick;
         this.playersString = "";
 
-        for (int i = 0; i < players.size(); i++)
-        {
+        for (int i = 0; i < players.size(); i++)  {
             nick = players.get(i);
             this.playersString += nick + "|";
         }
     }
 
-    public void updatePlayersList()
-    {
+    public void updatePlayersList() {
         String[] playersArray = playersString.split("\\|");
 
-        for (int i = 0; i < playersArray.length; i++)
-        {
+        for (int i = 0; i < playersArray.length; i++) {
             String nick = playersArray[i];
 
-            if (!nick.isEmpty())
-            {
+            if (!nick.isEmpty()) {
                 players.add(nick);
             }
         }
@@ -218,14 +210,12 @@ public class TileEntityProtocol extends TileEntity/* implements IPeripheral*/ {
     public String getAttachedPlayersList() {
         String list = "";
 
-        for (int i = 0; i < this.players.size(); i++)
-        {
+        for (int i = 0; i < this.players.size(); i++) {
             String nick = this.players.get(i);
             list += nick + ((i == this.players.size() - 1) ? "" : ", ");
         }
 
-        if (players.isEmpty())
-        {
+        if (players.isEmpty()) {
             list = "<nobody>";
         }
 

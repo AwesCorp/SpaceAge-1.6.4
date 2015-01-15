@@ -20,11 +20,13 @@ public class GenLayerBiomesOntarine extends GenLayer {
 
 	@Override
 	public int[] getInts(int x, int z, int width, int depth) {
-		int[] dest = IntCache.getIntCache(width*depth);
+		int[] dest = IntCache.getIntCache(width * depth);
 
 		for (int dz = 0; dz < depth; dz++) {
 			for (int dx = 0; dx < width; dx++) {
 				this.initChunkSeed(dx + x, dz + z);
+				System.out.println(dest[(dx + dz * width)] + " now equals ");
+				System.out.println(this.allowedBiomes[nextInt(this.allowedBiomes.length)].biomeID);//problematic right ere
 				dest[(dx + dz * width)] = this.allowedBiomes[nextInt(this.allowedBiomes.length)].biomeID;
 			}
 		}

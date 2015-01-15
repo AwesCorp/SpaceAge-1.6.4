@@ -14,8 +14,7 @@ import net.minecraft.util.MathHelper;
 *   moon, ship, asteroid, astfield, gascloud, star
 */
 
-public class GenerateCommand extends CommandBase
-{
+public class GenerateCommand extends CommandBase {
     @Override
     public String getCommandName()
     {

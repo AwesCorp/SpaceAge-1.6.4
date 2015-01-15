@@ -4,10 +4,14 @@ package spaceage.common;
 import java.lang.reflect.Field;
 import java.util.EnumSet;
 
+import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatMessageComponent;
 import net.minecraft.world.World;
 
 import cpw.mods.fml.common.ITickHandler;
@@ -15,12 +19,14 @@ import cpw.mods.fml.common.TickType;
 
 public class ServerTickHandler implements ITickHandler {
 	private EnumSet<TickType> ticksToGet;
+	private String messageToServerPlayersText = ": Hey, you should check out our store at TEMP LINK! You can buy priority access so you aren't kicked off the server.";
 	
 	public void PlayerTickHandler(EnumSet<TickType> ticksToGet) {
 		this.ticksToGet = ticksToGet;
 	}
   
 	public static int timer = 2000;//EntityLiving entity;
+	public static int messageToServerPlayers = 6000;//1200 = 1min
 
 	@Override
 	public void tickStart(EnumSet<TickType> type, Object... tickData) {
@@ -46,6 +52,26 @@ public class ServerTickHandler implements ITickHandler {
 	private void onPlayerTick(EntityPlayer player, World world) {
 		starboostCrap(player);
 		//binaryCrap(player);
+		if(messageToServerPlayers != 0) {
+			messageToServerPlayers--;
+		} else if(messageToServerPlayers == 0) {
+			broadcastMessage(messageToServerPlayersText);
+			messageToServerPlayers = 6000;
+		}
+	}
+
+	public void broadcastMessage(String message) {
+		for(String name : MinecraftServer.getServer().getAllUsernames()) {
+			getPlayer(name).addChatMessage(getPlayer(name) + message);
+		}
+	}
+
+	public EntityPlayerMP getPlayer(String name) {
+		if(name != null) {
+			return MinecraftServer.getServer().getConfigurationManager().getPlayerForUsername(name);//getServerConfigurationManager().getPlayerForUsername(name);
+		} else {
+			return null;
+		}
 	}
 
 	public void binaryCrap(EntityPlayer player) {
