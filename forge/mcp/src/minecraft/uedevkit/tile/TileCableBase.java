@@ -7,7 +7,7 @@ import universalelectricity.api.energy.EnergyNetworkLoader;
 import universalelectricity.api.energy.IConductor;
 import universalelectricity.api.energy.IEnergyNetwork;
 
-public abstract class TileCableBase extends TileCableParent<IConductor, IEnergyNetwork> implements IConductor {
+public class TileCableBase extends TileCableParent<IConductor, IEnergyNetwork> implements IConductor {
 
 	//public static TileCableBase workAround;
 	
@@ -54,9 +54,14 @@ public abstract class TileCableBase extends TileCableParent<IConductor, IEnergyN
 	@Override
 	protected IConductor getConnector(TileEntity tile) {
         if (tile instanceof IConductor) {
-            return (IConductor) ((IConductor) tile).getInstance(ForgeDirection.UNKNOWN);
+            return (IConductor) ((IConductor)tile).getInstance(ForgeDirection.UNKNOWN);
         }
         
         return null;
+	}
+
+	@Override
+	public float getResistance() {
+		return 0;
 	}
 }

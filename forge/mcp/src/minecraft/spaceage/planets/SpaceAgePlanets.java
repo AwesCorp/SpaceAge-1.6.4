@@ -16,6 +16,7 @@ import spaceage.common.SpaceAgeCore;
 import spaceage.common.block.BlockOres1;
 import spaceage.common.item.ItemBlockOres1;
 import spaceage.planets.eden.WorldProviderEden;
+import spaceage.planets.general.BiomeList;
 import spaceage.planets.hades.WorldProviderHades;
 import spaceage.planets.ontarine.WorldProviderOntarine;
 import spaceage.planets.proxy.CommonProxy;
@@ -43,6 +44,8 @@ public class SpaceAgePlanets {
 
 	@SidedProxy(clientSide = "spaceage.planets.proxy.ClientProxy", serverSide = "spaceage.planets.proxy.CommonProxy")
 	public static CommonProxy proxy;
+	
+	public static BiomeList biomes = new BiomeList();
 	
 	public static SpaceAgePlanets i;
 	
@@ -108,6 +111,8 @@ public class SpaceAgePlanets {
 		
 		doCrapWithExternalItemStacks();
 		registerOres();
+		
+		biomes.init();
 		
 		LogHelperPlanet.log(Level.FINEST, "Initialised successfully");
 	}

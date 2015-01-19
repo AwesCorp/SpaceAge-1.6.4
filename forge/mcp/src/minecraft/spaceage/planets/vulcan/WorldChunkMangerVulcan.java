@@ -88,26 +88,25 @@ return par1ArrayOfFloat;
 /**
 * Returns an array of biomes for the location input.
 */
-public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5) {
-IntCache.resetIntCache();
+	public BiomeGenBase[] getBiomesForGeneration(BiomeGenBase[] par1ArrayOfBiomeGenBase, int par2, int par3, int par4, int par5) {
+		IntCache.resetIntCache();
 
-if (par1ArrayOfBiomeGenBase == null || par1ArrayOfBiomeGenBase.length < par4 * par5) {
-par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
-}
+		if (par1ArrayOfBiomeGenBase == null || par1ArrayOfBiomeGenBase.length < par4 * par5) {
+			par1ArrayOfBiomeGenBase = new BiomeGenBase[par4 * par5];
+		}
 
-int[] aint = this.myGenBiomes.getInts(par2, par3, par4, par5);
+		int[] aint = this.myGenBiomes.getInts(par2, par3, par4, par5);
 
-for (int i = 0; i < par4 * par5; ++i) {
-if (aint[i] >= 0) {
-par1ArrayOfBiomeGenBase[i] = BiomeGenBase.biomeList[aint[i]];
-} else {
-//Change this to a biome
-par1ArrayOfBiomeGenBase[i] = BiomeList.vulcanMain;
-}
-}
-
-return par1ArrayOfBiomeGenBase;
-}
+		for (int i = 0; i < par4 * par5; ++i) {
+			if (aint[i] >= 0) {
+				par1ArrayOfBiomeGenBase[i] = BiomeGenBase.biomeList[aint[i]];
+			} else {
+			//Change this to a biome
+				par1ArrayOfBiomeGenBase[i] = BiomeList.vulcanMain;
+			}
+		}
+		return par1ArrayOfBiomeGenBase;
+	}
 
 /**
 * Returns biomes to use for the blocks and loads the other data like

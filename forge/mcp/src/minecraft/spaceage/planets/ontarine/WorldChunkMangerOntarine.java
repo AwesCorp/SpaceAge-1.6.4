@@ -29,6 +29,7 @@ public class WorldChunkMangerOntarine extends WorldChunkManager {
 		this.myBiomeCache = new BiomeCache(this);
 		this.myBiomesToSpawnIn = new ArrayList<BiomeGenBase>();
 		this.myBiomesToSpawnIn.add(BiomeList.ontarineMain);
+		this.myBiomesToSpawnIn.add(BiomeList.ontarineReef);
 	}
 
 	public WorldChunkMangerOntarine(long seed, WorldType worldtype) {

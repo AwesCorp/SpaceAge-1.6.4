@@ -64,7 +64,7 @@ public class BiomeGen0011Clearing extends BiomeGenBase {
     //this.spawnableMonsterList.add(new SpawnListEntry(EntityGhast.class, 30, 4, 4));
     this.spawnableCreatureList.add(new SpawnListEntry(EntityBinary.class, 12, 1, 7));
     
-    this.lubricantSpring = new WorldGenLavaSpring(RotaryIntegration.lubricant.fluidID, 16, SpaceAgeCore.T0011Surface.blockID);
+    this.lubricantSpring = new WorldGenLavaSpring(Block.waterStill.blockID, 16, SpaceAgeCore.T0011Surface.blockID);
     
     this.setTemperatureRainfall(0.7F, 0.0F);
   }

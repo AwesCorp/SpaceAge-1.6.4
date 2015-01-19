@@ -55,18 +55,17 @@ public class BiomeList {
 	}
 
 	public static void initialiseBiomes() {
-		vulcanMain = new BiomeGenVulcanMain(SpaceAgePlanets.vulcanBiomeID).setBiomeName("Vulcan").setTemperatureRainfall(2.0F, 0.0F).setDisableRain().setMinMaxHeight(-0.2F, 0.4F);
+		vulcanMain = new BiomeGenVulcanMain(SpaceAgePlanets.vulcanBiomeID).setBiomeName("Vulcan").setTemperatureRainfall(2.0F, 0.0F).setDisableRain().setMinMaxHeight(-0.2F, 1.0F);
 		vulcanVolcano = new BiomeGenVulcanVolcano(SpaceAgePlanets.vulcanVolcanoBiomeID).setBiomeName("Vulcan Volcano").setTemperatureRainfall(2.0F, 0.0F).setDisableRain().setMinMaxHeight(-0.2F, 0.4F);
 		
-		hadesMain = new BiomeGenHadesMain(SpaceAgePlanets.hadesBiomeID).setBiomeName("Hades").setTemperatureRainfall(0.0F, 0.5F).setEnableSnow().setMinMaxHeight(-0.2F, 0.4F);
+		hadesMain = new BiomeGenHadesMain(SpaceAgePlanets.hadesBiomeID).setBiomeName("Hades").setTemperatureRainfall(0.0F, 0.5F).setEnableSnow().setMinMaxHeight(-0.2F, 1.0F);
 		
-		T0011Main = new BiomeGen0011Main(SpaceAgePlanets.T0011BiomeID).setBiomeName("0011").setTemperatureRainfall(0.7F, 0.0F).setDisableRain().setMinMaxHeight(-0.2F, 0.4F);
+		T0011Main = new BiomeGen0011Main(SpaceAgePlanets.T0011BiomeID).setBiomeName("0011").setTemperatureRainfall(0.7F, 0.0F).setDisableRain().setMinMaxHeight(-0.2F, 1.0F);
 		T0011Clearing = new BiomeGen0011Clearing(SpaceAgePlanets.T0011ClearBiomeID).setBiomeName("0011 Clearing").setTemperatureRainfall(0.7F, 0.0F).setDisableRain().setMinMaxHeight(-0.2F, 0.4F);
 		
-		edenMain = new BiomeGenEdenMain(SpaceAgePlanets.edenBiomeID).setBiomeName("Eden");
+		edenMain = new BiomeGenEdenMain(SpaceAgePlanets.edenBiomeID).setBiomeName("Eden").setMinMaxHeight(0.0F, 1.0F).setTemperatureRainfall(1.2F, 0.9F);
 		
-		ontarineMain = new BiomeGenOntarineMain(SpaceAgePlanets.ontarineBiomeID).setBiomeName("Ontarine").setMinMaxHeight(-2.0F, 0.1F);
-		ontarineReef = new BiomeGenOntarineReef(SpaceAgePlanets.ontarineReefID).setBiomeName("Ontarine Reef").setMinMaxHeight(-1.0F, 0F);
+		ontarineMain = new BiomeGenOntarineMain(SpaceAgePlanets.ontarineBiomeID).setBiomeName("Ontarine").setMinMaxHeight(-2.0F, 0.1F).setTemperatureRainfall(0.8F, 0.9F);
+		ontarineReef = new BiomeGenOntarineReef(SpaceAgePlanets.ontarineReefID).setBiomeName("Ontarine Reef").setMinMaxHeight(-1.0F, 0F).setTemperatureRainfall(1.2F, 0.9F);
 	}
-
 }

@@ -64,7 +64,7 @@ public class BiomeGen0011Main extends BiomeGenBase {
     //this.spawnableMonsterList.add(new SpawnListEntry(EntitySkeleton.class, 30, 4, 4)); //TODO check if works!!!
     //this.spawnableMonsterList.add(new SpawnListEntry(EntityGhast.class, 30, 4, 4));
 
-    this.lubricantSpring = new WorldGenLavaSpring(RotaryIntegration.lubricant.fluidID, 16, SpaceAgeCore.T0011Surface.blockID);
+    this.lubricantSpring = new WorldGenLavaSpring(Block.waterStill.blockID, 16, SpaceAgeCore.T0011Surface.blockID);
     
     this.setTemperatureRainfall(0.7F, 0.0F);
   }

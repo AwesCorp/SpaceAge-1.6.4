@@ -26,8 +26,8 @@ public class GenLayerBiomesOntarine extends GenLayer {
 			for (int dx = 0; dx < width; dx++) {
 				this.initChunkSeed(dx + x, dz + z);
 				System.out.println(dest[(dx + dz * width)] + " now equals ");
-				System.out.println(this.allowedBiomes[nextInt(this.allowedBiomes.length)].biomeID);//problematic right ere
-				dest[(dx + dz * width)] = this.allowedBiomes[nextInt(this.allowedBiomes.length)].biomeID;
+				System.out.println(this.allowedBiomes[nextInt(this.allowedBiomes.length - 1)].biomeID);//problematic right ere
+				dest[(dx + dz * width)] = this.allowedBiomes[nextInt(this.allowedBiomes.length - 1)].biomeID;
 			}
 		}
 		return dest;
